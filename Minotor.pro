@@ -11,9 +11,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    ledmatrix.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ledmatrix.h
 
 FORMS    += mainwindow.ui
 

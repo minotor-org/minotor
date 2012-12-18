@@ -5,20 +5,25 @@
 #include "qextserialenumerator.h"
 #include <QtCore/QList>
 #include <QtCore/QDebug>
-#include "RtMidi.h"
 
-QextSerialPort * port;
-RtMidiIn * midiIn;
+#include <QGraphicsView>
+#include <QColor>
+#include <QRgb>
+#include <QPainter>
+
+
 #define NB_PIXELS 384
 
 char frame[NB_PIXELS*3];
-char currentRedValue;
-char currentGreenValue;
-char currentBlueValue;
+unsigned char currentRedValue;
+unsigned char currentGreenValue;
+unsigned char currentBlueValue;
 
 bool isPlaying = false;
 
 unsigned int nbClock=0;
+
+QextSerialPort * port;
 
 void handleClock(void)
 {
@@ -119,17 +124,17 @@ void midiCallback( double deltatime, std::vector< unsigned char > *message, void
 
 }
 
-void midiConnect(unsigned int portIndex)
+void MainWindow::midiConnect(unsigned int portIndex)
 {
-    midiIn->openPort(portIndex);
+    _midiIn->openPort(portIndex);
 
     // Set our callback function.  This should be done immediately after
     // opening the port to avoid having incoming messages written to the
     // queue.
-    midiIn->setCallback( &midiCallback );
+    _midiIn->setCallback( &midiCallback );
 
     // Don't ignore sysex, timing, or active sensing messages.
-    midiIn->ignoreTypes( false, false, false );
+    _midiIn->ignoreTypes( false, false, false );
 
 
 }
@@ -139,6 +144,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    _scene.setSceneRect(QRectF(0, 0, 24, 16));
+    _scene.addRect(QRectF(6, 4, 12, 8), QPen(Qt::red), QBrush(Qt::green));
+
+    QPixmap background;
+    background.fill(Qt::black);
+    ui->graphicsView->setScene(&_scene);
+    ui->graphicsView->setBackgroundBrush(background);
+    ui->graphicsView->show();
+    ui->graphicsViewMatrix->setScene(&_scene);
+    ui->graphicsViewMatrix->show();
 
     //Serial Management
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -166,61 +181,43 @@ MainWindow::MainWindow(QWidget *parent) :
         port = new QextSerialPort(ui->cbSerialPort->itemText(0));
         port->setBaudRate(BAUD1000000);
         port->open(QIODevice::WriteOnly);
+        _ledMatrix = new LedMatrix(port);
         ui->pbConnectSerial->setDisabled(true);
     }
 
     //Midi management
-    midiIn = new RtMidiIn();
+    _midiIn = new RtMidiIn();
 
     // Check available ports.
-    unsigned int nPorts = midiIn->getPortCount();
+    unsigned int nPorts = _midiIn->getPortCount();
     for (int i=0;i<nPorts;i++)
     {
-        ui->cbMidiPort->addItem(midiIn->getPortName(i).c_str());
+        ui->cbMidiPort->addItem(_midiIn->getPortName(i).c_str());
     }
     if ( nPorts == 0 ) {
         ui->pbConnectMidi->setDisabled(true);
-        delete midiIn;
+        delete _midiIn;
     }
 
     //qDebug(port->errorString());
     ui->textEditRed->setText("0");
     ui->textEditGreen->setText("0");
     ui->textEditBlue->setText("0");
-    //for (int i=0;i<NB_PIXELS;i++)
-    //{
-    //    fraport->open(QIODevice::WriteOnly);me[(i*3)+0] = 0xff;
-    //    frame[(i*3)+1] = 0x00;
-    //    frame[(i*3)+2] = 0xff;
-    //}
-    //port->write(frame,(NB_PIXELS*3));
 }
 
 MainWindow::~MainWindow()
 {
-    delete midiIn;
+    delete _midiIn;
     port->close();
     delete ui;
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    //LEDS are BRG
-    for (int i=0;i<NB_PIXELS;i++)
-    {
-        frame[(i*3)+0] = (currentBlueValue==0x01)?0:currentBlueValue;
-        frame[(i*3)+1] = (currentRedValue==0x01)?0:currentRedValue;
-        frame[(i*3)+2] = (currentGreenValue==0x01)?0:currentGreenValue;
-    }
-
-    port->write(frame,(NB_PIXELS*3));
-    char endFrame = 0x01;
-    port->write(&endFrame,1);
-    //qDebug(port->errorString());
-    qDebug("frame sent");
+    QColor color (currentRedValue, currentGreenValue, currentBlueValue);
+    _ledMatrix->fill(color);
+    _ledMatrix->show();
 }
-
-
 
 void MainWindow::on_horizontalSliderRed_valueChanged(int value)
 {
@@ -265,4 +262,15 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pbConnectMidi_clicked()
 {
     midiConnect(ui->cbMidiPort->currentIndex());
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    //QPixmap pixmap(24,16);
+    _ledMatrix->fill(Qt::black);
+    QPainter painter(_ledMatrix);
+    //painter.setRenderHint(QPainter::Antialiasing);
+    _scene.render(&painter);
+    painter.end();
+    _ledMatrix->show();
 }
