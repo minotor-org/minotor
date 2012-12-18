@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include "qextserialport.h"
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 #define MATRIX_PANEL_X         3
 #define MATRIX_PANEL_Y         2
@@ -22,6 +23,8 @@ public:
 
     void show();
     void showScene(QGraphicsScene * scene);
+    void showView(QGraphicsView * view);
+
 private:
     QextSerialPort * _port;
     unsigned char _framebuffer[MATRIX_LEDS*3];

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QPropertyAnimation>
 
 #include "ledmatrix.h"
 
@@ -34,6 +35,8 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     void midiConnect(unsigned int portIndex);
 
@@ -48,6 +51,7 @@ private:
     QGraphicsScene _scene;
 
     RtMidiIn * _midiIn;
+    QPropertyAnimation animation;
 };
 
 #endif // MAINWINDOW_H

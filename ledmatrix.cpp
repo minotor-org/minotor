@@ -17,6 +17,16 @@ LedMatrix::~LedMatrix()
     delete _port;
 }
 
+void LedMatrix::showView(QGraphicsView * view)
+{
+    this->fill(Qt::black);
+    QPainter painter(this);
+    //painter.setRenderHint(QPainter::Antialiasing);
+    view->render(&painter, QRectF(QRect(0,0,24,16)), view->viewport()->rect(), Qt::IgnoreAspectRatio);
+    painter.end();
+    this->show();
+}
+
 void LedMatrix::showScene(QGraphicsScene * scene)
 {
     this->fill(Qt::black);

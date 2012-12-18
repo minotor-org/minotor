@@ -23,6 +23,8 @@ void MainWindow::handleClock(void)
 {
     if(isPlaying)
     {
+        /*
+        // Flash
         if ((nbClock%24)==0)
         {
            _ledMatrix->fill(Qt::white);
@@ -33,6 +35,22 @@ void MainWindow::handleClock(void)
             _ledMatrix->fill(Qt::black);
             _ledMatrix->show();
         }
+        */
+
+        const int currentTime = (qreal(animation.duration())) * (((qreal)nbClock) / 24.0);
+        animation.setCurrentTime(currentTime);
+        static int currentAngle = 0;
+        const int delta = animation.currentValue().toInt() - currentAngle;
+        ui->graphicsView->rotate(delta);
+        currentAngle += delta;
+        _ledMatrix->showView(ui->graphicsView);
+
+        /*
+        // if ((nbClock%24)==0) {
+             ui->graphicsView->rotate(1);
+             _ledMatrix->showView(ui->graphicsView);
+        // }
+        */
 
         // Clock counter
         if (nbClock==23)
@@ -128,6 +146,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->show();
     ui->graphicsViewMatrix->setScene(&_scene);
     ui->graphicsViewMatrix->show();
+
+    animation.setStartValue(QVariant(0));
+    animation.setEndValue(QVariant(360));
 
     //Serial Management
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -231,5 +252,11 @@ void MainWindow::on_pbConnectMidi_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    _ledMatrix->showScene(&_scene);
+    //_ledMatrix->showScene(&_scene);
+    _ledMatrix->showView(ui->graphicsView);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->graphicsView->rotate(10);
 }
