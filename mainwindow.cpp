@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "qextserialport.h"
+
 #include <sstream>
 #include "qextserialenumerator.h"
 #include <QtCore/QList>
@@ -11,10 +11,6 @@
 #include <QRgb>
 #include <QPainter>
 
-
-#define NB_PIXELS 384
-
-char frame[NB_PIXELS*3];
 unsigned char currentRedValue;
 unsigned char currentGreenValue;
 unsigned char currentBlueValue;
@@ -23,47 +19,19 @@ bool isPlaying = false;
 
 unsigned int nbClock=0;
 
-QextSerialPort * port;
-
-void handleClock(void)
+void MainWindow::handleClock(void)
 {
     if(isPlaying)
     {
-        if ((nbClock%12)==0)
+        if ((nbClock%24)==0)
         {
-            /*
-        for ( unsigned int i=0; i<nBytes; i++ )
-        {
-            qDebug() << "Byte " << i << " = " << (int)message->at(i) << ", ";
-            if ( nBytes > 0 )
-                qDebug() << "stamp = " << deltatime;
+           _ledMatrix->fill(Qt::white);
+           _ledMatrix->show();
         }
-        */
-
-            //LEDS are BRG
-            for (int i=0;i<NB_PIXELS;i++)
-            {
-                frame[(i*3)+0] = 0xff;
-                frame[(i*3)+1] = 0xff;
-                frame[(i*3)+2] = 0xff;
-
-            }
-            port->write(frame,(NB_PIXELS*3));
-            char endFrame = 0x01;
-            port->write(&endFrame,1);
-            //qDebug("frame flash sent");
-        }
-        else if ((nbClock%12) ==1)
+        else if ((nbClock%24) ==1)
         {
-            for (int i=0;i<NB_PIXELS;i++)
-            {
-                frame[(i*3)+0] = 0x00;
-                frame[(i*3)+1] = 0x00;
-                frame[(i*3)+2] = 0x00;
-            }
-            port->write(frame,(NB_PIXELS*3));
-            char endFrame = 0x01;
-            port->write(&endFrame,1);
+            _ledMatrix->fill(Qt::black);
+            _ledMatrix->show();
         }
 
         // Clock counter
@@ -78,18 +46,18 @@ void handleClock(void)
     }
 }
 
-void handleStop(void)
+void MainWindow::handleStop(void)
 {
     isPlaying = false;
 }
 
-void handleStart(void)
+void MainWindow::handleStart(void)
 {
     nbClock = 0;
     isPlaying = true;
 }
 
-void handleContinue(void)
+void MainWindow::handleContinue(void)
 {
     isPlaying = true;
 }
@@ -99,7 +67,7 @@ void handleContinue(void)
 #define MIDI_START      250
 #define MIDI_CONTINUE   251
 
-void midiCallback( double deltatime, std::vector< unsigned char > *message, void *userData )
+void MainWindow::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
     unsigned int nBytes = message->size();
 
@@ -124,6 +92,11 @@ void midiCallback( double deltatime, std::vector< unsigned char > *message, void
 
 }
 
+void _midiCallback(double deltatime, std::vector< unsigned char > *message, void *userData )
+{
+    ((MainWindow*)userData)->midiCallback(deltatime, message);
+}
+
 void MainWindow::midiConnect(unsigned int portIndex)
 {
     _midiIn->openPort(portIndex);
@@ -131,7 +104,7 @@ void MainWindow::midiConnect(unsigned int portIndex)
     // Set our callback function.  This should be done immediately after
     // opening the port to avoid having incoming messages written to the
     // queue.
-    _midiIn->setCallback( &midiCallback );
+    _midiIn->setCallback( &_midiCallback, this );
 
     // Don't ignore sysex, timing, or active sensing messages.
     _midiIn->ignoreTypes( false, false, false );
@@ -178,10 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (ui->cbSerialPort->count()==1)
     {
-        port = new QextSerialPort(ui->cbSerialPort->itemText(0));
-        port->setBaudRate(BAUD1000000);
-        port->open(QIODevice::WriteOnly);
-        _ledMatrix = new LedMatrix(port);
+        _ledMatrix = new LedMatrix(ui->cbSerialPort->itemText(0));
         ui->pbConnectSerial->setDisabled(true);
     }
 
@@ -207,8 +177,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete _ledMatrix;
     delete _midiIn;
-    port->close();
     delete ui;
 }
 
@@ -251,12 +221,6 @@ void MainWindow::on_horizontalSliderBlue_valueChanged(int value)
     QString val  = val.fromStdString(oss.str());
     currentBlueValue = value;
     ui->textEditBlue->setText(val);
-}
-
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    port->close();
 }
 
 void MainWindow::on_pbConnectMidi_clicked()

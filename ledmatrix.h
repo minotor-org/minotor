@@ -18,7 +18,9 @@ class LedMatrix : public QPixmap
 {
    // Q_OBJECT
 public:
-    explicit LedMatrix(QextSerialPort *port, QObject *parent = 0);
+    explicit LedMatrix(QString portName, QObject *parent = 0);
+    ~LedMatrix();
+
     void show();
 private:
     QextSerialPort * _port;

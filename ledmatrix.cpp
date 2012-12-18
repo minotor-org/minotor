@@ -2,10 +2,18 @@
 
 #include <QDebug>
 
-LedMatrix::LedMatrix(QextSerialPort * port, QObject *parent) :
-    QPixmap(24, 16),
-    _port(port)
+LedMatrix::LedMatrix(QString portName, QObject *parent) :
+    QPixmap(24, 16)
 {
+    _port = new QextSerialPort(portName);
+    _port->setBaudRate(BAUD1000000);
+    _port->open(QIODevice::WriteOnly);
+}
+
+LedMatrix::~LedMatrix()
+{
+    _port->close();
+    delete _port;
 }
 
 void LedMatrix::show()

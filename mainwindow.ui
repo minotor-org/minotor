@@ -180,19 +180,6 @@
      <string>Blue</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>150</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Close Serial</string>
-    </property>
-   </widget>
    <widget class="QComboBox" name="cbSerialPort">
     <property name="geometry">
      <rect>
