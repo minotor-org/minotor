@@ -117,8 +117,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    _scene.setSceneRect(QRectF(0, 0, 24, 16));
-    _scene.addRect(QRectF(6, 4, 12, 8), QPen(Qt::red), QBrush(Qt::green));
+    _scene.setSceneRect(QRectF(0, 0, 200, 200));
+    _scene.addRect(QRectF(50, 50, 100, 100), QPen(Qt::red), QBrush(Qt::green));
+    _scene.addRect(QRectF(80, 80, 100, 100), QPen(Qt::blue), QBrush(Qt::white));
 
     QPixmap background;
     background.fill(Qt::black);
@@ -230,11 +231,5 @@ void MainWindow::on_pbConnectMidi_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    //QPixmap pixmap(24,16);
-    _ledMatrix->fill(Qt::black);
-    QPainter painter(_ledMatrix);
-    //painter.setRenderHint(QPainter::Antialiasing);
-    _scene.render(&painter);
-    painter.end();
-    _ledMatrix->show();
+    _ledMatrix->showScene(&_scene);
 }

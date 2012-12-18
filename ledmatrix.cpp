@@ -1,6 +1,7 @@
 #include "ledmatrix.h"
 
 #include <QDebug>
+#include <QPainter>
 
 LedMatrix::LedMatrix(QString portName, QObject *parent) :
     QPixmap(24, 16)
@@ -14,6 +15,16 @@ LedMatrix::~LedMatrix()
 {
     _port->close();
     delete _port;
+}
+
+void LedMatrix::showScene(QGraphicsScene * scene)
+{
+    this->fill(Qt::black);
+    QPainter painter(this);
+    //painter.setRenderHint(QPainter::Antialiasing);
+    scene->render(&painter, QRect(0,0,24,16), scene->sceneRect(), Qt::IgnoreAspectRatio);
+    painter.end();
+    this->show();
 }
 
 void LedMatrix::show()
@@ -40,7 +51,7 @@ void LedMatrix::show()
 
             QRgb rgb(image.pixel(x, y));
 
-            qDebug() << "x:" << x << "y:" << y << "color RGB" << qRed(rgb) << qGreen(rgb) << qBlue(rgb);
+            //qDebug() << "x:" << x << "y:" << y << "color RGB" << qRed(rgb) << qGreen(rgb) << qBlue(rgb);
 
             _framebuffer[r_id] = (qRed(rgb)==0x01)?0:qRed(rgb);
             _framebuffer[g_id] = (qGreen(rgb)==0x01)?0:qGreen(rgb);

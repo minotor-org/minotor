@@ -3,7 +3,7 @@
 
 #include <QPixmap>
 #include "qextserialport.h"
-
+#include <QGraphicsScene>
 
 #define MATRIX_PANEL_X         3
 #define MATRIX_PANEL_Y         2
@@ -16,12 +16,12 @@
 
 class LedMatrix : public QPixmap
 {
-   // Q_OBJECT
 public:
     explicit LedMatrix(QString portName, QObject *parent = 0);
     ~LedMatrix();
 
     void show();
+    void showScene(QGraphicsScene * scene);
 private:
     QextSerialPort * _port;
     unsigned char _framebuffer[MATRIX_LEDS*3];
