@@ -18,3 +18,7 @@ HEADERS  += mainwindow.h
 FORMS    += mainwindow.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
+
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += rtmidi

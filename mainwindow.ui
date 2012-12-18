@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>110</y>
+      <y>150</y>
       <width>91</width>
-      <height>24</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -34,9 +34,9 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>10</y>
+      <y>50</y>
       <width>104</width>
-      <height>31</height>
+      <height>27</height>
      </rect>
     </property>
    </widget>
@@ -47,9 +47,9 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>40</y>
+      <y>80</y>
       <width>104</width>
-      <height>31</height>
+      <height>27</height>
      </rect>
     </property>
    </widget>
@@ -60,9 +60,9 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>70</y>
+      <y>110</y>
       <width>104</width>
-      <height>31</height>
+      <height>27</height>
      </rect>
     </property>
     <property name="readOnly">
@@ -73,9 +73,9 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>10</y>
+      <y>50</y>
       <width>651</width>
-      <height>23</height>
+      <height>19</height>
      </rect>
     </property>
     <property name="maximum">
@@ -95,9 +95,9 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>40</y>
+      <y>80</y>
       <width>651</width>
-      <height>23</height>
+      <height>19</height>
      </rect>
     </property>
     <property name="maximum">
@@ -117,9 +117,9 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>70</y>
+      <y>110</y>
       <width>651</width>
-      <height>23</height>
+      <height>19</height>
      </rect>
     </property>
     <property name="maximum">
@@ -139,9 +139,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>60</y>
       <width>53</width>
-      <height>15</height>
+      <height>11</height>
      </rect>
     </property>
     <property name="text">
@@ -152,9 +152,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>90</y>
       <width>53</width>
-      <height>15</height>
+      <height>11</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -168,9 +168,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>120</y>
       <width>53</width>
-      <height>15</height>
+      <height>11</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -184,13 +184,85 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>150</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Close Serial</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbSerialPort">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>10</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Serial Port</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbConnectSerial">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
       <width>91</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Close Serial</string>
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbConnectMidi">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>10</y>
+      <width>91</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>10</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Midi Port</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbMidiPort">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>10</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
     </property>
    </widget>
   </widget>
