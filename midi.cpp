@@ -21,20 +21,41 @@ QStringList Midi::getPorts()
     return ports;
 }
 
-#define MIDI_CLOCK      248
-#define MIDI_STOP       252
-#define MIDI_START      250
-#define MIDI_CONTINUE   251
+/*
+ * MIDI messages specs available at:
+ *   http://www.midi.org/techspecs/midimessages.php
+ */
+
+// Channel voice messages (CVM) [nnnn = 0-15 (MIDI Channel Number 1-16)]
+// These messages are channel-dependent: we may implement channel filter if needed...
+#define MIDI_CVM_NOTE_OFF           0b10000000      // 1000nnnn
+#define MIDI_CVM_NOTE_ON            0b10010000      // 1001nnnn
+#define MIDI_CVM_CONTROL_CHANGE     0b10110000      // 1011nnnn
+
+// System Real-Time Messages (SRTM)
+#define MIDI_SRTM_CLOCK      248  // 11111000
+#define MIDI_SRTM_STOP       252  // 11111100
+#define MIDI_SRTM_START      250  // 11111010
+#define MIDI_SRTM_CONTINUE   251  // 11111011
+
 void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
     unsigned int nBytes = message->size();
 
-    const unsigned char command = message->at(0);
+    unsigned char command = message->at(0);
+    if ((command&0xf0) != 0xf0) // if it is NOT a System message
+    {
+        command &= 0xf0; // It removes channel from MIDI message
+    }
+
     switch(command) {
-    case MIDI_CLOCK: emit clockReceived(); break;
-    case MIDI_STOP: emit stopReceived(); break;
-    case MIDI_START: emit startReceived(); break;
-    case MIDI_CONTINUE: emit continueReceived(); break;
+    case MIDI_CVM_NOTE_OFF: /* TODO implement me! */; break;
+    case MIDI_CVM_NOTE_ON:  /* TODO implement me! */; break;
+    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(qint8 (message->at(1)), quint8(message->at(2))); break;
+    case MIDI_SRTM_CLOCK: emit clockReceived(); break;
+    case MIDI_SRTM_STOP: emit stopReceived(); break;
+    case MIDI_SRTM_START: emit startReceived(); break;
+    case MIDI_SRTM_CONTINUE: emit continueReceived(); break;
     default:
         qDebug() << "no handler for" << command;
     }

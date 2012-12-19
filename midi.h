@@ -25,7 +25,8 @@ signals:
     void startReceived();
     void stopReceived();
     void continueReceived();
-    
+    void controlChanged(qint8 number, quint8 value);
+
 public slots:
     
 };
