@@ -2,9 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include <QPropertyAnimation>
 
+#include "minotor.h"
 #include "ledmatrix.h"
 #include "midi.h"
 
@@ -21,12 +20,6 @@ public:
     ~MainWindow();
 
 private slots:
-    // Midi messages handlers
-    void handleClock();
-    void handleStop();
-    void handleStart();
-    void handleContinue();
-
     // UI related slots
     void on_pushButton_clicked();
 
@@ -52,14 +45,8 @@ private:
     LedMatrix *_ledMatrix;
     Midi *_midi;
 
-    // Animations
-    QGraphicsScene _scene;
-    QPropertyAnimation animation;
-
-    // Sequence watching
-    unsigned int _ppqnId;    //pulse per quarter note's ID (ie. 0 -> ... -> 23 -> 0) Note: a "start" midi message resets this counter
-    bool _isSequenceRunning; //sets when midi device is in "running mode" (ie. after "start" or "continue" midi message)
-
+    // Minotor
+    Minotor *_minotor;
 };
 
 #endif // MAINWINDOW_H

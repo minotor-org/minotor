@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>840</width>
-    <height>534</height>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -257,8 +257,8 @@
      <rect>
       <x>10</x>
       <y>180</y>
-      <width>441</width>
-      <height>281</height>
+      <width>240</width>
+      <height>160</height>
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -269,16 +269,6 @@
     </property>
     <property name="interactive">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="graphicsViewMatrix">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>190</y>
-      <width>91</width>
-      <height>81</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -305,6 +295,16 @@
     </property>
     <property name="text">
      <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QDial" name="dial">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>203</y>
+      <width>50</width>
+      <height>51</height>
+     </rect>
     </property>
    </widget>
   </widget>

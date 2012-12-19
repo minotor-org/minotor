@@ -7,6 +7,7 @@ LedMatrix::LedMatrix(QString portName, QObject *parent) :
     QImage(24, 16, QImage::Format_RGB32)
 {
     _port = new QextSerialPort(portName);
+    //_port->setQueryMode(QextSerialPort::Polling);
     _port->setBaudRate(BAUD1000000);
     _port->open(QIODevice::WriteOnly);
 }

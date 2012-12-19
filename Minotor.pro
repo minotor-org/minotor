@@ -13,11 +13,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     ledmatrix.cpp \
-    midi.cpp
+    midi.cpp \
+    minotor.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
-    midi.h
+    midi.h \
+    minotor.h
 
 FORMS    += mainwindow.ui
 
