@@ -1,7 +1,7 @@
 #ifndef LEDMATRIX_H
 #define LEDMATRIX_H
 
-#include <QPixmap>
+#include <QImage>
 #include "qextserialport.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -15,7 +15,7 @@
 #define MATRIX_LEDS_Y          (MATRIX_PANEL_Y*MATRIX_PANEL_LEDS_Y)
 #define MATRIX_LEDS            (MATRIX_LEDS_X*MATRIX_LEDS_Y)
 
-class LedMatrix : public QPixmap
+class LedMatrix : public QImage
 {
 public:
     explicit LedMatrix(QString portName, QObject *parent = 0);

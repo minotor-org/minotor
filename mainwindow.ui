@@ -261,6 +261,15 @@
       <height>281</height>
      </rect>
     </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="interactive">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QGraphicsView" name="graphicsViewMatrix">
     <property name="geometry">

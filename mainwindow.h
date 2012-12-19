@@ -6,8 +6,7 @@
 #include <QPropertyAnimation>
 
 #include "ledmatrix.h"
-
-#include "RtMidi.h"
+#include "midi.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,9 +19,15 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void midiCallback( double deltatime, std::vector< unsigned char > *message);
 
 private slots:
+    // Midi messages handlers
+    void handleClock();
+    void handleStop();
+    void handleStart();
+    void handleContinue();
+
+    // UI related slots
     void on_pushButton_clicked();
 
     void on_horizontalSliderRed_valueChanged(int value);
@@ -37,21 +42,24 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pbConnectSerial_clicked();
+
 private:
-    void midiConnect(unsigned int portIndex);
-
-    void handleClock();
-    void handleStop();
-    void handleStart();
-    void handleContinue();
-
+    // UI
     Ui::MainWindow *ui;
 
-    LedMatrix * _ledMatrix;
-    QGraphicsScene _scene;
+    // External connections
+    LedMatrix *_ledMatrix;
+    Midi *_midi;
 
-    RtMidiIn * _midiIn;
+    // Animations
+    QGraphicsScene _scene;
     QPropertyAnimation animation;
+
+    // Sequence watching
+    unsigned int _ppqnId;    //pulse per quarter note's ID (ie. 0 -> ... -> 23 -> 0) Note: a "start" midi message resets this counter
+    bool _isSequenceRunning; //sets when midi device is in "running mode" (ie. after "start" or "continue" midi message)
+
 };
 
 #endif // MAINWINDOW_H

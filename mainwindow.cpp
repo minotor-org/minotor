@@ -10,18 +10,16 @@
 #include <QColor>
 #include <QRgb>
 #include <QPainter>
+#include <QDateTime>
 
 unsigned char currentRedValue;
 unsigned char currentGreenValue;
 unsigned char currentBlueValue;
 
-bool isPlaying = false;
-
-unsigned int nbClock=0;
 
 void MainWindow::handleClock(void)
 {
-    if(isPlaying)
+    if(_isSequenceRunning)
     {
         /*
         // Flash
@@ -37,6 +35,17 @@ void MainWindow::handleClock(void)
         }
         */
 
+        static qreal currentScale = 1.0;
+
+        const int currentTime = (qreal(animation.duration())) * (((qreal)_ppqnId) / 24.0);
+        animation.setCurrentTime(currentTime);
+        const qreal delta = animation.currentValue().toReal()/currentScale;
+        ui->graphicsView->scale(delta,delta);
+        currentScale *= delta;
+        qDebug() << currentScale << "delta :" << delta;
+        _ledMatrix->showView(ui->graphicsView);
+
+/*
         const int currentTime = (qreal(animation.duration())) * (((qreal)nbClock) / 24.0);
         animation.setCurrentTime(currentTime);
         static int currentAngle = 0;
@@ -44,7 +53,7 @@ void MainWindow::handleClock(void)
         ui->graphicsView->rotate(delta);
         currentAngle += delta;
         _ledMatrix->showView(ui->graphicsView);
-
+*/
         /*
         // if ((nbClock%24)==0) {
              ui->graphicsView->rotate(1);
@@ -53,86 +62,31 @@ void MainWindow::handleClock(void)
         */
 
         // Clock counter
-        if (nbClock==23)
-        {
-            nbClock = 0;
-        }
-        else
-        {
-            nbClock++;
-        }
+        if (_ppqnId==23) { _ppqnId = 0; } else { _ppqnId++; }
     }
 }
 
 void MainWindow::handleStop(void)
 {
-    isPlaying = false;
+    _isSequenceRunning = false;
 }
 
 void MainWindow::handleStart(void)
 {
-    nbClock = 0;
-    isPlaying = true;
+    _ppqnId = 0;
+    _isSequenceRunning = true;
 }
 
 void MainWindow::handleContinue(void)
 {
-    isPlaying = true;
-}
-
-#define MIDI_CLOCK      248
-#define MIDI_STOP       252
-#define MIDI_START      250
-#define MIDI_CONTINUE   251
-
-void MainWindow::midiCallback(double deltatime, std::vector< unsigned char > *message)
-{
-    unsigned int nBytes = message->size();
-
-    const unsigned char command = message->at(0);
-    switch(command) {
-    case MIDI_CLOCK: handleClock(); break;
-    case MIDI_STOP: handleStop(); break;
-    case MIDI_START: handleStart(); break;
-    case MIDI_CONTINUE: handleContinue(); break;
-    default:
-        qDebug() << "no handler for" << command;
-    }
-
-    /*
-    for ( unsigned int i=0; i<nBytes; i++ )
-    {
-        qDebug() << "Byte " << i << " = " << (int)message->at(i) << ", ";
-        if ( nBytes > 0 )
-          qDebug() << "stamp = " << deltatime;
-    }
-    */
-
-}
-
-void _midiCallback(double deltatime, std::vector< unsigned char > *message, void *userData )
-{
-    ((MainWindow*)userData)->midiCallback(deltatime, message);
-}
-
-void MainWindow::midiConnect(unsigned int portIndex)
-{
-    _midiIn->openPort(portIndex);
-
-    // Set our callback function.  This should be done immediately after
-    // opening the port to avoid having incoming messages written to the
-    // queue.
-    _midiIn->setCallback( &_midiCallback, this );
-
-    // Don't ignore sysex, timing, or active sensing messages.
-    _midiIn->ignoreTypes( false, false, false );
-
-
+    _isSequenceRunning = true;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _ppqnId(0),
+    _isSequenceRunning(false)
 {
     ui->setupUi(this);
     _scene.setSceneRect(QRectF(0, 0, 200, 200));
@@ -147,8 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsViewMatrix->setScene(&_scene);
     ui->graphicsViewMatrix->show();
 
-    animation.setStartValue(QVariant(0));
-    animation.setEndValue(QVariant(360));
+    animation.setStartValue(QVariant(0.1));
+    animation.setEndValue(QVariant(3.0));
 
     //Serial Management
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -174,24 +128,16 @@ MainWindow::MainWindow(QWidget *parent) :
     if (ui->cbSerialPort->count()==1)
     {
         _ledMatrix = new LedMatrix(ui->cbSerialPort->itemText(0));
-        ui->pbConnectSerial->setDisabled(true);
+        ui->cbSerialPort->setEnabled(false);
+        ui->pbConnectSerial->setEnabled(false);
     }
+    _midi = new Midi();
+    ui->cbMidiPort->addItems(_midi->getPorts());
 
-    //Midi management
-    _midiIn = new RtMidiIn();
-
-    // Check available ports.
-    unsigned int nPorts = _midiIn->getPortCount();
-    for (int i=0;i<nPorts;i++)
-    {
-        ui->cbMidiPort->addItem(_midiIn->getPortName(i).c_str());
-    }
-    if ( nPorts == 0 ) {
+    if ( ui->cbMidiPort->count() == 0 ) {
         ui->pbConnectMidi->setDisabled(true);
-        delete _midiIn;
     }
 
-    //qDebug(port->errorString());
     ui->textEditRed->setText("0");
     ui->textEditGreen->setText("0");
     ui->textEditBlue->setText("0");
@@ -200,7 +146,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete _ledMatrix;
-    delete _midiIn;
+    delete _midi;
     delete ui;
 }
 
@@ -247,7 +193,13 @@ void MainWindow::on_horizontalSliderBlue_valueChanged(int value)
 
 void MainWindow::on_pbConnectMidi_clicked()
 {
-    midiConnect(ui->cbMidiPort->currentIndex());
+    _midi->openPort(ui->cbMidiPort->currentIndex());
+    connect(_midi,SIGNAL(clockReceived()),this,SLOT(handleClock()));
+    connect(_midi,SIGNAL(startReceived()),this,SLOT(handleStart()));
+    connect(_midi,SIGNAL(stopReceived()),this,SLOT(handleStop()));
+    connect(_midi,SIGNAL(continueReceived()),this,SLOT(handleContinue()));
+    ui->cbMidiPort->setEnabled(false);
+    ui->pbConnectMidi->setEnabled(false);
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -259,4 +211,10 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->graphicsView->rotate(10);
+}
+
+void MainWindow::on_pbConnectSerial_clicked()
+{
+    ui->cbSerialPort->setEnabled(false);
+    ui->pbConnectSerial->setEnabled(false);
 }

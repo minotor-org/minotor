@@ -4,7 +4,7 @@
 #include <QPainter>
 
 LedMatrix::LedMatrix(QString portName, QObject *parent) :
-    QPixmap(24, 16)
+    QImage(24, 16, QImage::Format_RGB32)
 {
     _port = new QextSerialPort(portName);
     _port->setBaudRate(BAUD1000000);
@@ -23,7 +23,6 @@ void LedMatrix::showView(QGraphicsView * view)
     QPainter painter(this);
     //painter.setRenderHint(QPainter::Antialiasing);
     view->render(&painter, QRectF(QRect(0,0,24,16)), view->viewport()->rect(), Qt::IgnoreAspectRatio);
-    painter.end();
     this->show();
 }
 
@@ -33,13 +32,11 @@ void LedMatrix::showScene(QGraphicsScene * scene)
     QPainter painter(this);
     //painter.setRenderHint(QPainter::Antialiasing);
     scene->render(&painter, QRect(0,0,24,16), scene->sceneRect(), Qt::IgnoreAspectRatio);
-    painter.end();
     this->show();
 }
 
 void LedMatrix::show()
 {
-    QImage image(this->toImage());
     for (unsigned int y=0;y<MATRIX_LEDS_Y;y++)
       {
         for (unsigned int x=0;x<MATRIX_LEDS_X;x++) {
@@ -59,7 +56,7 @@ void LedMatrix::show()
           const unsigned int g_id = (id * 3) + 2;
           const unsigned int b_id = (id * 3) + 0;
 
-            QRgb rgb(image.pixel(x, y));
+            QRgb rgb(this->pixel(x, y));
 
             //qDebug() << "x:" << x << "y:" << y << "color RGB" << qRed(rgb) << qGreen(rgb) << qBlue(rgb);
 
