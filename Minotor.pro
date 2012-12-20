@@ -15,13 +15,13 @@ SOURCES += main.cpp\
     ledmatrix.cpp \
     midi.cpp \
     minotor.cpp \
-    monitor.cpp
+    uimonitor.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
     midi.h \
     minotor.h \
-    monitor.h
+    uimonitor.h
 
 FORMS    += mainwindow.ui
 

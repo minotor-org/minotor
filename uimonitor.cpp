@@ -1,4 +1,5 @@
-#include "monitor.h"
+#include "uimonitor.h"
+
 #include <QBitmap>
 #include <QPainter>
 #include <QRect>
@@ -6,7 +7,7 @@
 #include <QBrush>
 
 
-Monitor::Monitor(QWidget *parent) :
+UiMonitor::UiMonitor(QWidget *parent) :
     QWidget(parent),
     _ledMatrix(NULL)
 
@@ -14,7 +15,7 @@ Monitor::Monitor(QWidget *parent) :
 
 }
 
-void Monitor::paintEvent(QPaintEvent *event)
+void UiMonitor::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     if(_ledMatrix)
@@ -41,7 +42,7 @@ void Monitor::paintEvent(QPaintEvent *event)
     }
 }
 
-void Monitor::setLedMatrix(LedMatrix *matrix)
+void UiMonitor::setLedMatrix(LedMatrix *matrix)
 {
     _ledMatrix = matrix;
 
