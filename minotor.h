@@ -19,7 +19,7 @@ public:
 
     void setLedMatrix(LedMatrix *ledMatrix);
 signals:
-    
+
 public slots:
     // Midi messages handlers
     void handleClock();

@@ -1,15 +1,16 @@
 #include "ledmatrix.h"
 
+#include <QImage>
 #include <QDebug>
 #include <QPainter>
 
-LedMatrix::LedMatrix(QString portName, QObject *parent) :
-    QImage(24, 16, QImage::Format_RGB32)
+LedMatrix::LedMatrix(QString portName, QObject *parent)
 {
     _port = new QextSerialPort(portName);
-    //_port->setQueryMode(QextSerialPort::Polling);
     _port->setBaudRate(BAUD1000000);
     _port->open(QIODevice::WriteOnly);
+
+    _frame = new QImage(24, 16, QImage::Format_RGB32);
 }
 
 LedMatrix::~LedMatrix()
@@ -18,19 +19,23 @@ LedMatrix::~LedMatrix()
     delete _port;
 }
 
+QImage* LedMatrix::frame()
+{
+    return _frame;
+}
+
 void LedMatrix::showView(QGraphicsView * view)
 {
-    this->fill(Qt::black);
-    QPainter painter(this);
-    //painter.setRenderHint(QPainter::Antialiasing);
+    this->_frame->fill(Qt::black);
+    QPainter painter(this->_frame);
     view->render(&painter, QRectF(QRect(0,0,24,16)), view->viewport()->rect(), Qt::IgnoreAspectRatio);
     this->show();
 }
 
 void LedMatrix::showScene(QGraphicsScene * scene)
 {
-    this->fill(Qt::black);
-    QPainter painter(this);
+    this->_frame->fill(Qt::black);
+    QPainter painter(this->_frame);
     //painter.setRenderHint(QPainter::Antialiasing);
     scene->render(&painter, QRect(0,0,24,16), scene->sceneRect(), Qt::IgnoreAspectRatio);
     this->show();
@@ -57,7 +62,7 @@ void LedMatrix::show()
           const unsigned int g_id = (id * 3) + 2;
           const unsigned int b_id = (id * 3) + 0;
 
-            QRgb rgb(this->pixel(x, y));
+            QRgb rgb(this->_frame->pixel(x, y));
 
             //qDebug() << "x:" << x << "y:" << y << "color RGB" << qRed(rgb) << qGreen(rgb) << qBlue(rgb);
 
@@ -70,4 +75,6 @@ void LedMatrix::show()
     char endFrame = 0x01;
     _port->write(&endFrame,1);
     qDebug("frame sent");
+    emit(updated());
 }
+

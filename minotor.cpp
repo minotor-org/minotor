@@ -32,7 +32,7 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     //ui->graphicsViewMatrix->setScene(&_scene);
     //ui->graphicsViewMatrix->show();
 
-    _animation.setStartValue(QVariant(2.1));
+    _animation.setStartValue(QVariant(3.0));
     _animation.setEndValue(QVariant(0.1));
     //_animation.setEasingCurve(QEasingCurve::InBounce);
 
@@ -74,16 +74,13 @@ void Minotor::handleClock(void)
 
             const int currentTime = (qreal(_animation.duration())) * (((qreal)_ppqnId) / 24.0);
             _animation.setCurrentTime(currentTime);
-            const qreal delta = _animation.currentValue().toReal()/currentScale;
             _mainItemGroup.setTransformOriginPoint(120,80);
-            _mainItemGroup.setScale(delta);
-            foreach(QGraphicsItem* item, _mainItemGroup.childItems ())
-            {
-                item->rotate((360/12)/4);
-            }
+            _mainItemGroup.setScale(_animation.currentValue().toReal());
+            //foreach(QGraphicsItem* item, _mainItemGroup.childItems ())
+            //{
+                //item->rotate((360/12)/4);
+            //}
 
-            currentScale *= delta;
-            qDebug() << currentScale << "delta :" << delta;
             _ledMatrix->showScene(&_scene);
         }
 /*

@@ -6,6 +6,8 @@
 #include <QtCore/QList>
 #include <QtCore/QDebug>
 
+#include "monitor.h"
+
 unsigned char currentRedValue;
 unsigned char currentGreenValue;
 unsigned char currentBlueValue;
@@ -15,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    Monitor *monitor = new Monitor(this);
+    monitor->setGeometry(260, 180, 240, 160);
+
     ui->setupUi(this);
 
     _midi = new Midi();
@@ -49,8 +54,10 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         _ledMatrix = new LedMatrix(ui->cbSerialPort->itemText(0));
         _minotor->setLedMatrix(_ledMatrix);
+        connect(_ledMatrix,SIGNAL(updated()),monitor,SLOT(update()));
         ui->cbSerialPort->setEnabled(false);
         ui->pbConnectSerial->setEnabled(false);
+        monitor->setLedMatrix(_ledMatrix);
     }
 
     ui->cbMidiPort->addItems(_midi->getPorts());
@@ -74,7 +81,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     QColor color (currentRedValue, currentGreenValue, currentBlueValue);
-    _ledMatrix->fill(color);
+    _ledMatrix->frame()->fill(color);
     _ledMatrix->show();
 }
 
