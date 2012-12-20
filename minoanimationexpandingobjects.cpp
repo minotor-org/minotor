@@ -9,8 +9,8 @@ MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(Minotor *parent) :
     //_animation.setEasingCurve(QEasingCurve::InBounce);
 
     // TODO Remove hardcoded values!
-    _itemGroup.addToGroup(parent->scene()->addRect(QRectF(90, 50, 60, 60), QColor::fromRgbF(0.5, 0, 1, 1)));
-    _itemGroup.addToGroup(parent->scene()->addRect(QRectF(100, 60, 40, 40), QColor::fromRgbF(0, 0.5, 1, 1)));
+    _itemGroup.addToGroup(parent->scene()->addRect(QRectF(90, 50, 60, 60), QColor::fromRgbF(1.0, 1.0, 0.0, 1.0)));
+    _itemGroup.addToGroup(parent->scene()->addRect(QRectF(100, 60, 40, 40), QColor::fromRgbF(0.5, 1.0, 0.0, 1.0)));
     // TODO Remove hardcoded values!
     _itemGroup.setTransformOriginPoint(120,80);
 

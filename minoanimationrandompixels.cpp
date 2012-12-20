@@ -22,6 +22,7 @@ void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
     _animatedProperty.setCurrentTime(currentTime);
     QColor color(Qt::blue);
     color.setRed(_color);
+    color.setGreen(_color);
     color.setAlpha(_animatedProperty.currentValue().toInt());
     qDebug() << color.alpha();
 
