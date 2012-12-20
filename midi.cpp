@@ -41,7 +41,6 @@ QStringList Midi::getPorts()
 void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
     unsigned int nBytes = message->size();
-
     unsigned char command = message->at(0);
     if ((command&0xf0) != 0xf0) // if it is NOT a System message
     {
@@ -51,7 +50,7 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     switch(command) {
     case MIDI_CVM_NOTE_OFF: /* TODO implement me! */; break;
     case MIDI_CVM_NOTE_ON:  /* TODO implement me! */; break;
-    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(qint8 (message->at(1)), quint8(message->at(2))); break;
+    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (message->at(1)), quint8(message->at(2))); break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;
     case MIDI_SRTM_STOP: emit stopReceived(); break;
     case MIDI_SRTM_START: emit startReceived(); break;

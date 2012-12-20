@@ -10,6 +10,8 @@
 #include "ledmatrix.h"
 #include "midi.h"
 
+class MinoAnimation;
+
 class Minotor : public QObject
 {
     Q_OBJECT
@@ -19,6 +21,7 @@ public:
 
     void setLedMatrix(LedMatrix *ledMatrix);
 signals:
+    void colorControlChanged(int value);
 
 public slots:
     // Midi messages handlers
@@ -26,13 +29,15 @@ public slots:
     void handleStop();
     void handleStart();
     void handleContinue();
+    void handleControlChange(quint8 control, quint8 value);
 private:
     // External connections
     LedMatrix *_ledMatrix;
 
     // Animations
     QGraphicsScene _scene;
-    QPropertyAnimation _animation;
+    MinoAnimation *_minoAnimation1;
+    MinoAnimation *_minoAnimation2;
 
     // Sequence watching
     unsigned int _ppqnId;    //pulse per quarter note's ID (ie. 0 -> ... -> 23 -> 0) Note: a "start" midi message resets this counter

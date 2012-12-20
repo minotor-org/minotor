@@ -5,7 +5,10 @@
 #include <QGraphicsView>
 //#include <QColor>
 //#include <QRgb>
-//#include <QPainter>
+
+#include "minoanimation.h"
+#include "minoanimationrandompixels.h"
+#include "minoanimationexpandingobjects.h"
 
 Minotor::Minotor(Midi *midi, QObject *parent) :
     QObject(parent),
@@ -16,30 +19,21 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     _scene.setSceneRect(QRectF(0, 0, 240, 160));
     _scene.addItem(&_mainItemGroup);
 
-    QRadialGradient gradient(130, 130, 50, 130, 130);
-    gradient.setColorAt(0, QColor::fromRgbF(0, 1, 0, 1));
-    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0, 1));
-    QBrush brush(gradient);
+    _minoAnimation1 = new MinoAnimationRandomPixels(this);
+    _minoAnimation2 = new MinoAnimationExpandingObjects(this);
+//    QRadialGradient gradient(130, 130, 50, 130, 130);
+//    gradient.setColorAt(0, QColor::fromRgbF(0, 1, 0, 1));
+//    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0, 1));
+//    QBrush brush(gradient);
 
 
-    _mainItemGroup.addToGroup(_scene.addRect(QRectF(90, 50, 60, 60), QColor::fromRgbF(0.5, 0, 1, 1)));
-    _mainItemGroup.addToGroup(_scene.addRect(QRectF(100, 60, 40, 40), QColor::fromRgbF(0, 0.5, 1, 1)));
-
-
-
-    //QPixmap background;
-    //background.fill(Qt::black);
-    //ui->graphicsViewMatrix->setScene(&_scene);
-    //ui->graphicsViewMatrix->show();
-
-    _animation.setStartValue(QVariant(3.0));
-    _animation.setEndValue(QVariant(0.1));
-    //_animation.setEasingCurve(QEasingCurve::InBounce);
-
+    _mainItemGroup.addToGroup(_minoAnimation2->itemGroup());
+    _mainItemGroup.addToGroup(_minoAnimation1->itemGroup());
     connect(midi,SIGNAL(clockReceived()),this,SLOT(handleClock()));
     connect(midi,SIGNAL(startReceived()),this,SLOT(handleStart()));
     connect(midi,SIGNAL(stopReceived()),this,SLOT(handleStop()));
     connect(midi,SIGNAL(continueReceived()),this,SLOT(handleContinue()));
+    connect(midi,SIGNAL(controlChanged(quint8,quint8)),this,SLOT(handleControlChange(quint8,quint8)));
 }
 
 QGraphicsScene* Minotor::scene()
@@ -68,19 +62,10 @@ void Minotor::handleClock(void)
             _ledMatrix->fill(Qt::black);
             _ledMatrix->show();
         }
-        */
+        */_minoAnimation1->animate(_ppqnId);
         if((_ppqnId%2) == 0) {
-            static qreal currentScale = 1.0;
-
-            const int currentTime = (qreal(_animation.duration())) * (((qreal)_ppqnId) / 24.0);
-            _animation.setCurrentTime(currentTime);
-            _mainItemGroup.setTransformOriginPoint(120,80);
-            _mainItemGroup.setScale(_animation.currentValue().toReal());
-            //foreach(QGraphicsItem* item, _mainItemGroup.childItems ())
-            //{
-                //item->rotate((360/12)/4);
-            //}
-
+            _minoAnimation1->animate(_ppqnId);
+            _minoAnimation2->animate(_ppqnId);
             _ledMatrix->showScene(&_scene);
         }
 /*
@@ -120,3 +105,15 @@ void Minotor::handleContinue(void)
     _isSequenceRunning = true;
 }
 
+#define KORG_FX_EDIT1 92
+
+void Minotor::handleControlChange(quint8 control, quint8 value)
+{
+    switch (control) {
+    case KORG_FX_EDIT1:
+        emit colorControlChanged(value);
+        break;
+    default:
+        qDebug() << "unhandled control change: " << control << "( value" << value << ")";
+    }
+}

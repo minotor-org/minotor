@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->pbConnectSerial->setEnabled(false);
         uiMonitor->setLedMatrix(_ledMatrix);
     }
+    connect(_minotor, SIGNAL(colorControlChanged(int)), ui->dColorControl, SLOT(setValue(int)));
 
     ui->cbMidiPort->addItems(_midi->getPorts());
 

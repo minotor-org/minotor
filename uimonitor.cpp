@@ -20,7 +20,6 @@ void UiMonitor::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     if(_ledMatrix)
     {
-
         QRect fullRect (0,0,this->width(),this->height());
         painter.drawImage(fullRect, *_ledMatrix->frame(), QRect(0,0,_ledMatrix->frame()->width(), _ledMatrix->frame()->height()));
         //painter.drawRect(10,10,10,10);

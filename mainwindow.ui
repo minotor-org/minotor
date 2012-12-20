@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Minotor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="pushButton">
@@ -297,7 +297,7 @@
      <string>PushButton</string>
     </property>
    </widget>
-   <widget class="QDial" name="dial">
+   <widget class="QDial" name="dColorControl">
     <property name="geometry">
      <rect>
       <x>580</x>
@@ -305,6 +305,9 @@
       <width>50</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>127</number>
     </property>
    </widget>
   </widget>
