@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "configdialog.h"
 
 #include "minotor.h"
 #include "ledmatrix.h"
@@ -29,17 +30,17 @@ private slots:
 
     void on_horizontalSliderBlue_valueChanged(int value);
 
-    void on_pbConnectMidi_clicked();
+    void on_action_Configuration_triggered();
 
-    void on_pushButton_3_clicked();
+    void customContextMenuRequested(const QPoint &pos);
 
-    void on_pushButton_2_clicked();
-
-    void on_pbConnectSerial_clicked();
+    void midiCaptureTrigged();
 
 private:
     // UI
     Ui::MainWindow *ui;
+    ConfigDialog *_configDialog;
+    QAction *_midiCaptureAction;
 
     // External connections
     LedMatrix *_ledMatrix;

@@ -7,13 +7,11 @@ MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(Minotor *parent) :
     _animatedProperty.setEndValue(QVariant(0.1));
 
     //_animation.setEasingCurve(QEasingCurve::InBounce);
-
     // TODO Remove hardcoded values!
     _itemGroup.addToGroup(parent->scene()->addRect(QRectF(90, 50, 60, 60), QColor::fromRgbF(1.0, 1.0, 0.0, 1.0)));
     _itemGroup.addToGroup(parent->scene()->addRect(QRectF(100, 60, 40, 40), QColor::fromRgbF(0.5, 1.0, 0.0, 1.0)));
     // TODO Remove hardcoded values!
     _itemGroup.setTransformOriginPoint(120,80);
-
 }
 
 void MinoAnimationExpandingObjects::animate(const unsigned int ppqn)

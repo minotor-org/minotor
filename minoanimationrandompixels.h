@@ -2,6 +2,7 @@
 #define MINOANIMATIONRANDOMPIXELS_H
 
 #include "minoanimation.h"
+#include "minoanimationproperty.h"
 
 class MinoAnimationRandomPixels : public MinoAnimation
 {
@@ -12,9 +13,9 @@ public:
 signals:
     
 public slots:
-    void colorControlChanged(int value);
+
 private:
-    int _color;
+    MinoAnimationProperty _color;
 };
 
 #endif // MINOANIMATIONRANDOMPIXELS_H

@@ -19,21 +19,30 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     _scene.setSceneRect(QRectF(0, 0, 240, 160));
     _scene.addItem(&_mainItemGroup);
 
-    _minoAnimation1 = new MinoAnimationRandomPixels(this);
-    _minoAnimation2 = new MinoAnimationExpandingObjects(this);
+    _minoAnimations.append(new MinoAnimationRandomPixels(this));
+    _minoAnimations.append(new MinoAnimationExpandingObjects(this));
+
 //    QRadialGradient gradient(130, 130, 50, 130, 130);
 //    gradient.setColorAt(0, QColor::fromRgbF(0, 1, 0, 1));
 //    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0, 1));
 //    QBrush brush(gradient);
 
 
-    _mainItemGroup.addToGroup(_minoAnimation2->itemGroup());
-    _mainItemGroup.addToGroup(_minoAnimation1->itemGroup());
+    foreach(MinoAnimation *minoAnimation, _minoAnimations)
+    {
+        _mainItemGroup.addToGroup(minoAnimation->itemGroup());
+    }
+
+    _midiInterfaces.append(midi);
+    // Connections to Midi manager
     connect(midi,SIGNAL(clockReceived()),this,SLOT(handleClock()));
     connect(midi,SIGNAL(startReceived()),this,SLOT(handleStart()));
     connect(midi,SIGNAL(stopReceived()),this,SLOT(handleStop()));
     connect(midi,SIGNAL(continueReceived()),this,SLOT(handleContinue()));
-    connect(midi,SIGNAL(controlChanged(quint8,quint8)),this,SLOT(handleControlChange(quint8,quint8)));
+    connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
+
+    // Link Minotor to MidiMapping
+    connect(this, SIGNAL(controlChanged(int,quint8,quint8,quint8)), &_midiMapping, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
 QGraphicsScene* Minotor::scene()
@@ -62,10 +71,11 @@ void Minotor::handleClock(void)
             _ledMatrix->fill(Qt::black);
             _ledMatrix->show();
         }
-        */_minoAnimation1->animate(_ppqnId);
+        */
+
         if((_ppqnId%2) == 0) {
-            _minoAnimation1->animate(_ppqnId);
-            _minoAnimation2->animate(_ppqnId);
+            foreach(MinoAnimation *minoAnimation, _minoAnimations)
+            minoAnimation->animate(_ppqnId);
             _ledMatrix->showScene(&_scene);
         }
 /*
@@ -105,9 +115,9 @@ void Minotor::handleContinue(void)
     _isSequenceRunning = true;
 }
 
+/*
 #define KORG_FX_EDIT1 92
-
-void Minotor::handleControlChange(quint8 control, quint8 value)
+void Minotor::handleMidiInterfaceControlChange(quint8 control, quint8 value)
 {
     switch (control) {
     case KORG_FX_EDIT1:
@@ -116,4 +126,20 @@ void Minotor::handleControlChange(quint8 control, quint8 value)
     default:
         qDebug() << "unhandled control change: " << control << "( value" << value << ")";
     }
+}
+*/
+
+void Minotor::handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value)
+{
+    // qDebug() << "sender:" << QObject::sender()->metaObject()->className();
+
+    Midi *midiInterface = ((Midi*)QObject::sender());
+    if (_midiInterfaces.contains(midiInterface))
+    {
+        const int midiInterfaceId = _midiInterfaces.indexOf(midiInterface);
+        emit(controlChanged(midiInterfaceId, channel, control, value));
+    } else {
+        qDebug() << "Unknow sender";
+    }
+
 }

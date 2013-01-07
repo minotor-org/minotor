@@ -8,12 +8,8 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(Minotor *parent) :
     _animatedProperty.setStartValue(QVariant(255));
     _animatedProperty.setEndValue(QVariant(0));
     _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
-    connect(parent, SIGNAL(colorControlChanged(int)), this, SLOT(colorControlChanged(int)));
-}
-
-void MinoAnimationRandomPixels::colorControlChanged(int value)
-{
-    _color = value * 2;
+    _color.setObjectName("Random pixel color");
+    _properties.append(&_color);
 }
 
 void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
@@ -21,10 +17,10 @@ void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
     const int currentTime = (qreal(_animatedProperty.duration())) * (((qreal)ppqn) / 24.0);
     _animatedProperty.setCurrentTime(currentTime);
     QColor color(Qt::blue);
-    color.setRed(_color);
-    color.setGreen(_color);
+    color.setRed(_color.value()*255);
+    color.setGreen(_color.value()*255);
     color.setAlpha(_animatedProperty.currentValue().toInt());
-    qDebug() << color.alpha();
+    // qDebug() << color.alpha();
 
     if ((ppqn%6) == 0)
     {
@@ -38,7 +34,7 @@ void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
         {
             int x = (qrand()%24)*10;
             int y = (qrand()%16)*10;
-            qDebug() << "x" << x << "y" << y;
+            // qDebug() << "x" << x << "y" << y;
             _itemGroup.addToGroup(((Minotor*)parent())->scene()->addLine ( x, y, x+1, y+1, QPen(color) ));
         }
     } else {

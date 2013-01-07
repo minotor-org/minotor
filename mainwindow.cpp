@@ -2,11 +2,16 @@
 #include "ui_mainwindow.h"
 
 #include <sstream>
-#include "qextserialenumerator.h"
+
 #include <QtCore/QList>
 #include <QtCore/QDebug>
+#include <QSettings>
 
 #include "uimonitor.h"
+#include "uidial.h"
+
+#include "minoanimation.h"
+#include "minoanimationproperty.h"
 
 unsigned char currentRedValue;
 unsigned char currentGreenValue;
@@ -17,66 +22,77 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    UiMonitor *uiMonitor = new UiMonitor(this);
-    uiMonitor->setGeometry(260, 180, 240, 160);
-
     ui->setupUi(this);
 
     _midi = new Midi();
     _minotor = new Minotor(_midi);
-
     ui->graphicsView->setScene(_minotor->scene());
     ui->graphicsView->setBackgroundBrush(QBrush(Qt::black));
     ui->graphicsView->show();
 
-    //Serial Management
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    qDebug() << "List of ports:";
-    //! [2]
-    foreach (QextPortInfo info, ports) {
-        if (info.physName.startsWith("/dev/ttyACM"))
-        {
-            qDebug() << "port name:"       << info.portName;
-            qDebug() << "friendly name:"   << info.friendName;
-            qDebug() << "physical name:"   << info.physName;
-            qDebug() << "enumerator name:" << info.enumName;
-            qDebug() << "vendor ID:"       << info.vendorID;
-            qDebug() << "product ID:"      << info.productID;
+    // LED Matrix
+    _ledMatrix = new LedMatrix();
+    _minotor->setLedMatrix(_ledMatrix);
 
-            qDebug() << "===================================";
-            ui->cbSerialPort->addItem(info.physName);
-        }
+    // Monitor
+    UiMonitor *uiMonitor = new UiMonitor(ui->frame);
+    uiMonitor->setGeometry(10, 10, 240, 160);
+    uiMonitor->setLedMatrix(_ledMatrix);
+    connect(_ledMatrix,SIGNAL(updated()),uiMonitor,SLOT(update()));
 
-    }
-    qDebug()<<ui->cbSerialPort->count();
-
-    if (ui->cbSerialPort->count()==1)
-    {
-        _ledMatrix = new LedMatrix(ui->cbSerialPort->itemText(0));
-        _minotor->setLedMatrix(_ledMatrix);
-        connect(_ledMatrix,SIGNAL(updated()),uiMonitor,SLOT(update()));
-        ui->cbSerialPort->setEnabled(false);
-        ui->pbConnectSerial->setEnabled(false);
-        uiMonitor->setLedMatrix(_ledMatrix);
-    }
-    connect(_minotor, SIGNAL(colorControlChanged(int)), ui->dColorControl, SLOT(setValue(int)));
-
-    ui->cbMidiPort->addItems(_midi->getPorts());
-
-    if ( ui->cbMidiPort->count() == 0 ) {
-        ui->pbConnectMidi->setDisabled(true);
-    }
+    // Configuration dialog box
+    _configDialog = new ConfigDialog(_ledMatrix, _midi, this);
 
     ui->textEditRed->setText("0");
     ui->textEditGreen->setText("0");
     ui->textEditBlue->setText("0");
+
+    _midiCaptureAction = new QAction("Assign MIDI control", this);
+    connect(_midiCaptureAction, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
+
+    foreach (MinoAnimation *animation, _minotor->animations())
+    {
+        foreach (MinoAnimationProperty *property, animation->properties())
+        {
+            UiDial *d = new UiDial(property, ui->saAnimationProperties);
+            connect(d, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+        }
+    }
+
 }
 
 MainWindow::~MainWindow()
 {
+    delete _configDialog;
     delete _ledMatrix;
+    delete _midiCaptureAction;
     delete _midi;
     delete ui;
+}
+
+void MainWindow::midiCaptureTrigged()
+{
+    qDebug() << "here:" << QObject::sender()->metaObject()->className();
+
+    if (QString(QObject::sender()->metaObject()->className()) == QString("QAction"))
+    {
+        QAction *action = ((QAction*)QObject::sender());
+        qDebug() << "there:" << action->parent()->metaObject()->className();
+        if (QString(action->parent()->metaObject()->className()) == QString("UiDial"))
+        {
+            UiDial *dial = ((UiDial*)action->parent());
+            qDebug() << "midiCapture trigged for:" << dial->property()->objectName();
+            _minotor->midiMapping()->assignCapturedControlTo(dial->property());
+        }
+    }
+}
+
+void MainWindow::customContextMenuRequested(const QPoint &pos)
+{
+    QMenu menu(this);
+    _midiCaptureAction->setParent(QObject::sender());
+    menu.addAction(_midiCaptureAction);
+    menu.exec(QCursor::pos());
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -120,13 +136,7 @@ void MainWindow::on_horizontalSliderBlue_valueChanged(int value)
     ui->textEditBlue->setText(val);
 }
 
-void MainWindow::on_pbConnectMidi_clicked()
-{
-    _midi->openPort(ui->cbMidiPort->currentIndex());
-    ui->cbMidiPort->setEnabled(false);
-    ui->pbConnectMidi->setEnabled(false);
-}
-
+/*
 void MainWindow::on_pushButton_3_clicked()
 {
     //_ledMatrix->showScene(&_scene);
@@ -137,9 +147,9 @@ void MainWindow::on_pushButton_2_clicked()
 {
     ui->graphicsView->rotate(10);
 }
+*/
 
-void MainWindow::on_pbConnectSerial_clicked()
+void MainWindow::on_action_Configuration_triggered()
 {
-    ui->cbSerialPort->setEnabled(false);
-    ui->pbConnectSerial->setEnabled(false);
+    _configDialog->show();
 }

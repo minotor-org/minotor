@@ -4,19 +4,51 @@
 #include <QDebug>
 #include <QPainter>
 
-LedMatrix::LedMatrix(QString portName, QObject *parent)
+LedMatrix::LedMatrix(QObject *parent) :
+    _port(NULL),
+    _connected(false)
 {
-    _port = new QextSerialPort(portName);
-    _port->setBaudRate(BAUD1000000);
-    _port->open(QIODevice::WriteOnly);
-
     _frame = new QImage(24, 16, QImage::Format_RGB32);
 }
 
 LedMatrix::~LedMatrix()
 {
-    _port->close();
-    delete _port;
+    if (_connected) _port->close();
+    if (_port) delete _port;
+}
+
+bool LedMatrix::openPortByName(QString portName)
+{
+    _port = new QextSerialPort(portName);
+    _port->setBaudRate(BAUD1000000);
+    if (_port->open(QIODevice::WriteOnly)){
+        qDebug() << "Led matrix connected to:" << this->portName();
+        _connected = true;
+        emit(connected());
+    }
+    return _connected;
+}
+
+void LedMatrix::closePort()
+{
+    if (_port) {
+        _port->close();
+        qDebug() << "Led matrix disconnected.";
+        emit(connected(false));
+    }
+}
+
+bool LedMatrix::isConnected()
+{
+    return _connected;
+}
+
+QString LedMatrix::portName()
+{
+    if (_port) {
+        return _port->portName();
+    }
+    return "";
 }
 
 QImage* LedMatrix::frame()
@@ -71,10 +103,13 @@ void LedMatrix::show()
             _framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
         }
     }
-    _port->write((const char*)_framebuffer,(MATRIX_LEDS*3));
-    char endFrame = 0x01;
-    _port->write(&endFrame,1);
-    qDebug("frame sent");
+    if(_connected)
+    {
+        _port->write((const char*)_framebuffer,(MATRIX_LEDS*3));
+        char endFrame = 0x01;
+        _port->write(&endFrame,1);
+        qDebug("frame sent");
+    }
     emit(updated());
 }
 

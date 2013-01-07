@@ -3,10 +3,15 @@
 #include <QDebug>
 
 Midi::Midi(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+  _connected(false)
 {
-    //Midi management
-    _midiIn = new RtMidiIn();
+    try {
+        //Midi management
+        _midiIn = new RtMidiIn();
+    } catch ( RtError &error ) {
+        error.printMessage();
+    }
 }
 
 QStringList Midi::getPorts()
@@ -14,7 +19,7 @@ QStringList Midi::getPorts()
     QStringList ports;
     // Check available ports.
     unsigned int nPorts = _midiIn->getPortCount();
-    for (int i=0;i<nPorts;i++)
+    for (unsigned int i=0;i<nPorts;i++)
     {
         ports.append(QString(_midiIn->getPortName(i).c_str()));
     }
@@ -40,8 +45,10 @@ QStringList Midi::getPorts()
 
 void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
-    unsigned int nBytes = message->size();
+//    unsigned int nBytes = message->size();
+    (void)deltatime;
     unsigned char command = message->at(0);
+    quint8 channel = command & 0x0f;
     if ((command&0xf0) != 0xf0) // if it is NOT a System message
     {
         command &= 0xf0; // It removes channel from MIDI message
@@ -50,7 +57,7 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     switch(command) {
     case MIDI_CVM_NOTE_OFF: /* TODO implement me! */; break;
     case MIDI_CVM_NOTE_ON:  /* TODO implement me! */; break;
-    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (message->at(1)), quint8(message->at(2))); break;
+    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (channel), quint8 (message->at(1)), quint8(message->at(2))); break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;
     case MIDI_SRTM_STOP: emit stopReceived(); break;
     case MIDI_SRTM_START: emit startReceived(); break;
@@ -76,15 +83,47 @@ void _midiCallback(double deltatime, std::vector< unsigned char > *message, void
     ((Midi*)userData)->midiCallback(deltatime, message);
 }
 
-void Midi::openPort(const unsigned int portIndex)
+bool Midi::openPort(const unsigned int portIndex)
 {
-    _midiIn->openPort(portIndex);
+    _portIndex = portIndex;
+    try {
+        _midiIn->openPort(portIndex);
+        // Set our callback function.  This should be done immediately after
+        // opening the port to avoid having incoming messages written to the
+        // queue.
+        _midiIn->setCallback( &_midiCallback, this );
 
-    // Set our callback function.  This should be done immediately after
-    // opening the port to avoid having incoming messages written to the
-    // queue.
-    _midiIn->setCallback( &_midiCallback, this );
-
-    // Don't ignore sysex, timing, or active sensing messages.
-    _midiIn->ignoreTypes( false, false, false );
+        // Don't ignore sysex, timing, or active sensing messages.
+        _midiIn->ignoreTypes( false, false, false );
+         _connected = true;
+        qDebug() << "MIDI connected to: " << this->portName();
+        emit(connected());
+    } catch ( RtError &error ) {
+        error.printMessage();
+        _connected = false;
+    }
+    return _connected;
 }
+
+void Midi::closePort()
+{
+    _midiIn->closePort();
+    _midiIn->cancelCallback();
+    _connected = false;
+    qDebug() << "MIDI disconnected.";
+    emit(connected(false));
+}
+
+bool Midi::isOpen()
+{
+    return _connected;
+}
+
+QString Midi::portName()
+{
+    if (_connected) {
+        return QString(_midiIn->getPortName(_portIndex).c_str());
+    }
+    return "";
+}
+
