@@ -9,6 +9,7 @@ class MinoAnimationProperty : public QObject
 public:
     explicit MinoAnimationProperty(qreal value = 0.0, QObject *parent = 0);
     qreal value();
+    void setValue(qreal value);
 signals:
     void valueChanged(qreal value);
 public slots:

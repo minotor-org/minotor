@@ -17,3 +17,8 @@ void MinoAnimationProperty::midiControlValueChange(quint8 value)
     _value = ((qreal)value / 127);
     emit(valueChanged(_value));
 }
+
+void MinoAnimationProperty::setValue(qreal value)
+{
+    _value = value;
+}
