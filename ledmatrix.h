@@ -33,14 +33,19 @@ public:
     void show();
     void showScene(QGraphicsScene * scene);
     void showView(QGraphicsView * view);
-    QImage* frame();
 
+    // Accessors
+    QImage* frame() { return _frame; }
+    QSize size() { return _size; }
 
 private:
+    QSize _size;
     QextSerialPort *_port;
-    QImage *_frame;
-    unsigned char _framebuffer[MATRIX_LEDS*3];
     bool _connected;
+
+    QImage *_frame;
+
+    unsigned char _framebuffer[MATRIX_LEDS*3];
 signals:
     void updated();
     void connected(bool connected = true);
