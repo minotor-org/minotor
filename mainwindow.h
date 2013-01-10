@@ -2,7 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAction>
+#include <QMenu>
+
 #include "configdialog.h"
+#include "uichannel.h"
 
 #include "minotor.h"
 #include "ledmatrix.h"
@@ -18,29 +22,27 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
+    QAction* midiCaptureAction();
     ~MainWindow();
 
 private slots:
-    // UI related slots
-    void on_pushButton_clicked();
-
-    void on_horizontalSliderRed_valueChanged(int value);
-
-    void on_horizontalSliderGreen_valueChanged(int value);
-
-    void on_horizontalSliderBlue_valueChanged(int value);
-
     void on_action_Configuration_triggered();
-
-    void customContextMenuRequested(const QPoint &pos);
-
     void midiCaptureTrigged();
+    void customContextMenuRequested(const QPoint &pos);
 
 private:
     // UI
+    // == Main window ==
     Ui::MainWindow *ui;
+    QAction *_actionMidiCapture;
+    QMenu _menu;
+    // Channels
+    UiChannel *_uiChannel1;
+    UiChannel *_uiChannel2;
+
+    // == Configuration dialog ==
     ConfigDialog *_configDialog;
-    QAction *_midiCaptureAction;
+
 
     // External connections
     LedMatrix *_ledMatrix;
@@ -48,6 +50,7 @@ private:
 
     // Minotor
     Minotor *_minotor;
+
 };
 
 #endif // MAINWINDOW_H

@@ -15,7 +15,6 @@ SOURCES += main.cpp\
     ledmatrix.cpp \
     midi.cpp \
     minotor.cpp \
-    uimonitor.cpp \
     minoanimation.cpp \
     minoanimationrandompixels.cpp \
     minoanimationexpandingobjects.cpp \
@@ -23,13 +22,19 @@ SOURCES += main.cpp\
     midimapping.cpp \
     midicontrol.cpp \
     minoanimationproperty.cpp \
-    uidial.cpp
+    uidial.cpp \
+    uianimation.cpp \
+    minoanimationdebug.cpp \
+    minochannel.cpp \
+    uichannel.cpp \
+    uipixeledview.cpp \
+    uimastermonitor.cpp \
+    minomaster.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
     midi.h \
     minotor.h \
-    uimonitor.h \
     minoanimation.h \
     minoanimationrandompixels.h \
     minoanimationexpandingobjects.h \
@@ -37,7 +42,14 @@ HEADERS  += mainwindow.h \
     midimapping.h \
     midicontrol.h \
     minoanimationproperty.h \
-    uidial.h
+    uidial.h \
+    uianimation.h \
+    minoanimationdebug.h \
+    minochannel.h \
+    uichannel.h \
+    uipixeledview.h \
+    uimastermonitor.h \
+    minomaster.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

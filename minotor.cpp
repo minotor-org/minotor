@@ -3,35 +3,39 @@
 #include <QtCore/QDebug>
 
 #include <QGraphicsView>
-//#include <QColor>
+#include <QGraphicsProxyWidget>
 //#include <QRgb>
 
 #include "minoanimation.h"
-#include "minoanimationrandompixels.h"
-#include "minoanimationexpandingobjects.h"
+
+#include "minochannel.h"
 
 Minotor::Minotor(Midi *midi, QObject *parent) :
     QObject(parent),
+    _ledMatrix(NULL),
     _ppqnId(0),
-    _isSequenceRunning(false),
-    _ledMatrix(NULL)
+    _isSequenceRunning(false)
 {
-    _scene.setSceneRect(QRectF(0, 0, 240, 160));
-    _scene.addItem(&_mainItemGroup);
+    _master = new MinoMaster(this);
+    _channel1 = new MinoChannel(this);
+    _channel2 = new MinoChannel(this);
 
-    _minoAnimations.append(new MinoAnimationRandomPixels(this));
-    _minoAnimations.append(new MinoAnimationExpandingObjects(this));
+    QGraphicsProxyWidget* channel1View = _master->scene()->addWidget(_channel1->view());
+    channel1View->setGeometry(QRectF(0.0, 0.0, 240.0, 160.0));
+    //channel1View->setOpacity(0.5);
+    _master->itemGroup()->addToGroup(channel1View);
+    channel1View->setVisible(true);
+
+    QGraphicsProxyWidget* channel2View = _master->scene()->addWidget(_channel2->view());
+    channel2View->setGeometry(QRectF(240.0, 160.0, 240.0, 160.0));
+    //channel2View->setOpacity(0.5);
+    channel2View->setVisible(true);
+    _master->itemGroup()->addToGroup(channel2View);
 
 //    QRadialGradient gradient(130, 130, 50, 130, 130);
 //    gradient.setColorAt(0, QColor::fromRgbF(0, 1, 0, 1));
 //    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0, 1));
 //    QBrush brush(gradient);
-
-
-    foreach(MinoAnimation *minoAnimation, _minoAnimations)
-    {
-        _mainItemGroup.addToGroup(minoAnimation->itemGroup());
-    }
 
     _midiInterfaces.append(midi);
     // Connections to Midi manager
@@ -45,54 +49,29 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     connect(this, SIGNAL(controlChanged(int,quint8,quint8,quint8)), &_midiMapping, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
-QGraphicsScene* Minotor::scene()
-{
-    return &_scene;
-}
-
 void Minotor::setLedMatrix(LedMatrix *ledMatrix)
 {
     _ledMatrix = ledMatrix;
+}
+
+void Minotor::animate(const int ppqn)
+{
+    // Animate channel #1
+    channel1()->animate(ppqn);
+    // Animate channel #2
+    channel2()->animate(ppqn);
+
+    // Render scene to led matrix
+    _ledMatrix->showView(master()->view());
 }
 
 void Minotor::handleClock(void)
 {
     if(_isSequenceRunning)
     {
-        /*
-        // Flash
-        if ((nbClock%24)==0)
-        {
-           _ledMatrix->fill(Qt::white);
-           _ledMatrix->show();
-        }
-        else if ((nbClock%24) ==1)
-        {
-            _ledMatrix->fill(Qt::black);
-            _ledMatrix->show();
-        }
-        */
-
         if((_ppqnId%2) == 0) {
-            foreach(MinoAnimation *minoAnimation, _minoAnimations)
-            minoAnimation->animate(_ppqnId);
-            _ledMatrix->showScene(&_scene);
+            animate(_ppqnId);
         }
-/*
-        const int currentTime = (qreal(animation.duration())) * (((qreal)nbClock) / 24.0);
-        animation.setCurrentTime(currentTime);
-        static int currentAngle = 0;
-        const int delta = animation.currentValue().toInt() - currentAngle;
-        ui->graphicsView->rotate(delta);
-        currentAngle += delta;
-        _ledMatrix->showView(ui->graphicsView);
-*/
-        /*
-        // if ((nbClock%24)==0) {
-             ui->graphicsView->rotate(1);
-             _ledMatrix->showView(ui->graphicsView);
-        // }
-        */
 
         // Clock counter
         if (_ppqnId==23) { _ppqnId = 0; } else { _ppqnId++; }
