@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     uichannel.cpp \
     uipixeledview.cpp \
     uimastermonitor.cpp \
-    minomaster.cpp
+    minomaster.cpp \
+    uimaster.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     uichannel.h \
     uipixeledview.h \
     uimastermonitor.h \
-    minomaster.h
+    minomaster.h \
+    uimaster.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

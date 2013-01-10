@@ -50,25 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // Configuration dialog box
     _configDialog = new ConfigDialog(_ledMatrix, _midi, this);
 
-    // Master
-    QVBoxLayout *lMaster = new QVBoxLayout(ui->fMaster);
-    // Monitor
-    QFrame *fMonitor = new QFrame(this);
-    fMonitor->setFrameShape(QFrame::Box);
+    //add master
+    _uiMaster = new UiMaster(_minotor,ui->fMaster);
+    new QHBoxLayout(ui->fMaster);
+    ui->fMaster->layout()->addWidget(_uiMaster);
 
-    fMonitor->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    fMonitor->setMinimumSize(250, 170);
-    lMaster->addWidget(fMonitor);
-
-    QVBoxLayout *lMonitor = new QVBoxLayout(fMonitor);
-    UiMasterMonitor *uiMasterMonitor = new UiMasterMonitor(_ledMatrix, fMonitor);
-    QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    policy.setHeightForWidth(true);
-    uiMasterMonitor->setMinimumSize(240, 160);
-    uiMasterMonitor->setSizePolicy(policy);
-
-    lMonitor->addWidget(uiMasterMonitor);
-    lMaster->addStretch();
 
     _uiChannel1 = new UiChannel(_minotor->channel1(), ui->fChannel1);
     new QHBoxLayout(ui->fChannel1);

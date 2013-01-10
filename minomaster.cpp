@@ -15,7 +15,7 @@ MinoMaster::MinoMaster(QObject *parent) :
     _view.viewport()->setFixedSize(240,160);
     _view.setFixedSize(240,160);
     //_view.setGeometry(0,0,240,160);
-    _view.setSceneRect(QRectF(80, 80, 240*2, 160*2));
+    _view.setSceneRect(QRectF(0, 0, 240, 160));
     _view.fitInView(_view.sceneRect());
     //_view.fitInView(QRectF(80, 80, 240*2, 160*2));
     //_view.resize(240,160);
@@ -30,4 +30,11 @@ MinoMaster::MinoMaster(QObject *parent) :
 MinoMaster::~MinoMaster()
 {
 
+}
+
+void MinoMaster::valueToViewPort(int value)
+{
+    qreal rValue = (qreal)value/127;
+    _view.setSceneRect(QRectF(240*rValue, 0, 240, 160));
+    _view.fitInView(_view.sceneRect());
 }

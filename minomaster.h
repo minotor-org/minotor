@@ -22,7 +22,7 @@ private:
 signals:
     
 public slots:
-    
+    void valueToViewPort(int value);
 };
 
 #endif // MINOMASTER_H

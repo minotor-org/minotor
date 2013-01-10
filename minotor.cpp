@@ -27,7 +27,7 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     channel1View->setVisible(true);
 
     QGraphicsProxyWidget* channel2View = _master->scene()->addWidget(_channel2->view());
-    channel2View->setGeometry(QRectF(240.0, 160.0, 240.0, 160.0));
+    channel2View->setGeometry(QRectF(240.0, 0.0, 240.0, 160.0));
     //channel2View->setOpacity(0.5);
     channel2View->setVisible(true);
     _master->itemGroup()->addToGroup(channel2View);

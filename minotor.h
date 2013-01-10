@@ -31,7 +31,7 @@ public:
 
     // LedMatrix
     void setLedMatrix(LedMatrix *ledMatrix);
-
+    LedMatrix* ledMatrix() { return _ledMatrix; }
     // MIDI mapping
     MidiMapping *midiMapping() { return &_midiMapping; }
 

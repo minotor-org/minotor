@@ -7,6 +7,7 @@
 
 #include "configdialog.h"
 #include "uichannel.h"
+#include "uimaster.h"
 
 #include "minotor.h"
 #include "ledmatrix.h"
@@ -39,6 +40,7 @@ private:
     // Channels
     UiChannel *_uiChannel1;
     UiChannel *_uiChannel2;
+    UiMaster *_uiMaster;
 
     // == Configuration dialog ==
     ConfigDialog *_configDialog;
