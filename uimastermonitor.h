@@ -6,16 +6,16 @@
 
 #include "ledmatrix.h"
 
-class UiMonitor : public QWidget
+class UiMasterMonitor : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMonitor(QWidget *parent = 0);
-    void paintEvent(QPaintEvent *event);
-    void setLedMatrix(LedMatrix *matrix);
-    private:
+    explicit UiMasterMonitor(LedMatrix *ledMatrix, QWidget *parent = 0);
+protected:
+        void paintEvent(QPaintEvent *event);
+private:
         LedMatrix *_ledMatrix;
-    signals:
+signals:
     
 public slots:
     
