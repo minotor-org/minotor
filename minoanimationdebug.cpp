@@ -28,14 +28,9 @@ void MinoAnimationDebug::animate(const unsigned int ppqn)
     color.setBlue(_b.value()*255);
     color.setAlpha(_animatedProperty.currentValue().toInt());
 
-
-    //if ((ppqn%6) == 0)
-    //{
-
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
         delete item;
     }
     _itemGroup.addToGroup(_scene->addRect(QRectF(0, 0, 240, 160), QPen(color),QBrush(color) ));
-    //}
 }

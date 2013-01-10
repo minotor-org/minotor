@@ -41,9 +41,6 @@ void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
     QColor transparency;
     transparency.setAlpha(0);
 
-
-
-
     if ((ppqn%6) == 0)
     {
         /*
