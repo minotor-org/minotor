@@ -7,12 +7,14 @@ class MinoAnimationExpandingObjects : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationExpandingObjects(Minotor *parent);
+    explicit MinoAnimationExpandingObjects(QGraphicsScene* scene, QObject *parent = 0);
     void animate(const unsigned int ppqn);
 signals:
     
 public slots:
     
+private:
+    MinoAnimationProperty _rotation;
 };
 
 #endif // MINOANIMATIONEXPANDINGOBJECTS_H
