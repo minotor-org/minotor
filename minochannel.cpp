@@ -5,8 +5,6 @@
 #include "minoanimationdebug.h"
 
 #include <QBrush>
-#include <QtOpenGL/QGLWidget>
-#include <QtOpenGL/QGLFormat>
 
 MinoChannel::MinoChannel(QObject *parent) :
     QObject(parent)
@@ -15,7 +13,7 @@ MinoChannel::MinoChannel(QObject *parent) :
     _scene.setSceneRect(QRectF(0, 0, 240, 160));
 
     _minoAnimations.append(new MinoAnimationDebug(&_scene, this));
-    //_minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
+    _minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
     _minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
 
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
@@ -25,10 +23,17 @@ MinoChannel::MinoChannel(QObject *parent) :
     _scene.addItem(&_itemGroup);
 
     _view.setScene(&_scene);
-    _view.setSceneRect(QRectF(0, 0, 240, 160));
-    _view.setFixedSize(240,160);
-    _view.resize(240,160);
+
+    _view.setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
+    _view.setTransformationAnchor(QGraphicsView::NoAnchor);
+    _view.setResizeAnchor(QGraphicsView::NoAnchor);
+    _view.setInteractive(false);
+
     _view.viewport()->setFixedSize(240,160);
+    _view.setFixedSize(240,160);
+    _view.setSceneRect(QRectF(0, 0, 240, 160));
+    _view.fitInView(_view.sceneRect());
+
     _view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _view.setFrameShape(QFrame::NoFrame);

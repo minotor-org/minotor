@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
-    <height>625</height>
+    <width>1003</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
       <item>
        <widget class="QFrame" name="fChannel1">
         <property name="frameShape">
@@ -56,7 +56,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>820</width>
+     <width>1003</width>
      <height>21</height>
     </rect>
    </property>
@@ -68,14 +68,6 @@
    </widget>
    <addaction name="menu_File"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget_2">
    <property name="sizePolicy">
@@ -84,6 +76,9 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="features">
+    <set>QDockWidget::DockWidgetMovable</set>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -91,6 +86,12 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QFrame" name="frame">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -113,13 +114,23 @@
      </item>
      <item>
       <widget class="QGraphicsView" name="gvMonitor">
-       <property name="interactive">
-        <bool>false</bool>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="viewportUpdateMode">
+        <enum>QGraphicsView::NoViewportUpdate</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="gvChannel1"/>
+      <widget class="QGraphicsView" name="gvChannel1">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QGraphicsView" name="gvChannel2"/>
