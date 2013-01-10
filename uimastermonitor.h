@@ -13,8 +13,10 @@ public:
     explicit UiMasterMonitor(LedMatrix *ledMatrix, QWidget *parent = 0);
 protected:
         void paintEvent(QPaintEvent *event);
+        int heightForWidth( int width ) const;
 private:
         LedMatrix *_ledMatrix;
+
 signals:
     
 public slots:

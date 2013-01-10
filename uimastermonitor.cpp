@@ -54,3 +54,8 @@ void UiMasterMonitor::paintEvent(QPaintEvent *event)
     painter.drawLines(lines,nbLines);
 
 }
+
+int UiMasterMonitor::heightForWidth( int width ) const
+{
+    return (qreal)(width * ((qreal)16/24));
+}
