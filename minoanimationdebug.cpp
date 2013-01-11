@@ -6,8 +6,8 @@
 MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
     MinoAnimation(QString("Debug"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(255));
-    _animatedProperty.setEndValue(QVariant(0));
+    _animatedProperty.setStartValue(QVariant(1.0));
+    _animatedProperty.setEndValue(QVariant(0.0));
     _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _r.setObjectName("Red");
@@ -26,11 +26,12 @@ void MinoAnimationDebug::animate(const unsigned int ppqn)
     color.setRed(_r.value()*255);
     color.setGreen(_g.value()*255);
     color.setBlue(_b.value()*255);
-    color.setAlpha(_animatedProperty.currentValue().toInt());
 
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
         delete item;
     }
     _itemGroup.addToGroup(_scene->addRect(QRectF(0, 0, 240, 160), QPen(color),QBrush(color) ));
+    _itemGroup.setOpacity(_animatedProperty.currentValue().toFloat());
+
 }
