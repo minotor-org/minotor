@@ -16,21 +16,9 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     _ppqnId(0),
     _isSequenceRunning(false)
 {
-    _master = new MinoMaster(this);
     _channel1 = new MinoChannel(this);
     _channel2 = new MinoChannel(this);
-
-    QGraphicsProxyWidget* channel1View = _master->scene()->addWidget(_channel1->view());
-    channel1View->setGeometry(QRectF(0.0, 0.0, 240.0, 160.0));
-    //channel1View->setOpacity(0.5);
-    _master->itemGroup()->addToGroup(channel1View);
-    channel1View->setVisible(true);
-
-    QGraphicsProxyWidget* channel2View = _master->scene()->addWidget(_channel2->view());
-    channel2View->setGeometry(QRectF(240.0, 0.0, 240.0, 160.0));
-    //channel2View->setOpacity(0.5);
-    channel2View->setVisible(true);
-    _master->itemGroup()->addToGroup(channel2View);
+    _master = new MinoMaster(_channel1, _channel2, this);
 
 //    QRadialGradient gradient(130, 130, 50, 130, 130);
 //    gradient.setColorAt(0, QColor::fromRgbF(0, 1, 0, 1));
