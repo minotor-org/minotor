@@ -9,7 +9,10 @@ class MinoAnimationDebug : public MinoAnimation
 public:
     explicit MinoAnimationDebug(QGraphicsScene* scene, QObject *parent = 0);
     void animate(const unsigned int ppqn);
+
+    qreal ratioToBeatFactor(qreal value);
 private:
+    MinoAnimationProperty _beatFactor;
     MinoAnimationProperty _r;
     MinoAnimationProperty _g;
     MinoAnimationProperty _b;

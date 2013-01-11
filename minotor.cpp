@@ -62,7 +62,7 @@ void Minotor::handleClock(void)
         }
 
         // Clock counter
-        if (_ppqnId==23) { _ppqnId = 0; } else { _ppqnId++; }
+        _ppqnId = (_ppqnId + 1) % (24*16);
     }
 }
 

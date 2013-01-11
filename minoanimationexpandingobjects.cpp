@@ -19,7 +19,11 @@ MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(QGraphicsScene *sce
 
 void MinoAnimationExpandingObjects::animate(const unsigned int ppqn)
 {
-    const int currentTime = (qreal(_animatedProperty.duration())) * (((qreal)ppqn) / 24.0);
+    const qreal beatFactor = 1;
+    const unsigned int ppqnMax = (24*beatFactor);
+    const unsigned int _ppqn = ppqn % ppqnMax;
+    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
+    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
     _animatedProperty.setCurrentTime(currentTime);
     _itemGroup.setScale(_animatedProperty.currentValue().toReal());
 

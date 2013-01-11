@@ -28,11 +28,14 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
 
 void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
 {
-    const int currentTime = (qreal(_animatedProperty.duration())) * (((qreal)ppqn) / 24.0);
+    const qreal beatFactor = 1;
+    const unsigned int ppqnMax = (24*beatFactor);
+    const unsigned int _ppqn = ppqn % ppqnMax;
+    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
+    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
     _animatedProperty.setCurrentTime(currentTime);
+
     QColor color(Qt::green);
-
-
     color.setRed(_color.value()*255);
     color.setBlue(_color.value()*255);
     color.setAlpha(_animatedProperty.currentValue().toInt());
