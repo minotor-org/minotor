@@ -12,8 +12,10 @@ public:
     
 signals:
 
-public slots:
-    
+private slots:
+    void brightnessChanged(int value);
+protected:
+    Minotor *_minotor;
 };
 
 #endif // UIMASTER_H
