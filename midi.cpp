@@ -4,7 +4,8 @@
 
 Midi::Midi(QObject *parent) :
     QObject(parent),
-  _connected(false)
+  _connected(false),
+    _midiIn(NULL)
 {
     try {
         //Midi management
@@ -17,11 +18,14 @@ Midi::Midi(QObject *parent) :
 QStringList Midi::getPorts()
 {
     QStringList ports;
-    // Check available ports.
-    unsigned int nPorts = _midiIn->getPortCount();
-    for (unsigned int i=0;i<nPorts;i++)
+    if(_midiIn)
     {
-        ports.append(QString(_midiIn->getPortName(i).c_str()));
+        // Check available ports.
+        unsigned int nPorts = _midiIn->getPortCount();
+        for (unsigned int i=0;i<nPorts;i++)
+        {
+            ports.append(QString(_midiIn->getPortName(i).c_str()));
+        }
     }
     return ports;
 }
@@ -55,8 +59,10 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     }
 
     switch(command) {
-    case MIDI_CVM_NOTE_OFF: /* TODO implement me! */; break;
-    case MIDI_CVM_NOTE_ON:  /* TODO implement me! */; break;
+    /* TODO implement me! */
+    case MIDI_CVM_NOTE_OFF: qDebug() << "Note OFF:" << quint8 (message->at(1)); break;
+    /* TODO implement me! */
+    case MIDI_CVM_NOTE_ON:  qDebug() << "Note ON:" << quint8 (message->at(1)); break;
     case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (channel), quint8 (message->at(1)), quint8(message->at(2))); break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;
     case MIDI_SRTM_STOP: emit stopReceived(); break;
@@ -75,8 +81,6 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     }
     */
 }
-
-
 
 void _midiCallback(double deltatime, std::vector< unsigned char > *message, void *userData )
 {
