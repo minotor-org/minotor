@@ -1,0 +1,22 @@
+Requirements:
+  Minotor uses RtMidi¹, it have been developped using 1.0.15².
+  Minotor could be used with the RtMidi backend you want but have been tested and developped with ALSA support only.
+
+  Under Debian and derivated, RtMidi package could not be used as well: you need to patch it this way:
+
+$ cd /tmp
+$ apt-get source rtmidi
+$ cd rtmidi-1.0.15~ds0/
+$ nano debian/rules
+Here, change this line:
+  CONFIGURE_FLAGS = --with-jack
+into
+  CONFIGURE_FLAGS = 
+Save the file, then exit editor.
+$ dpkg-buildpackage -b
+$ sudo dpkg -i ../librtmidi*.deb
+
+[1] http://www.music.mcgill.ca/~gary/rtmidi/
+[2] http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-1.0.15.tar.gz
+
+ from Debian/Ubuntu repository
