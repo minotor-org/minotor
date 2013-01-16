@@ -20,7 +20,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _bpmValuesCount(0),
+    _bpmValuesIndex(0)
 {
     ui->setupUi(this);
 
@@ -70,8 +72,13 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() << "master scene:" << _minotor->master()->scene()->sceneRect();
 
     connect(ui->sPpqn, SIGNAL(valueChanged(int)), _minotor, SLOT(animate(int)));
+
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
+
+    // BPM Tapping
+    _bpmTap.start(); // Note: _bmpTap is always running, tempo values are filtered if >500BPM.
+    connect(&_tInternalClockGenerator, SIGNAL(timeout()), _minotor, SLOT(handleClock()));
 }
 
 MainWindow::~MainWindow()
@@ -106,10 +113,52 @@ void MainWindow::midiCaptureTrigged()
     }
 }
 
-
 void MainWindow::customContextMenuRequested(const QPoint &pos)
 {
     (void)pos;
     _actionMidiCapture->setParent(qApp->widgetAt(QCursor::pos()));
     _menu.exec(QCursor::pos());
+}
+
+void MainWindow::on_pbTransportTapping_clicked()
+{
+    int ms = _bpmTap.restart();
+    if (ms < 3000) // filter tapping where BPM is less than 20 beat per minute.
+    {
+        _bpmValues[_bpmValuesIndex] = ms;
+        _bpmValuesCount = qMin(5, _bpmValuesCount+1);
+        _bpmValuesIndex = (_bpmValuesIndex+1)%5;
+        qreal averageMs =  _bpmValues[0];
+        for(int i=1; i<_bpmValuesCount; i++)
+        {
+            averageMs += _bpmValues[i];
+        }
+        averageMs /= _bpmValuesCount;
+
+        const qreal bpm = (1000.0 / averageMs) * 60.0;
+        qDebug() << "Tap: ms=" << ms << "average ms=" << averageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
+        ui->lcdBpm->display(bpm);
+    } else {
+        qDebug() << "Tapping reset";
+        _bpmValuesCount = 0;
+        _bpmValuesIndex = 0;
+        ui->lcdBpm->display(0.0);
+    }
+}
+
+void MainWindow::on_pbTransportStart_clicked()
+{
+    qreal averageMs =  _bpmValues[0];
+    for(int i=1; i<_bpmValuesCount; i++)
+    {
+        averageMs += _bpmValues[i];
+    }
+    averageMs /= _bpmValuesCount;
+
+    averageMs /= 24;
+
+    qDebug() << "bpm error" << (qreal)((averageMs - ((int)averageMs))*24);
+    _tInternalClockGenerator.setInterval(averageMs);
+    _tInternalClockGenerator.start();
+    _minotor->handleStart();
 }
