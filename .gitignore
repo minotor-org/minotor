@@ -1,0 +1,7 @@
+*.o
+Makefile
+Minotor
+Minotor.pro.user
+moc_*.cpp
+ui_configdialog.h
+ui_mainwindow.h
