@@ -4,6 +4,7 @@
 #include "minoanimationexpandingobjects.h"
 #include "minoanimationdebug.h"
 #include "minoanimationwaveform.h"
+#include "minoanimationbarsfromsides.h"
 
 #include <QBrush>
 
@@ -15,8 +16,9 @@ MinoChannel::MinoChannel(QObject *parent) :
 
     _minoAnimations.append(new MinoAnimationDebug(&_scene, this));
     _minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
-    _minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
-    _minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
+    _minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
 
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
     {

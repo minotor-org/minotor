@@ -60,7 +60,7 @@ void MinoAnimationWaveform::animate(const unsigned int ppqn)
     for (int i=0;i< 24;i++)
     {
         int currentAnimatedPropertyValue = qrand()%_animatedProperty.currentValue().toInt();
-        _itemGroup.addToGroup(_scene->addRect(i*10,80-currentAnimatedPropertyValue,10,currentAnimatedPropertyValue*2,QPen(Qt::NoPen),QBrush(color)));
+        _itemGroup.addToGroup(_scene->addRect(i*10,80-currentAnimatedPropertyValue,10,currentAnimatedPropertyValue*2,QPen(color),QBrush(Qt::NoBrush)));
 
     }
 
