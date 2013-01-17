@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     uipixeledview.cpp \
     uimastermonitor.cpp \
     minomaster.cpp \
-    uimaster.cpp
+    uimaster.cpp \
+    minoanimationwaveform.cpp \
+    minoanimationbarsfromsides.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -51,7 +53,9 @@ HEADERS  += mainwindow.h \
     uipixeledview.h \
     uimastermonitor.h \
     minomaster.h \
-    uimaster.h
+    uimaster.h \
+    minoanimationwaveform.h \
+    minoanimationbarsfromsides.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui
@@ -60,3 +64,4 @@ include(libraries/qextserialport/src/qextserialport.pri)
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += rtmidi
+unix: CONFIG += extserialport
