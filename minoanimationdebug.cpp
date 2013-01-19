@@ -14,6 +14,7 @@ MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
     _properties.append(&_beatFactor);
 
     _r.setObjectName("Red");
+    _r.setValue(1.0);
     _g.setObjectName("Green");
     _b.setObjectName("Blue");
     _properties.append(&_r);
@@ -64,7 +65,7 @@ void MinoAnimationDebug::animate(const unsigned int ppqn)
     {
         delete item;
     }
-    _itemGroup.addToGroup(_scene->addRect(QRectF(0, 0, 240, 160), QPen(color),QBrush(color) ));
+    _itemGroup.addToGroup(_scene->addRect(_scene->sceneRect(), QPen(color),QBrush(color) ));
     _itemGroup.setOpacity(_animatedProperty.currentValue().toFloat());
 
 }
