@@ -64,6 +64,7 @@ private:
     int _bpmValues[5]; // Array used for average
     int _bpmValuesCount;
     int _bpmValuesIndex;
+    qreal _bpmAverageMs;
 
     // Timer
     QTimer _tInternalClockGenerator;

@@ -128,15 +128,15 @@ void MainWindow::on_pbTransportTapping_clicked()
         _bpmValues[_bpmValuesIndex] = ms;
         _bpmValuesCount = qMin(5, _bpmValuesCount+1);
         _bpmValuesIndex = (_bpmValuesIndex+1)%5;
-        qreal averageMs =  _bpmValues[0];
+        _bpmAverageMs =  _bpmValues[0];
         for(int i=1; i<_bpmValuesCount; i++)
         {
-            averageMs += _bpmValues[i];
+            _bpmAverageMs += _bpmValues[i];
         }
-        averageMs /= _bpmValuesCount;
+        _bpmAverageMs /= _bpmValuesCount;
 
-        const qreal bpm = (1000.0 / averageMs) * 60.0;
-        qDebug() << "Tap: ms=" << ms << "average ms=" << averageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
+        qreal bpm = (1000.0 / _bpmAverageMs) * 60.0;
+        qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
         ui->lcdBpm->display(bpm);
     } else {
         qDebug() << "Tapping reset";
@@ -148,17 +148,10 @@ void MainWindow::on_pbTransportTapping_clicked()
 
 void MainWindow::on_pbTransportStart_clicked()
 {
-    qreal averageMs =  _bpmValues[0];
-    for(int i=1; i<_bpmValuesCount; i++)
-    {
-        averageMs += _bpmValues[i];
-    }
-    averageMs /= _bpmValuesCount;
+    qreal ms = _bpmAverageMs / 24;
 
-    averageMs /= 24;
-
-    qDebug() << "bpm error" << (qreal)((averageMs - ((int)averageMs))*24);
-    _tInternalClockGenerator.setInterval(averageMs);
+    qDebug() << "bpm error: " << (qreal)((ms - ((int)ms))*24) << "ms per beat";
+    _tInternalClockGenerator.setInterval(ms);
     _tInternalClockGenerator.start();
     _minotor->handleStart();
 }
