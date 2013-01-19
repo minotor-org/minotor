@@ -21,21 +21,26 @@ void UiPixeledView::refresh()
 {
     _image->fill(Qt::black);
     QPainter painter(_image);
-    _view->render(&painter, QRectF(QRect(0,0,24,16)), _view->viewport()->rect(), Qt::IgnoreAspectRatio);
-    // qDebug() << "UiPixeledView viewport rect:" << _view->viewport()->rect() << "scene rect" << _view->sceneRect();
+    _view->render(&painter, QRectF(0,0,_image->width(),_image->height()), _view->viewport()->rect(), Qt::IgnoreAspectRatio);
+    //_view->render(&painter);
+    /*
+    qDebug() << "UiPixeledView"
+             << "painter" << painter.viewport()
+             << "viewport rect:" << _view->viewport()->rect()
+             << "scene rect:" << _view->sceneRect();
+             */
     update();
 }
 
 void UiPixeledView::paintEvent(QPaintEvent *event)
 {
-
     (void)event;
     QSize sMatrix(24, 16);
 
     QPainter painter(this);
 
     QRect rMatrix(0, 0, sMatrix.width(), sMatrix.height());
-    QRect rWidget (0,0,width(),height());
+    QRect rWidget (0, 0, width(), height());
     painter.drawImage(rWidget, *_image, rMatrix);
     qreal stepX = (qreal)width() / sMatrix.width();
     qreal stepY = (qreal)height() / sMatrix.height();
