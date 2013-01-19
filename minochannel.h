@@ -12,12 +12,13 @@ class MinoChannel : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoChannel(QObject *parent = 0);
+    explicit MinoChannel(const QSize size, QObject *parent);
     ~MinoChannel();
     QGraphicsScene *scene() { return &_scene; }
     QGraphicsView *view() { return &_view; }
     MinoAnimationList animations() { return _minoAnimations; }
 private:
+    QSize _size;
     QGraphicsScene _scene;
     QGraphicsView _view;
     MinoAnimationList _minoAnimations;

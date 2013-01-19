@@ -8,17 +8,19 @@
 
 #include <QBrush>
 
-MinoChannel::MinoChannel(QObject *parent) :
-    QObject(parent)
+MinoChannel::MinoChannel(const QSize size, QObject *parent) :
+    QObject(parent),
+    _size(size)
 {
-    // TODO Remove hardcoded values
-    _scene.setSceneRect(QRectF(0, 0, 240, 160));
+    // XXX How to resize channel ?
+    _scene.setSceneRect(QRectF(0, 0, size.width(), size.height()));
 
     _minoAnimations.append(new MinoAnimationDebug(&_scene, this));
-    _minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
     //_minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
     //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
-    _minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
 
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
     {
@@ -33,9 +35,9 @@ MinoChannel::MinoChannel(QObject *parent) :
     _view.setResizeAnchor(QGraphicsView::NoAnchor);
     _view.setInteractive(false);
 
-    _view.viewport()->setFixedSize(240,160);
-    _view.setFixedSize(240,160);
-    _view.setSceneRect(QRectF(0, 0, 240, 160));
+    _view.viewport()->setFixedSize(size);
+    _view.setFixedSize(size);
+    _view.setSceneRect(QRectF(0, 0, size.width(), size.height()));
     _view.fitInView(_view.sceneRect());
 
     _view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

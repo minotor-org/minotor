@@ -16,8 +16,9 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     _ppqnId(0),
     _isSequenceRunning(false)
 {
-    _channel1 = new MinoChannel(this);
-    _channel2 = new MinoChannel(this);
+    const QSize channelSize(240, 160);
+    _channel1 = new MinoChannel(channelSize, this);
+    _channel2 = new MinoChannel(channelSize, this);
     _master = new MinoMaster(_channel1, _channel2, this);
 
 //    QRadialGradient gradient(130, 130, 50, 130, 130);
