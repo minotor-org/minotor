@@ -4,8 +4,8 @@
 
 Midi::Midi(QObject *parent) :
     QObject(parent),
-  _connected(false),
-    _midiIn(NULL)
+    _midiIn(NULL),
+    _connected(false)
 {
     try {
         //Midi management
