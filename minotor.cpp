@@ -16,7 +16,7 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     _ppqnId(0),
     _isSequenceRunning(false)
 {
-    const QSize channelSize(240, 160);
+    const QSize channelSize(24, 16);
     _channel1 = new MinoChannel(channelSize, this);
     _channel2 = new MinoChannel(channelSize, this);
     _master = new MinoMaster(_channel1, _channel2, this);

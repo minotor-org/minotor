@@ -1,15 +1,23 @@
 #ifndef UICHANNELPREVIEW_H
 #define UICHANNELPREVIEW_H
 
-#include <QFrame>
 #include <QWidget>
-#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QSize>
+#include <QRect>
 
 class UiPixeledView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiPixeledView(QGraphicsView *view, QWidget *parent);
+    explicit UiPixeledView(QGraphicsScene *scene, QWidget *parent);
+
+    void setMatrixSize(const QSize matrixSize);
+    const QSize matrixSize() { return _matrixSize; }
+
+    void setViewRect(const QRect viewRect) { _viewRect = viewRect; }
+    const QRect viewRect() { return _viewRect; }
+
     ~UiPixeledView();
 signals:
 protected:
@@ -19,7 +27,10 @@ public slots:
     void refresh();
 
 private:
-    QGraphicsView *_view;
+    QSize _matrixSize;
+    qreal _matrixRatio;
+    QRect _viewRect;
+    QGraphicsScene *_scene;
     QImage *_image;
 };
 
