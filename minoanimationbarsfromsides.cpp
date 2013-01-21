@@ -6,8 +6,8 @@
 MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(QGraphicsScene* scene, QObject *parent) :
     MinoAnimation(QString("Bars from sides"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(100));
-    _animatedProperty.setEndValue(QVariant(10));
+    _animatedProperty.setStartValue(QVariant(_scene->sceneRect().height()/2));
+    _animatedProperty.setEndValue(QVariant(1.0));
     _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _beatFactor.setObjectName("Beat factor");
@@ -61,20 +61,20 @@ void MinoAnimationBarsFromSides::animate(const unsigned int ppqn)
     }
     if (ppqn%48 < 24)
     {
-        for (int i=0;i< 16;i++)
+        for (int i=0;i< _scene->sceneRect().height();i++)
         {
-            int currentAnimatedPropertyValue = qrand()%_animatedProperty.currentValue().toInt();
-            _itemGroup.addToGroup(_scene->addRect(0,i*10,currentAnimatedPropertyValue,10,QPen(color),QBrush(Qt::NoBrush)));
-            _itemGroup.addToGroup(_scene->addRect(240-currentAnimatedPropertyValue,i*10,currentAnimatedPropertyValue,10,QPen(color),QBrush(Qt::NoBrush)));
+            int currentAnimatedPropertyValue = 1+(qrand()%_animatedProperty.currentValue().toInt());
+            _itemGroup.addToGroup(_scene->addLine(0,i,(currentAnimatedPropertyValue),i,QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine((_scene->sceneRect().width()-currentAnimatedPropertyValue-1),i,(_scene->sceneRect().width()-1),i,QPen(color)));
         }
     }
     else
     {
-        for (int i=0;i< 24;i++)
+        for (int i=0;i< _scene->sceneRect().width();i++)
         {
-            int currentAnimatedPropertyValue = qrand()%_animatedProperty.currentValue().toInt();
-            _itemGroup.addToGroup(_scene->addRect(i*10,0,10,currentAnimatedPropertyValue,QPen(color),QBrush(Qt::NoBrush)));
-            _itemGroup.addToGroup(_scene->addRect(i*10,160-currentAnimatedPropertyValue,10,currentAnimatedPropertyValue,QPen(color),QBrush(Qt::NoBrush)));
+            int currentAnimatedPropertyValue = 1+(qrand()%_animatedProperty.currentValue().toInt());
+            _itemGroup.addToGroup(_scene->addLine(i,0,i,(currentAnimatedPropertyValue),QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine(i,(_scene->sceneRect().height()-currentAnimatedPropertyValue-1),i,(_scene->sceneRect().height()-1),QPen(color)));
         }
     }
 

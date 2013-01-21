@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     minomaster.cpp \
     uimaster.cpp \
     minoanimationwaveform.cpp \
-    minoanimationbarsfromsides.cpp
+    minoanimationbarsfromsides.cpp \
+    minoanimationplasma.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     minomaster.h \
     uimaster.h \
     minoanimationwaveform.h \
-    minoanimationbarsfromsides.h
+    minoanimationbarsfromsides.h \
+    minoanimationplasma.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

@@ -4,8 +4,8 @@
 MinoAnimationWaveform::MinoAnimationWaveform(QGraphicsScene *scene, QObject *parent) :
     MinoAnimation(QString("Waveform"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(90));
-    _animatedProperty.setEndValue(QVariant(20));
+    _animatedProperty.setStartValue(QVariant(_scene->sceneRect().height()/2));
+    _animatedProperty.setEndValue(QVariant(1.0));
     _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _beatFactor.setObjectName("Beat factor");
@@ -53,15 +53,20 @@ void MinoAnimationWaveform::animate(const unsigned int ppqn)
     color.setRed(_color.value()*255);
     color.setBlue(_color.value()*255);
 
+    qDebug() << _scene->sceneRect().height();
+    qDebug() << _scene->sceneRect().width();
+
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
        delete item;
     }
-    for (int i=0;i< 24;i++)
+    for (int i=0;i<_scene->sceneRect().width();i++)
     {
-        int currentAnimatedPropertyValue = qrand()%_animatedProperty.currentValue().toInt();
-        _itemGroup.addToGroup(_scene->addRect(i*10,80-currentAnimatedPropertyValue,10,currentAnimatedPropertyValue*2,QPen(color),QBrush(Qt::NoBrush)));
+        int currentAnimatedPropertyValue = 1+(qrand()%_animatedProperty.currentValue().toInt());
 
+        qDebug() << currentAnimatedPropertyValue;
+        //_itemGroup.addToGroup(_scene->addRect(i*10,80-currentAnimatedPropertyValue,10,currentAnimatedPropertyValue*2,QPen(color),QBrush(Qt::NoBrush)));
+        _itemGroup.addToGroup(_scene->addLine(i,((_scene->sceneRect().height()/2)-currentAnimatedPropertyValue),i,((_scene->sceneRect().height()/2)+currentAnimatedPropertyValue),QPen(color)));
     }
 
 }

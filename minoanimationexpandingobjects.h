@@ -14,7 +14,7 @@ signals:
 public slots:
     
 private:
-    MinoAnimationProperty _rotation;
+    MinoAnimationProperty _color;
 };
 
 #endif // MINOANIMATIONEXPANDINGOBJECTS_H

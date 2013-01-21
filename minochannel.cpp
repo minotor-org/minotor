@@ -15,12 +15,12 @@ MinoChannel::MinoChannel(const QSize size, QObject *parent) :
     // XXX How to resize channel ?
     _scene.setSceneRect(QRectF(0, 0, size.width(), size.height()));
 
-    _minoAnimations.append(new MinoAnimationDebug(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationDebug(&_scene, this));
     //_minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
     //_minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
     //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
     //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
-    //_minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
+    _minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
 
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
     {

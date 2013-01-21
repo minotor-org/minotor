@@ -16,9 +16,9 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
     _properties.append(&_density);
 
     //TODO: remove hardcoded value
-    for (int i=0;i<160;i+=10)
+    for (int i=0;i<_scene->sceneRect().height();i++)
     {
-        for (int j=0; j<240;j+=10)
+        for (int j=0; j<_scene->sceneRect().width();j++)
         {
             _itemGroup.addToGroup(_scene->addLine ( j, i, j+1, i+1, QPen(Qt::red) ));
         }
@@ -46,25 +46,18 @@ void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
 
     if ((ppqn%6) == 0)
     {
-        /*
-        foreach(QGraphicsItem* item, _itemGroup.childItems ())
-        {
-           delete item;
-        }
-        */
-
         foreach (QGraphicsItem *item , _itemGroup.childItems())
         {
             static_cast<QGraphicsLineItem*>(item)->setPen(QPen(transparency));
         }
 
-        const qreal pixelCount = _density.value()*(24*16);
+        const qreal pixelCount = _density.value()*(_scene->sceneRect().width()*_scene->sceneRect().height());
         for(int i=0; i<pixelCount; i++)
         {
-            int x = (qrand()%24);
-            int y = (qrand()%16);
+            int x = (qrand()%(static_cast<int>(_scene->sceneRect().width())));
+            int y = (qrand()%(static_cast<int>(_scene->sceneRect().height())));
 
-            int pixelIndex = (y*24)+x;
+            int pixelIndex = (y*_scene->sceneRect().width())+x;
             // qDebug() << "x" << x << "y" << y;
             static_cast<QGraphicsLineItem*>(_itemGroup.childItems().at(pixelIndex))->setPen(QPen(color));
                     //[pixelIndex]);
