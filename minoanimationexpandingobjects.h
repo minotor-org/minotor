@@ -7,7 +7,7 @@ class MinoAnimationExpandingObjects : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationExpandingObjects(QGraphicsScene* scene, QObject *parent = 0);
+    explicit MinoAnimationExpandingObjects(MinoChannel *channel);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
 signals:

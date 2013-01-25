@@ -1,12 +1,11 @@
 #include "minoanimationbarsfromsides.h"
 #include <QColor>
-#include <QGraphicsScene>
 #include <QDebug>
 
-MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(QGraphicsScene* scene, QObject *parent) :
-    MinoAnimation(QString("Bars from sides"), scene, parent)
+MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(MinoChannel *channel) :
+    MinoAnimation(QString("Bars from sides"), channel)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(_scene->sceneRect().height()/2));
+    _beatAnimatedProperty.setStartValue(QVariant(_boundingRect.height()/2));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
@@ -31,20 +30,20 @@ void MinoAnimationBarsFromSides::animate(const unsigned int gppqn, const unsigne
     }
     if (qn%2)
     {
-        for (int i=0;i< _scene->sceneRect().height();i++)
+        for (int i=0;i< _boundingRect.height();i++)
         {
             int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
             _itemGroup.addToGroup(_scene->addLine(0,i,(currentAnimatedPropertyValue),i,QPen(color)));
-            _itemGroup.addToGroup(_scene->addLine((_scene->sceneRect().width()-currentAnimatedPropertyValue-1),i,(_scene->sceneRect().width()-1),i,QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine((_boundingRect.width()-currentAnimatedPropertyValue-1),i,(_boundingRect.width()-1),i,QPen(color)));
         }
     }
     else
     {
-        for (int i=0;i< _scene->sceneRect().width();i++)
+        for (int i=0;i< _boundingRect.width();i++)
         {
             int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
             _itemGroup.addToGroup(_scene->addLine(i,0,i,(currentAnimatedPropertyValue),QPen(color)));
-            _itemGroup.addToGroup(_scene->addLine(i,(_scene->sceneRect().height()-currentAnimatedPropertyValue-1),i,(_scene->sceneRect().height()-1),QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine(i,(_boundingRect.height()-currentAnimatedPropertyValue-1),i,(_boundingRect.height()-1),QPen(color)));
         }
     }
 }

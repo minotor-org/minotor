@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
-#include <QGraphicsView>
+#include <QRect>
 
 #include "minoanimation.h"
 #include "minomatrixedscenerenderer.h"
@@ -13,15 +13,21 @@ class MinoChannel : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoChannel(const QSize size, QObject *parent);
+    explicit MinoChannel(QGraphicsScene *scene, QObject *parent);
     ~MinoChannel();
-    QGraphicsScene *scene() { return &_scene; }
+
     MinoMatrixedSceneRenderer *renderer() { return _renderer; }
 
+    void setDrawingRect(const QRect rect);
+
     MinoAnimationList animations() { return _minoAnimations; }
+
+    QGraphicsScene *scene() { return _scene; }
+    QRect boundingRect() { return QRect(0,0,_drawingRect.width(),_drawingRect.height()); }
+    QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
 private:
-    QSize _size;
-    QGraphicsScene _scene;
+    QRect _drawingRect;
+    QGraphicsScene *_scene;
     MinoMatrixedSceneRenderer *_renderer;
     MinoAnimationList _minoAnimations;
     QGraphicsItemGroup _itemGroup;

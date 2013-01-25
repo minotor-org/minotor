@@ -1,10 +1,9 @@
 #include "minoanimationdebug.h"
 #include <QColor>
-#include <QGraphicsScene>
 #include <QDebug>
 
-MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
-    MinoAnimation(QString("Debug"), scene, parent)
+MinoAnimationDebug::MinoAnimationDebug(MinoChannel *channel) :
+    MinoAnimation(QString("Debug"), channel)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
@@ -21,6 +20,8 @@ MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
 
 void MinoAnimationDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)ppqn;
+    (void)qn;
     computeAnimaBeatProperty(gppqn);
 
     QColor color(Qt::blue);
@@ -32,6 +33,6 @@ void MinoAnimationDebug::animate(const unsigned int gppqn, const unsigned int pp
     {
         delete item;
     }
-    _itemGroup.addToGroup(_scene->addRect(_scene->sceneRect(), QPen(color),QBrush(color) ));
+    _itemGroup.addToGroup(_scene->addRect(_boundingRect, QPen(color),QBrush(color) ));
     _itemGroup.setOpacity(_beatAnimatedProperty.currentValue().toFloat());
 }

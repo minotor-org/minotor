@@ -1,10 +1,10 @@
 #include "minoanimationwaveform.h"
 #include <QDebug>
 
-MinoAnimationWaveform::MinoAnimationWaveform(QGraphicsScene *scene, QObject *parent) :
-    MinoAnimation(QString("Waveform"), scene, parent)
+MinoAnimationWaveform::MinoAnimationWaveform(MinoChannel *channel) :
+    MinoAnimation(QString("Waveform"), channel)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(_scene->sceneRect().height()/2));
+    _beatAnimatedProperty.setStartValue(QVariant(_boundingRect.height()/2));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
@@ -29,10 +29,10 @@ void MinoAnimationWaveform::animate(const unsigned int gppqn, const unsigned int
     {
        delete item;
     }
-    for (int i=0;i<_scene->sceneRect().width();i++)
+    for (int i=0;i<_boundingRect.width();i++)
     {
         int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
-        _itemGroup.addToGroup(_scene->addLine(i,((_scene->sceneRect().height()/2)-currentAnimatedPropertyValue),i,((_scene->sceneRect().height()/2)+currentAnimatedPropertyValue),QPen(color)));
+        _itemGroup.addToGroup(_scene->addLine(i,((_boundingRect.height()/2)-currentAnimatedPropertyValue),i,((_boundingRect.height()/2)+currentAnimatedPropertyValue),QPen(color)));
     }
 
 }

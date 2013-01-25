@@ -10,9 +10,11 @@
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
 {
-    const QSize channelSize(24, 16);
-    _channel1 = new MinoChannel(channelSize, this);
-    _channel2 = new MinoChannel(channelSize, this);
+
+    _channel1 = new MinoChannel(&_scene, this);
+    _channel1->setDrawingRect(QRect(0, 0, 24, 16));
+    _channel2 = new MinoChannel(&_scene, this);
+    _channel2->setDrawingRect(QRect(50, 0, 24, 16));
     _master = new MinoMaster(_channel1, _channel2, this);
 
     // LED Matrix

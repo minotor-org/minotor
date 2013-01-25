@@ -26,13 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _minotor = new Minotor(this);
 
-    ui->gvChannel1->setScene(_minotor->channel1()->scene());
-    ui->gvChannel1->setBackgroundBrush(QBrush(Qt::black));
-    ui->gvChannel1->show();
-
-    ui->gvChannel2->setScene(_minotor->channel2()->scene());
-    ui->gvChannel2->setBackgroundBrush(QBrush(Qt::black));
-    ui->gvChannel2->show();
+    ui->gvGlobal->setScene(_minotor->channel2()->scene());
+    ui->gvGlobal->setBackgroundBrush(QBrush(Qt::black));
 
     _actionMidiCapture = new QAction("Assign MIDI control", this);
     connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));

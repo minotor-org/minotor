@@ -5,8 +5,8 @@
 #include <math.h>
 
 
-MinoAnimationPlasma::MinoAnimationPlasma(QGraphicsScene* scene, QObject *parent) :
-    MinoAnimation(QString("Bars from sides"), scene, parent)
+MinoAnimationPlasma::MinoAnimationPlasma(MinoChannel *channel):
+    MinoAnimation(QString("Bars from sides"), channel)
 {
     _beatAnimatedProperty.setStartValue(QVariant(100));
     _beatAnimatedProperty.setEndValue(QVariant(10));
@@ -22,7 +22,6 @@ MinoAnimationPlasma::MinoAnimationPlasma(QGraphicsScene* scene, QObject *parent)
             _itemGroup.addToGroup(_scene->addLine ( j, i, j+1, i+1, QPen(Qt::red) ));
         }
     }
-
 }
 
 void MinoAnimationPlasma::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

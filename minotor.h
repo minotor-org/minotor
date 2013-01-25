@@ -54,6 +54,8 @@ public slots:
     void handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value);
 
 private:
+    QGraphicsScene _scene;
+
     // External connections
     LedMatrix *_ledMatrix;
 

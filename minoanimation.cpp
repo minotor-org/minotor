@@ -1,15 +1,24 @@
 #include "minoanimation.h"
+#include "minochannel.h"
 
-MinoAnimation::MinoAnimation(QString name, QGraphicsScene *scene, QObject *parent) :
+MinoAnimation::MinoAnimation(QString name, MinoChannel *parent) :
     QObject(parent),
-    _scene(scene),
     _name(name)
 {
+    setChannel(parent);
+
     _beatFactor.setObjectName("Beat factor");
     _properties.append(&_beatFactor);
     _beatFactor.setValue(0.4); // BeatFactor 1
 }
 
+void MinoAnimation::setChannel(MinoChannel *channel)
+{
+    _scene = channel->scene();
+    _boundingRect = channel->boundingRect();
+    channel->itemGroup()->addToGroup(&_itemGroup);
+    _itemGroup.setParentItem(channel->itemGroup());
+}
 
 qreal MinoAnimation::ratioToBeatFactor(qreal value)
 {

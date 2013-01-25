@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObject *parent) :
-    MinoAnimation(QString("Random pixels"), scene, parent)
+MinoAnimationRandomPixels::MinoAnimationRandomPixels(MinoChannel *channel) :
+    MinoAnimation(QString("Random pixels"), channel)
 
 {
     _beatAnimatedProperty.setStartValue(QVariant(255));
@@ -16,9 +16,9 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
     _density.setObjectName("Density");
     _properties.append(&_density);
 
-    for (int i=0;i<_scene->sceneRect().height();i++)
+    for (int i=0;i<_boundingRect.height();i++)
     {
-        for (int j=0; j<_scene->sceneRect().width();j++)
+        for (int j=0; j<_boundingRect.width();j++)
         {
             _itemGroup.addToGroup(_scene->addLine ( j, i, j+1, i+1, QPen(Qt::red) ));
         }
@@ -28,7 +28,8 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
 
 void MinoAnimationRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-   computeAnimaBeatProperty(gppqn);
+    (void)qn;
+    computeAnimaBeatProperty(gppqn);
 
     QColor color(Qt::green);
     color.setRed(_color.value()*255);
@@ -45,13 +46,13 @@ void MinoAnimationRandomPixels::animate(const unsigned int gppqn, const unsigned
             static_cast<QGraphicsLineItem*>(item)->setPen(QPen(transparency));
         }
 
-        const qreal pixelCount = _density.value()*(_scene->sceneRect().width()*_scene->sceneRect().height());
+        const qreal pixelCount = _density.value()*(_boundingRect.width()*_boundingRect.height());
         for(int i=0; i<pixelCount; i++)
         {
-            int x = (qrand()%(static_cast<int>(_scene->sceneRect().width())));
-            int y = (qrand()%(static_cast<int>(_scene->sceneRect().height())));
+            int x = (qrand()%(static_cast<int>(_boundingRect.width())));
+            int y = (qrand()%(static_cast<int>(_boundingRect.height())));
 
-            int pixelIndex = (y*_scene->sceneRect().width())+x;
+            int pixelIndex = (y*_boundingRect.width())+x;
             // qDebug() << "x" << x << "y" << y;
             static_cast<QGraphicsLineItem*>(_itemGroup.childItems().at(pixelIndex))->setPen(QPen(color));
                     //[pixelIndex]);

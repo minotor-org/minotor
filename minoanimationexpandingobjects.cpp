@@ -2,19 +2,20 @@
 
 #include <QDebug>
 
-MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(QGraphicsScene *scene, QObject *parent) :
-    MinoAnimation(QString("Expanding objects"), scene, parent)
+MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(MinoChannel *channel) :
+    MinoAnimation(QString("Expanding objects"), channel)
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.2));
     _beatAnimatedProperty.setEndValue(QVariant(8.0));
 
     _color.setObjectName("Color");
     _properties.append(&_color);
-    _itemGroup.setTransformOriginPoint(_scene->sceneRect().width()/2,_scene->sceneRect().height()/2);
+    _itemGroup.setTransformOriginPoint(_boundingRect.center());
 }
 
 void MinoAnimationExpandingObjects::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)qn;
     computeAnimaBeatProperty(gppqn);
 
     if (ppqn%24==0)
@@ -23,9 +24,9 @@ void MinoAnimationExpandingObjects::animate(const unsigned int gppqn, const unsi
         {
            delete item;
         }
-        int x = _scene->sceneRect().width()/2;
-        int y = _scene->sceneRect().height()/2;
-        _itemGroup.addToGroup(_scene->addEllipse(x-(y),y-(y),_scene->sceneRect().height(),_scene->sceneRect().height(),QPen(Qt::green),QBrush(Qt::NoBrush)));
+        int x = _boundingRect.width()/2;
+        int y = _boundingRect.height()/2;
+        _itemGroup.addToGroup(_scene->addEllipse(x-(y),y-(y),_boundingRect.height(),_boundingRect.height(),QPen(Qt::green),QBrush(Qt::NoBrush)));
     }
 
     _itemGroup.setScale(_beatAnimatedProperty.currentValue().toReal());
