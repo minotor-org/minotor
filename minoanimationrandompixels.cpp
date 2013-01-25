@@ -6,16 +6,16 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
     MinoAnimation(QString("Random pixels"), scene, parent)
 
 {
-    _animatedProperty.setStartValue(QVariant(255));
-    _animatedProperty.setEndValue(QVariant(0));
-    _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _beatAnimatedProperty.setStartValue(QVariant(255));
+    _beatAnimatedProperty.setEndValue(QVariant(0));
+    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _color.setObjectName("Color");
-    _density.setObjectName("Density");
     _properties.append(&_color);
+
+    _density.setObjectName("Density");
     _properties.append(&_density);
 
-    //TODO: remove hardcoded value
     for (int i=0;i<_scene->sceneRect().height();i++)
     {
         for (int j=0; j<_scene->sceneRect().width();j++)
@@ -26,20 +26,14 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(QGraphicsScene *scene, QObj
 
 }
 
-void MinoAnimationRandomPixels::animate(const unsigned int ppqn)
+void MinoAnimationRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    const qreal beatFactor = 1;
-    const unsigned int ppqnMax = (24*beatFactor);
-    const unsigned int _ppqn = ppqn % ppqnMax;
-    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
-    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
-    _animatedProperty.setCurrentTime(currentTime);
+   computeAnimaBeatProperty(gppqn);
 
     QColor color(Qt::green);
     color.setRed(_color.value()*255);
     color.setBlue(_color.value()*255);
-    color.setAlpha(_animatedProperty.currentValue().toInt());
-    // qDebug() << color.alpha();
+    color.setAlpha(_beatAnimatedProperty.currentValue().toInt());
 
     QColor transparency;
     transparency.setAlpha(0);

@@ -16,10 +16,10 @@ Minotor::Minotor(QObject *parent) :
     _master = new MinoMaster(_channel1, _channel2, this);
 
     // LED Matrix
-    _ledMatrix = new LedMatrix();
+    _ledMatrix = new LedMatrix(this);
 
     // MIDI interfaces
-    Midi *midi = new Midi();
+    Midi *midi = new Midi(this);
     _midiInterfaces.append(midi);
     connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
 
@@ -28,16 +28,16 @@ Minotor::Minotor(QObject *parent) :
 
     // Clock source
     _clockSource = new MinoClockSource(this);
-    connect(_clockSource, SIGNAL(clock(int,int)), this, SLOT(dispatchClock(int,int)));
+    connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
 }
 
-void Minotor::dispatchClock(const int ppqn, const int qn)
+void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     if((ppqn%2) == 0) {
         // Animate channel #1
-        channel1()->animate(ppqn);
+        channel1()->animate(gppqn, ppqn, qn);
         // Animate channel #2
-        channel2()->animate(ppqn);
+        channel2()->animate(gppqn, ppqn, qn);
 
         // Render scene to led matrix
         _ledMatrix->showView(master()->view());

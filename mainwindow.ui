@@ -117,9 +117,6 @@
           <property name="segmentStyle">
            <enum>QLCDNumber::Flat</enum>
           </property>
-          <property name="value" stdset="0">
-           <double>125.799999999999997</double>
-          </property>
          </widget>
         </item>
         <item>
@@ -157,24 +154,23 @@
         <item>
          <widget class="QSlider" name="sPpqn">
           <property name="maximum">
-           <number>23</number>
+           <number>383</number>
+          </property>
+          <property name="singleStep">
+           <number>2</number>
+          </property>
+          <property name="pageStep">
+           <number>24</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBothSides</enum>
+          </property>
          </widget>
         </item>
        </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGraphicsView" name="gvMonitor">
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="viewportUpdateMode">
-        <enum>QGraphicsView::NoViewportUpdate</enum>
-       </property>
       </widget>
      </item>
      <item>

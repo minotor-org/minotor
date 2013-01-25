@@ -21,12 +21,11 @@ MinoChannel::MinoChannel(const QSize size, QObject *parent) :
     _renderer->setMatrixSize(QSize(24, 16));
     _renderer->setViewRect(QRect(0, 0, 24, 16));
 
-    //_minoAnimations.append(new MinoAnimationDebug(&_scene, this));
+    _minoAnimations.append(new MinoAnimationDebug(&_scene, this));
     //_minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));
     //_minoAnimations.append(new MinoAnimationExpandingObjects(&_scene, this));
     //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
-    //_minoAnimations.append(new MinoAnimationWaveform(&_scene, this));
-    _minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
+    //_minoAnimations.append(new MinoAnimationBarsFromSides(&_scene, this));
 
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
     {
@@ -62,10 +61,10 @@ MinoChannel::~MinoChannel()
     }
 }
 
-void MinoChannel::animate(const unsigned int ppqn)
+void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
-        minoAnimation->animate(ppqn);
+        minoAnimation->animate(gppqn, ppqn, qn);
     emit animated();
 }
 

@@ -48,7 +48,7 @@ signals:
 
 public slots:
     // Clock handler
-    void dispatchClock(const int ppqn, const int qn);
+    void dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     // Midi messages handlers
     void handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value);

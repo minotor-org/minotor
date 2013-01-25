@@ -5,11 +5,39 @@ MinoAnimation::MinoAnimation(QString name, QGraphicsScene *scene, QObject *paren
     _scene(scene),
     _name(name)
 {
+    _beatFactor.setObjectName("Beat factor");
+    _properties.append(&_beatFactor);
+    _beatFactor.setValue(0.4); // BeatFactor 1
 }
 
-void MinoAnimation::animate(const unsigned int ppqn)
+
+qreal MinoAnimation::ratioToBeatFactor(qreal value)
 {
-    const int currentTime = (qreal(_animatedProperty.duration())) * (((qreal)ppqn) / 24.0);
-    _animatedProperty.setCurrentTime(currentTime);
-    _itemGroup.setScale(_animatedProperty.currentValue().toReal());
+    QList<qreal> tempoList;
+    tempoList.append(0.25);
+    tempoList.append(0.5);
+    tempoList.append(1);
+    tempoList.append(2);
+    tempoList.append(4);
+    tempoList.append(8);
+    tempoList.append(16);
+
+    int step = (tempoList.count()-1) * value;
+    //qDebug() << "value" << (qreal)value << "step" << step << "factor" << tempoList.at(step);
+    return tempoList.at(step);
 }
+
+void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
+{
+    const unsigned int ppqnMax = ratioToBeatFactor(_beatFactor.value()) * 24;
+    const qreal lppqn = gppqn % ppqnMax;
+    const qreal durationFactor = lppqn / ppqnMax;
+    _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
+
+    /*
+    qDebug() << "computeAnimaBeatProperty"
+             << "beatFactor" << ratioToBeatFactor(_beatFactor.value())
+             << "durationFactor" << durationFactor;
+    */
+}
+

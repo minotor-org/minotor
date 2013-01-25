@@ -8,7 +8,7 @@ class MinoAnimationBarsFromSides : public MinoAnimation
     Q_OBJECT
 public:
     explicit MinoAnimationBarsFromSides(QGraphicsScene* scene, QObject *parent = 0);
-    void animate(const unsigned int ppqn);
+    void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     qreal ratioToBeatFactor(qreal value);
 private:

@@ -6,8 +6,7 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     QObject(parent),
     _bpmValuesCount(0),
     _bpmValuesIndex(0),
-    _ppqn(0),
-    _qn(0),
+    _gppqn(0),
     _isMidiSequencerRunning(false)
 
 {
@@ -26,14 +25,8 @@ MinoClockSource::MinoClockSource(QObject *parent) :
 
 void MinoClockSource::internalTimerTimeout()
 {
-    _ppqn += 1;
-    if (_ppqn >= 24) {
-        _qn += 1;
-        if (_qn >= 16) {
-            _qn = 0;
-        }
-    }
-    emit clock(_ppqn, _qn);
+    _gppqn = (_gppqn + 1)%384;
+    emit clock(_gppqn, _gppqn%24, _gppqn/24);
 }
 
 void MinoClockSource::uiTapOn()
@@ -78,8 +71,7 @@ void MinoClockSource::uiStart()
     _isMidiSequencerRunning = false;
     _internalTimer.start();
 
-    _ppqn = 0;
-    _qn = 0;
+    _gppqn = 0;
 }
 
 void MinoClockSource::uiStop()
@@ -89,8 +81,7 @@ void MinoClockSource::uiStop()
 
 void MinoClockSource::uiSync()
 {
-    _ppqn = 0;
-    _qn = 0;
+    _gppqn = 0;
 }
 
 void MinoClockSource::setMidiClockInterface(Midi *midi)
@@ -106,14 +97,8 @@ void MinoClockSource::midiClock()
 {
     if(_isMidiSequencerRunning)
     {
-        _ppqn += 1;
-        if (_ppqn >= 24) {
-            _qn += 1;
-            if (_qn >= 16) {
-                _qn = 0;
-            }
-        }
-        emit clock(_ppqn, _qn);
+        _gppqn = (_gppqn + 1)%384;
+        emit clock(_gppqn, _gppqn%24, _gppqn/24);
     }
 }
 
@@ -124,8 +109,7 @@ void MinoClockSource::midiStop()
 
 void MinoClockSource::midiStart()
 {
-    _ppqn = 0;
-    _qn = 0;
+    _gppqn = 0;
     _isMidiSequencerRunning = true;
 
     // Stop internal generator

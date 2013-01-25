@@ -8,13 +8,9 @@
 MinoAnimationPlasma::MinoAnimationPlasma(QGraphicsScene* scene, QObject *parent) :
     MinoAnimation(QString("Bars from sides"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(100));
-    _animatedProperty.setEndValue(QVariant(10));
-    _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
-
-    _beatFactor.setObjectName("Beat factor");
-    _properties.append(&_beatFactor);
-    _beatFactor.setValue(0.4); // BeatFactor 1
+    _beatAnimatedProperty.setStartValue(QVariant(100));
+    _beatAnimatedProperty.setEndValue(QVariant(10));
+    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _color.setObjectName("Color");
     _properties.append(&_color);
@@ -28,44 +24,15 @@ MinoAnimationPlasma::MinoAnimationPlasma(QGraphicsScene* scene, QObject *parent)
     }
 
 }
-qreal MinoAnimationPlasma::ratioToBeatFactor(qreal value)
-{
-    /*
-      1/4
-      1/2
-      1
-      2
-      4
-      8
-      16
-      */
-    QList<qreal> tempoList;
-    tempoList.append(0.25);
-    tempoList.append(0.5);
-    tempoList.append(1);
-    tempoList.append(2);
-    tempoList.append(4);
-    tempoList.append(8);
-    tempoList.append(16);
 
-    int step = (tempoList.count()-1) * value;
-    return tempoList.at(step);
-}
-
-void MinoAnimationPlasma::animate(const unsigned int ppqn)
+void MinoAnimationPlasma::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    const qreal beatFactor = ratioToBeatFactor(_beatFactor.value());;
-    const unsigned int ppqnMax = (24*beatFactor);
-    const unsigned int _ppqn = ppqn % ppqnMax;
-    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
-    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
-    _animatedProperty.setCurrentTime(currentTime);
+    computeAnimaBeatProperty(gppqn);
 
     QColor color(Qt::green);
     color.setRed(_color.value()*255);
     color.setBlue(_color.value()*255);
-    color.setAlpha(_animatedProperty.currentValue().toInt());
-    // qDebug() << color.alpha();
+    color.setAlpha(_beatAnimatedProperty.currentValue().toInt());
 
     QColor transparency;
     transparency.setAlpha(0);
@@ -75,8 +42,6 @@ void MinoAnimationPlasma::animate(const unsigned int ppqn)
         static_cast<QGraphicsLineItem*>(item)->setPen(QPen(transparency));
         qDebug() << "set transparency";
     }
-
-
 
     const qreal pixelCount = 24*16;
     for(int i=0; i<pixelCount; i++)

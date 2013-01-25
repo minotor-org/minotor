@@ -78,7 +78,6 @@ void MainWindow::on_action_Configuration_triggered()
     _configDialog->show();
 }
 
-
 void MainWindow::midiCaptureTrigged()
 {
     qDebug() << "here:" << QObject::sender()->metaObject()->className();
@@ -105,7 +104,7 @@ void MainWindow::customContextMenuRequested(const QPoint &pos)
 
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
-    const int ppqn = value%24;
-    const int qn = value/24;
-    _minotor->dispatchClock(ppqn, qn);
+    const unsigned int ppqn = value%24;
+    const unsigned int qn = value/24;
+    _minotor->dispatchClock(value, ppqn, qn);
 }

@@ -1,27 +1,22 @@
 #include "minoanimationexpandingobjects.h"
 
-#include <QDebug>;
+#include <QDebug>
 
 MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(QGraphicsScene *scene, QObject *parent) :
     MinoAnimation(QString("Expanding objects"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(0.2));
-    _animatedProperty.setEndValue(QVariant(8.0));
-    //_animatedProperty.setEasingCurve(QEasingCurve::InBounce);
+    _beatAnimatedProperty.setStartValue(QVariant(0.2));
+    _beatAnimatedProperty.setEndValue(QVariant(8.0));
+
     _color.setObjectName("Color");
     _properties.append(&_color);
     _itemGroup.setTransformOriginPoint(_scene->sceneRect().width()/2,_scene->sceneRect().height()/2);
-
 }
 
-void MinoAnimationExpandingObjects::animate(const unsigned int ppqn)
+void MinoAnimationExpandingObjects::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    const qreal beatFactor = 1;
-    const unsigned int ppqnMax = (24*beatFactor);
-    const unsigned int _ppqn = ppqn % ppqnMax;
-    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
-    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
-    _animatedProperty.setCurrentTime(currentTime);
+    computeAnimaBeatProperty(gppqn);
+
     if (ppqn%24==0)
     {
         foreach(QGraphicsItem* item, _itemGroup.childItems ())
@@ -33,5 +28,5 @@ void MinoAnimationExpandingObjects::animate(const unsigned int ppqn)
         _itemGroup.addToGroup(_scene->addEllipse(x-(y),y-(y),_scene->sceneRect().height(),_scene->sceneRect().height(),QPen(Qt::green),QBrush(Qt::NoBrush)));
     }
 
-    _itemGroup.setScale(_animatedProperty.currentValue().toReal());
+    _itemGroup.setScale(_beatAnimatedProperty.currentValue().toReal());
 }

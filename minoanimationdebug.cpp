@@ -6,12 +6,9 @@
 MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
     MinoAnimation(QString("Debug"), scene, parent)
 {
-    _animatedProperty.setStartValue(QVariant(1.0));
-    _animatedProperty.setEndValue(QVariant(0.0));
-    _animatedProperty.setEasingCurve(QEasingCurve::OutBounce);
-
-    _beatFactor.setObjectName("Beat factor");
-    _properties.append(&_beatFactor);
+    _beatAnimatedProperty.setStartValue(QVariant(1.0));
+    _beatAnimatedProperty.setEndValue(QVariant(0.0));
+    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _r.setObjectName("Red");
     _r.setValue(1.0);
@@ -22,40 +19,10 @@ MinoAnimationDebug::MinoAnimationDebug(QGraphicsScene* scene, QObject *parent) :
     _properties.append(&_b);
 }
 
-qreal MinoAnimationDebug::ratioToBeatFactor(qreal value)
+void MinoAnimationDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    /*
-      1/4
-      1/2
-      1
-      2
-      4
-      8
-      16
-      */
-    QList<qreal> tempoList;
-    tempoList.append(0.25);
-    tempoList.append(0.5);
-    tempoList.append(1);
-    tempoList.append(2);
-    tempoList.append(4);
-    tempoList.append(8);
-    tempoList.append(16);
+    computeAnimaBeatProperty(gppqn);
 
-    int step = (tempoList.count()-1) * value;
-    //qDebug() << "value" << (qreal)value << "step" << step << "factor" << tempoList.at(step);
-    return tempoList.at(step);
-}
-
-void MinoAnimationDebug::animate(const unsigned int ppqn)
-{
-    const qreal beatFactor = ratioToBeatFactor(_beatFactor.value());
-    const unsigned int ppqnMax = ((qreal)24*beatFactor);
-    const unsigned int _ppqn = ppqn % ppqnMax;
-    const qreal durationFactor = ((qreal)_ppqn / ppqnMax);
-    // qDebug() << "durationFactor" << durationFactor << "_ppqn" << _ppqn << "ppqnMax" << ppqnMax;
-    const int currentTime = (qreal(_animatedProperty.duration())) * durationFactor;
-    _animatedProperty.setCurrentTime(currentTime);
     QColor color(Qt::blue);
     color.setRed(_r.value()*255);
     color.setGreen(_g.value()*255);
@@ -66,6 +33,5 @@ void MinoAnimationDebug::animate(const unsigned int ppqn)
         delete item;
     }
     _itemGroup.addToGroup(_scene->addRect(_scene->sceneRect(), QPen(color),QBrush(color) ));
-    _itemGroup.setOpacity(_animatedProperty.currentValue().toFloat());
-
+    _itemGroup.setOpacity(_beatAnimatedProperty.currentValue().toFloat());
 }
