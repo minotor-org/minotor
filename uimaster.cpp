@@ -5,11 +5,11 @@
 #include <QSlider>
 #include <QDial>
 
-#include "uimastermonitor.h"
+#include "uipixeledview.h"
 
-UiMaster::UiMaster(Minotor *minotor, QWidget *parent) :
+UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
-    _minotor(minotor)
+    _master(master)
 {
     // Master
     QVBoxLayout *lMaster = new QVBoxLayout(this);
@@ -22,7 +22,7 @@ UiMaster::UiMaster(Minotor *minotor, QWidget *parent) :
     lMaster->addWidget(fMonitor);
 
     QVBoxLayout *lMonitor = new QVBoxLayout(fMonitor);
-    UiMasterMonitor *uiMasterMonitor = new UiMasterMonitor(minotor->ledMatrix(), fMonitor);
+    UiPixeledView *uiMasterMonitor = new UiPixeledView(_master->renderer(), fMonitor);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     uiMasterMonitor->setMinimumSize(240, 160);
@@ -36,16 +36,9 @@ UiMaster::UiMaster(Minotor *minotor, QWidget *parent) :
 
     lMonitor->addWidget(uiMasterMonitor);
     lMaster->addStretch();
-
-    QSlider *slider = new QSlider(Qt::Horizontal,this);
-    slider->setMinimum(0);
-    slider->setMaximum(127);
-    lMaster->addWidget(slider);
-
-    connect(slider, SIGNAL(valueChanged(int)), minotor->master(), SLOT(valueToViewPort(int)));
 }
 
 void UiMaster::brightnessChanged(int value)
 {
-    _minotor->master()->setBrightness((qreal)value/127);
+    _master->setBrightness((qreal)value/127);
 }

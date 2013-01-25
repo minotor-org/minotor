@@ -10,7 +10,6 @@ LedMatrix::LedMatrix(QObject *parent) :
     _port(NULL),
     _connected(false)
 {
-    _frame = new QImage(24, 16, QImage::Format_RGB32);
 }
 
 LedMatrix::~LedMatrix()
@@ -53,27 +52,20 @@ QString LedMatrix::portName()
     return "";
 }
 
-void LedMatrix::showView(QGraphicsView * view)
-{
-    _frame->fill(Qt::black);
-    QPainter painter(_frame);
-    view->render(&painter, QRectF(QRect(0,0,24,16)), view->viewport()->rect(), Qt::IgnoreAspectRatio);
-    // qDebug() << "ledmatrix viewport rect:" << view->viewport()->rect() << "scene rect" << view->sceneRect() << "view rect" << view->rect();
-    this->show();
-}
-
 void LedMatrix::showScene(QGraphicsScene * scene)
 {
-    this->_frame->fill(Qt::black);
-    QPainter painter(this->_frame);
+    QImage *image = new QImage(_size, QImage::Format_RGB32);
+    image->fill(Qt::black);
+    QPainter painter(image);
     //painter.setRenderHint(QPainter::Antialiasing);
     scene->render(&painter, QRect(0,0,24,16), scene->sceneRect(), Qt::IgnoreAspectRatio);
-    this->show();
+    this->show(image);
+    delete image;
 }
 
-void LedMatrix::show()
+void LedMatrix::show(const QImage *image)
 {
-    QRgb *pixels = reinterpret_cast<QRgb*>(_frame->bits());
+    const QRgb *pixels = reinterpret_cast<const QRgb*>(image->bits());
     for (unsigned int y=0;y<MATRIX_LEDS_Y;y++)
       {
         for (unsigned int x=0;x<MATRIX_LEDS_X;x++) {

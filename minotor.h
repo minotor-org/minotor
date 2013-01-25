@@ -12,12 +12,11 @@
 #include "midi.h"
 #include "midimapping.h"
 #include "minomaster.h"
+#include "minocue.h"
 #include "minoclocksource.h"
 
 class MinoAnimation;
 typedef QList<MinoAnimation*> MinoAnimationList;
-
-class MinoChannel;
 
 class Minotor : public QObject
 {
@@ -25,13 +24,15 @@ class Minotor : public QObject
 public:
     explicit Minotor(QObject *parent);
 
+    // Scene accessor
+    QGraphicsScene *scene() { return &_scene; }
+
     // Channel accessors
-    MinoChannel* channel1() { return _channel1; }
-    MinoChannel* channel2() { return _channel2; }
-    MinoMaster* master() { return _master; }
+    MinoMaster *master() { return _master; }
+    MinoCue *cue() { return _cue; }
 
     // LedMatrix
-    LedMatrix* ledMatrix() { return _ledMatrix; }
+    LedMatrix *ledMatrix() { return _ledMatrix; }
 
     // MIDI
     // TODO Support more than one interface
@@ -42,8 +43,8 @@ public:
 
     // Clock source
     MinoClockSource *clockSource() { return _clockSource; }
+
 signals:
-    void colorControlChanged(int value);
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
 public slots:
@@ -54,7 +55,12 @@ public slots:
     void handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value);
 
 private:
+    // Scene
     QGraphicsScene _scene;
+
+    // Channels
+    MinoMaster *_master;
+    MinoCue *_cue;
 
     // External connections
     LedMatrix *_ledMatrix;
@@ -65,11 +71,8 @@ private:
     // Midi mapping
     MidiMapping _midiMapping;
 
+    // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;
-
-    MinoMaster *_master;
-    MinoChannel *_channel1;
-    MinoChannel *_channel2;
 };
 
 #endif // MINOTOR_H

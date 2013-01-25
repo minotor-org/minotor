@@ -1,51 +1,17 @@
 #include "minomaster.h"
 
 #include "minotor.h"
-#include "minochannel.h"
 
-#include <QGraphicsProxyWidget>
 #include <QDebug>
 
-MinoMaster::MinoMaster(MinoChannel *channel1, MinoChannel *channel2, QObject *parent) :
-    QObject(parent),
-    _channel1(channel1),
-    _channel2(channel2)
+MinoMaster::MinoMaster(Minotor *minotor):
+    MinoChannel(minotor)
 {
-    // TODO Remove hardcoded values
-    _scene.setSceneRect(QRectF(0, 0, 480, 160));
-    _scene.addItem(&_itemGroup);
-
-    _view.setScene(&_scene);
-
-    _view.setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
-    _view.setTransformationAnchor(QGraphicsView::NoAnchor);
-    _view.setResizeAnchor(QGraphicsView::NoAnchor);
-    _view.setInteractive(false);
-
-    _view.viewport()->setFixedSize(240,160);
-    _view.setFixedSize(240,160);
-    _view.setSceneRect(QRectF(0, 0, 240, 160));
-    _view.fitInView(_view.sceneRect());
-
-    _view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    _view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    _view.setFrameShape(QFrame::NoFrame);
-    _view.setStyleSheet("background:transparent;");
-    _view.setAttribute(Qt::WA_TranslucentBackground);
-    _view.setWindowFlags(Qt::FramelessWindowHint);
 }
 
 MinoMaster::~MinoMaster()
 {
 
-}
-
-void MinoMaster::valueToViewPort(int value)
-{
-    qreal rValue = ((qreal)value)/127;
-    //qDebug() << "rValue" << rValue;
-    _view.setSceneRect(QRectF(240.0*rValue, 0, 240, 160));
-    _view.fitInView(_view.sceneRect());
 }
 
 void MinoMaster::setBrightness(qreal value)

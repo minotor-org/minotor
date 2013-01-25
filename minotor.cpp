@@ -10,12 +10,10 @@
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
 {
-
-    _channel1 = new MinoChannel(&_scene, this);
-    _channel1->setDrawingRect(QRect(0, 0, 24, 16));
-    _channel2 = new MinoChannel(&_scene, this);
-    _channel2->setDrawingRect(QRect(50, 0, 24, 16));
-    _master = new MinoMaster(_channel1, _channel2, this);
+    _master = new MinoMaster(this);
+    _master->setDrawingRect(QRect(0, 0, 24, 16));
+    _cue = new MinoCue(this);
+    _cue->setDrawingRect(QRect(50, 0, 24, 16));
 
     // LED Matrix
     _ledMatrix = new LedMatrix(this);
@@ -36,13 +34,14 @@ Minotor::Minotor(QObject *parent) :
 void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     if((ppqn%2) == 0) {
-        // Animate channel #1
-        channel1()->animate(gppqn, ppqn, qn);
-        // Animate channel #2
-        channel2()->animate(gppqn, ppqn, qn);
+        // Animate master
+        _master->animate(gppqn, ppqn, qn);
 
         // Render scene to led matrix
-        _ledMatrix->showView(master()->view());
+        _ledMatrix->show(master()->renderer()->rendering());
+
+        // Animate cue
+        _cue->animate(gppqn, ppqn, qn);
     }
 }
 

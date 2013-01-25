@@ -8,14 +8,15 @@ class UiMaster : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMaster(Minotor *minotor, QWidget *parent);
+    explicit UiMaster(MinoMaster *master, QWidget *parent);
     
 signals:
 
 private slots:
     void brightnessChanged(int value);
+
 protected:
-    Minotor *_minotor;
+    MinoMaster *_master;
 };
 
 #endif // UIMASTER_H

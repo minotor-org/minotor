@@ -30,20 +30,16 @@ public:
 
     bool isConnected();
 
-    void show();
+    void show(const QImage *image);
     void showScene(QGraphicsScene * scene);
-    void showView(QGraphicsView * view);
 
     // Accessors
-    QImage* frame() { return _frame; }
     QSize size() { return _size; }
 
 private:
     QSize _size;
     QextSerialPort *_port;
     bool _connected;
-
-    QImage *_frame;
 
     unsigned char _framebuffer[MATRIX_LEDS*3];
 signals:

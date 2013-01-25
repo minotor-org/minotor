@@ -1,5 +1,7 @@
 #include "minochannel.h"
 
+#include "minotor.h"
+
 #include "minoanimationrandompixels.h"
 #include "minoanimationexpandingobjects.h"
 #include "minoanimationdebug.h"
@@ -9,10 +11,11 @@
 #include <QBrush>
 #include <QDebug>
 
-MinoChannel::MinoChannel(QGraphicsScene *scene, QObject *parent) :
-    QObject(parent),
-    _scene(scene)
+MinoChannel::MinoChannel(Minotor *minotor) :
+    QObject(minotor)
 {
+    _scene = minotor->scene();
+
     _renderer = new MinoMatrixedSceneRenderer(_scene);
     connect(this, SIGNAL(animated()), _renderer, SLOT(render()));
 

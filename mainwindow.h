@@ -40,8 +40,7 @@ private:
     QAction *_actionMidiCapture;
     QMenu _menu;
     // Channels
-    UiChannel *_uiChannel1;
-    UiChannel *_uiChannel2;
+    UiChannel *_uiCue;
     UiMaster *_uiMaster;
 
     // == Configuration dialog ==
