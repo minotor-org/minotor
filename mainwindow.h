@@ -47,11 +47,6 @@ private:
     // == Configuration dialog ==
     ConfigDialog *_configDialog;
 
-
-    // External connections
-    LedMatrix *_ledMatrix;
-    Midi *_midi;
-
     // Minotor
     Minotor *_minotor;
 };

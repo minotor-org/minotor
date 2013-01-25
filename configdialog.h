@@ -4,8 +4,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-#include "ledmatrix.h"
-#include "midi.h"
+#include "minotor.h"
 
 namespace Ui {
 class ConfigDialog;
@@ -16,7 +15,7 @@ class ConfigDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit ConfigDialog(LedMatrix *ledMatrix, Midi *midi, QWidget *parent = 0);
+    explicit ConfigDialog(Minotor *minotor, QWidget *parent = 0);
     ~ConfigDialog();
     
 private slots:
@@ -31,8 +30,7 @@ private slots:
 private:
     Ui::ConfigDialog *ui;
 
-    LedMatrix *_ledMatrix;
-    Midi *_midi;
+    Minotor *_minotor;
 };
 
 #endif // CONFIGDIALOG_H

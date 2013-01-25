@@ -46,6 +46,6 @@ public slots:
     
 };
 
-typedef QList<Midi*> QMidiInterfaceList;
+typedef QList<Midi*> MidiInterfaceList;
 
 #endif // MIDI_H

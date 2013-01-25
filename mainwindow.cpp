@@ -24,9 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _midi = new Midi();
-    _minotor = new Minotor(_midi);
-
+    _minotor = new Minotor(this);
 
     ui->gvChannel1->setScene(_minotor->channel1()->scene());
     ui->gvChannel1->setBackgroundBrush(QBrush(Qt::black));
@@ -39,15 +37,11 @@ MainWindow::MainWindow(QWidget *parent) :
     _actionMidiCapture = new QAction("Assign MIDI control", this);
     connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
 
-    // LED Matrix
-    _ledMatrix = new LedMatrix();
-    _minotor->setLedMatrix(_ledMatrix);
-
     // Configuration dialog box
-    _configDialog = new ConfigDialog(_ledMatrix, _midi, this);
+    _configDialog = new ConfigDialog(_minotor, this);
 
     //add master
-    _uiMaster = new UiMaster(_minotor,ui->fMaster);
+    _uiMaster = new UiMaster(_minotor, ui->fMaster);
     new QHBoxLayout(ui->fMaster);
     ui->fMaster->layout()->addWidget(_uiMaster);
 
@@ -76,8 +70,6 @@ MainWindow::~MainWindow()
 {
     delete _actionMidiCapture;
     delete _configDialog;
-    delete _ledMatrix;
-    delete _midi;
     delete ui;
 }
 

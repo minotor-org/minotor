@@ -7,16 +7,19 @@
 #include "minochannel.h"
 #include "minoanimation.h"
 
-Minotor::Minotor(Midi *midi, QObject *parent) :
-    QObject(parent),
-    _ledMatrix(NULL)
+Minotor::Minotor(QObject *parent) :
+    QObject(parent)
 {
     const QSize channelSize(24, 16);
     _channel1 = new MinoChannel(channelSize, this);
     _channel2 = new MinoChannel(channelSize, this);
     _master = new MinoMaster(_channel1, _channel2, this);
 
+    // LED Matrix
+    _ledMatrix = new LedMatrix();
+
     // MIDI interfaces
+    Midi *midi = new Midi();
     _midiInterfaces.append(midi);
     connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
 
@@ -26,11 +29,6 @@ Minotor::Minotor(Midi *midi, QObject *parent) :
     // Clock source
     _clockSource = new MinoClockSource(this);
     connect(_clockSource, SIGNAL(clock(int,int)), this, SLOT(dispatchClock(int,int)));
-}
-
-void Minotor::setLedMatrix(LedMatrix *ledMatrix)
-{
-    _ledMatrix = ledMatrix;
 }
 
 void Minotor::dispatchClock(const int ppqn, const int qn)

@@ -23,7 +23,7 @@ class Minotor : public QObject
 {
     Q_OBJECT
 public:
-    explicit Minotor(Midi *midi, QObject *parent = 0);
+    explicit Minotor(QObject *parent);
 
     // Channel accessors
     MinoChannel* channel1() { return _channel1; }
@@ -31,8 +31,11 @@ public:
     MinoMaster* master() { return _master; }
 
     // LedMatrix
-    void setLedMatrix(LedMatrix *ledMatrix);
     LedMatrix* ledMatrix() { return _ledMatrix; }
+
+    // MIDI
+    // TODO Support more than one interface
+    Midi *midi() { return _midiInterfaces.at(0); }
 
     // MIDI mapping
     MidiMapping *midiMapping() { return &_midiMapping; }
@@ -55,7 +58,7 @@ private:
     LedMatrix *_ledMatrix;
 
     // Midi interfaces
-    QMidiInterfaceList _midiInterfaces;
+    MidiInterfaceList _midiInterfaces;
 
     // Midi mapping
     MidiMapping _midiMapping;
