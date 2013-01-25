@@ -32,25 +32,6 @@ MinoChannel::MinoChannel(const QSize size, QObject *parent) :
         _itemGroup.addToGroup(minoAnimation->itemGroup());
     }
     _scene.addItem(&_itemGroup);
-
-    _view.setScene(&_scene);
-
-    _view.setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
-    _view.setTransformationAnchor(QGraphicsView::NoAnchor);
-    _view.setResizeAnchor(QGraphicsView::NoAnchor);
-    _view.setInteractive(false);
-
-    _view.viewport()->setFixedSize(size);
-    _view.setFixedSize(size);
-    _view.setSceneRect(QRectF(0, 0, size.width(), size.height()));
-    _view.fitInView(_view.sceneRect());
-
-    _view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    _view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    _view.setFrameShape(QFrame::NoFrame);
-    _view.setStyleSheet("background:transparent;");
-    _view.setAttribute(Qt::WA_TranslucentBackground);
-    _view.setWindowFlags(Qt::FramelessWindowHint);
 }
 
 MinoChannel::~MinoChannel()
