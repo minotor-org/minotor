@@ -17,9 +17,7 @@ ConfigDialog::ConfigDialog(Minotor *minotor, QWidget *parent) :
     this->on_tabWidget_currentChanged(1);
     this->on_tabWidget_currentChanged(0);
 
-    // TODO: Remove hardcoded filename
-    QSettings _settings("/home/neomilium/minotor.ini",
-                       QSettings::IniFormat);
+    QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
     connect(_minotor->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
     connect(_minotor->ledMatrix(), SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
@@ -124,8 +122,7 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
-        QSettings _settings("/home/neomilium/minotor.ini",
-                           QSettings::IniFormat);
+        QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
         _settings.setValue("serial/interface", _minotor->ledMatrix()->portName());
         _settings.setValue("midi/interface", _minotor->midi()->portName());
         _settings.sync();
