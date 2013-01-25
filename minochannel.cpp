@@ -14,6 +14,12 @@ MinoChannel::MinoChannel(const QSize size, QObject *parent) :
 {
     // XXX How to resize channel ?
     _scene.setSceneRect(QRectF(0, 0, size.width(), size.height()));
+    _renderer = new MinoMatrixedSceneRenderer(&_scene);
+    connect(this, SIGNAL(animated()), _renderer, SLOT(render()));
+
+    // TODO Remove hardcoded values!
+    _renderer->setMatrixSize(QSize(24, 16));
+    _renderer->setViewRect(QRect(0, 0, 24, 16));
 
     //_minoAnimations.append(new MinoAnimationDebug(&_scene, this));
     //_minoAnimations.append(new MinoAnimationRandomPixels(&_scene, this));

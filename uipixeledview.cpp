@@ -4,67 +4,48 @@
 #include <QLine>
 #include <QDebug>
 
-UiPixeledView::UiPixeledView(QGraphicsScene *scene, QWidget *parent) :
+UiPixeledView::UiPixeledView(MinoMatrixedSceneRenderer *renderer, QWidget *parent) :
     QWidget(parent),
-    _scene(scene)
+    _renderer(renderer)
 {
     // Optimize widget's repaint
     setAttribute(Qt::WA_OpaquePaintEvent);
 
-    // Set default values
-    _image = NULL;
-    setMatrixSize(QSize(32, 24));
-    setViewRect(QRect(0, 0, 32, 24));
+    connect(_renderer, SIGNAL(updated()), this, SLOT(update()));
 }
 
-UiPixeledView::~UiPixeledView()
-{
-    delete _image;
-}
-
-void UiPixeledView::refresh()
-{
-    // Set background
-    _image->fill(Qt::black);
-
-    // Render the scene
-    QPainter painter(_image);
-    _scene->render(&painter, QRectF(_image->rect()), _viewRect, Qt::IgnoreAspectRatio);
-
-    qDebug() << "UiPixeledView"
-             << "painter" << painter.viewport()
-             << "view rect:" << _viewRect
-             << "scene rect:" << _scene->sceneRect();
-
-    // Request a QWidget update
-    update();
-}
-
+// This function produce draw the widget content
+//   It draw the render content (scaled to fit to widget size) and decorates it using some vertical and horizotal black lines
 void UiPixeledView::paintEvent(QPaintEvent *event)
 {
+    // event is not used
     (void)event;
+
+    // Make your code cleaner: store variables from renderer as local const
+    const QImage *rendering = _renderer->rendering();
+
+    // Construct a painter to draw into this widget
     QPainter painter(this);
 
-    QRect rMatrix(0, 0, _matrixSize.width(), _matrixSize.height());
-    painter.drawImage(rect(), *_image, rMatrix);
+    painter.drawImage(rect(), *rendering, rendering->rect());
 
-    qreal stepX = (qreal)width() / _matrixSize.width();
-    qreal stepY = (qreal)height() / _matrixSize.height();
+    qreal stepX = (qreal)width() / rendering->width();
+    qreal stepY = (qreal)height() / rendering->height();
 
     QPen pen;
     pen.setWidth(2);
     pen.setColor(Qt::black);
     painter.setPen(pen);
-    const int nbLines = (_matrixSize.width()-1) + (_matrixSize.height()-1);
+    const int nbLines = (rendering->width()-1) + (rendering->height()-1);
     QLine lines[nbLines];
     int currentLine = 0;
-    for (int x = 1; x < _matrixSize.width(); x++)
+    for (int x = 1; x < rendering->width(); x++)
     {
         int pos = x * stepX;
         lines[currentLine] = QLine(pos,0,pos,height());
         currentLine++;
     }
-    for (int y = 1; y < _matrixSize.height(); y++)
+    for (int y = 1; y < rendering->height(); y++)
     {
         int pos = y * stepY;
         lines[currentLine] = QLine(0,pos,width(),pos);
@@ -75,13 +56,5 @@ void UiPixeledView::paintEvent(QPaintEvent *event)
 
 int UiPixeledView::heightForWidth( int width ) const
 {
-    return ((qreal)width * _matrixRatio);
-}
-
-void UiPixeledView::setMatrixSize(const QSize matrixSize)
-{
-    _matrixSize = matrixSize;
-    _matrixRatio = (qreal)_matrixSize.height() / (qreal)_matrixSize.width();
-    if (_image) delete _image;
-    _image = new QImage(_matrixSize, QImage::Format_RGB32);
+    return (_renderer->heightForWidth(width));
 }

@@ -23,17 +23,13 @@ UiChannel::UiChannel(MinoChannel *channel, QWidget *parent) :
     layout->addWidget(fPreview);
 
     QVBoxLayout *lPreview = new QVBoxLayout(fPreview);
-    UiPixeledView *preview = new UiPixeledView(channel->scene(), fPreview);
-    // TODO Remove hardcoded values!
-    preview->setMatrixSize(QSize(24, 16));
-    preview->setViewRect(QRect(0, 0, 24, 16));
+    UiPixeledView *preview = new UiPixeledView(channel->renderer(), fPreview);
 
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     preview->setSizePolicy(policy);
     preview->setMinimumSize(240, 160);
     lPreview->addWidget(preview);
-    connect(channel, SIGNAL(animated()), preview, SLOT(refresh()));
 
     // Animations properties
     QScrollArea *sa = new QScrollArea();

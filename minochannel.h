@@ -7,6 +7,7 @@
 #include <QGraphicsView>
 
 #include "minoanimation.h"
+#include "minomatrixedscenerenderer.h"
 
 class MinoChannel : public QObject
 {
@@ -15,11 +16,14 @@ public:
     explicit MinoChannel(const QSize size, QObject *parent);
     ~MinoChannel();
     QGraphicsScene *scene() { return &_scene; }
-    QGraphicsView *view() { return &_view; }
+    MinoMatrixedSceneRenderer *renderer() { return _renderer; }
+
+    //QGraphicsView *view() { return &_view; }
     MinoAnimationList animations() { return _minoAnimations; }
 private:
     QSize _size;
     QGraphicsScene _scene;
+    MinoMatrixedSceneRenderer *_renderer;
     QGraphicsView _view;
     MinoAnimationList _minoAnimations;
     QGraphicsItemGroup _itemGroup;
