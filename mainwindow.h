@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QMenu>
-#include <QTime>
-#include <QTimer>
 
 #include "configdialog.h"
 #include "uichannel.h"
@@ -33,9 +31,7 @@ private slots:
     void midiCaptureTrigged();
     void customContextMenuRequested(const QPoint &pos);
 
-    void on_pbTransportStart_clicked();
-
-    void on_pbTransportTapping_clicked();
+    void on_sPpqn_valueChanged(int value);
 
 private:
     // UI
@@ -58,16 +54,6 @@ private:
 
     // Minotor
     Minotor *_minotor;
-
-    // BPM tap
-    QTime _bpmTap;
-    int _bpmValues[10]; // Array used for average
-    int _bpmValuesCount;
-    int _bpmValuesIndex;
-    qreal _bpmAverageMs;
-
-    // Timer
-    QTimer _tInternalClockGenerator;
 };
 
 #endif // MAINWINDOW_H

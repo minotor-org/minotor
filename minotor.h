@@ -12,6 +12,7 @@
 #include "midi.h"
 #include "midimapping.h"
 #include "minomaster.h"
+#include "minoclocksource.h"
 
 class MinoAnimation;
 typedef QList<MinoAnimation*> MinoAnimationList;
@@ -32,34 +33,34 @@ public:
     // LedMatrix
     void setLedMatrix(LedMatrix *ledMatrix);
     LedMatrix* ledMatrix() { return _ledMatrix; }
+
     // MIDI mapping
     MidiMapping *midiMapping() { return &_midiMapping; }
 
+    // Clock source
+    MinoClockSource *clockSource() { return _clockSource; }
 signals:
     void colorControlChanged(int value);
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
 public slots:
+    // Clock handler
+    void dispatchClock(const int ppqn, const int qn);
+
     // Midi messages handlers
-    void handleClock();
-    void handleStop();
-    void handleStart();
-    void handleContinue();
     void handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value);
 
-    void animate(const int ppqn);
 private:
     // External connections
     LedMatrix *_ledMatrix;
 
     // Midi interfaces
     QMidiInterfaceList _midiInterfaces;
+
     // Midi mapping
     MidiMapping _midiMapping;
 
-    // Sequence watching
-    unsigned int _ppqnId;    //pulse per quarter note's ID (ie. 0 -> ... -> 23 -> 0) Note: a "start" midi message resets this counter
-    bool _isSequenceRunning; //sets when midi device is in "running mode" (ie. after "start" or "continue" midi message)
+    MinoClockSource *_clockSource;
 
     MinoMaster *_master;
     MinoChannel *_channel1;

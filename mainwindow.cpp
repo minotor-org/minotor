@@ -20,9 +20,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    _bpmValuesCount(0),
-    _bpmValuesIndex(0)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -37,10 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gvChannel2->setScene(_minotor->channel2()->scene());
     ui->gvChannel2->setBackgroundBrush(QBrush(Qt::black));
     ui->gvChannel2->show();
-
-    ui->gvMonitor->setScene(_minotor->master()->scene());
-    ui->gvMonitor->setBackgroundBrush(QBrush(Qt::black));
-    ui->gvMonitor->show();
 
     _actionMidiCapture = new QAction("Assign MIDI control", this);
     connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
@@ -68,17 +62,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fChannel2->layout()->addWidget(_uiChannel2);
     connect(_uiChannel2, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-
-    qDebug() << "master scene:" << _minotor->master()->scene()->sceneRect();
-
-    connect(ui->sPpqn, SIGNAL(valueChanged(int)), _minotor, SLOT(animate(int)));
-
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
 
-    // BPM Tapping
-    _bpmTap.start(); // Note: _bmpTap is always running, tempo values are filtered if >500BPM.
-    connect(&_tInternalClockGenerator, SIGNAL(timeout()), _minotor, SLOT(handleClock()));
+    // Transport
+    ui->lcdBpm->display(_minotor->clockSource()->bpm());
+    connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), ui->lcdBpm, SLOT(display(double)));
+    connect(ui->pbTransportTapping, SIGNAL(pressed()), _minotor->clockSource(), SLOT(uiTapOn()));
+    connect(ui->pbTransportStart, SIGNAL(pressed()), _minotor->clockSource(), SLOT(uiStart()));
 }
 
 MainWindow::~MainWindow()
@@ -120,38 +111,9 @@ void MainWindow::customContextMenuRequested(const QPoint &pos)
     _menu.exec(QCursor::pos());
 }
 
-void MainWindow::on_pbTransportTapping_clicked()
+void MainWindow::on_sPpqn_valueChanged(int value)
 {
-    int ms = _bpmTap.restart();
-    if (ms < 3000) // filter tapping where BPM is less than 20 beat per minute.
-    {
-        _bpmValues[_bpmValuesIndex] = ms;
-        _bpmValuesCount = qMin(10, _bpmValuesCount+1);
-        _bpmValuesIndex = (_bpmValuesIndex+1)%10;
-        _bpmAverageMs =  _bpmValues[0];
-        for(int i=1; i<_bpmValuesCount; i++)
-        {
-            _bpmAverageMs += _bpmValues[i];
-        }
-        _bpmAverageMs /= _bpmValuesCount;
-
-        qreal bpm = (1000.0 / _bpmAverageMs) * 60.0;
-        qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
-        ui->lcdBpm->display(bpm);
-    } else {
-        qDebug() << "Tapping reset";
-        _bpmValuesCount = 0;
-        _bpmValuesIndex = 0;
-        ui->lcdBpm->display(0.0);
-    }
-}
-
-void MainWindow::on_pbTransportStart_clicked()
-{
-    qreal ms = _bpmAverageMs / 24;
-
-    qDebug() << "bpm error: " << (qreal)((ms - ((int)ms))*24) << "ms per beat";
-    _tInternalClockGenerator.setInterval(ms);
-    _tInternalClockGenerator.start();
-    _minotor->handleStart();
+    const int ppqn = value%24;
+    const int qn = value/24;
+    _minotor->dispatchClock(ppqn, qn);
 }
