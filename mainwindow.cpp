@@ -126,8 +126,8 @@ void MainWindow::on_pbTransportTapping_clicked()
     if (ms < 3000) // filter tapping where BPM is less than 20 beat per minute.
     {
         _bpmValues[_bpmValuesIndex] = ms;
-        _bpmValuesCount = qMin(5, _bpmValuesCount+1);
-        _bpmValuesIndex = (_bpmValuesIndex+1)%5;
+        _bpmValuesCount = qMin(10, _bpmValuesCount+1);
+        _bpmValuesIndex = (_bpmValuesIndex+1)%10;
         _bpmAverageMs =  _bpmValues[0];
         for(int i=1; i<_bpmValuesCount; i++)
         {
