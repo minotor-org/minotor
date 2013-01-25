@@ -5,7 +5,9 @@
 
 #include <QtCore/QList>
 #include <QtCore/QDebug>
-#include <QSettings>
+
+#include <QToolBar>
+#include <QLCDNumber>
 
 #include <QGraphicsProxyWidget>
 #include <QGraphicsView>
@@ -55,10 +57,20 @@ MainWindow::MainWindow(QWidget *parent) :
     _menu.addAction(_actionMidiCapture);
 
     // Transport
-    ui->lcdBpm->display(_minotor->clockSource()->bpm());
-    connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), ui->lcdBpm, SLOT(display(double)));
-    connect(ui->pbTransportTapping, SIGNAL(pressed()), _minotor->clockSource(), SLOT(uiTapOn()));
-    connect(ui->pbTransportStart, SIGNAL(pressed()), _minotor->clockSource(), SLOT(uiStart()));
+    QToolBar *tbTransport = new QToolBar("Transport", this);
+    tbTransport->addAction("Tap", _minotor->clockSource(), SLOT(uiTapOn()));
+    QLCDNumber *lcdBpm = new QLCDNumber();
+    lcdBpm->setFrameShape(QFrame::Panel);
+    lcdBpm->setFrameShadow(QFrame::Plain);
+    lcdBpm->setSegmentStyle(QLCDNumber::Flat);
+    lcdBpm->setMaximumHeight(17);
+    lcdBpm->display(_minotor->clockSource()->bpm());
+    connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), lcdBpm, SLOT(display(double)));
+    tbTransport->addWidget(lcdBpm);
+    tbTransport->addAction("Start", _minotor->clockSource(), SLOT(uiStart()));
+    tbTransport->addAction("Stop", _minotor->clockSource(), SLOT(uiStop()));
+    tbTransport->addAction("Sync", _minotor->clockSource(), SLOT(uiSync()));
+    this->addToolBar(tbTransport);
 }
 
 MainWindow::~MainWindow()
