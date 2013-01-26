@@ -4,11 +4,10 @@
 
 MinoClockSource::MinoClockSource(QObject *parent) :
     QObject(parent),
+    _gppqn(0),
     _bpmValuesCount(0),
     _bpmValuesIndex(0),
-    _gppqn(0),
     _isMidiSequencerRunning(false)
-
 {
     // BPM Tapping
     _bpmTap.start(); // Note: _bmpTap is always running, tempo values are filtered after

@@ -19,6 +19,9 @@ MinoAnimationWaveform::MinoAnimationWaveform(MinoChannel *channel) :
 
 void MinoAnimationWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)ppqn;
+    (void)qn;
+
     computeAnimaBeatProperty(gppqn);
 
     QColor color(Qt::green);
