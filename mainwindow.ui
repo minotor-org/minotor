@@ -16,9 +16,15 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
       <item>
-       <widget class="QFrame" name="fChannel1">
+       <widget class="QFrame" name="fChannelsEditor">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -28,17 +34,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="fMaster">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="fChannel2">
+       <widget class="QFrame" name="fViewsAndControls">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>

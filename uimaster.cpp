@@ -35,7 +35,6 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     lMaster->addWidget(dBrightness);
 
     lMonitor->addWidget(uiMasterMonitor);
-    lMaster->addStretch();
 }
 
 void UiMaster::brightnessChanged(int value)

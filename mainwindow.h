@@ -8,6 +8,7 @@
 #include "configdialog.h"
 #include "uichannel.h"
 #include "uimaster.h"
+#include "uicue.h"
 
 #include "minotor.h"
 #include "ledmatrix.h"
@@ -40,8 +41,11 @@ private:
     QAction *_actionMidiCapture;
     QMenu _menu;
     // Channels
-    UiChannel *_uiCue;
+    UiCue *_uiCue;
     UiMaster *_uiMaster;
+
+    UiChannel *_uiCueEditor;
+    UiChannel *_uiMasterEditor;
 
     // == Configuration dialog ==
     ConfigDialog *_configDialog;

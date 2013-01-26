@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     minoanimationplasma.cpp \
     minoclocksource.cpp \
     minocue.cpp \
-    uichannelview.cpp
+    uichannelview.cpp \
+    uicue.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -59,7 +60,8 @@ HEADERS  += mainwindow.h \
     minoanimationplasma.h \
     minoclocksource.h \
     minocue.h \
-    uichannelview.h
+    uichannelview.h \
+    uicue.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

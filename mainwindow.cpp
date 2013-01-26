@@ -32,15 +32,19 @@ MainWindow::MainWindow(QWidget *parent) :
     // Configuration dialog box
     _configDialog = new ConfigDialog(_minotor, this);
 
-    //add master
-    _uiMaster = new UiMaster(_minotor->master(), ui->fMaster);
-    new QHBoxLayout(ui->fMaster);
-    ui->fMaster->layout()->addWidget(_uiMaster);
+    // Views and controls (right side)
+    QVBoxLayout *lViewsAndControls = new QVBoxLayout(ui->fViewsAndControls);
+    _uiMaster = new UiMaster(_minotor->master(), ui->fViewsAndControls);
+    lViewsAndControls->addWidget(_uiMaster);
+    lViewsAndControls->addStretch();
+    _uiCue = new UiCue(_minotor->cue(), ui->fViewsAndControls);
+    lViewsAndControls->addWidget(_uiCue);
 
-    _uiCue = new UiChannel(_minotor->cue(), ui->fChannel1);
-    new QHBoxLayout(ui->fChannel1);
-    ui->fChannel1->layout()->addWidget(_uiCue);
-    connect(_uiCue, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    // Channels editor (central)
+    _uiCueEditor = new UiChannel(_minotor->cue(), ui->fChannelsEditor);
+    new QHBoxLayout(ui->fChannelsEditor);
+    ui->fChannelsEditor->layout()->addWidget(_uiCueEditor);
+    connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
