@@ -9,7 +9,7 @@ class MinoCue : public MinoChannel
 {
     Q_OBJECT
 public:
-    explicit MinoCue(Minotor *minotor);
+    explicit MinoCue(Minotor *minotor, const QRect drawingRect);
     QString name() { return QString("Cue"); }
 
 signals:

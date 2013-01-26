@@ -3,20 +3,20 @@
 
 #include <QWidget>
 
-#include "minomatrixedscenerenderer.h"
+#include "minochannel.h"
 
 class UiChannelView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiChannelView(MinoMatrixedSceneRenderer *renderer, QWidget *parent);
+    explicit UiChannelView(MinoChannel *channel, QWidget *parent);
 signals:
 protected:
         void paintEvent(QPaintEvent *event);
         virtual int heightForWidth( int width ) const;
 public slots:
 private:
-    MinoMatrixedSceneRenderer *_renderer;
+    MinoChannel *_channel;
 };
 
 #endif // UICHANNELPREVIEW_H

@@ -4,14 +4,14 @@
 #include <QLine>
 #include <QDebug>
 
-UiChannelView::UiChannelView(MinoMatrixedSceneRenderer *renderer, QWidget *parent) :
+UiChannelView::UiChannelView(MinoChannel *channel, QWidget *parent) :
     QWidget(parent),
-    _renderer(renderer)
+    _channel(channel)
 {
     // Optimize widget's repaint
     setAttribute(Qt::WA_OpaquePaintEvent);
 
-    connect(_renderer, SIGNAL(updated()), this, SLOT(update()));
+    connect(_channel, SIGNAL(animated()), this, SLOT(update()));
 }
 
 // This function produce draw the widget content
@@ -22,7 +22,7 @@ void UiChannelView::paintEvent(QPaintEvent *event)
     (void)event;
 
     // Make your code cleaner: store variables from renderer as local const
-    const QImage *rendering = _renderer->rendering();
+    const QImage *rendering = _channel->rendering();
 
     // Construct a painter to draw into this widget
     QPainter painter(this);
@@ -56,5 +56,5 @@ void UiChannelView::paintEvent(QPaintEvent *event)
 
 int UiChannelView::heightForWidth( int width ) const
 {
-    return (_renderer->heightForWidth(width));
+    return (_channel->heightForWidth(width));
 }

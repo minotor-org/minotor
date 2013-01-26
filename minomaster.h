@@ -9,7 +9,7 @@ class MinoMaster : public MinoChannel
 {
     Q_OBJECT
 public:
-    explicit MinoMaster(Minotor *minotor);
+    explicit MinoMaster(Minotor *minotor, const QRect drawingRect);
     ~MinoMaster();
 
     QString name() { return QString("Master"); }

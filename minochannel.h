@@ -7,7 +7,6 @@
 #include <QRect>
 
 #include "minoanimation.h"
-#include "minomatrixedscenerenderer.h"
 
 class Minotor;
 
@@ -15,25 +14,37 @@ class MinoChannel : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoChannel(Minotor *minotor);
+    explicit MinoChannel(Minotor *minotor, const QRect drawingRect);
     ~MinoChannel();
 
     virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
 
-    MinoMatrixedSceneRenderer *renderer() { return _renderer; }
-
+    // After MinoChannel creation, user should be able to set (and reset) drawing rect
     void setDrawingRect(const QRect rect);
 
-    MinoAnimationList animations() { return _minoAnimations; }
-
+    // Accessors
     QGraphicsScene *scene() { return _scene; }
-    QRect boundingRect() { return QRect(0,0,_drawingRect.width(),_drawingRect.height()); }
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
+    MinoAnimationList animations() { return _minoAnimations; }
+    const QImage *rendering() { return _image; }
+
+    QRect boundingRect() { return QRect(0,0,_drawingRect.width(),_drawingRect.height()); }
+
+    // Function is compute height with a given width (very useful for UI)
+    int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
 
 private:
-    QRect _drawingRect;
+    // Scene
     QGraphicsScene *_scene;
-    MinoMatrixedSceneRenderer *_renderer;
+
+    // Drawing rect (in scene coordinates)
+    QRect _drawingRect;
+
+    // QImage to store rendering
+    QImage *_image;
+
+    // Image ratio
+    qreal _heightForWidthRatio;
 
 protected:
     MinoAnimationList _minoAnimations;
@@ -42,6 +53,7 @@ protected:
 signals:
     void customContextMenuRequested(const QPoint &pos);
     void animated();
+
 public slots:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 };

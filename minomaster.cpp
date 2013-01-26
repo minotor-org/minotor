@@ -4,8 +4,8 @@
 
 #include <QDebug>
 
-MinoMaster::MinoMaster(Minotor *minotor):
-    MinoChannel(minotor)
+MinoMaster::MinoMaster(Minotor *minotor, const QRect drawingRect):
+    MinoChannel(minotor, drawingRect)
 {
 }
 

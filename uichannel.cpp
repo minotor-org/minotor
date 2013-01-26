@@ -23,7 +23,7 @@ UiChannel::UiChannel(MinoChannel *channel, QWidget *parent) :
     layout->addWidget(fPreview);
 
     QVBoxLayout *lPreview = new QVBoxLayout(fPreview);
-    UiChannelView *preview = new UiChannelView(channel->renderer(), fPreview);
+    UiChannelView *preview = new UiChannelView(channel, fPreview);
 
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);

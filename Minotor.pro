@@ -32,7 +32,6 @@ SOURCES += main.cpp\
     minoanimationwaveform.cpp \
     minoanimationbarsfromsides.cpp \
     minoanimationplasma.cpp \
-    minomatrixedscenerenderer.cpp \
     minoclocksource.cpp \
     minocue.cpp \
     uichannelview.cpp
@@ -58,7 +57,6 @@ HEADERS  += mainwindow.h \
     minoanimationwaveform.h \
     minoanimationbarsfromsides.h \
     minoanimationplasma.h \
-    minomatrixedscenerenderer.h \
     minoclocksource.h \
     minocue.h \
     uichannelview.h
