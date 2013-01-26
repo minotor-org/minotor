@@ -5,7 +5,7 @@
 #include <QSlider>
 #include <QDial>
 
-#include "uipixeledview.h"
+#include "uichannelview.h"
 
 UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
@@ -22,7 +22,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     lMaster->addWidget(fMonitor);
 
     QVBoxLayout *lMonitor = new QVBoxLayout(fMonitor);
-    UiPixeledView *uiMasterMonitor = new UiPixeledView(_master->renderer(), fMonitor);
+    UiChannelView *uiMasterMonitor = new UiChannelView(_master->renderer(), fMonitor);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     uiMasterMonitor->setMinimumSize(240, 160);

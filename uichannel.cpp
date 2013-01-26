@@ -2,7 +2,7 @@
 #include "uianimation.h"
 
 #include "minoanimation.h"
-#include "uipixeledview.h"
+#include "uichannelview.h"
 
 #include <QFrame>
 #include <QScrollArea>
@@ -23,7 +23,7 @@ UiChannel::UiChannel(MinoChannel *channel, QWidget *parent) :
     layout->addWidget(fPreview);
 
     QVBoxLayout *lPreview = new QVBoxLayout(fPreview);
-    UiPixeledView *preview = new UiPixeledView(channel->renderer(), fPreview);
+    UiChannelView *preview = new UiChannelView(channel->renderer(), fPreview);
 
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);

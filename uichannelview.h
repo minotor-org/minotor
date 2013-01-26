@@ -5,11 +5,11 @@
 
 #include "minomatrixedscenerenderer.h"
 
-class UiPixeledView : public QWidget
+class UiChannelView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiPixeledView(MinoMatrixedSceneRenderer *renderer, QWidget *parent);
+    explicit UiChannelView(MinoMatrixedSceneRenderer *renderer, QWidget *parent);
 signals:
 protected:
         void paintEvent(QPaintEvent *event);

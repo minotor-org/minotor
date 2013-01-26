@@ -1,10 +1,10 @@
-#include "uipixeledview.h"
+#include "uichannelview.h"
 
 #include <QPainter>
 #include <QLine>
 #include <QDebug>
 
-UiPixeledView::UiPixeledView(MinoMatrixedSceneRenderer *renderer, QWidget *parent) :
+UiChannelView::UiChannelView(MinoMatrixedSceneRenderer *renderer, QWidget *parent) :
     QWidget(parent),
     _renderer(renderer)
 {
@@ -16,7 +16,7 @@ UiPixeledView::UiPixeledView(MinoMatrixedSceneRenderer *renderer, QWidget *paren
 
 // This function produce draw the widget content
 //   It draw the render content (scaled to fit to widget size) and decorates it using some vertical and horizotal black lines
-void UiPixeledView::paintEvent(QPaintEvent *event)
+void UiChannelView::paintEvent(QPaintEvent *event)
 {
     // event is not used
     (void)event;
@@ -54,7 +54,7 @@ void UiPixeledView::paintEvent(QPaintEvent *event)
     painter.drawLines(lines,nbLines);
 }
 
-int UiPixeledView::heightForWidth( int width ) const
+int UiChannelView::heightForWidth( int width ) const
 {
     return (_renderer->heightForWidth(width));
 }
