@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     minocue.cpp \
     uichannelview.cpp \
     uicue.cpp \
-    uichanneleditor.cpp
+    uichanneleditor.cpp \
+    minoanimationfactory.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -61,7 +62,8 @@ HEADERS  += mainwindow.h \
     minocue.h \
     uichannelview.h \
     uicue.h \
-    uichanneleditor.h
+    uichanneleditor.h \
+    minoanimationfactory.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

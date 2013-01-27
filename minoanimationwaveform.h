@@ -10,14 +10,17 @@ class MinoAnimationWaveform : public MinoAnimation
 public:
     explicit MinoAnimationWaveform(MinoChannel *channel);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
-    qreal ratioToBeatFactor(qreal value);
+
+    static const MinoAnimationDescription getDescription() {
+        return MinoAnimationDescription("Waveform", "YYY", QPixmap(), "MinoAnimationWaveform");
+    }
+    const MinoAnimationDescription description() const { return MinoAnimationWaveform::getDescription(); }
 
 signals:
     
 public slots:
 
 private:
-    MinoAnimationProperty _beatFactor;
     MinoAnimationProperty _color;
 };
 

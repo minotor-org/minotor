@@ -8,12 +8,14 @@
 #include <QPropertyAnimation>
 
 #include "ledmatrix.h"
-
 #include "midi.h"
 #include "midimapping.h"
+
 #include "minomaster.h"
 #include "minocue.h"
 #include "minoclocksource.h"
+
+#include "minoanimationfactory.h"
 
 class MinoAnimation;
 typedef QList<MinoAnimation*> MinoAnimationList;
@@ -44,6 +46,9 @@ public:
     // Clock source
     MinoClockSource *clockSource() { return _clockSource; }
 
+    // Animation factory
+    MinoAnimationFactory *animationFactory() { return &_animationFactory; }
+
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
@@ -73,6 +78,9 @@ private:
 
     // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;
+
+    // Animation factory
+    MinoAnimationFactory _animationFactory;
 };
 
 #endif // MINOTOR_H

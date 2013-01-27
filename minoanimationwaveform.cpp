@@ -8,13 +8,8 @@ MinoAnimationWaveform::MinoAnimationWaveform(MinoChannel *channel) :
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _beatFactor.setObjectName("Beat factor");
-    _properties.append(&_beatFactor);
-    _beatFactor.setValue(0.4); // BeatFactor 1
-
     _color.setObjectName("Color");
     _properties.append(&_color);
-
 }
 
 void MinoAnimationWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

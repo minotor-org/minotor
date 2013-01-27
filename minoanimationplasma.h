@@ -10,10 +10,14 @@ public:
     explicit MinoAnimationPlasma(MinoChannel *channel);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
-    qreal ratioToBeatFactor(qreal value);
+    static const MinoAnimationDescription getDescription() {
+        return MinoAnimationDescription("Plasma", "YYY", QPixmap(), "MinoAnimationPlasma");
+    }
+    const MinoAnimationDescription description() const { return MinoAnimationPlasma::getDescription(); }
+
 private:
-    MinoAnimationProperty _beatFactor;
     MinoAnimationProperty _color;
+
 signals:
 
 public slots:

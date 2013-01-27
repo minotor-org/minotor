@@ -10,6 +10,10 @@ public:
     explicit MinoAnimationExpandingObjects(MinoChannel *channel);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
+    static const MinoAnimationDescription getDescription() {
+        return MinoAnimationDescription("Expanding objects", "YYY", QPixmap(), "MinoAnimationExpandingObjects");
+    }
+    const MinoAnimationDescription description() const { return MinoAnimationExpandingObjects::getDescription(); }
 signals:
     
 public slots:

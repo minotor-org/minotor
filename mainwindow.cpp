@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     lChannelsEditor->addWidget(_uiMasterEditor);
 
     _uiCueEditor = new UiChannelEditor(_minotor->cue(), ui->fChannelsEditor);
-    new QHBoxLayout(ui->fChannelsEditor);
     ui->fChannelsEditor->layout()->addWidget(_uiCueEditor);
     connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lChannelsEditor->addWidget(_uiCueEditor);
@@ -73,6 +72,23 @@ MainWindow::MainWindow(QWidget *parent) :
     tbTransport->addAction("Stop", _minotor->clockSource(), SLOT(uiStop()));
     tbTransport->addAction("Sync", _minotor->clockSource(), SLOT(uiSync()));
     this->addToolBar(tbTransport);
+
+    // Populate animation scrollarea
+    ui->saAnimationsContents->setLayout(new QHBoxLayout);
+    QList<MinoAnimationDescription> animations = _minotor->animationFactory()->availableAnimations();
+    foreach(MinoAnimationDescription animation, animations)
+    {
+        QLabel* l = new QLabel(ui->saAnimationsContents);
+        l->setText(animation.name());
+        l->setToolTip(animation.tooltip());
+        if(!animation.pixmap().isNull())
+            l->setPixmap(animation.pixmap());
+        l->setMinimumSize(128, 64);
+        l->setMaximumSize(128, 64);
+        l->setAlignment(Qt::AlignCenter);
+        l->setStyleSheet("background-color:white;");
+        ui->saAnimationsContents->layout()->addWidget(l);
+    }
 }
 
 MainWindow::~MainWindow()

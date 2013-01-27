@@ -10,9 +10,12 @@ public:
     explicit MinoAnimationBarsFromSides(MinoChannel *channel);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
-    qreal ratioToBeatFactor(qreal value);
+    static const MinoAnimationDescription getDescription() {
+        return MinoAnimationDescription("Bars from sides", "XXX", QPixmap(), "MinoAnimationBarsFromSides");
+    }
+    const MinoAnimationDescription description() const { return MinoAnimationBarsFromSides::getDescription(); }
+
 private:
-    MinoAnimationProperty _beatFactor;
     MinoAnimationProperty _color;
 signals:
 
