@@ -1,5 +1,5 @@
-#ifndef UICHANNELPREVIEW_H
-#define UICHANNELPREVIEW_H
+#ifndef UICHANNELVIEW_H
+#define UICHANNELVIEW_H
 
 #include <QWidget>
 
@@ -19,4 +19,4 @@ private:
     MinoChannel *_channel;
 };
 
-#endif // UICHANNELPREVIEW_H
+#endif // UICHANNELVIEW_H

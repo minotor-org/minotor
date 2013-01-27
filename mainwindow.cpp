@@ -41,10 +41,19 @@ MainWindow::MainWindow(QWidget *parent) :
     lViewsAndControls->addWidget(_uiCue);
 
     // Channels editor (central)
-    _uiCueEditor = new UiChannel(_minotor->cue(), ui->fChannelsEditor);
+    QVBoxLayout *lChannelsEditor = new QVBoxLayout(ui->fChannelsEditor);
+    _uiMasterEditor = new UiChannelEditor(_minotor->master(), ui->fChannelsEditor);
+    ui->fChannelsEditor->layout()->addWidget(_uiMasterEditor);
+    connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    lChannelsEditor->addWidget(_uiMasterEditor);
+
+    _uiCueEditor = new UiChannelEditor(_minotor->cue(), ui->fChannelsEditor);
     new QHBoxLayout(ui->fChannelsEditor);
     ui->fChannelsEditor->layout()->addWidget(_uiCueEditor);
     connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    lChannelsEditor->addWidget(_uiCueEditor);
+
+    lChannelsEditor->addStretch();
 
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);

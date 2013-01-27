@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     uianimation.cpp \
     minoanimationdebug.cpp \
     minochannel.cpp \
-    uichannel.cpp \
     minomaster.cpp \
     uimaster.cpp \
     minoanimationwaveform.cpp \
@@ -35,7 +34,8 @@ SOURCES += main.cpp\
     minoclocksource.cpp \
     minocue.cpp \
     uichannelview.cpp \
-    uicue.cpp
+    uicue.cpp \
+    uichanneleditor.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -52,7 +52,6 @@ HEADERS  += mainwindow.h \
     uianimation.h \
     minoanimationdebug.h \
     minochannel.h \
-    uichannel.h \
     minomaster.h \
     uimaster.h \
     minoanimationwaveform.h \
@@ -61,7 +60,8 @@ HEADERS  += mainwindow.h \
     minoclocksource.h \
     minocue.h \
     uichannelview.h \
-    uicue.h
+    uicue.h \
+    uichanneleditor.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

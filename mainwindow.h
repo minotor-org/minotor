@@ -6,7 +6,7 @@
 #include <QMenu>
 
 #include "configdialog.h"
-#include "uichannel.h"
+#include "uichanneleditor.h"
 #include "uimaster.h"
 #include "uicue.h"
 
@@ -44,8 +44,8 @@ private:
     UiCue *_uiCue;
     UiMaster *_uiMaster;
 
-    UiChannel *_uiCueEditor;
-    UiChannel *_uiMasterEditor;
+    UiChannelEditor *_uiCueEditor;
+    UiChannelEditor *_uiMasterEditor;
 
     // == Configuration dialog ==
     ConfigDialog *_configDialog;

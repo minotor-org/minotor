@@ -20,7 +20,7 @@ MinoChannel::MinoChannel(Minotor *minotor, const QRect drawingRect) :
     setDrawingRect(drawingRect);
 
     _minoAnimations.append(new MinoAnimationDebug(this));
-    //_minoAnimations.append(new MinoAnimationRandomPixels(this));
+    _minoAnimations.append(new MinoAnimationRandomPixels(this));
     //_minoAnimations.append(new MinoAnimationExpandingObjects(this));
     //_minoAnimations.append(new MinoAnimationWaveform(this));
     //_minoAnimations.append(new MinoAnimationBarsFromSides(this));

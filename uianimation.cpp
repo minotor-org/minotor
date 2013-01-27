@@ -1,30 +1,39 @@
 #include "uianimation.h"
+
 #include <QLayout>
-#include <QDebug>
-#include <mainwindow.h>
+#include <QSizePolicy>
+
 #include <QMenu>
+
+#include <QDebug>
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QWidget(parent)
 {
-    qDebug() << "New UiAnimation for" << animation->objectName();
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    //layout->se()
-    QLabel *lbl = new QLabel(animation->name());
-    lbl->setAlignment(Qt::AlignCenter);
-    layout->addWidget(lbl);
+    QHBoxLayout *lAnimation = new QHBoxLayout(this);
+
+    QLabel *tAnimation = new QLabel(animation->name());
+    tAnimation->setAlignment(Qt::AlignCenter);
+    tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+    tAnimation->setMinimumWidth(100);
+    tAnimation->setStyleSheet("background-color:yellow;");
+    lAnimation->addWidget(tAnimation);
+
+    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     foreach (MinoAnimationProperty *property, animation->properties())
     {
-        UiDial *d = new UiDial(property, this);
+        QWidget *wProperty = new QWidget(this);
+        QVBoxLayout *lProperty = new QVBoxLayout(wProperty);
+        UiDial *d = new UiDial(property, wProperty);
+        d->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         connect(d, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-        layout->addWidget(d);
-        QLabel *l = new QLabel(QString(property->objectName()));
-        l->setAlignment(Qt::AlignCenter);
-        layout->addWidget(l);
-
-        qDebug() << "New property for" << property->objectName();
+        lProperty->addWidget(d);
+        QLabel *t = new QLabel(QString(property->objectName()), wProperty);
+        t->setAlignment(Qt::AlignCenter);
+        lProperty->addWidget(t);
+        lAnimation->addWidget(wProperty);
     }
-    layout->addStretch();
+    lAnimation->addStretch();
 }
 

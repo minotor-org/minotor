@@ -7,7 +7,7 @@ MinoAnimation::MinoAnimation(QString name, MinoChannel *parent) :
 {
     setChannel(parent);
 
-    _beatFactor.setObjectName("Beat factor");
+    _beatFactor.setObjectName("Beat");
     _properties.append(&_beatFactor);
     _beatFactor.setValue(0.4); // BeatFactor 1
 }

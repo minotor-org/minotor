@@ -11,7 +11,7 @@ UiDial::UiDial(MinoAnimationProperty *property, QWidget *parent) :
     this->setMaximum(127);
     this->setMinimum(0);
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(setAnimationPropertyValue(int)));
-    //this->setMaximumHeight(40);
+    this->setMaximumHeight(40);
 }
 
 void UiDial::setValueFromProperty(qreal value)
