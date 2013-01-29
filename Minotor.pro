@@ -36,7 +36,9 @@ SOURCES += main.cpp\
     uichannelview.cpp \
     uicue.cpp \
     uichanneleditor.cpp \
-    minoanimationfactory.cpp
+    minoanimationfactory.cpp \
+    uianimationdescription.cpp \
+    uianimationpicker.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -63,7 +65,9 @@ HEADERS  += mainwindow.h \
     uichannelview.h \
     uicue.h \
     uichanneleditor.h \
-    minoanimationfactory.h
+    minoanimationfactory.h \
+    uianimationdescription.h \
+    uianimationpicker.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui
@@ -73,3 +77,6 @@ include(libraries/qextserialport/src/qextserialport.pri)
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += rtmidi
 unix: CONFIG += extserialport
+
+RESOURCES += \
+    minotor.qrc

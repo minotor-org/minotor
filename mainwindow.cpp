@@ -8,8 +8,11 @@
 
 #include <QToolBar>
 #include <QLCDNumber>
+#include <QSplitter>
 
 #include "uidial.h"
+#include "uianimationdescription.h"
+#include "uianimationpicker.h"
 
 #include "minoanimation.h"
 #include "minoanimationproperty.h"
@@ -52,8 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lChannelsEditor->addWidget(_uiCueEditor);
 
-    lChannelsEditor->addStretch();
-
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
 
@@ -74,21 +75,17 @@ MainWindow::MainWindow(QWidget *parent) :
     this->addToolBar(tbTransport);
 
     // Populate animation scrollarea
-    ui->saAnimationsContents->setLayout(new QHBoxLayout);
-    QList<MinoAnimationDescription> animations = _minotor->animationFactory()->availableAnimations();
-    foreach(MinoAnimationDescription animation, animations)
-    {
-        QLabel* l = new QLabel(ui->saAnimationsContents);
-        l->setText(animation.name());
-        l->setToolTip(animation.tooltip());
-        if(!animation.pixmap().isNull())
-            l->setPixmap(animation.pixmap());
-        l->setMinimumSize(128, 64);
-        l->setMaximumSize(128, 64);
-        l->setAlignment(Qt::AlignCenter);
-        l->setStyleSheet("background-color:white;");
-        ui->saAnimationsContents->layout()->addWidget(l);
-    }
+    QScrollArea *sa =  new QScrollArea(ui->dwAnimationPickerContent);
+    sa->setLayout(new QHBoxLayout);
+    sa->layout()->addWidget(new UiAnimationPicker(_minotor->animationFactory(), sa));
+    ui->dwAnimationPickerContent->layout()->addWidget(sa);
+
+    // Splitter test
+    ui->widget->setLayout(new QHBoxLayout);
+    QSplitter *s = new QSplitter(ui->widget);
+    s->addWidget(new QPushButton);
+    s->addWidget(new QPushButton);
+    ui->widget->layout()->addWidget(s);
 }
 
 MainWindow::~MainWindow()

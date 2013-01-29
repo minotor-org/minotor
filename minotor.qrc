@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/animations">
+        <file>res/flash.png</file>
+    </qresource>
+</RCC>

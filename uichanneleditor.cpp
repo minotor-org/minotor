@@ -38,7 +38,6 @@ UiChannelEditor::UiChannelEditor(MinoChannel *channel, QWidget *parent) :
         lContent->addWidget(frame);
     }
     lContent->addStretch();
-    //layout->addStretch();
 }
 
 UiChannelEditor::~UiChannelEditor()

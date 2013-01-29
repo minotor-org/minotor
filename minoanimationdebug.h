@@ -11,7 +11,7 @@ public:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Debug animation", "### This is tooltip ###", QPixmap(), "MinoAnimationDebug");
+        return MinoAnimationDescription("Debug animation", "### This is tooltip ###", QPixmap(":/animations/res/flash.png"), "MinoAnimationDebug");
     }
     const MinoAnimationDescription description() const { return MinoAnimationDebug::getDescription(); }
 
