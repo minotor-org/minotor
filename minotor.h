@@ -25,6 +25,7 @@ class Minotor : public QObject
     Q_OBJECT
 public:
     explicit Minotor(QObject *parent);
+    ~Minotor();
 
     // Scene accessor
     QGraphicsScene *scene() { return &_scene; }

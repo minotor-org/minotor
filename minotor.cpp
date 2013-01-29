@@ -34,6 +34,20 @@ Minotor::Minotor(QObject *parent) :
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
 }
 
+Minotor::~Minotor()
+{
+    delete _clockSource;
+
+    delete _cue;
+    delete _master;
+
+    delete _ledMatrix;
+    foreach (Midi *midi, _midiInterfaces)
+    {
+        delete midi;
+    }
+}
+
 void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     if((ppqn%2) == 0) {
