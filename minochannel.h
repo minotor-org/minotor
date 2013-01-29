@@ -22,6 +22,8 @@ public:
     // After MinoChannel creation, user should be able to set (and reset) drawing rect
     void setDrawingRect(const QRect rect);
 
+    void addAnimation(MinoAnimation *animation);
+
     // Accessors
     QGraphicsScene *scene() { return _scene; }
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }

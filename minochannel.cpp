@@ -2,12 +2,6 @@
 
 #include "minotor.h"
 
-#include "minoanimationrandompixels.h"
-#include "minoanimationexpandingobjects.h"
-#include "minoanimationdebug.h"
-#include "minoanimationwaveform.h"
-#include "minoanimationbarsfromsides.h"
-
 #include <QBrush>
 #include <QDebug>
 
@@ -19,16 +13,6 @@ MinoChannel::MinoChannel(Minotor *minotor, const QRect drawingRect) :
 
     setDrawingRect(drawingRect);
 
-    _minoAnimations.append(new MinoAnimationDebug(this));
-    _minoAnimations.append(new MinoAnimationRandomPixels(this));
-    //_minoAnimations.append(new MinoAnimationExpandingObjects(this));
-    //_minoAnimations.append(new MinoAnimationWaveform(this));
-    //_minoAnimations.append(new MinoAnimationBarsFromSides(this));
-
-    foreach(MinoAnimation *minoAnimation, _minoAnimations)
-    {
-        _itemGroup.addToGroup(minoAnimation->itemGroup());
-    }
     _scene->addItem(&_itemGroup);
 }
 
@@ -47,6 +31,12 @@ void MinoChannel::setDrawingRect(const QRect rect)
     if (_image) delete _image;
     _image = new QImage(rect.size(), QImage::Format_RGB32);
     _drawingRect = rect;
+}
+
+void MinoChannel::addAnimation(MinoAnimation *animation)
+{
+    _minoAnimations.append(animation);
+    _itemGroup.addToGroup(animation->itemGroup());
 }
 
 void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
