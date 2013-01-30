@@ -1,12 +1,12 @@
-#include "minoanimationplasma.h"
+#include "minaplasma.h"
+
 #include <QColor>
-#include <QGraphicsScene>
 #include <QDebug>
+
 #include <math.h>
 
-
-MinoAnimationPlasma::MinoAnimationPlasma(MinoChannel *channel):
-    MinoAnimation(QString("Bars from sides"), channel)
+MinaPlasma::MinaPlasma(Minotor *minotor):
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(100));
     _beatAnimatedProperty.setEndValue(QVariant(10));
@@ -24,7 +24,7 @@ MinoAnimationPlasma::MinoAnimationPlasma(MinoChannel *channel):
     }
 }
 
-void MinoAnimationPlasma::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaPlasma::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

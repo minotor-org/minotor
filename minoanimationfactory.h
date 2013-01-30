@@ -6,7 +6,8 @@
 #include <QString>
 
 #include "minoanimation.h"
-#include "minochannel.h"
+
+class Minotor;
 
 class MinoAnimationFactory : public QObject
 {
@@ -15,7 +16,7 @@ public:
     explicit MinoAnimationFactory(QObject *parent = 0);
 
     QList<MinoAnimationDescription> availableAnimations();
-    MinoAnimation *instantiate(const QString name, MinoChannel *channel);
+    MinoAnimation *instantiate(const QString name, Minotor *minotor);
 
 signals:
     

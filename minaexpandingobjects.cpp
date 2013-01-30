@@ -1,9 +1,9 @@
-#include "minoanimationexpandingobjects.h"
+#include "minaexpandingobjects.h"
 
 #include <QDebug>
 
-MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(MinoChannel *channel) :
-    MinoAnimation(QString("Expanding objects"), channel)
+MinaExpandingObjects::MinaExpandingObjects(Minotor *minotor):
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));
@@ -13,7 +13,7 @@ MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(MinoChannel *channe
     _itemGroup.setTransformOriginPoint(_boundingRect.center());
 }
 
-void MinoAnimationExpandingObjects::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaExpandingObjects::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)qn;
     computeAnimaBeatProperty(gppqn);

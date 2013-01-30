@@ -3,17 +3,17 @@
 
 #include "minoanimation.h"
 
-class MinoAnimationDebug : public MinoAnimation
+class MinaDebug : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationDebug(MinoChannel *parent);
+    explicit MinaDebug(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Debug animation", "### This is tooltip ###", QPixmap(":/animations/res/flash.png"), "MinoAnimationDebug");
+        return MinoAnimationDescription("Debug animation", "### This is tooltip ###", QPixmap(":/animations/res/flash.png"), MinaDebug::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinoAnimationDebug::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaDebug::getDescription(); }
 
 private:
     MinoAnimationProperty _r;

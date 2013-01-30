@@ -4,17 +4,17 @@
 #include "minoanimation.h"
 #include "minoanimationproperty.h"
 
-class MinoAnimationRandomPixels : public MinoAnimation
+class MinaRandomPixels : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationRandomPixels(MinoChannel *channel);
+    explicit MinaRandomPixels(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Random pixels", "ZZZ", QPixmap(), "MinoAnimationRandomPixels");
+        return MinoAnimationDescription("Random pixels", "ZZZ", QPixmap(), MinaRandomPixels::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinoAnimationRandomPixels::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaRandomPixels::getDescription(); }
 
 signals:
     

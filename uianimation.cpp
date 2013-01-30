@@ -2,7 +2,6 @@
 
 #include <QLayout>
 #include <QSizePolicy>
-
 #include <QMenu>
 
 #include <QDebug>
@@ -12,7 +11,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 {
     QHBoxLayout *lAnimation = new QHBoxLayout(this);
 
-    QLabel *tAnimation = new QLabel(animation->name());
+    MinoAnimationDescription desc = animation->description();
+    QLabel *tAnimation = new QLabel(desc.name());
     tAnimation->setAlignment(Qt::AlignCenter);
     tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     tAnimation->setMinimumWidth(100);

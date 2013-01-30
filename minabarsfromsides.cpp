@@ -1,9 +1,9 @@
-#include "minoanimationbarsfromsides.h"
+#include "minabarsfromsides.h"
 #include <QColor>
 #include <QDebug>
 
-MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(MinoChannel *channel) :
-    MinoAnimation(QString("Bars from sides"), channel)
+MinaBarsFromSides::MinaBarsFromSides(Minotor *minotor) :
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
@@ -13,7 +13,7 @@ MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(MinoChannel *channel) :
     _properties.append(&_color);
 }
 
-void MinoAnimationBarsFromSides::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaBarsFromSides::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
 

@@ -50,6 +50,7 @@ public:
     // Animation factory
     MinoAnimationFactory *animationFactory() { return &_animationFactory; }
 
+    const QRect displayRect() { return QRect(QPoint(0,0), _ledMatrix->size()); }
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 

@@ -3,17 +3,17 @@
 
 #include "minoanimation.h"
 
-class MinoAnimationBarsFromSides : public MinoAnimation
+class MinaBarsFromSides : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationBarsFromSides(MinoChannel *channel);
+    explicit MinaBarsFromSides(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Bars from sides", "XXX", QPixmap(), "MinoAnimationBarsFromSides");
+        return MinoAnimationDescription("Bars from sides", "XXX", QPixmap(), MinaBarsFromSides::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinoAnimationBarsFromSides::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaBarsFromSides::getDescription(); }
 
 private:
     MinoAnimationProperty _color;

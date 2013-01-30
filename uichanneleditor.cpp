@@ -91,9 +91,14 @@ void UiChannelEditor::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> className >> offset;
 
-        qDebug() << className;
+        qDebug() << "UiChannelEditor::dropEvent"
+                 << "x-dndanimationdescrition" << className;
+
         MinoAnimation *animation = _channel->addAnimation(className);
-        this->addAnimation(animation);
+        if(animation)
+        {
+            this->addAnimation(animation);
+        }
 
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);

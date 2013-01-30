@@ -8,7 +8,7 @@
 
 #include "minoanimationproperty.h"
 
-class MinoChannel;
+class Minotor;
 
 class MinoAnimationDescription
 {
@@ -35,23 +35,19 @@ class MinoAnimation : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoAnimation(QString name, MinoChannel *parent);
-
-    void setChannel(MinoChannel *channel);
+    explicit MinoAnimation(Minotor *minotor);
 
     virtual void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
     virtual const MinoAnimationDescription description() const = 0;
 
-    const QString name() { return _name; }
     const MinoAnimationPropertyList properties() { return _properties; }
     QGraphicsItemGroup* itemGroup() { return &_itemGroup; }
 
 protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
-
     QGraphicsItemGroup _itemGroup;
-    QString _name;
+
     MinoAnimationPropertyList _properties;
 
     // MinoAnimaBeat ?

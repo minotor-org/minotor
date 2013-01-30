@@ -1,9 +1,10 @@
-#include "minoanimationdebug.h"
+#include "minadebug.h"
+
 #include <QColor>
 #include <QDebug>
 
-MinoAnimationDebug::MinoAnimationDebug(MinoChannel *channel) :
-    MinoAnimation(QString("Debug"), channel)
+MinaDebug::MinaDebug(Minotor *minotor):
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
@@ -18,7 +19,7 @@ MinoAnimationDebug::MinoAnimationDebug(MinoChannel *channel) :
     _properties.append(&_b);
 }
 
-void MinoAnimationDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

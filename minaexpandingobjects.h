@@ -3,17 +3,17 @@
 
 #include "minoanimation.h"
 
-class MinoAnimationExpandingObjects : public MinoAnimation
+class MinaExpandingObjects : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationExpandingObjects(MinoChannel *channel);
+    explicit MinaExpandingObjects(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Expanding objects", "YYY", QPixmap(), "MinoAnimationExpandingObjects");
+        return MinoAnimationDescription("Expanding objects", "YYY", QPixmap(), MinaExpandingObjects::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinoAnimationExpandingObjects::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaExpandingObjects::getDescription(); }
 signals:
     
 public slots:

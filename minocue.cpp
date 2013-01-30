@@ -2,19 +2,19 @@
 
 #include "minotor.h"
 
-#include "minoanimationrandompixels.h"
-#include "minoanimationexpandingobjects.h"
-#include "minoanimationdebug.h"
-#include "minoanimationwaveform.h"
-#include "minoanimationbarsfromsides.h"
+#include "minarandompixels.h"
+#include "minaexpandingobjects.h"
+#include "minadebug.h"
+#include "minawaveform.h"
+#include "minabarsfromsides.h"
 
 MinoCue::MinoCue(Minotor *minotor, const QRect drawingRect) :
     MinoChannel(minotor, drawingRect)
 {
-    //this->addAnimation(new MinoAnimationExpandingObjects(this));
-    //this->addAnimation(new MinoAnimationDebug(this));
-    //this->addAnimation(new MinoAnimationRandomPixels(this));
-    //this->addAnimation(new MinoAnimationWaveform(this));
-    this->addAnimation(new MinoAnimationBarsFromSides(this));
-    //addAnimation("MinoAnimationBarsFromSides");
+    //this->addAnimation(new MinaExpandingObjects(this));
+    //this->addAnimation(new MinaDebug(this));
+    //this->addAnimation(new MinaRandomPixels(this));
+    //this->addAnimation(new MinaWaveform(this));
+    this->addAnimation(new MinaBarsFromSides(minotor));
+    //addAnimation("MinaBarsFromSides");
 }

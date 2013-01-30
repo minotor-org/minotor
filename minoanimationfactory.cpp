@@ -1,21 +1,21 @@
 #include "minoanimationfactory.h"
 
-#include "minoanimationrandompixels.h"
-#include "minoanimationexpandingobjects.h"
-#include "minoanimationdebug.h"
-#include "minoanimationwaveform.h"
-#include "minoanimationbarsfromsides.h"
+#include "minarandompixels.h"
+#include "minaexpandingobjects.h"
+#include "minadebug.h"
+#include "minawaveform.h"
+#include "minabarsfromsides.h"
 
 #include <QDebug>
 
 MinoAnimationFactory::MinoAnimationFactory(QObject *parent) :
     QObject(parent)
 {
-    _animations.insert("MinoAnimationDebug", MinoAnimationDebug::getDescription());
-    _animations.insert("MinoAnimationExpandingObjects", MinoAnimationExpandingObjects::getDescription());
-    _animations.insert("MinoAnimationBarsFromSides", MinoAnimationBarsFromSides::getDescription());
-    _animations.insert("MinoAnimationRandomPixels", MinoAnimationRandomPixels::getDescription());
-    _animations.insert("MinoAnimationWaveform", MinoAnimationWaveform::getDescription());
+    _animations.insert("MinaDebug", MinaDebug::getDescription());
+    _animations.insert("MinaExpandingObjects", MinaExpandingObjects::getDescription());
+    _animations.insert("MinaBarsFromSides", MinaBarsFromSides::getDescription());
+    _animations.insert("MinaRandomPixels", MinaRandomPixels::getDescription());
+    _animations.insert("MinaWaveform", MinaWaveform::getDescription());
 }
 
 QList<MinoAnimationDescription> MinoAnimationFactory::availableAnimations()
@@ -23,12 +23,12 @@ QList<MinoAnimationDescription> MinoAnimationFactory::availableAnimations()
     return _animations.values();
 }
 
-MinoAnimation *MinoAnimationFactory::instantiate(const QString className, MinoChannel *channel)
+MinoAnimation *MinoAnimationFactory::instantiate(const QString className, Minotor *minotor)
 {
     if(_animations.contains(className))
     {
-        if(className == "MinoAnimationBarsFromSides") {
-            return new MinoAnimationBarsFromSides(channel);
+        if(className == "MinaBarsFromSides") {
+            return new MinaBarsFromSides(minotor);
         } else {
             qDebug() << "Implement me !!!";
         }

@@ -4,17 +4,17 @@
 #include "minoanimation.h"
 #include "minoanimationproperty.h"
 
-class MinoAnimationWaveform : public MinoAnimation
+class MinaWaveform : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationWaveform(MinoChannel *channel);
+    explicit MinaWaveform(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Waveform", "YYY", QPixmap(), "MinoAnimationWaveform");
+        return MinoAnimationDescription("Waveform", "YYY", QPixmap(), MinaWaveform::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinoAnimationWaveform::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaWaveform::getDescription(); }
 
 signals:
     

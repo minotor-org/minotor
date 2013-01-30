@@ -1,8 +1,9 @@
-#include "minoanimationwaveform.h"
+#include "minawaveform.h"
+
 #include <QDebug>
 
-MinoAnimationWaveform::MinoAnimationWaveform(MinoChannel *channel) :
-    MinoAnimation(QString("Waveform"), channel)
+MinaWaveform::MinaWaveform(Minotor *minotor) :
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(_boundingRect.height()/2));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
@@ -12,7 +13,7 @@ MinoAnimationWaveform::MinoAnimationWaveform(MinoChannel *channel) :
     _properties.append(&_color);
 }
 
-void MinoAnimationWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

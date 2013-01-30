@@ -1,10 +1,9 @@
-#include "minoanimationrandompixels.h"
+#include "minarandompixels.h"
 
 #include <QDebug>
 
-MinoAnimationRandomPixels::MinoAnimationRandomPixels(MinoChannel *channel) :
-    MinoAnimation(QString("Random pixels"), channel)
-
+MinaRandomPixels::MinaRandomPixels(Minotor *minotor) :
+    MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(255));
     _beatAnimatedProperty.setEndValue(QVariant(0));
@@ -26,7 +25,7 @@ MinoAnimationRandomPixels::MinoAnimationRandomPixels(MinoChannel *channel) :
 
 }
 
-void MinoAnimationRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)qn;
     computeAnimaBeatProperty(gppqn);

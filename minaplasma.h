@@ -3,17 +3,17 @@
 
 #include "minoanimation.h"
 
-class MinoAnimationPlasma : public MinoAnimation
+class MinaPlasma : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationPlasma(MinoChannel *channel);
+    explicit MinaPlasma(Minotor *minotor);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Plasma", "YYY", QPixmap(), "MinoAnimationPlasma");
     }
-    const MinoAnimationDescription description() const { return MinoAnimationPlasma::getDescription(); }
+    const MinoAnimationDescription description() const { return MinaPlasma::getDescription(); }
 
 private:
     MinoAnimationProperty _color;

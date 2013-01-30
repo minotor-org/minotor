@@ -16,21 +16,15 @@ SOURCES += main.cpp\
     midi.cpp \
     minotor.cpp \
     minoanimation.cpp \
-    minoanimationrandompixels.cpp \
-    minoanimationexpandingobjects.cpp \
     configdialog.cpp \
     midimapping.cpp \
     midicontrol.cpp \
     minoanimationproperty.cpp \
     uidial.cpp \
     uianimation.cpp \
-    minoanimationdebug.cpp \
     minochannel.cpp \
     minomaster.cpp \
     uimaster.cpp \
-    minoanimationwaveform.cpp \
-    minoanimationbarsfromsides.cpp \
-    minoanimationplasma.cpp \
     minoclocksource.cpp \
     minocue.cpp \
     uichannelview.cpp \
@@ -38,28 +32,28 @@ SOURCES += main.cpp\
     uichanneleditor.cpp \
     minoanimationfactory.cpp \
     uianimationdescription.cpp \
-    uianimationpicker.cpp
+    uianimationpicker.cpp \
+    minabarsfromsides.cpp \
+    minadebug.cpp \
+    minaexpandingobjects.cpp \
+    minaplasma.cpp \
+    minarandompixels.cpp \
+    minawaveform.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
     midi.h \
     minotor.h \
     minoanimation.h \
-    minoanimationrandompixels.h \
-    minoanimationexpandingobjects.h \
     configdialog.h \
     midimapping.h \
     midicontrol.h \
     minoanimationproperty.h \
     uidial.h \
     uianimation.h \
-    minoanimationdebug.h \
     minochannel.h \
     minomaster.h \
     uimaster.h \
-    minoanimationwaveform.h \
-    minoanimationbarsfromsides.h \
-    minoanimationplasma.h \
     minoclocksource.h \
     minocue.h \
     uichannelview.h \
@@ -67,7 +61,13 @@ HEADERS  += mainwindow.h \
     uichanneleditor.h \
     minoanimationfactory.h \
     uianimationdescription.h \
-    uianimationpicker.h
+    uianimationpicker.h \
+    minabarsfromsides.h \
+    minadebug.h \
+    minaexpandingobjects.h \
+    minaplasma.h \
+    minarandompixels.h \
+    minawaveform.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui
