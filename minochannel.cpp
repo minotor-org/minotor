@@ -7,6 +7,7 @@
 
 MinoChannel::MinoChannel(Minotor *minotor, const QRect drawingRect) :
     QObject(minotor),
+    _minotor(minotor),
     _image(NULL)
 {
     _scene = minotor->scene();
@@ -37,6 +38,16 @@ void MinoChannel::addAnimation(MinoAnimation *animation)
 {
     _minoAnimations.append(animation);
     _itemGroup.addToGroup(animation->itemGroup());
+}
+
+MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
+{
+    MinoAnimation *animation = _minotor->animationFactory()->instantiate(animationClassName, this);
+    if(animation)
+    {
+        addAnimation(animation);
+    }
+    return animation;
 }
 
 void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

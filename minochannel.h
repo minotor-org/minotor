@@ -23,6 +23,7 @@ public:
     void setDrawingRect(const QRect rect);
 
     void addAnimation(MinoAnimation *animation);
+    MinoAnimation* addAnimation(const QString animationClassName);
 
     // Accessors
     QGraphicsScene *scene() { return _scene; }
@@ -36,6 +37,9 @@ public:
     int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
 
 private:
+    // Minotor
+    Minotor *_minotor;
+
     // Scene
     QGraphicsScene *_scene;
 

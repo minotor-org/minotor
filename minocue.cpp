@@ -11,9 +11,10 @@
 MinoCue::MinoCue(Minotor *minotor, const QRect drawingRect) :
     MinoChannel(minotor, drawingRect)
 {
-    this->addAnimation(new MinoAnimationExpandingObjects(this));
+    //this->addAnimation(new MinoAnimationExpandingObjects(this));
     //this->addAnimation(new MinoAnimationDebug(this));
     //this->addAnimation(new MinoAnimationRandomPixels(this));
     //this->addAnimation(new MinoAnimationWaveform(this));
-    //this->addAnimation(new MinoAnimationBarsFromSides(this));
+    this->addAnimation(new MinoAnimationBarsFromSides(this));
+    //addAnimation("MinoAnimationBarsFromSides");
 }

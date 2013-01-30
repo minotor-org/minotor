@@ -36,10 +36,10 @@ void UiAnimationPicker::mousePressEvent(QMouseEvent *event)
 
      QByteArray itemData;
      QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-     dataStream << pixmap << QPoint(event->pos() - child->pos());
+     dataStream << child->description()->className() << QPoint(event->pos() - child->pos());
 
      QMimeData *mimeData = new QMimeData;
-     mimeData->setData("application/x-dnditemdata", itemData);
+     mimeData->setData("application/x-dndanimationdescrition", itemData);
 
      QDrag *drag = new QDrag(this);
      drag->setMimeData(mimeData);

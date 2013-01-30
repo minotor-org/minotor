@@ -2,7 +2,9 @@
 #define UICHANNELEDITOR_H
 
 #include <QWidget>
-#include <QAction>
+
+#include <QDragEnterEvent>
+#include <QDropEvent>
 
 #include "minochannel.h"
 
@@ -13,6 +15,14 @@ public:
     explicit UiChannelEditor(MinoChannel *channel, QWidget *parent);
     ~UiChannelEditor();
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
+
+    QWidget *_wContent;
+
+    void addAnimation(MinoAnimation *animation);
 signals:
     
 public slots:
