@@ -47,9 +47,7 @@ public:
     // Clock source
     MinoClockSource *clockSource() { return _clockSource; }
 
-    // Animation factory
-    MinoAnimationFactory *animationFactory() { return &_animationFactory; }
-
+    // Display rect
     const QRect displayRect() { return QRect(QPoint(0,0), _ledMatrix->size()); }
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
@@ -80,9 +78,6 @@ private:
 
     // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;
-
-    // Animation factory
-    MinoAnimationFactory _animationFactory;
 };
 
 #endif // MINOTOR_H

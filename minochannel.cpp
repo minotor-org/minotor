@@ -42,7 +42,7 @@ void MinoChannel::addAnimation(MinoAnimation *animation)
 
 MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
 {
-    MinoAnimation *animation = _minotor->animationFactory()->instantiate(animationClassName, _minotor);
+    MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), _minotor);
     if(animation)
     {
         addAnimation(animation);

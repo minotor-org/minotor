@@ -4,13 +4,11 @@
 #include <QWidget>
 #include <QMouseEvent>
 
-#include "minoanimationfactory.h"
-
 class UiAnimationPicker : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiAnimationPicker(MinoAnimationFactory *factory, QWidget *parent);
+    explicit UiAnimationPicker(QWidget *parent);
     
 protected:
     void mousePressEvent(QMouseEvent *event);

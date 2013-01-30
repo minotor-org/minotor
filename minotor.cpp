@@ -7,9 +7,18 @@
 #include "minochannel.h"
 #include "minoanimation.h"
 
+#include "minarandompixels.h"
+#include "minaexpandingobjects.h"
+#include "minadebug.h"
+#include "minawaveform.h"
+#include "minabarsfromsides.h"
+
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
 {
+    // LED Matrix
+    _ledMatrix = new LedMatrix(this);
+
     // Choose appropriated drawing rect:
     //   Both channels share the same scene, so be sure they don't collide...
     const QRect masterDrawingRect(QRect(100, 0, 24, 16));
@@ -17,9 +26,6 @@ Minotor::Minotor(QObject *parent) :
 
     _master = new MinoMaster(this, masterDrawingRect);
     _cue = new MinoCue(this, cueDrawingRect);
-
-    // LED Matrix
-    _ledMatrix = new LedMatrix(this);
 
     // MIDI interfaces
     Midi *midi = new Midi(this);
@@ -32,6 +38,12 @@ Minotor::Minotor(QObject *parent) :
     // Clock source
     _clockSource = new MinoClockSource(this);
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
+
+    MinoAnimationFactory::registerClass<MinaDebug>();
+    MinoAnimationFactory::registerClass<MinaExpandingObjects>();
+    MinoAnimationFactory::registerClass<MinaBarsFromSides>();
+    MinoAnimationFactory::registerClass<MinaRandomPixels>();
+    MinoAnimationFactory::registerClass<MinaWaveform>();
 }
 
 Minotor::~Minotor()

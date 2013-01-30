@@ -7,23 +7,55 @@
 
 #include "minoanimation.h"
 
+/*
+ * This code have been greatly inspired from
+ *   http://www.mimec.org/node/350
+ */
 class Minotor;
 
-class MinoAnimationFactory : public QObject
+class MinoAnimationFactory
 {
-    Q_OBJECT
 public:
-    explicit MinoAnimationFactory(QObject *parent = 0);
+    template<typename T>
+    static void registerClass()
+    {
+        descriptions().append( T::getDescription() );
+        constructors().insert( T::staticMetaObject.className(), &constructorHelper<T> );
+    }
 
-    QList<MinoAnimationDescription> availableAnimations();
-    MinoAnimation *instantiate(const QString name, Minotor *minotor);
+    static MinoAnimation* createObject( const QByteArray& className, Minotor* minotor )
+    {
+        MinoAnimationConstructor constructor = constructors().value( className );
+        if ( constructor == NULL )
+            return NULL;
+        return (*constructor)( minotor );
+    }
 
-signals:
-    
-public slots:
-    
+    static QList<MinoAnimationDescription> availableAnimations()
+    {
+        return descriptions();
+    }
+
 private:
-    QHash<QString, MinoAnimationDescription> _animations;
+    typedef MinoAnimation* (*MinoAnimationConstructor)( Minotor* minotor );
+
+    template<typename T>
+    static MinoAnimation* constructorHelper( Minotor* minotor )
+    {
+        return new T( minotor );
+    }
+
+    static QHash<QByteArray, MinoAnimationConstructor>& constructors()
+    {
+        static QHash<QByteArray, MinoAnimationConstructor> instance;
+        return instance;
+    }
+
+    static QList<MinoAnimationDescription>& descriptions()
+    {
+        static QList<MinoAnimationDescription> desc;
+        return desc;
+    }
 };
 
 #endif // MINOANIMATIONFACTORY_H

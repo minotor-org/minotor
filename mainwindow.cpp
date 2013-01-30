@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea(ui->dwAnimationPickerContent);
     sa->setLayout(new QHBoxLayout);
-    sa->layout()->addWidget(new UiAnimationPicker(_minotor->animationFactory(), sa));
+    sa->layout()->addWidget(new UiAnimationPicker(sa));
     ui->dwAnimationPickerContent->layout()->addWidget(sa);
 
     // Splitter test

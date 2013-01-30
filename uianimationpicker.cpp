@@ -4,14 +4,16 @@
 #include <QPainter>
 #include <QDebug>
 
+#include "minoanimationfactory.h"
+
 #include "minoanimation.h"
 #include "uianimationdescription.h"
 
-UiAnimationPicker::UiAnimationPicker(MinoAnimationFactory *factory, QWidget *parent) :
+UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     QWidget(parent)
 {
     setLayout(new QHBoxLayout);
-    QList<MinoAnimationDescription> animations = factory->availableAnimations();
+    QList<MinoAnimationDescription> animations = MinoAnimationFactory::availableAnimations();
     foreach(MinoAnimationDescription animation, animations)
     {
         UiAnimationDescription *ad = new UiAnimationDescription(animation, this);
