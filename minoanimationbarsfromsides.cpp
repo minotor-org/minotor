@@ -5,13 +5,12 @@
 MinoAnimationBarsFromSides::MinoAnimationBarsFromSides(MinoChannel *channel) :
     MinoAnimation(QString("Bars from sides"), channel)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(_boundingRect.height()/2));
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
+    _beatAnimatedProperty.setStartValue(QVariant(1.0));
+    _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _color.setObjectName("Color");
     _properties.append(&_color);
-
 }
 
 void MinoAnimationBarsFromSides::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -32,18 +31,20 @@ void MinoAnimationBarsFromSides::animate(const unsigned int gppqn, const unsigne
     {
         for (int i=0;i< _boundingRect.height();i++)
         {
-            int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
-            _itemGroup.addToGroup(_scene->addLine(0,i,(currentAnimatedPropertyValue),i,QPen(color)));
-            _itemGroup.addToGroup(_scene->addLine((_boundingRect.width()-currentAnimatedPropertyValue-1),i,(_boundingRect.width()-1),i,QPen(color)));
+            qreal randFactor = (qreal)qrand()/RAND_MAX;
+            qreal lineLength = randFactor * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.width() / 2.0;
+            _itemGroup.addToGroup(_scene->addLine(_boundingRect.left(), i, _boundingRect.left()+lineLength, i, QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine(_boundingRect.right()-lineLength, i, _boundingRect.right(), i, QPen(color)));
         }
     }
     else
     {
         for (int i=0;i< _boundingRect.width();i++)
         {
-            int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
-            _itemGroup.addToGroup(_scene->addLine(i,0,i,(currentAnimatedPropertyValue),QPen(color)));
-            _itemGroup.addToGroup(_scene->addLine(i,(_boundingRect.height()-currentAnimatedPropertyValue-1),i,(_boundingRect.height()-1),QPen(color)));
+            qreal randFactor = (qreal)qrand()/RAND_MAX;
+            qreal lineLength = randFactor * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.height() / 2.0;
+            _itemGroup.addToGroup(_scene->addLine(i, _boundingRect.top(), i, _boundingRect.top()+lineLength, QPen(color)));
+            _itemGroup.addToGroup(_scene->addLine(i, _boundingRect.bottom()-lineLength, i, _boundingRect.bottom(), QPen(color)));
         }
     }
 }
