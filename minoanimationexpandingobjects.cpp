@@ -5,8 +5,8 @@
 MinoAnimationExpandingObjects::MinoAnimationExpandingObjects(MinoChannel *channel) :
     MinoAnimation(QString("Expanding objects"), channel)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.2));
-    _beatAnimatedProperty.setEndValue(QVariant(8.0));
+    _beatAnimatedProperty.setStartValue(QVariant(1.0));
+    _beatAnimatedProperty.setEndValue(QVariant(0.01));
 
     _color.setObjectName("Color");
     _properties.append(&_color);
@@ -18,16 +18,16 @@ void MinoAnimationExpandingObjects::animate(const unsigned int gppqn, const unsi
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    if (ppqn%24==0)
+    if (ppqn==0)
     {
         foreach(QGraphicsItem* item, _itemGroup.childItems ())
         {
            delete item;
         }
-        int x = _boundingRect.width()/2;
-        int y = _boundingRect.height()/2;
-        _itemGroup.addToGroup(_scene->addEllipse(x-(y),y-(y),_boundingRect.height(),_boundingRect.height(),QPen(Qt::green),QBrush(Qt::NoBrush)));
+        // Be sure scale factor is 1.0 when we draw new items
+        _itemGroup.setScale(1.0);
+        _itemGroup.addToGroup(_scene->addEllipse(_boundingRect, QPen(Qt::green), QBrush(Qt::NoBrush)));
     }
-
     _itemGroup.setScale(_beatAnimatedProperty.currentValue().toReal());
+    qDebug() << "scale" << _itemGroup.scale();
 }
