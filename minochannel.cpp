@@ -39,17 +39,14 @@ void MinoChannel::addAnimation(MinoAnimation *animation)
     // Add animation to channel's list
     _minoAnimations.append(animation);
 
-    // Save transform origin point before re-parenting
-    const QPointF p = animation->itemGroup()->transformOriginPoint();
+    // Set position to origin
+    _itemGroup.setPos(0,0);
 
     // Add to channel QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
     _itemGroup.addToGroup(animation->itemGroup());
 
     // Re-parent animation to our itemGroup
     animation->itemGroup()->setParentItem(&_itemGroup);
-
-    // Restore transform origin point
-    animation->itemGroup()->setTransformOriginPoint(p);
 }
 
 MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
@@ -71,7 +68,7 @@ void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, con
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
         minoAnimation->animate(gppqn, ppqn, qn);
 
-    // Reset position to the affected one
+    // Reset position to the affected one_itemGroup
     _itemGroup.setPos(_drawingRect.topLeft());
 
     /*
