@@ -5,7 +5,7 @@
 MinaWaveform::MinaWaveform(Minotor *minotor) :
     MinoAnimation(minotor)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(_boundingRect.height()/2));
+    _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
@@ -24,14 +24,14 @@ void MinaWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, co
     color.setRed(_color.value()*255);
     color.setBlue(_color.value()*255);
 
+    const qreal middle = (qreal)_boundingRect.height()/2;
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
        delete item;
     }
-    for (int i=0;i<_boundingRect.width();i++)
+    for (int i=0; i<_boundingRect.width(); i++)
     {
-        int currentAnimatedPropertyValue = 1+(qrand()%_beatAnimatedProperty.currentValue().toInt());
-        _itemGroup.addToGroup(_scene->addLine(i,((_boundingRect.height()/2)-currentAnimatedPropertyValue),i,((_boundingRect.height()/2)+currentAnimatedPropertyValue),QPen(color)));
+        qreal randHeight = qrandF() * _beatAnimatedProperty.currentValue().toReal();
+        _itemGroup.addToGroup(_scene->addLine(i, middle-randHeight, i, middle+randHeight, QPen(color)));
     }
-
 }

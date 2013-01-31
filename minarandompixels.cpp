@@ -22,7 +22,6 @@ MinaRandomPixels::MinaRandomPixels(Minotor *minotor) :
             _itemGroup.addToGroup(_scene->addLine ( j, i, j+1, i+1, QPen(Qt::red) ));
         }
     }
-
 }
 
 void MinaRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -48,14 +47,12 @@ void MinaRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn
         const qreal pixelCount = _density.value()*(_boundingRect.width()*_boundingRect.height());
         for(int i=0; i<pixelCount; i++)
         {
-            int x = (qrand()%(static_cast<int>(_boundingRect.width())));
-            int y = (qrand()%(static_cast<int>(_boundingRect.height())));
+            int x = (qrandF()*_boundingRect.width());
+            int y = (qrandF()*_boundingRect.height());
 
             int pixelIndex = (y*_boundingRect.width())+x;
-            // qDebug() << "x" << x << "y" << y;
+
             static_cast<QGraphicsLineItem*>(_itemGroup.childItems().at(pixelIndex))->setPen(QPen(color));
-                    //[pixelIndex]);
-            //_itemGroup.addToGroup(_scene->addLine ( x, y, x+1, y+1, QPen(color) ));
         }
     } /*else {
         foreach(QGraphicsItem* item, _itemGroup.childItems ())
