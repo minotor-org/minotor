@@ -36,8 +36,20 @@ void MinoChannel::setDrawingRect(const QRect rect)
 
 void MinoChannel::addAnimation(MinoAnimation *animation)
 {
+    // Add animation to channel's list
     _minoAnimations.append(animation);
+
+    // Save transform origin point before re-parenting
+    const QPointF p = animation->itemGroup()->transformOriginPoint();
+
+    // Add to channel QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
     _itemGroup.addToGroup(animation->itemGroup());
+
+    // Re-parent animation to our itemGroup
+    animation->itemGroup()->setParentItem(&_itemGroup);
+
+    // Restore transform origin point
+    animation->itemGroup()->setTransformOriginPoint(p);
 }
 
 MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
