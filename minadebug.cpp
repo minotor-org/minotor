@@ -34,6 +34,6 @@ void MinaDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const
     {
         delete item;
     }
-    _itemGroup.addToGroup(_scene->addRect(_boundingRect, QPen(color),QBrush(color) ));
+    _itemGroup.addToGroup(_scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color) ));
     _itemGroup.setOpacity(_beatAnimatedProperty.currentValue().toFloat());
 }
