@@ -43,6 +43,7 @@ public:
     const MinoAnimationPropertyList properties() { return _properties; }
     QGraphicsItemGroup* itemGroup() { return &_itemGroup; }
 
+    static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
 protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
