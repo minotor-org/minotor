@@ -5,8 +5,8 @@
 MinaRandomPixels::MinaRandomPixels(Minotor *minotor) :
     MinoAnimation(minotor)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(255));
-    _beatAnimatedProperty.setEndValue(QVariant(0));
+    _beatAnimatedProperty.setStartValue(QVariant(1.0));
+    _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _color.setObjectName("Color");
@@ -29,10 +29,8 @@ void MinaRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    QColor color(Qt::green);
-    color.setRed(_color.value()*255);
-    color.setBlue(_color.value()*255);
-    color.setAlpha(_beatAnimatedProperty.currentValue().toInt());
+    QColor color;
+    color.setHsvF(_color.value(), 1.0, 1.0, _beatAnimatedProperty.currentValue().toReal());
 
     QColor transparency;
     transparency.setAlpha(0);

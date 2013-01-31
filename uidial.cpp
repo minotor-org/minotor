@@ -1,4 +1,5 @@
 #include "uidial.h"
+
 #include <QDebug>
 
 UiDial::UiDial(MinoAnimationProperty *property, QWidget *parent) :

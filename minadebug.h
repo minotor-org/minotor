@@ -16,9 +16,8 @@ public:
     const MinoAnimationDescription description() const { return MinaDebug::getDescription(); }
 
 private:
-    MinoAnimationProperty _r;
-    MinoAnimationProperty _g;
-    MinoAnimationProperty _b;
+    MinoAnimationProperty _color;
+
 signals:
     
 public slots:

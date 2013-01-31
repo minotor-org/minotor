@@ -19,9 +19,8 @@ void MinaBarsFromSides::animate(const unsigned int gppqn, const unsigned int ppq
 
     computeAnimaBeatProperty(gppqn);
 
-    QColor color(Qt::green);
-    color.setRed(_color.value()*255);
-    color.setBlue(_color.value()*255);
+    QColor color;
+    color.setHsvF(_color.value(), 1.0, 1.0);
 
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
