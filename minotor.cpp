@@ -39,6 +39,7 @@ Minotor::Minotor(QObject *parent) :
     _clockSource = new MinoClockSource(this);
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
 
+    // Register animations
     MinoAnimationFactory::registerClass<MinaDebug>();
     MinoAnimationFactory::registerClass<MinaExpandingObjects>();
     MinoAnimationFactory::registerClass<MinaBarsFromSides>();
