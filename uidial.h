@@ -12,9 +12,15 @@ public:
     explicit UiDial(MinoAnimationProperty *property, QWidget *parent = 0);
     MinoAnimationProperty *property() { return _property; }
 
+    void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
+
+    void paintEvent(QPaintEvent *pe);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
+
 protected:
     MinoAnimationProperty *_property;
-
+    bool _midiLearnMode;
 signals:
     
 public slots:

@@ -2,13 +2,9 @@
 
 MinoAnimationProperty::MinoAnimationProperty(qreal value, QObject *parent) :
     QObject(parent),
-    _value(value)
+    _value(value),
+    _midiControl(NULL)
 {
-}
-
-qreal MinoAnimationProperty::value()
-{
-    return _value;
 }
 
 void MinoAnimationProperty::midiControlValueChange(quint8 value)
@@ -18,7 +14,13 @@ void MinoAnimationProperty::midiControlValueChange(quint8 value)
     emit(valueChanged(_value));
 }
 
-void MinoAnimationProperty::setValue(qreal value)
+void MinoAnimationProperty::setMidiControl(MidiControl *control)
 {
-    _value = value;
+    if(_midiControl)
+    {
+        // Only one control allowed to change this property
+        _midiControl->disconnect(this);
+    }
+    _midiControl = control;
+    connect(_midiControl, SIGNAL(valueChanged(quint8)), this, SLOT(midiControlValueChange(quint8)));
 }

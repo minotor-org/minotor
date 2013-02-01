@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1003</width>
-    <height>629</height>
+    <width>1155</width>
+    <height>828</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,7 +52,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1003</width>
+     <width>1155</width>
      <height>21</height>
     </rect>
    </property>
@@ -66,12 +66,6 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dwDebug">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
    <property name="features">
     <set>QDockWidget::DockWidgetMovable</set>
    </property>
@@ -79,8 +73,53 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dwDebugContent">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>MIDI learn</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QGraphicsView" name="gvGlobal">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="backgroundBrush">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pbShot">
+       <property name="text">
+        <string>Screenshot master</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
       <widget class="QFrame" name="frame">
        <property name="minimumSize">
         <size>
@@ -117,25 +156,21 @@
        </layout>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pbShot">
-       <property name="text">
-        <string>Screenshot master</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGraphicsView" name="gvGlobal">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
+     <item row="5" column="0" colspan="2">
       <widget class="QWidget" name="widget" native="true"/>
+     </item>
+     <item row="4" column="0">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>

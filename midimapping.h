@@ -12,10 +12,12 @@ class MidiMapping : public QObject
 public:
     explicit MidiMapping(QObject *parent = 0);
     
-    MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate = true);
-    void assignCapturedControlTo(MinoAnimationProperty* property);
+    void assignCapturedControlTo(MinoAnimationProperty *property);
+    MidiControl* getMidiControlFor(MinoAnimationProperty *property);
 
 protected:
+    MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate = true);
+
     bool _controlCaptureMode;
     MinoAnimationProperty* _currentControlCaptureMinoAnimationProperty;
     MidiControlList _midiControls;

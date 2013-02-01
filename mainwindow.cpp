@@ -24,10 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _minotor = new Minotor(this);
+    _minotor = Minotor::minotor();
 
     ui->gvGlobal->setScene(_minotor->scene());
-    ui->gvGlobal->setBackgroundBrush(QBrush(Qt::black));
 
     _actionMidiCapture = new QAction("Assign MIDI control", this);
     connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
@@ -129,4 +128,14 @@ void MainWindow::on_sPpqn_valueChanged(int value)
     const unsigned int ppqn = value%24;
     const unsigned int qn = value/24;
     _minotor->dispatchClock(value, ppqn, qn);
+}
+
+void MainWindow::on_pushButton_toggled(bool checked)
+{
+    QList<UiDial*> dials = findChildren<UiDial*>();
+    foreach(UiDial *dial, dials)
+    {
+        dial->setMidiLearnMode(checked);
+        dial->update();
+    }
 }

@@ -34,6 +34,8 @@ private slots:
 
     void on_sPpqn_valueChanged(int value);
 
+    void on_pushButton_toggled(bool checked);
+
 private:
     // UI
     // == Main window ==

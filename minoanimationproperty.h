@@ -3,19 +3,27 @@
 
 #include <QObject>
 
+#include "midicontrol.h"
+
 class MinoAnimationProperty : public QObject
 {
     Q_OBJECT
 public:
     explicit MinoAnimationProperty(qreal value = 0.0, QObject *parent = 0);
-    qreal value();
-    void setValue(qreal value);
+
+    qreal value() { return _value; }
+    void setValue(qreal value) { _value = value; }
+    void setMidiControl(MidiControl *control);
+    MidiControl *midiControl() { return _midiControl; }
+    bool isMidiControlled() { return _midiControl; }
+
 signals:
     void valueChanged(qreal value);
 public slots:
     void midiControlValueChange(quint8 value);
 protected:
     qreal _value;
+    MidiControl *_midiControl;
 };
 
 typedef QList<MinoAnimationProperty*> MinoAnimationPropertyList;

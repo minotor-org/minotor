@@ -24,7 +24,7 @@ class Minotor : public QObject
 {
     Q_OBJECT
 public:
-    explicit Minotor(QObject *parent);
+    explicit Minotor(QObject *parent = 0);
     ~Minotor();
 
     // Scene accessor
@@ -49,6 +49,8 @@ public:
 
     // Display rect
     const QRect displayRect() { return QRect(QPoint(0,0), _ledMatrix->size()); }
+
+    static Minotor *minotor() { static Minotor minotor; return &minotor; }
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
