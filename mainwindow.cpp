@@ -7,6 +7,7 @@
 #include <QtCore/QDebug>
 
 #include <QToolBar>
+#include <QToolButton>
 #include <QLCDNumber>
 #include <QSplitter>
 
@@ -76,6 +77,15 @@ MainWindow::MainWindow(QWidget *parent) :
     tbTransport->addAction("Sync", _minotor->clockSource(), SLOT(uiSync()));
     this->addToolBar(tbTransport);
 
+    // MIDI toolbar
+    QToolBar *tbMidi = new QToolBar("MIDI", this);
+    QToolButton *tbMidiLearn = new QToolButton(tbMidi);
+    tbMidiLearn->setText("MIDI learn");
+    tbMidiLearn->setCheckable(true);
+    connect(tbMidiLearn, SIGNAL(toggled(bool)), this, SLOT(on_tbMidiLearn_toggled(bool)));
+    tbMidi->addWidget(tbMidiLearn);
+    this->addToolBar(tbMidi);
+
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea(ui->dwAnimationPickerContent);
     sa->setLayout(new QHBoxLayout);
@@ -126,7 +136,7 @@ void MainWindow::on_sPpqn_valueChanged(int value)
     _minotor->dispatchClock(value, ppqn, qn);
 }
 
-void MainWindow::on_pushButton_toggled(bool checked)
+void MainWindow::on_tbMidiLearn_toggled(bool checked)
 {
     QList<UiDial*> dials = findChildren<UiDial*>();
     foreach(UiDial *dial, dials)

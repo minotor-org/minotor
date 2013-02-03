@@ -34,7 +34,7 @@ private slots:
 
     void on_sPpqn_valueChanged(int value);
 
-    void on_pushButton_toggled(bool checked);
+    void on_tbMidiLearn_toggled(bool checked);
 
 private:
     // UI
