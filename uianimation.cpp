@@ -3,14 +3,16 @@
 #include <QLayout>
 #include <QSizePolicy>
 #include <QMenu>
+#include <QLabel>
 
 #include <QToolButton>
 
 #include <QDebug>
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
-    QWidget(parent)
+    QFrame(parent)
 {
+    setFrameShape(QFrame::Panel);
     QHBoxLayout *lAnimation = new QHBoxLayout(this);
 
     MinoAnimationDescription desc = animation->description();

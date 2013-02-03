@@ -34,25 +34,28 @@ MainWindow::MainWindow(QWidget *parent) :
     // Configuration dialog box
     _configDialog = new ConfigDialog(_minotor, this);
 
-    // Views and controls (right side)
-    QVBoxLayout *lViewsAndControls = new QVBoxLayout(ui->fViewsAndControls);
-    _uiMaster = new UiMaster(_minotor->master(), ui->fViewsAndControls);
-    lViewsAndControls->addWidget(_uiMaster);
-    lViewsAndControls->addStretch();
-    _uiCue = new UiCue(_minotor->cue(), ui->fViewsAndControls);
-    lViewsAndControls->addWidget(_uiCue);
-
+    QHBoxLayout *lCentralWidget = new QHBoxLayout(ui->centralWidget);
     // Channels editor (central)
-    QVBoxLayout *lChannelsEditor = new QVBoxLayout(ui->fChannelsEditor);
-    _uiMasterEditor = new UiChannelEditor(_minotor->master(), ui->fChannelsEditor);
-    ui->fChannelsEditor->layout()->addWidget(_uiMasterEditor);
-    connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    QSplitter *sChannelsEditor = new QSplitter(Qt::Vertical, ui->centralWidget);
+    QVBoxLayout *lChannelsEditor = new QVBoxLayout(sChannelsEditor);
+    _uiMasterEditor = new UiChannelEditor(_minotor->master(), sChannelsEditor);
     lChannelsEditor->addWidget(_uiMasterEditor);
+    connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-    _uiCueEditor = new UiChannelEditor(_minotor->cue(), ui->fChannelsEditor);
-    ui->fChannelsEditor->layout()->addWidget(_uiCueEditor);
+    _uiCueEditor = new UiChannelEditor(_minotor->cue(), sChannelsEditor);
     connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lChannelsEditor->addWidget(_uiCueEditor);
+    lCentralWidget->addWidget(sChannelsEditor);
+
+    // Views and controls (right side)
+    QFrame *fViewsAndControls = new QFrame(ui->centralWidget);
+    QVBoxLayout *lViewsAndControls = new QVBoxLayout(fViewsAndControls);
+    _uiMaster = new UiMaster(_minotor->master(), fViewsAndControls);
+    lViewsAndControls->addWidget(_uiMaster);
+    lViewsAndControls->addStretch();
+    _uiCue = new UiCue(_minotor->cue(), fViewsAndControls);
+    lViewsAndControls->addWidget(_uiCue);
+    lCentralWidget->addWidget(fViewsAndControls);
 
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
@@ -78,13 +81,6 @@ MainWindow::MainWindow(QWidget *parent) :
     sa->setLayout(new QHBoxLayout);
     sa->layout()->addWidget(new UiAnimationPicker(sa));
     ui->dwAnimationPickerContent->layout()->addWidget(sa);
-
-    // Splitter test
-    ui->widget->setLayout(new QHBoxLayout);
-    QSplitter *s = new QSplitter(ui->widget);
-    s->addWidget(new QPushButton);
-    s->addWidget(new QPushButton);
-    ui->widget->layout()->addWidget(s);
 }
 
 MainWindow::~MainWindow()

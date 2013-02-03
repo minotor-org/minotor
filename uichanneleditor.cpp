@@ -18,7 +18,7 @@ UiChannelEditor::UiChannelEditor(MinoChannel *channel, QWidget *parent) :
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     // Animations properties
-    QScrollArea *sa = new QScrollArea();
+    QScrollArea *sa = new QScrollArea(this);
     layout->addWidget(sa);
 
     _wContent = new QWidget(this);
@@ -42,10 +42,6 @@ void UiChannelEditor::addAnimation(MinoAnimation *animation)
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
 
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
-
-    QFrame *frame = new QFrame(_wContent);
-    frame->setFrameShape(QFrame::HLine);
-    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, frame);
 }
 
 UiChannelEditor::~UiChannelEditor()
