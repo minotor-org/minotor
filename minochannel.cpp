@@ -39,6 +39,9 @@ void MinoChannel::addAnimation(MinoAnimation *animation)
     // Add animation to channel's list
     _minoAnimations.append(animation);
 
+    // Will remove animation from list when destroyed
+    connect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
+
     // Set position to origin
     _itemGroup.setPos(0,0);
 
@@ -85,4 +88,9 @@ void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, con
 
     // Let's connected object to know the channel's animation is done
     emit animated();
+}
+
+void MinoChannel::destroyAnimation(QObject *animation)
+{
+    _minoAnimations.removeAt(_minoAnimations.indexOf(static_cast<MinoAnimation*>(animation)));
 }

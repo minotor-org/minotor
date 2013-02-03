@@ -4,6 +4,8 @@
 #include <QSizePolicy>
 #include <QMenu>
 
+#include <QToolButton>
+
 #include <QDebug>
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
@@ -18,6 +20,10 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     tAnimation->setMinimumWidth(100);
     tAnimation->setStyleSheet("background-color:yellow;");
     lAnimation->addWidget(tAnimation);
+
+    QToolButton *tbDelete = new QToolButton(this);
+    connect(tbDelete, SIGNAL(clicked()), animation, SLOT(deleteLater()));
+    lAnimation->addWidget(tbDelete);
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -35,5 +41,6 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         lAnimation->addWidget(wProperty);
     }
     lAnimation->addStretch();
-}
 
+    connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+}

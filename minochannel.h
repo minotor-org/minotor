@@ -62,6 +62,7 @@ signals:
 
 public slots:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+    void destroyAnimation(QObject *animation);
 };
 
 #endif // MINOCHANNEL_H
