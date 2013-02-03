@@ -14,6 +14,7 @@
 #include "uidial.h"
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
+#include "uianimationproperty.h"
 
 #include "minoanimation.h"
 #include "minoanimationproperty.h"
@@ -138,10 +139,10 @@ void MainWindow::on_sPpqn_valueChanged(int value)
 
 void MainWindow::on_tbMidiLearn_toggled(bool checked)
 {
-    QList<UiDial*> dials = findChildren<UiDial*>();
-    foreach(UiDial *dial, dials)
+    QList<UiAnimationProperty*> animationProperties = findChildren<UiAnimationProperty*>();
+    foreach(UiAnimationProperty *animationProperty, animationProperties)
     {
-        dial->setMidiLearnMode(checked);
-        dial->update();
+        animationProperty->setMidiLearnMode(checked);
+        animationProperty->update();
     }
 }

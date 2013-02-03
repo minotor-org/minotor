@@ -3,7 +3,6 @@
 
 #include <QFrame>
 
-#include "uidial.h"
 #include "minoanimation.h"
 
 class UiAnimation : public QFrame

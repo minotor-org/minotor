@@ -9,6 +9,8 @@
 
 #include <QDebug>
 
+#include "uianimationproperty.h"
+
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QFrame(parent)
 {
@@ -31,16 +33,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     foreach (MinoAnimationProperty *property, animation->properties())
     {
-        QWidget *wProperty = new QWidget(this);
-        QVBoxLayout *lProperty = new QVBoxLayout(wProperty);
-        UiDial *d = new UiDial(property, wProperty);
-        d->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        connect(d, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-        lProperty->addWidget(d);
-        QLabel *t = new QLabel(QString(property->objectName()), wProperty);
-        t->setAlignment(Qt::AlignCenter);
-        lProperty->addWidget(t);
-        lAnimation->addWidget(wProperty);
+        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, this);
+        connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
+        lAnimation->addWidget(uiAnimationProperty);
     }
     lAnimation->addStretch();
 

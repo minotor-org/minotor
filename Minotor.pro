@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     minaexpandingobjects.cpp \
     minaplasma.cpp \
     minarandompixels.cpp \
-    minawaveform.cpp
+    minawaveform.cpp \
+    uianimationproperty.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -67,7 +68,8 @@ HEADERS  += mainwindow.h \
     minaexpandingobjects.h \
     minaplasma.h \
     minarandompixels.h \
-    minawaveform.h
+    minawaveform.h \
+    uianimationproperty.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui
