@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QMotifStyle>
 
+#include "qnumeric.h"
+
 UiDial::UiDial(MinoProperty *property, QWidget *parent) :
     QDial(parent),
     _property(property)
@@ -19,8 +21,9 @@ UiDial::UiDial(MinoProperty *property, QWidget *parent) :
     if(property->step() != 0.0)
     {
         setNotchesVisible(true);
-        setSingleStep((qreal)127*property->step());
-        qDebug() << "UiDial should display notches (" << singleStep() << ")";
+        const qreal step = (qreal)127*property->step();
+        setSingleStep(qRound(step));
+        qDebug() << "UiDial should display notches (" << singleStep() << "~=" << step << ")";
     }
 }
 

@@ -2,6 +2,7 @@
 #define MINOPROPERTY_H
 
 #include <QObject>
+#include <QVariant>
 
 #include "midicontrol.h"
 
@@ -11,13 +12,18 @@ class MinoProperty : public QObject
 public:
     explicit MinoProperty(qreal value = 0.0, QObject *parent = 0);
 
-    qreal value() { return _value; }
-    void setValue(qreal value) { _value = value; }
+    // value (0.0 - 1.0)
+    virtual qreal value() { return _value; }
+    virtual void setValue(qreal value) { _value = value; }
+
+    // step (0.0 - 1.0)
+    virtual qreal step() { return _step; }
+    virtual void setStep(qreal step) { _step = step; }
+
+    // MIDI
     void setMidiControl(MidiControl *control);
     MidiControl *midiControl() { return _midiControl; }
     bool isMidiControlled() { return _midiControl; }
-    qreal step() { return _step; }
-    void setStep(qreal step) { _step = step; }
 
 signals:
     void valueChanged(qreal value);
@@ -27,8 +33,9 @@ protected:
     qreal _value;
     qreal _step;
     MidiControl *_midiControl;
+
 };
 
 typedef QList<MinoProperty*> MinoPropertyList;
 
-#endif // MINOANIMATIONPROPERTY_H
+#endif // MINOPROPERTY_H

@@ -9,32 +9,21 @@ MinoAnimation::MinoAnimation(Minotor *minotor) :
     _boundingRect = minotor->displayRect();
 
     _beatFactor.setObjectName("Beat");
-    _beatFactor.setValue(0.4); // BeatFactor 1
+    _beatFactor.addItem("16", 16);
+    _beatFactor.addItem("8", 8);
+    _beatFactor.addItem("4", 4);
+    _beatFactor.addItem("2", 2);
+    _beatFactor.addItem("1", 1);
+    _beatFactor.addItem("1/2", 0.5);
+    _beatFactor.addItem("1/4", 0.25);
+    _beatFactor.setCurrentItem("1");
 
-    // FIXME Remove hardcoded value
-    _beatFactor.setStep(1.0/7.0);
     _properties.append(&_beatFactor);
-}
-
-qreal MinoAnimation::ratioToBeatFactor(qreal value)
-{
-    QList<qreal> tempoList;
-    tempoList.append(0.25);
-    tempoList.append(0.5);
-    tempoList.append(1);
-    tempoList.append(2);
-    tempoList.append(4);
-    tempoList.append(8);
-    tempoList.append(16);
-
-    int step = (tempoList.count()-1) * value;
-    //qDebug() << "value" << (qreal)value << "step" << step << "factor" << tempoList.at(step);
-    return tempoList.at(step);
 }
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 {
-    const unsigned int ppqnMax = ratioToBeatFactor(_beatFactor.value()) * 24;
+    const unsigned int ppqnMax = _beatFactor.currentItem()->real() * 24;
     const qreal lppqn = gppqn % ppqnMax;
     const qreal durationFactor = lppqn / ppqnMax;
     _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);

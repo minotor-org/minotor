@@ -7,6 +7,7 @@
 #include <QGraphicsItemGroup>
 
 #include "minoproperty.h"
+#include "minoitemizedproperty.h"
 
 class Minotor;
 
@@ -53,7 +54,7 @@ protected:
 
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
-    MinoProperty _beatFactor;
+    MinoItemizedProperty _beatFactor;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 signals:

@@ -7,6 +7,8 @@
 
 #include "minotor.h"
 
+#include "minoitemizedproperty.h"
+
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
     _midiLearnMode(false)
@@ -16,6 +18,14 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     _dial->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     connect(_dial, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
     lProperty->addWidget(_dial);
+    MinoItemizedProperty* itemizedProperty = dynamic_cast<MinoItemizedProperty*>(property);
+    if(itemizedProperty)
+    {
+        QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), this);
+        tItemName->setAlignment(Qt::AlignCenter);
+        connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
+        lProperty->addWidget(tItemName);
+    }
     QLabel *t = new QLabel(QString(property->objectName()), this);
     t->setAlignment(Qt::AlignCenter);
     lProperty->addWidget(t);

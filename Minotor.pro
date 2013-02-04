@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     minarandompixels.cpp \
     minawaveform.cpp \
     uianimationproperty.cpp \
-    minoproperty.cpp
+    minoproperty.cpp \
+    minoitemizedproperty.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -69,7 +70,8 @@ HEADERS  += mainwindow.h \
     minarandompixels.h \
     minawaveform.h \
     uianimationproperty.h \
-    minoproperty.h
+    minoproperty.h \
+    minoitemizedproperty.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui
