@@ -17,7 +17,7 @@
 #include "uianimationproperty.h"
 
 #include "minoanimation.h"
-#include "minoanimationproperty.h"
+#include "minoproperty.h"
 #include "minochannel.h"
 
 MainWindow::MainWindow(QWidget *parent) :

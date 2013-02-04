@@ -31,7 +31,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    foreach (MinoAnimationProperty *property, animation->properties())
+    foreach (MinoProperty *property, animation->properties())
     {
         UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, this);
         connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));

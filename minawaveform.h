@@ -2,7 +2,6 @@
 #define MINOANIMATIONWAVEFORM_H
 
 #include "minoanimation.h"
-#include "minoanimationproperty.h"
 
 class MinaWaveform : public MinoAnimation
 {
@@ -21,7 +20,7 @@ signals:
 public slots:
 
 private:
-    MinoAnimationProperty _color;
+    MinoProperty _color;
 };
 
 #endif // MINOANIMATIONWAVEFORM_H

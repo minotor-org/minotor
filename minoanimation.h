@@ -6,7 +6,7 @@
 #include <QPropertyAnimation>
 #include <QGraphicsItemGroup>
 
-#include "minoanimationproperty.h"
+#include "minoproperty.h"
 
 class Minotor;
 
@@ -40,7 +40,7 @@ public:
     virtual void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
     virtual const MinoAnimationDescription description() const = 0;
 
-    const MinoAnimationPropertyList properties() { return _properties; }
+    const MinoPropertyList properties() { return _properties; }
     QGraphicsItemGroup* itemGroup() { return &_itemGroup; }
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
@@ -49,11 +49,11 @@ protected:
     QRect _boundingRect;
     QGraphicsItemGroup _itemGroup;
 
-    MinoAnimationPropertyList _properties;
+    MinoPropertyList _properties;
 
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
-    MinoAnimationProperty _beatFactor;
+    MinoProperty _beatFactor;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 signals:

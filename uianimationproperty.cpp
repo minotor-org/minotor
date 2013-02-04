@@ -7,7 +7,7 @@
 
 #include "minotor.h"
 
-UiAnimationProperty::UiAnimationProperty(MinoAnimationProperty *property, QWidget *parent) :
+UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
     _midiLearnMode(false)
 {

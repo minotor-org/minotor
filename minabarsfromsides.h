@@ -16,7 +16,7 @@ public:
     const MinoAnimationDescription description() const { return MinaBarsFromSides::getDescription(); }
 
 private:
-    MinoAnimationProperty _color;
+    MinoProperty _color;
 signals:
 
 public slots:

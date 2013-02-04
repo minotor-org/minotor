@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QMotifStyle>
 
-UiDial::UiDial(MinoAnimationProperty *property, QWidget *parent) :
+UiDial::UiDial(MinoProperty *property, QWidget *parent) :
     QDial(parent),
     _property(property)
 {

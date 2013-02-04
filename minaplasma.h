@@ -16,7 +16,7 @@ public:
     const MinoAnimationDescription description() const { return MinaPlasma::getDescription(); }
 
 private:
-    MinoAnimationProperty _color;
+    MinoProperty _color;
 
 signals:
 

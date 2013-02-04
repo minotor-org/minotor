@@ -1,15 +1,15 @@
-#ifndef MINOANIMATIONPROPERTY_H
-#define MINOANIMATIONPROPERTY_H
+#ifndef MINOPROPERTY_H
+#define MINOPROPERTY_H
 
 #include <QObject>
 
 #include "midicontrol.h"
 
-class MinoAnimationProperty : public QObject
+class MinoProperty : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoAnimationProperty(qreal value = 0.0, QObject *parent = 0);
+    explicit MinoProperty(qreal value = 0.0, QObject *parent = 0);
 
     qreal value() { return _value; }
     void setValue(qreal value) { _value = value; }
@@ -29,6 +29,6 @@ protected:
     MidiControl *_midiControl;
 };
 
-typedef QList<MinoAnimationProperty*> MinoAnimationPropertyList;
+typedef QList<MinoProperty*> MinoPropertyList;
 
 #endif // MINOANIMATIONPROPERTY_H

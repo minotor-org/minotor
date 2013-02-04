@@ -5,16 +5,16 @@
 MidiMapping::MidiMapping(QObject *parent) :
     QObject(parent),
     _controlCaptureMode(false),
-    _currentControlCaptureMinoAnimationProperty(NULL)
+    _currentControlCaptureMinoProperty(NULL)
 {
 
 }
 
-void MidiMapping::assignCapturedControlTo(MinoAnimationProperty *property)
+void MidiMapping::assignCapturedControlTo(MinoProperty *property)
 {
     if(property)
     {
-        _currentControlCaptureMinoAnimationProperty = property;
+        _currentControlCaptureMinoProperty = property;
         _controlCaptureMode = true;
     }
     else
@@ -58,8 +58,8 @@ void MidiMapping::midiControlChanged(int interface, quint8 channel, quint8 contr
         if(_controlCaptureMode)
         {
             _controlCaptureMode = false;
-            _currentControlCaptureMinoAnimationProperty->setMidiControl(midiControl);
-            _currentControlCaptureMinoAnimationProperty = NULL;
+            _currentControlCaptureMinoProperty->setMidiControl(midiControl);
+            _currentControlCaptureMinoProperty = NULL;
         }
     }
 }

@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     configdialog.cpp \
     midimapping.cpp \
     midicontrol.cpp \
-    minoanimationproperty.cpp \
     uidial.cpp \
     uianimation.cpp \
     minochannel.cpp \
@@ -39,7 +38,8 @@ SOURCES += main.cpp\
     minaplasma.cpp \
     minarandompixels.cpp \
     minawaveform.cpp \
-    uianimationproperty.cpp
+    uianimationproperty.cpp \
+    minoproperty.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -49,7 +49,6 @@ HEADERS  += mainwindow.h \
     configdialog.h \
     midimapping.h \
     midicontrol.h \
-    minoanimationproperty.h \
     uidial.h \
     uianimation.h \
     minochannel.h \
@@ -69,7 +68,8 @@ HEADERS  += mainwindow.h \
     minaplasma.h \
     minarandompixels.h \
     minawaveform.h \
-    uianimationproperty.h
+    uianimationproperty.h \
+    minoproperty.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

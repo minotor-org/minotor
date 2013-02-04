@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "minoanimationproperty.h"
+#include "minoproperty.h"
 #include "uidial.h"
 
 
@@ -11,7 +11,7 @@ class UiAnimationProperty : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiAnimationProperty(MinoAnimationProperty *property, QWidget *parent);
+    explicit UiAnimationProperty(MinoProperty *property, QWidget *parent);
     void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
 
 protected:
