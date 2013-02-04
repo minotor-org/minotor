@@ -28,13 +28,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_action_Configuration_triggered();
-    void midiCaptureTrigged();
+    // Request from widgets
     void customContextMenuRequested(const QPoint &pos);
 
+    // Action from MIDI menu
+    void midiCaptureTrigged();
+
+    // Action from MIDI learn button (toolbar)
+    void tbMidiLearnToggled(bool checked);
+
+    // UI: Action file->configuration
+    void on_action_Configuration_triggered();
+
+    // Debug: PPQN slider
     void on_sPpqn_valueChanged(int value);
 
-    void on_tbMidiLearn_toggled(bool checked);
 
 private:
     // UI

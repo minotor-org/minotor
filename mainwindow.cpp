@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QToolButton *tbMidiLearn = new QToolButton(tbMidi);
     tbMidiLearn->setText("MIDI learn");
     tbMidiLearn->setCheckable(true);
-    connect(tbMidiLearn, SIGNAL(toggled(bool)), this, SLOT(on_tbMidiLearn_toggled(bool)));
+    connect(tbMidiLearn, SIGNAL(toggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
     tbMidi->addWidget(tbMidiLearn);
     this->addToolBar(tbMidi);
 
@@ -137,7 +137,7 @@ void MainWindow::on_sPpqn_valueChanged(int value)
     _minotor->dispatchClock(value, ppqn, qn);
 }
 
-void MainWindow::on_tbMidiLearn_toggled(bool checked)
+void MainWindow::tbMidiLearnToggled(bool checked)
 {
     QList<UiAnimationProperty*> animationProperties = findChildren<UiAnimationProperty*>();
     foreach(UiAnimationProperty *animationProperty, animationProperties)
