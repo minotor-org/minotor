@@ -3,6 +3,7 @@
 MinoAnimationProperty::MinoAnimationProperty(qreal value, QObject *parent) :
     QObject(parent),
     _value(value),
+    _step(0.0),
     _midiControl(NULL)
 {
 }

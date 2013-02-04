@@ -9,8 +9,11 @@ MinoAnimation::MinoAnimation(Minotor *minotor) :
     _boundingRect = minotor->displayRect();
 
     _beatFactor.setObjectName("Beat");
-    _properties.append(&_beatFactor);
     _beatFactor.setValue(0.4); // BeatFactor 1
+
+    // FIXME Remove hardcoded value
+    _beatFactor.setStep(1.0/7.0);
+    _properties.append(&_beatFactor);
 }
 
 qreal MinoAnimation::ratioToBeatFactor(qreal value)

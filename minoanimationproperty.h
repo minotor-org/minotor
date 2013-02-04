@@ -16,6 +16,8 @@ public:
     void setMidiControl(MidiControl *control);
     MidiControl *midiControl() { return _midiControl; }
     bool isMidiControlled() { return _midiControl; }
+    qreal step() { return _step; }
+    void setStep(qreal step) { _step = step; }
 
 signals:
     void valueChanged(qreal value);
@@ -23,6 +25,7 @@ public slots:
     void midiControlValueChange(quint8 value);
 protected:
     qreal _value;
+    qreal _step;
     MidiControl *_midiControl;
 };
 
