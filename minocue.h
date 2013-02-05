@@ -7,7 +7,7 @@ class MinoCue : public MinoProgram
 {
     Q_OBJECT
 public:
-    explicit MinoCue(Minotor *minotor, const QRect drawingRect);
+    explicit MinoCue(Minotor *minotor);
     QString name() { return QString("Cue"); }
 
 signals:

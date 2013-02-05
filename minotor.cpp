@@ -19,13 +19,10 @@ Minotor::Minotor(QObject *parent) :
     // LED Matrix
     _ledMatrix = new LedMatrix(this);
 
-    // Choose appropriated drawing rect:
-    //   Both programs share the same scene, so be sure they don't collide...
-    const QRect masterDrawingRect(QRect(100, 0, 24, 16));
-    const QRect cueDrawingRect(QRect(50, 0, 24, 16));
-
     _master = new MinoMaster();
-    _cue = new MinoCue(this, cueDrawingRect);
+
+    // TODO Should be renamed... (there is no cue anymore)
+    _cue = new MinoCue(this);
     _master->setProgram(_cue);
 
     // MIDI interfaces
@@ -89,4 +86,16 @@ void Minotor::handleMidiInterfaceControlChange(quint8 program, quint8 control, q
     } else {
         qDebug() << "Unknow sender";
     }
+}
+
+void Minotor::addProgram(MinoProgram *program)
+{
+    _programs.append(program);
+    const int id = _programs.indexOf(program);
+    program->setId(id);
+
+    QRect programRect = _ledMatrix->rect();
+    programRect.moveRight(_ledMatrix->size().width() + 100);
+    programRect.moveBottom((_ledMatrix->size().height() + 100) * id);
+    program->setDrawingRect(programRect);
 }

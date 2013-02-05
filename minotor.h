@@ -48,9 +48,13 @@ public:
     MinoClockSource *clockSource() { return _clockSource; }
 
     // Display rect
-    const QRect displayRect() { return QRect(QPoint(0,0), _ledMatrix->size()); }
+    const QRect displayRect() { return _ledMatrix->rect(); }
 
+    // Singleton accessor
     static Minotor *minotor() { static Minotor minotor; return &minotor; }
+
+    // Program
+    void addProgram(MinoProgram *program);
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
@@ -80,6 +84,9 @@ private:
 
     // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;
+
+    // Programs
+    QList<MinoProgram*> _programs;
 };
 
 #endif // MINOTOR_H

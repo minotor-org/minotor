@@ -2,7 +2,7 @@
 
 #include "minotor.h"
 
-MinoCue::MinoCue(Minotor *minotor, const QRect drawingRect) :
-    MinoProgram(minotor, drawingRect)
+MinoCue::MinoCue(Minotor *minotor) :
+    MinoProgram(minotor)
 {
 }

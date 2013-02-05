@@ -5,16 +5,15 @@
 #include <QBrush>
 #include <QDebug>
 
-MinoProgram::MinoProgram(Minotor *minotor, const QRect drawingRect) :
+MinoProgram::MinoProgram(Minotor *minotor) :
     QObject(minotor),
-    _minotor(minotor),
     _image(NULL)
 {
     _scene = minotor->scene();
 
-    setDrawingRect(drawingRect);
-
     _scene->addItem(&_itemGroup);
+
+    minotor->addProgram(this);
 }
 
 MinoProgram::~MinoProgram()
@@ -54,7 +53,7 @@ void MinoProgram::addAnimation(MinoAnimation *animation)
 
 MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)
 {
-    MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), _minotor);
+    MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), Minotor::minotor());
     if(animation)
     {
         addAnimation(animation);
