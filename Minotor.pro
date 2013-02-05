@@ -30,7 +30,6 @@ SOURCES += main.cpp\
     uianimationdescription.cpp \
     uianimationpicker.cpp \
     minabarsfromsides.cpp \
-    minadebug.cpp \
     minaexpandingobjects.cpp \
     minaplasma.cpp \
     minarandompixels.cpp \
@@ -40,7 +39,8 @@ SOURCES += main.cpp\
     minoitemizedproperty.cpp \
     minoprogram.cpp \
     uiprogrameditor.cpp \
-    mipromatrix.cpp
+    mipromatrix.cpp \
+    minaflash.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -60,7 +60,6 @@ HEADERS  += mainwindow.h \
     uianimationdescription.h \
     uianimationpicker.h \
     minabarsfromsides.h \
-    minadebug.h \
     minaexpandingobjects.h \
     minaplasma.h \
     minarandompixels.h \
@@ -71,7 +70,8 @@ HEADERS  += mainwindow.h \
     minoprogram.h \
     uiprogrameditor.h \
     uiprogramview.h \
-    mipromatrix.h
+    mipromatrix.h \
+    minaflash.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui

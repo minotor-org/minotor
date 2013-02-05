@@ -1,9 +1,9 @@
-#include "minadebug.h"
+#include "minaflash.h"
 
 #include <QColor>
 #include <QDebug>
 
-MinaDebug::MinaDebug(Minotor *minotor):
+MinaFlash::MinaFlash(Minotor *minotor):
     MinoAnimation(minotor)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
@@ -15,7 +15,7 @@ MinaDebug::MinaDebug(Minotor *minotor):
     _properties.append(&_color);
 }
 
-void MinaDebug::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaFlash::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

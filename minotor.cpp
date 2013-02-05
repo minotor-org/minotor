@@ -9,7 +9,7 @@
 
 #include "minarandompixels.h"
 #include "minaexpandingobjects.h"
-#include "minadebug.h"
+#include "minaflash.h"
 #include "minawaveform.h"
 #include "minabarsfromsides.h"
 
@@ -36,7 +36,7 @@ Minotor::Minotor(QObject *parent) :
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
 
     // Register animations
-    MinoAnimationFactory::registerClass<MinaDebug>();
+    MinoAnimationFactory::registerClass<MinaFlash>();
     MinoAnimationFactory::registerClass<MinaExpandingObjects>();
     MinoAnimationFactory::registerClass<MinaBarsFromSides>();
     MinoAnimationFactory::registerClass<MinaRandomPixels>();
