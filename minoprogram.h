@@ -1,5 +1,5 @@
-#ifndef MINOCHANNEL_H
-#define MINOCHANNEL_H
+#ifndef MINOPROGRAM_H
+#define MINOPROGRAM_H
 
 #include <QObject>
 #include <QGraphicsScene>
@@ -10,12 +10,12 @@
 
 class Minotor;
 
-class MinoChannel : public QObject
+class MinoProgram : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoChannel(Minotor *minotor, const QRect drawingRect);
-    ~MinoChannel();
+    explicit MinoProgram(Minotor *minotor, const QRect drawingRect);
+    ~MinoProgram();
 
     virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
 
@@ -65,4 +65,4 @@ public slots:
     void destroyAnimation(QObject *animation);
 };
 
-#endif // MINOCHANNEL_H
+#endif // MINOPROGRAM_H

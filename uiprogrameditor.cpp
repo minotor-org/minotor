@@ -1,8 +1,8 @@
-#include "uichanneleditor.h"
+#include "uiprogrameditor.h"
 #include "uianimation.h"
 
 #include "minoanimation.h"
-#include "uichannelview.h"
+#include "uiprogramview.h"
 
 #include <QFrame>
 #include <QScrollArea>
@@ -11,9 +11,9 @@
 
 #include <QDebug>
 
-UiChannelEditor::UiChannelEditor(MinoChannel *channel, QWidget *parent) :
+UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _channel(channel)
+    _program(program)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -28,7 +28,7 @@ UiChannelEditor::UiChannelEditor(MinoChannel *channel, QWidget *parent) :
     QVBoxLayout *lContent = new QVBoxLayout(_wContent);
     lContent->addStretch();
 
-    foreach (MinoAnimation *animation, _channel->animations())
+    foreach (MinoAnimation *animation, _program->animations())
     {
         addAnimation(animation);
     }
@@ -36,7 +36,7 @@ UiChannelEditor::UiChannelEditor(MinoChannel *channel, QWidget *parent) :
     setAcceptDrops(true);
 }
 
-void UiChannelEditor::addAnimation(MinoAnimation *animation)
+void UiProgramEditor::addAnimation(MinoAnimation *animation)
 {
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
@@ -44,12 +44,12 @@ void UiChannelEditor::addAnimation(MinoAnimation *animation)
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
 }
 
-UiChannelEditor::~UiChannelEditor()
+UiProgramEditor::~UiProgramEditor()
 {
 
 }
 
-void UiChannelEditor::dragEnterEvent(QDragEnterEvent *event)
+void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)
  {
      if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
          if (event->source() == this) {
@@ -63,7 +63,7 @@ void UiChannelEditor::dragEnterEvent(QDragEnterEvent *event)
      }
  }
 
-void UiChannelEditor::dragMoveEvent(QDragMoveEvent *event)
+void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
         if (event->source() == this) {
@@ -77,7 +77,7 @@ void UiChannelEditor::dragMoveEvent(QDragMoveEvent *event)
     }
 }
 
-void UiChannelEditor::dropEvent(QDropEvent *event)
+void UiProgramEditor::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
         QByteArray itemData = event->mimeData()->data("application/x-dndanimationdescrition");
@@ -90,7 +90,7 @@ void UiChannelEditor::dropEvent(QDropEvent *event)
         qDebug() << "UiChannelEditor::dropEvent"
                  << "x-dndanimationdescrition" << className;
 
-        MinoAnimation *animation = _channel->addAnimation(className);
+        MinoAnimation *animation = _program->addAnimation(className);
         if(animation)
         {
             this->addAnimation(animation);

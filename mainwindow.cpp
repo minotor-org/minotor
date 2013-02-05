@@ -18,7 +18,7 @@
 
 #include "minoanimation.h"
 #include "minoproperty.h"
-#include "minochannel.h"
+#include "minoprogram.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,17 +37,17 @@ MainWindow::MainWindow(QWidget *parent) :
     _configDialog = new ConfigDialog(_minotor, this);
 
     QHBoxLayout *lCentralWidget = new QHBoxLayout(ui->centralWidget);
-    // Channels editor (central)
-    QSplitter *sChannelsEditor = new QSplitter(Qt::Vertical, ui->centralWidget);
-    QVBoxLayout *lChannelsEditor = new QVBoxLayout(sChannelsEditor);
-    _uiMasterEditor = new UiChannelEditor(_minotor->master(), sChannelsEditor);
-    lChannelsEditor->addWidget(_uiMasterEditor);
+    // Programs editor (central)
+    QSplitter *sProgramsEditor = new QSplitter(Qt::Vertical, ui->centralWidget);
+    QVBoxLayout *lProgramsEditor = new QVBoxLayout(sProgramsEditor);
+    _uiMasterEditor = new UiProgramEditor(_minotor->master()->program(), sProgramsEditor);
+    lProgramsEditor->addWidget(_uiMasterEditor);
     connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-    _uiCueEditor = new UiChannelEditor(_minotor->cue(), sChannelsEditor);
+    _uiCueEditor = new UiProgramEditor(_minotor->cue(), sProgramsEditor);
     connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-    lChannelsEditor->addWidget(_uiCueEditor);
-    lCentralWidget->addWidget(sChannelsEditor);
+    lProgramsEditor->addWidget(_uiCueEditor);
+    lCentralWidget->addWidget(sProgramsEditor);
 
     // Views and controls (right side)
     QFrame *fViewsAndControls = new QFrame(ui->centralWidget);

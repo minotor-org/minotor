@@ -1,11 +1,11 @@
-#include "minochannel.h"
+#include "minoprogram.h"
 
 #include "minotor.h"
 
 #include <QBrush>
 #include <QDebug>
 
-MinoChannel::MinoChannel(Minotor *minotor, const QRect drawingRect) :
+MinoProgram::MinoProgram(Minotor *minotor, const QRect drawingRect) :
     QObject(minotor),
     _minotor(minotor),
     _image(NULL)
@@ -17,7 +17,7 @@ MinoChannel::MinoChannel(Minotor *minotor, const QRect drawingRect) :
     _scene->addItem(&_itemGroup);
 }
 
-MinoChannel::~MinoChannel()
+MinoProgram::~MinoProgram()
 {
     foreach (MinoAnimation *animation, _minoAnimations)
     {
@@ -26,7 +26,7 @@ MinoChannel::~MinoChannel()
     delete _image;
 }
 
-void MinoChannel::setDrawingRect(const QRect rect)
+void MinoProgram::setDrawingRect(const QRect rect)
 {
     _heightForWidthRatio = (qreal)rect.size().height() / (qreal)rect.size().width();
     if (_image) delete _image;
@@ -34,9 +34,9 @@ void MinoChannel::setDrawingRect(const QRect rect)
     _drawingRect = rect;
 }
 
-void MinoChannel::addAnimation(MinoAnimation *animation)
+void MinoProgram::addAnimation(MinoAnimation *animation)
 {
-    // Add animation to channel's list
+    // Add animation to program's list
     _minoAnimations.append(animation);
 
     // Will remove animation from list when destroyed
@@ -45,14 +45,14 @@ void MinoChannel::addAnimation(MinoAnimation *animation)
     // Set position to origin
     _itemGroup.setPos(0,0);
 
-    // Add to channel QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
+    // Add to program QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
     _itemGroup.addToGroup(animation->itemGroup());
 
     // Re-parent animation to our itemGroup
     animation->itemGroup()->setParentItem(&_itemGroup);
 }
 
-MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
+MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)
 {
     MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), _minotor);
     if(animation)
@@ -62,7 +62,7 @@ MinoAnimation* MinoChannel::addAnimation(const QString animationClassName)
     return animation;
 }
 
-void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     // Set position to origin
     _itemGroup.setPos(0,0);
@@ -86,11 +86,11 @@ void MinoChannel::animate(const unsigned int gppqn, const unsigned int ppqn, con
     QPainter painter(_image);
     _scene->render(&painter, QRectF(_image->rect()), _drawingRect, Qt::IgnoreAspectRatio);
 
-    // Let's connected object to know the channel's animation is done
+    // Let's connected object to know the program's animation is done
     emit animated();
 }
 
-void MinoChannel::destroyAnimation(QObject *animation)
+void MinoProgram::destroyAnimation(QObject *animation)
 {
     _minoAnimations.removeAt(_minoAnimations.indexOf(static_cast<MinoAnimation*>(animation)));
 }

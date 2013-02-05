@@ -3,6 +3,6 @@
 #include "minotor.h"
 
 MinoCue::MinoCue(Minotor *minotor, const QRect drawingRect) :
-    MinoChannel(minotor, drawingRect)
+    MinoProgram(minotor, drawingRect)
 {
 }

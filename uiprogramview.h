@@ -3,20 +3,20 @@
 
 #include <QWidget>
 
-#include "minochannel.h"
+#include "minoprogram.h"
 
-class UiChannelView : public QWidget
+class UiProgramView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiChannelView(MinoChannel *channel, QWidget *parent);
+    explicit UiProgramView(MinoProgram *program, QWidget *parent);
 signals:
 protected:
         void paintEvent(QPaintEvent *event);
         virtual int heightForWidth( int width ) const;
 public slots:
 private:
-    MinoChannel *_channel;
+    MinoProgram *_program;
 };
 
 #endif // UICHANNELVIEW_H

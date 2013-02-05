@@ -1,11 +1,9 @@
 #ifndef MINOCUE_H
 #define MINOCUE_H
 
-#include "minochannel.h"
+#include "minoprogram.h"
 
-class Minotor;
-
-class MinoCue : public MinoChannel
+class MinoCue : public MinoProgram
 {
     Q_OBJECT
 public:

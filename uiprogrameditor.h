@@ -6,14 +6,14 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
-#include "minochannel.h"
+#include "minoprogram.h"
 
-class UiChannelEditor : public QWidget
+class UiProgramEditor : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiChannelEditor(MinoChannel *channel, QWidget *parent);
-    ~UiChannelEditor();
+    explicit UiProgramEditor(MinoProgram *program, QWidget *parent);
+    ~UiProgramEditor();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -31,7 +31,7 @@ private slots:
 
 
 private:
-    MinoChannel *_channel;
+    MinoProgram *_program;
 };
 
 #endif // UICHANNELEDITOR_H

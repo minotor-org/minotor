@@ -4,7 +4,7 @@
 
 #include <QGraphicsView>
 
-#include "minochannel.h"
+#include "minoprogram.h"
 #include "minoanimation.h"
 
 #include "minarandompixels.h"
@@ -20,12 +20,13 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     // Choose appropriated drawing rect:
-    //   Both channels share the same scene, so be sure they don't collide...
+    //   Both programs share the same scene, so be sure they don't collide...
     const QRect masterDrawingRect(QRect(100, 0, 24, 16));
     const QRect cueDrawingRect(QRect(50, 0, 24, 16));
 
-    _master = new MinoMaster(this, masterDrawingRect);
+    _master = new MinoMaster();
     _cue = new MinoCue(this, cueDrawingRect);
+    _master->setProgram(_cue);
 
     // MIDI interfaces
     Midi *midi = new Midi(this);
@@ -66,17 +67,17 @@ void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, c
 {
     if((ppqn%2) == 0) {
         // Animate master
-        _master->animate(gppqn, ppqn, qn);
+        _master->program()->animate(gppqn, ppqn, qn);
 
         // Render scene to led matrix
-        _ledMatrix->show(master()->rendering());
+        _ledMatrix->show(master()->program()->rendering());
 
         // Animate cue
         _cue->animate(gppqn, ppqn, qn);
     }
 }
 
-void Minotor::handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value)
+void Minotor::handleMidiInterfaceControlChange(quint8 program, quint8 control, quint8 value)
 {
     // qDebug() << "sender:" << QObject::sender()->metaObject()->className();
 
@@ -84,7 +85,7 @@ void Minotor::handleMidiInterfaceControlChange(quint8 channel, quint8 control, q
     if (_midiInterfaces.contains(midiInterface))
     {
         const int midiInterfaceId = _midiInterfaces.indexOf(midiInterface);
-        emit(controlChanged(midiInterfaceId, channel, control, value));
+        emit(controlChanged(midiInterfaceId, program, control, value));
     } else {
         qDebug() << "Unknow sender";
     }

@@ -1,28 +1,28 @@
-#include "uichannelview.h"
+#include "uiprogramview.h"
 
 #include <QPainter>
 #include <QLine>
 #include <QDebug>
 
-UiChannelView::UiChannelView(MinoChannel *channel, QWidget *parent) :
+UiProgramView::UiProgramView(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _channel(channel)
+    _program(program)
 {
     // Optimize widget's repaint
     setAttribute(Qt::WA_OpaquePaintEvent);
 
-    connect(_channel, SIGNAL(animated()), this, SLOT(update()));
+    connect(_program, SIGNAL(animated()), this, SLOT(update()));
 }
 
 // This function produce draw the widget content
 //   It draw the render content (scaled to fit to widget size) and decorates it using some vertical and horizotal black lines
-void UiChannelView::paintEvent(QPaintEvent *event)
+void UiProgramView::paintEvent(QPaintEvent *event)
 {
     // event is not used
     (void)event;
 
     // Make your code cleaner: store variables from renderer as local const
-    const QImage *rendering = _channel->rendering();
+    const QImage *rendering = _program->rendering();
 
     // Construct a painter to draw into this widget
     QPainter painter(this);
@@ -54,7 +54,7 @@ void UiChannelView::paintEvent(QPaintEvent *event)
     painter.drawLines(lines,nbLines);
 }
 
-int UiChannelView::heightForWidth( int width ) const
+int UiProgramView::heightForWidth( int width ) const
 {
-    return (_channel->heightForWidth(width));
+    return (_program->heightForWidth(width));
 }

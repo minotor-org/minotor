@@ -6,7 +6,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include "uichannelview.h"
+#include "uiprogramview.h"
 
 UiCue::UiCue(MinoCue *cue, QWidget *parent) :
     QWidget(parent),
@@ -30,7 +30,7 @@ UiCue::UiCue(MinoCue *cue, QWidget *parent) :
     lCueViewAndControls->addWidget(fCueView);
 
     QVBoxLayout *lCueView = new QVBoxLayout(fCueView);
-    UiChannelView *uiCueView = new UiChannelView(_cue, fCueView);
+    UiProgramView *uiCueView = new UiProgramView(_cue, fCueView);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     uiCueView->setMinimumSize(240, 160);

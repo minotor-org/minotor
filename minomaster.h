@@ -1,19 +1,20 @@
 #ifndef MINOMASTER_H
 #define MINOMASTER_H
 
-#include "minochannel.h"
+#include "minoprogram.h"
 
-class Minotor;
-
-class MinoMaster : public MinoChannel
+class MinoMaster : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoMaster(Minotor *minotor, const QRect drawingRect);
+    explicit MinoMaster();
     ~MinoMaster();
 
     QString name() { return QString("Master"); }
+    void setProgram(MinoProgram *program) { _program = program; }
+    MinoProgram *program() { return _program; }
 private:
+    MinoProgram *_program;
 signals:
     
 public slots:
