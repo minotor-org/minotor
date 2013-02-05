@@ -14,6 +14,7 @@ public:
         return MinoAnimationDescription("Waveform", "YYY", QPixmap(), MinaWaveform::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaWaveform::getDescription(); }
+    void setColorH(qreal hue) { _color.setValue(hue); }
 
 signals:
     

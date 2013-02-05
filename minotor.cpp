@@ -20,10 +20,7 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     _master = new MinoMaster();
-
-    // TODO Should be renamed... (there is no cue anymore)
-    _cue = new MinoCue(this);
-    _master->setProgram(_cue);
+    _master->setProgram(new MiproMatrix(this));
 
     // MIDI interfaces
     Midi *midi = new Midi(this);
@@ -50,7 +47,6 @@ Minotor::~Minotor()
 {
     delete _clockSource;
 
-    delete _cue;
     delete _master;
 
     delete _ledMatrix;
@@ -69,8 +65,14 @@ void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, c
         // Render scene to led matrix
         _ledMatrix->show(master()->program()->rendering());
 
-        // Animate cue
-        _cue->animate(gppqn, ppqn, qn);
+        for(int i=0; i<_programs.count(); i++)
+        {
+            MinoProgram *program = _programs.at(i);
+            if(program->isSelected())
+            {
+                program->animate(gppqn, ppqn, qn);
+            }
+        }
     }
 }
 

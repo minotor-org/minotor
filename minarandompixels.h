@@ -15,6 +15,9 @@ public:
     }
     const MinoAnimationDescription description() const { return MinaRandomPixels::getDescription(); }
 
+    void setColorH(qreal hue) { _color.setValue(hue); }
+    void setDensity(qreal density) { _density.setValue(density); }
+
 signals:
     
 public slots:

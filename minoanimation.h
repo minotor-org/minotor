@@ -57,6 +57,7 @@ protected:
     MinoItemizedProperty _beatFactor;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
+
 signals:
     
 public slots:

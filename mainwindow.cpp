@@ -44,10 +44,13 @@ MainWindow::MainWindow(QWidget *parent) :
     lProgramsEditor->addWidget(_uiMasterEditor);
     connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-    _uiCueEditor = new UiProgramEditor(_minotor->cue(), sProgramsEditor);
-    connect(_uiCueEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-    lProgramsEditor->addWidget(_uiCueEditor);
-    lCentralWidget->addWidget(sProgramsEditor);
+    foreach(MinoProgram* program, _minotor->programs())
+    {
+        UiProgramEditor * editor = new UiProgramEditor(program, sProgramsEditor);
+        connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+        lProgramsEditor->addWidget(editor);
+        lCentralWidget->addWidget(sProgramsEditor);
+    }
 
     // Views and controls (right side)
     QFrame *fViewsAndControls = new QFrame(ui->centralWidget);
@@ -55,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _uiMaster = new UiMaster(_minotor->master(), fViewsAndControls);
     lViewsAndControls->addWidget(_uiMaster);
     lViewsAndControls->addStretch();
-    _uiCue = new UiCue(_minotor->cue(), fViewsAndControls);
+    _uiCue = new UiCue(_minotor->programs().at(0), fViewsAndControls);
     lViewsAndControls->addWidget(_uiCue);
     lCentralWidget->addWidget(fViewsAndControls);
 

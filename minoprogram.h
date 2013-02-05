@@ -35,6 +35,9 @@ public:
 
     QRect boundingRect() { return QRect(0,0,_drawingRect.width(),_drawingRect.height()); }
 
+    // Selection
+    bool isSelected() { return true; }
+
     // Function is compute height with a given width (very useful for UI)
     int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
 

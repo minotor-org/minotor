@@ -54,7 +54,7 @@ private:
     UiCue *_uiCue;
     UiMaster *_uiMaster;
 
-    UiProgramEditor *_uiCueEditor;
+   // UiProgramEditor *_uiCueEditor;
     UiProgramEditor *_uiMasterEditor;
 
     // == Configuration dialog ==

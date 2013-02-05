@@ -14,6 +14,8 @@ public:
         return MinoAnimationDescription("Expanding objects", "YYY", QPixmap(), MinaExpandingObjects::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaExpandingObjects::getDescription(); }
+    void setColorH(qreal hue) { _color.setValue(hue); }
+
 signals:
     
 public slots:

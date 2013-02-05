@@ -14,6 +14,7 @@ public:
         return MinoAnimationDescription("Bars from sides", "XXX", QPixmap(), MinaBarsFromSides::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaBarsFromSides::getDescription(); }
+    void setColorH(qreal hue) { _color.setValue(hue); }
 
 private:
     MinoProperty _color;

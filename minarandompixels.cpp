@@ -9,7 +9,7 @@ MinaRandomPixels::MinaRandomPixels(Minotor *minotor) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _color.setObjectName("Color");
+    _color.setObjectName("Hue");
     _properties.append(&_color);
 
     _density.setObjectName("Density");

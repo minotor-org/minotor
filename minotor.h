@@ -12,7 +12,7 @@
 #include "midimapping.h"
 
 #include "minomaster.h"
-#include "minocue.h"
+#include "mipromatrix.h"
 #include "minoclocksource.h"
 
 #include "minoanimationfactory.h"
@@ -32,7 +32,7 @@ public:
 
     // Channel accessors
     MinoMaster *master() { return _master; }
-    MinoCue *cue() { return _cue; }
+//    MinoCue *cue() { return _cue; }
 
     // LedMatrix
     LedMatrix *ledMatrix() { return _ledMatrix; }
@@ -55,6 +55,8 @@ public:
 
     // Program
     void addProgram(MinoProgram *program);
+    QList<MinoProgram*> programs() { return _programs; }
+
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
 
@@ -69,9 +71,11 @@ private:
     // Scene
     QGraphicsScene _scene;
 
-    // Channels
+    // Master
     MinoMaster *_master;
-    MinoCue *_cue;
+
+    // Programs (TODO remove this hardcoded programs)
+    MiproMatrix *_miproMatrix;
 
     // External connections
     LedMatrix *_ledMatrix;

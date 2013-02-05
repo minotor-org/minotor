@@ -3,20 +3,20 @@
 
 #include <QWidget>
 
-#include "minocue.h"
+#include "mipromatrix.h"
 
 class UiCue : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiCue(MinoCue *cue, QWidget *parent);
+    explicit UiCue(MinoProgram *program, QWidget *parent);
     
 signals:
     
 public slots:
 
 private:
-MinoCue *_cue;
+    MinoProgram *_program;
 };
 
 #endif // UICUE_H

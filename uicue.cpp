@@ -8,9 +8,9 @@
 
 #include "uiprogramview.h"
 
-UiCue::UiCue(MinoCue *cue, QWidget *parent) :
+UiCue::UiCue(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _cue(cue)
+    _program(program)
 {
     // Cue
     QVBoxLayout *lCueViewAndControls = new QVBoxLayout(this);
@@ -30,7 +30,7 @@ UiCue::UiCue(MinoCue *cue, QWidget *parent) :
     lCueViewAndControls->addWidget(fCueView);
 
     QVBoxLayout *lCueView = new QVBoxLayout(fCueView);
-    UiProgramView *uiCueView = new UiProgramView(_cue, fCueView);
+    UiProgramView *uiCueView = new UiProgramView(program, fCueView);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     uiCueView->setMinimumSize(240, 160);
