@@ -13,12 +13,16 @@ public:
     QString name() { return QString("Master"); }
     void setProgram(MinoProgram *program);
     MinoProgram *program() { return _program; }
+
 private:
     MinoProgram *_program;
+    bool _shifted;
+
 signals:
     void programChanged();
 public slots:
     void setBrightness(qreal value);
+    void noteChanged(quint8 channel, quint8 note, bool on, quint8 value);
 };
 
 #endif // MINOMASTER_H

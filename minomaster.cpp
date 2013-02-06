@@ -5,7 +5,9 @@
 #include <QDebug>
 
 MinoMaster::MinoMaster():
-    _program(NULL)
+    QObject(),
+    _program(NULL),
+    _shifted(false)
 {
 }
 
@@ -29,3 +31,33 @@ void MinoMaster::setProgram(MinoProgram *program)
 }
 
 
+void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
+{
+    if(_program)
+    {
+        qDebug() << "note changed" << channel << note << on << value;
+        switch(note)
+        {
+        case 72:
+            _shifted = on;
+            break;
+        default:
+        {
+            const int noteMin = 57;
+            const int noteMax = qMax(60, noteMin + _program->animations().count() - 1);
+            if ((note >= noteMin) && (note <= noteMax))
+            {
+                const int i = note-noteMin;
+                qDebug() << "setEnabled" << on << i;
+                if(_shifted)
+                {
+                    if (on)
+                        _program->animations().at(i)->setDelayedEnabled(!_program->animations().at(i)->enabled());
+                }else{
+                    _program->animations().at(i)->setEnabled(on);
+                }
+            }
+        }
+        }
+    }
+}

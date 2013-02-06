@@ -61,11 +61,11 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     switch(command) {
     /* TODO implement me! */
     case MIDI_CVM_NOTE_OFF: /* qDebug() << "Note OFF:" << quint8 (message->at(1)); */
-        emit noteChanged(quint8 (channel), false, quint8 (message->at(1)), quint8(message->at(2)));
+        emit noteChanged(quint8 (channel), quint8 (message->at(1)), false, quint8(message->at(2)));
         break;
     /* TODO implement me! */
     case MIDI_CVM_NOTE_ON:  /* qDebug() << "Note ON:" << quint8 (message->at(1)); */
-        emit noteChanged(quint8 (channel), true, quint8 (message->at(1)), quint8(message->at(2)));
+        emit noteChanged(quint8 (channel), quint8 (message->at(1)), true, quint8(message->at(2)));
         break;
     case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (channel), quint8 (message->at(1)), quint8(message->at(2))); break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;

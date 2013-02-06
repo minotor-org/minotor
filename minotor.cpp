@@ -29,6 +29,8 @@ Minotor::Minotor(QObject *parent) :
     _midiInterfaces.append(midi);
     connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
 
+    connect(midi, SIGNAL(noteChanged(quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(quint8,quint8,bool,quint8)));
+
     // Link Minotor to MidiMapping
     connect(this, SIGNAL(controlChanged(int,quint8,quint8,quint8)), &_midiMapping, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 
