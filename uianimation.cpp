@@ -15,6 +15,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 {
     this->setCheckable(true);
     this->setChecked(animation->enabled());
+    this->setMaximumWidth(80);
     connect(this, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);

@@ -40,12 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QHBoxLayout *lCentralWidget = new QHBoxLayout(ui->centralWidget);
     // Programs editor (central)
-    QSplitter *sProgramsEditor = new QSplitter(Qt::Vertical, ui->centralWidget);
-    QVBoxLayout *lProgramsEditor = new QVBoxLayout(sProgramsEditor);
-
 
     //connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-
+    /*
     foreach(MinoProgram* program, _minotor->programs())
     {
         UiProgramEditor * editor = new UiProgramEditor(program, sProgramsEditor);
@@ -53,17 +50,10 @@ MainWindow::MainWindow(QWidget *parent) :
         lProgramsEditor->addWidget(editor);
         lCentralWidget->addWidget(sProgramsEditor);
     }
-
-    // Views and controls (right side)
-    QFrame *fViewsAndControls = new QFrame(ui->centralWidget);
-    QVBoxLayout *lViewsAndControls = new QVBoxLayout(fViewsAndControls);
-    _uiMaster = new UiMaster(_minotor->master(), fViewsAndControls);
-    lViewsAndControls->addWidget(_uiMaster);
-    lViewsAndControls->addStretch();
-    _uiCue = new UiCue(_minotor->programs().at(0), fViewsAndControls);
-    lViewsAndControls->addWidget(_uiCue);
-    lCentralWidget->addWidget(fViewsAndControls);
-
+    */
+    //UiMaster
+    _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
+    ui->centralWidget->layout()->addWidget(_uiMaster);
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
 

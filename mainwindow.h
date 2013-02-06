@@ -8,7 +8,6 @@
 #include "configdialog.h"
 #include "uiprogrameditor.h"
 #include "uimaster.h"
-#include "uicue.h"
 
 #include "minotor.h"
 #include "ledmatrix.h"
@@ -51,7 +50,6 @@ private:
     QAction *_actionMidiCapture;
     QMenu _menu;
     // Channels
-    UiCue *_uiCue;
     UiMaster *_uiMaster;
 
    // UiProgramEditor *_uiCueEditor;

@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     uimaster.cpp \
     minoclocksource.cpp \
     uichannelview.cpp \
-    uicue.cpp \
     minoanimationfactory.cpp \
     uianimationdescription.cpp \
     uianimationpicker.cpp \
@@ -56,7 +55,6 @@ HEADERS  += mainwindow.h \
     minomaster.h \
     uimaster.h \
     minoclocksource.h \
-    uicue.h \
     minoanimationfactory.h \
     uianimationdescription.h \
     uianimationpicker.h \
