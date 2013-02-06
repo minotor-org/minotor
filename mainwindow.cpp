@@ -80,10 +80,22 @@ MainWindow::MainWindow(QWidget *parent) :
     this->addToolBar(tbMidi);
 
     // Populate animation scrollarea
-    QScrollArea *sa =  new QScrollArea(ui->dwAnimationPickerContent);
-    sa->setLayout(new QHBoxLayout);
-    sa->layout()->addWidget(new UiAnimationPicker(sa));
-    ui->dwAnimationPickerContent->layout()->addWidget(sa);
+    QScrollArea *sa =  new QScrollArea();
+    sa->setFrameShadow(QFrame::Plain);
+    sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    sa->setFocusPolicy(Qt::NoFocus);
+    sa->setWidgetResizable(true);
+    UiAnimationPicker *ap = new UiAnimationPicker(sa);
+    //ap->setObjectName("scrollcontent");
+    //sa->setLayout(new QHBoxLayout);
+   // sa->layout()->addWidget(ap);
+    ap->setStyleSheet("background-color:#454545;");
+    sa->setWidget(ap);
+    ui->panel->layout()->addWidget(sa);
+    ui->panel->layout()->setSpacing(0);
+    ui->panel->layout()->setMargin(0);
+    ui->panel->layout()->setContentsMargins(0,0,0,0);
 }
 
 MainWindow::~MainWindow()

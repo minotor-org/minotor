@@ -133,8 +133,22 @@
    <property name="minimumSize">
     <size>
      <width>84</width>
-     <height>140</height>
+     <height>125</height>
     </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>125</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="windowTitle">
     <string>Animation Picker</string>
@@ -142,7 +156,7 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="dwAnimationPickerContent">
+   <widget class="QWidget" name="panel">
     <layout class="QVBoxLayout" name="verticalLayout_4"/>
    </widget>
   </widget>

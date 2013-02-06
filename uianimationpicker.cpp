@@ -13,13 +13,21 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     QWidget(parent)
 {
     setLayout(new QHBoxLayout);
+    QWidget *wContent = new QWidget(this);
+    wContent->setObjectName("panel");
+    this->layout()->addWidget(wContent);
+    QHBoxLayout *lContent = new QHBoxLayout(wContent);
+
+    this->setAttribute(Qt::WA_TranslucentBackground,false);
+
     QList<MinoAnimationDescription> animations = MinoAnimationFactory::availableAnimations();
     foreach(MinoAnimationDescription animation, animations)
     {
-        UiAnimationDescription *ad = new UiAnimationDescription(animation, this);
+        UiAnimationDescription *ad = new UiAnimationDescription(animation, wContent);
         ad->setObjectName("image");
-        layout()->addWidget(ad);
+        lContent->addWidget(ad);
     }
+
 }
 
 void UiAnimationPicker::mousePressEvent(QMouseEvent *event)
