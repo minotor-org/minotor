@@ -7,20 +7,22 @@ class MinaPlasma : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaPlasma(Minotor *minotor);
+    explicit MinaPlasma(MinoProgram *program);
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Plasma", "YYY", QPixmap(), "MinoAnimationPlasma");
     }
     const MinoAnimationDescription description() const { return MinaPlasma::getDescription(); }
-
-private:
-    MinoProperty _color;
+    QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
 
 public slots:
+
+private:
+    MinoProperty _color;
+    QGraphicsItemGroup _itemGroup;
 
 };
 

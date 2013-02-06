@@ -1,12 +1,15 @@
 #include "minoanimation.h"
 
 #include "minotor.h"
+#include "minoprogram.h"
 
-MinoAnimation::MinoAnimation(Minotor *minotor) :
-    QObject(minotor)
+MinoAnimation::MinoAnimation(MinoProgram *program) :
+    QObject(program),
+    _program(program),
+    _enabled(false)
 {
-    _scene = minotor->scene();
-    _boundingRect = minotor->displayRect();
+    _scene = program->minotor()->scene();
+    _boundingRect = program->minotor()->displayRect();
 
     _beatFactor.setObjectName("Beat");
     _beatFactor.addItem("16", 16);
@@ -35,3 +38,16 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
     */
 }
 
+void MinoAnimation::setEnabled(const bool on)
+{
+    if(_enabled != on)
+    {
+        _program->registerAnimationEnableChange(this, on);
+    }
+}
+
+void MinoAnimation::_setEnabled(const bool on)
+{
+    _enabled = on;
+    emit enabledChanged(on);
+}

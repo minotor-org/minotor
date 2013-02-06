@@ -2,6 +2,7 @@
 
 #include "minotor.h"
 
+#include "minaflash.h"
 #include "minarandompixels.h"
 #include "minawaveform.h"
 #include "minaexpandingobjects.h"
@@ -13,21 +14,24 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
 {
     this->setObjectName("Matrix");
 
-    MinaRandomPixels *arp = new MinaRandomPixels(minotor);
-    // Green
+    MinaFlash *af = new MinaFlash(this);
+    af->setColorH(0.4);
+    this->addAnimation(af);
+
+    MinaRandomPixels *arp = new MinaRandomPixels(this);
     arp->setColorH(0.4);
     arp->setDensity(0.4);
     this->addAnimation(arp);
 
-    MinaWaveform *awf = new MinaWaveform(minotor);
+    MinaWaveform *awf = new MinaWaveform(this);
     awf->setColorH(0.4);
     this->addAnimation(awf);
 
-    MinaBarsFromSides *abfs = new MinaBarsFromSides(minotor);
+    MinaBarsFromSides *abfs = new MinaBarsFromSides(this);
     abfs->setColorH(0.4);
     this->addAnimation(abfs);
 
-    MinaExpandingObjects *aeo = new MinaExpandingObjects(minotor);
+    MinaExpandingObjects *aeo = new MinaExpandingObjects(this);
     aeo->setColorH(0.4);
     this->addAnimation(aeo);
 }

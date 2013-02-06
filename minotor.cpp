@@ -96,8 +96,9 @@ void Minotor::addProgram(MinoProgram *program)
     const int id = _programs.indexOf(program);
     program->setId(id);
 
-    QRect programRect = _ledMatrix->rect();
-    programRect.moveRight(_ledMatrix->size().width() + 100);
-    programRect.moveBottom((_ledMatrix->size().height() + 100) * id);
-    program->setDrawingRect(programRect);
+    program->setRect(_ledMatrix->rect());
+
+    // Drawing rect
+    QPointF pos = QPointF(_ledMatrix->size().width() + 100, (_ledMatrix->size().height() + 100) * id);
+    program->setDrawingPos(pos);
 }

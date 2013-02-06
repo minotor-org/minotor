@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-MinaExpandingObjects::MinaExpandingObjects(Minotor *minotor):
-    MinoAnimation(minotor)
+MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
+    MinoAnimation(program)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));

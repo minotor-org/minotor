@@ -24,8 +24,10 @@ public:
     int id();
     virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
 
+    // Animation manipulation
     void addAnimation(MinoAnimation *animation);
     MinoAnimation* addAnimation(const QString animationClassName);
+    void registerAnimationEnableChange(MinoAnimation *animation, const bool on);
 
     // Accessors
     QGraphicsScene *scene() { return _scene; }
@@ -33,19 +35,19 @@ public:
     MinoAnimationList animations() { return _minoAnimations; }
     const QImage *rendering() { return _image; }
 
-    QRect boundingRect() { return QRect(0,0,_drawingRect.width(),_drawingRect.height()); }
-
     // Selection
     bool isSelected() { return true; }
 
     // Function is compute height with a given width (very useful for UI)
     int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
 
+    Minotor *minotor();
 
 protected:
     // At end of object creation, Minotor will set ID and drawing rect
     void setId(const int id) { _id = id; }
-    void setDrawingRect(const QRect rect);
+    void setRect(const QRect rect);
+    void setDrawingPos(const QPointF pos);
 
 private:
     // ID
@@ -55,7 +57,8 @@ private:
     QGraphicsScene *_scene;
 
     // Drawing rect (in scene coordinates)
-    QRect _drawingRect;
+    QRect _rect;
+    QPointF _drawingPos;
 
     // QImage to store rendering
     QImage *_image;
@@ -65,6 +68,9 @@ private:
 
 protected:
     MinoAnimationList _minoAnimations;
+    MinoAnimationList _minoAnimationsToEnable;
+    MinoAnimationList _minoAnimationsToDisable;
+
     QGraphicsItemGroup _itemGroup;
 
 signals:

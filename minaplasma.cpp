@@ -5,8 +5,8 @@
 
 #include <math.h>
 
-MinaPlasma::MinaPlasma(Minotor *minotor):
-    MinoAnimation(minotor)
+MinaPlasma::MinaPlasma(MinoProgram *program):
+    MinoAnimation(program)
 {
     _beatAnimatedProperty.setStartValue(QVariant(100));
     _beatAnimatedProperty.setEndValue(QVariant(10));

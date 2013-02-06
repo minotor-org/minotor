@@ -3,7 +3,6 @@
 #include <QLayout>
 #include <QSizePolicy>
 #include <QMenu>
-#include <QLabel>
 
 #include <QToolButton>
 
@@ -18,16 +17,22 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QHBoxLayout *lAnimation = new QHBoxLayout(this);
 
     MinoAnimationDescription desc = animation->description();
-    QLabel *tAnimation = new QLabel(desc.name());
-    tAnimation->setAlignment(Qt::AlignCenter);
-    tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    tAnimation->setMinimumWidth(100);
-    tAnimation->setStyleSheet("background-color:yellow;");
-    lAnimation->addWidget(tAnimation);
+    _tAnimation = new QLabel(desc.name());
+    _tAnimation->setAlignment(Qt::AlignCenter);
+    _tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+    _tAnimation->setMinimumWidth(100);
+    _tAnimation->setStyleSheet("background-color:yellow;");
+    lAnimation->addWidget(_tAnimation);
 
     QToolButton *tbDelete = new QToolButton(this);
     connect(tbDelete, SIGNAL(clicked()), animation, SLOT(deleteLater()));
     lAnimation->addWidget(tbDelete);
+
+    QToolButton *tbEnable = new QToolButton(this);
+    tbEnable->setCheckable(true);
+    tbEnable->setChecked(animation->enabled());
+    connect(tbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
+    lAnimation->addWidget(tbEnable);
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -40,4 +45,17 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lAnimation->addStretch();
 
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
+}
+
+void UiAnimation::enable(const bool on)
+{
+    if(on)
+    {
+        _tAnimation->setStyleSheet("background-color:green;");
+    }
+    else
+    {
+        _tAnimation->setStyleSheet("background-color:red;");
+    }
 }

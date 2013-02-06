@@ -9,7 +9,7 @@
 #include "minoproperty.h"
 #include "minoitemizedproperty.h"
 
-class Minotor;
+class MinoProgram;
 
 class MinoAnimationDescription
 {
@@ -35,20 +35,30 @@ private:
 class MinoAnimation : public QObject
 {
     Q_OBJECT
+    friend class MinoProgram;
+
 public:
-    explicit MinoAnimation(Minotor *minotor);
+    explicit MinoAnimation(MinoProgram *program);
 
-    virtual void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
     virtual const MinoAnimationDescription description() const = 0;
-
+    virtual QGraphicsItem* graphicItem() = 0;
     const MinoPropertyList properties() { return _properties; }
-    QGraphicsItemGroup* itemGroup() { return &_itemGroup; }
+    virtual void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
+
+    bool enabled() const { return _enabled; }
+
+public slots:
+    void setEnabled(const bool enabled);
+
 protected:
+    // Parent
+    MinoProgram *_program;
+
+    // Graphics
     QGraphicsScene *_scene;
     QRect _boundingRect;
-    QGraphicsItemGroup _itemGroup;
 
     MinoPropertyList _properties;
 
@@ -58,10 +68,13 @@ protected:
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 
+    // Will be called by channel
+    void _setEnabled(const bool on);
+    bool _enabled;
+    bool _pending;
 signals:
-    
-public slots:
-    
+    void enabledChanged(bool on);
+    void pendingChanged(bool on);
 };
 
 typedef QList<MinoAnimation*> MinoAnimationList;

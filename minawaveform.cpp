@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-MinaWaveform::MinaWaveform(Minotor *minotor) :
-    MinoAnimation(minotor)
+MinaWaveform::MinaWaveform(MinoProgram *program) :
+    MinoAnimation(program)
 {
     _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
     _beatAnimatedProperty.setEndValue(QVariant(1.0));

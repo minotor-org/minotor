@@ -11,7 +11,7 @@
  * This code have been greatly inspired from
  *   http://www.mimec.org/node/350
  */
-class Minotor;
+class MinoProgram;
 
 class MinoAnimationFactory
 {
@@ -23,12 +23,12 @@ public:
         constructors().insert( T::staticMetaObject.className(), &constructorHelper<T> );
     }
 
-    static MinoAnimation* createObject( const QByteArray& className, Minotor* minotor )
+    static MinoAnimation* createObject( const QByteArray& className, MinoProgram* program )
     {
         MinoAnimationConstructor constructor = constructors().value( className );
         if ( constructor == NULL )
             return NULL;
-        return (*constructor)( minotor );
+        return (*constructor)( program );
     }
 
     static QList<MinoAnimationDescription> availableAnimations()
@@ -37,12 +37,12 @@ public:
     }
 
 private:
-    typedef MinoAnimation* (*MinoAnimationConstructor)( Minotor* minotor );
+    typedef MinoAnimation* (*MinoAnimationConstructor)( MinoProgram* program );
 
     template<typename T>
-    static MinoAnimation* constructorHelper( Minotor* minotor )
+    static MinoAnimation* constructorHelper( MinoProgram* program )
     {
-        return new T( minotor );
+        return new T( program );
     }
 
     static QHash<QByteArray, MinoAnimationConstructor>& constructors()
