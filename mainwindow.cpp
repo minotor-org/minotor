@@ -15,6 +15,7 @@
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
 #include "uianimationproperty.h"
+#include "uiprogrambank.h"
 
 #include "minoanimation.h"
 #include "minoproperty.h"
@@ -38,22 +39,18 @@ MainWindow::MainWindow(QWidget *parent) :
     // Configuration dialog box
     _configDialog = new ConfigDialog(_minotor, this);
 
-    QHBoxLayout *lCentralWidget = new QHBoxLayout(ui->centralWidget);
+    QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
     // Programs editor (central)
 
     //connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     /*
-    foreach(MinoProgram* program, _minotor->programs())
-    {
-        UiProgramEditor * editor = new UiProgramEditor(program, sProgramsEditor);
-        connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-        lProgramsEditor->addWidget(editor);
-        lCentralWidget->addWidget(sProgramsEditor);
-    }
+
     */
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
-    ui->centralWidget->layout()->addWidget(_uiMaster);
+    lCentralWidget->addWidget(_uiMaster);
+    UiProgramBank *uiProgramBank = new UiProgramBank(_minotor, ui->centralWidget);
+    lCentralWidget->addWidget(uiProgramBank);
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
 

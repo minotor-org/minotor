@@ -28,7 +28,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     sa->setWidgetResizable(true);
 
-    QVBoxLayout *lContent = new QVBoxLayout(_wContent);
+    QHBoxLayout *lContent = new QHBoxLayout(_wContent);
     lContent->addStretch();
 
     foreach (MinoAnimation *animation, _program->animations())

@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     minomaster.cpp \
     uimaster.cpp \
     minoclocksource.cpp \
-    uichannelview.cpp \
     minoanimationfactory.cpp \
     uianimationdescription.cpp \
     uianimationpicker.cpp \
@@ -40,7 +39,10 @@ SOURCES += main.cpp\
     uiprogrameditor.cpp \
     mipromatrix.cpp \
     minaflash.cpp \
-    uimastercontrol.cpp
+    uimastercontrol.cpp \
+    uiprogrambank.cpp \
+    uiprogram.cpp \
+    uiprogramview.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -71,7 +73,9 @@ HEADERS  += mainwindow.h \
     uiprogramview.h \
     mipromatrix.h \
     minaflash.h \
-    uimastercontrol.h
+    uimastercontrol.h \
+    uiprogrambank.h \
+    uiprogram.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

@@ -21,7 +21,6 @@ public:
     explicit MinoProgram(Minotor *minotor);
     ~MinoProgram();
 
-    int id();
     virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
 
     // Animation manipulation
@@ -34,7 +33,7 @@ public:
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
     MinoAnimationList animations() { return _minoAnimations; }
     const QImage *rendering() { return _image; }
-
+    int id() { return _id; }
     // Selection
     bool isSelected() { return true; }
 

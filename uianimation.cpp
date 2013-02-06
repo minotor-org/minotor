@@ -3,7 +3,7 @@
 #include <QLayout>
 #include <QSizePolicy>
 #include <QMenu>
-
+#include <QCheckBox>
 #include <QToolButton>
 
 #include <QDebug>
@@ -11,12 +11,10 @@
 #include "uianimationproperty.h"
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
-    QGroupBox(parent)
+    QGroupBox(parent),
+    _collapsed(false)
 {
-    this->setCheckable(true);
-    this->setChecked(animation->enabled());
     this->setMaximumWidth(80);
-    connect(this, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     QWidget *wContent = new QWidget(this);
@@ -26,6 +24,17 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lContent->setSpacing(0);
     lContent->setMargin(0);
     lContent->setContentsMargins(0,0,0,0);
+
+    //Checkbox
+    _wEnable = new QWidget(wContent);
+    QHBoxLayout *lEnable = new QHBoxLayout(_wEnable);
+    _cbEnable = new QCheckBox(_wEnable);
+    _cbEnable->setFocusPolicy(Qt::NoFocus);
+    connect(_cbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
+    lEnable->addStretch();
+    lEnable->addWidget(_cbEnable);
+    lEnable->addStretch();
+    lContent->addWidget(_wEnable);
 
     QWidget *wDescription = new QWidget(this);
     lContent->addWidget(wDescription);
@@ -41,29 +50,28 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     lDescription->addWidget(_tAnimation);
     lDescription->addStretch();
-/*
-    QToolButton *tbEnable = new QToolButton(this);
-    tbEnable->setCheckable(true);
-    tbEnable->setChecked(animation->enabled());
-    connect(tbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
-    lAnimation->addWidget(tbEnable);
-*/
+
+    _wProperties = new QWidget(wContent);
+    QVBoxLayout *lProperties = new QVBoxLayout(_wProperties);
+    lContent->addWidget(_wProperties);
+
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     foreach (MinoProperty *property, animation->properties())
     {
-        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, this);
+        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
         connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-        lContent->addWidget(uiAnimationProperty);
+        lProperties->addWidget(uiAnimationProperty);
     }
     lContent->addStretch();
 
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    //this->collapse();
 }
 
 void UiAnimation::enable(const bool on)
 {
-    this->setChecked(on);
+    _cbEnable->setChecked(on);
     if(on)
     {
 
@@ -73,4 +81,18 @@ void UiAnimation::enable(const bool on)
     {
         this->setStyleSheet("QGroupBox { background-color:#323232;}");
     }
+}
+
+void UiAnimation::collapse()
+{
+    _collapsed = true;
+    _wEnable->hide();
+    _wProperties->hide();
+}
+
+void UiAnimation::expand()
+{
+    _collapsed = false;
+    _wEnable->show();
+    _wProperties->show();
 }
