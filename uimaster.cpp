@@ -5,7 +5,7 @@
 #include <QScrollArea>
 #include <QDial>
 #include <QLabel>
-#include "uiprogrameditor.h"
+#include "uimastercontrol.h"
 
 
 #include "uiprogramview.h"
@@ -15,26 +15,26 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     QVBoxLayout *lMaster = new QVBoxLayout(this);
-
     QWidget *wBackground = new QWidget(this);
+    wBackground->setObjectName("panel");
     lMaster->addWidget(wBackground);
-    wBackground->setStyleSheet("background-color:#3a3a3a;");
 
     // Master
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
 
     //Title
     QLabel *tTitle = new QLabel(this);
+    tTitle->setObjectName("title");
     lBackground->addWidget(tTitle);
-    tTitle->setStyleSheet("font:bold;font-size:14px;");
     tTitle->setText("Master");
 
     //Content
     QWidget *wContent = new QWidget(this);
+    wContent->setObjectName("panel");
     lBackground->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
-    UiProgramEditor *uiMasterEditor = new UiProgramEditor(_master->program(), wContent);
-    lContent->addWidget(uiMasterEditor);
+    UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);
+    lContent->addWidget(uiMasterControl);
 
     //master view
     QWidget *wMasterView = new QWidget(wContent);
@@ -45,7 +45,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     // Monitor
     QFrame *fMonitor = new QFrame(this);
     QVBoxLayout *lMonitor = new QVBoxLayout(fMonitor);
-    fMonitor->setStyleSheet("background-color:#202020;");
+    fMonitor->setObjectName("view");
     fMonitor->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     fMonitor->setMinimumSize(250, 170);
     lMasterView->addWidget(fMonitor);

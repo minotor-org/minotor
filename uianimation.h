@@ -1,13 +1,13 @@
 #ifndef UIANIMATION_H
 #define UIANIMATION_H
 
-#include <QFrame>
+#include <QGroupBox>
 
 #include <QLabel>
 
 #include "minoanimation.h"
 
-class UiAnimation : public QFrame
+class UiAnimation : public QGroupBox
 {
     Q_OBJECT
 public:

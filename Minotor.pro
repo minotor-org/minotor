@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     minoprogram.cpp \
     uiprogrameditor.cpp \
     mipromatrix.cpp \
-    minaflash.cpp
+    minaflash.cpp \
+    uimastercontrol.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -71,7 +72,8 @@ HEADERS  += mainwindow.h \
     uiprogrameditor.h \
     uiprogramview.h \
     mipromatrix.h \
-    minaflash.h
+    minaflash.h \
+    uimastercontrol.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
@@ -85,3 +87,6 @@ unix: CONFIG += extserialport
 
 RESOURCES += \
     minotor.qrc
+
+OTHER_FILES += \
+    style.qss

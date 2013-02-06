@@ -17,6 +17,7 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     foreach(MinoAnimationDescription animation, animations)
     {
         UiAnimationDescription *ad = new UiAnimationDescription(animation, this);
+        ad->setObjectName("image");
         layout()->addWidget(ad);
     }
 }

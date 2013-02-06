@@ -11,5 +11,4 @@ UiAnimationDescription::UiAnimationDescription(const MinoAnimationDescription an
     this->setMinimumSize(96, 72);
     this->setMaximumSize(96, 72);
     this->setAlignment(Qt::AlignCenter);
-    this->setStyleSheet("background-color:white;");
 }

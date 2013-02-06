@@ -16,14 +16,13 @@ UiDial::UiDial(MinoProperty *property, QWidget *parent) :
     this->setMinimum(0);
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(setAnimationPropertyValue(int)));
     this->setMaximumHeight(40);
-    setStyle(new QMotifStyle);
 
     if(property->step() != 0.0)
     {
         setNotchesVisible(true);
         const qreal step = (qreal)127*property->step();
         setSingleStep(qRound(step));
-        qDebug() << "UiDial should display notches (" << singleStep() << "~=" << step << ")";
+        //qDebug() << "UiDial should display notches (" << singleStep() << "~=" << step << ")";
     }
 }
 
