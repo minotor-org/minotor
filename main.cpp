@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     style +="QCheckBox#arrow {background-color:transparent;}";
     style +="QCheckBox#arrow::indicator:unchecked {image: url(:/pictos/arrow_closed.png);}";
     style +="QCheckBox#arrow::indicator:checked {image: url(:/pictos/arrow_opened.png);}";
+    style +="QPushButton {background-color:#3a3a3a;}";
 
     //style +="UiAnimationPicker#scrollcontent {background-color:#454545;}";
 

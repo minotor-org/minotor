@@ -22,7 +22,7 @@ protected:
 signals:
     
 public slots:
-
+    void updateProgram();
 private slots:
 
 

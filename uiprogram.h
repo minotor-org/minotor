@@ -11,12 +11,14 @@ class UiProgram : public QWidget
 public:
     explicit UiProgram(MinoProgram *program, QWidget *parent = 0);
 private:
+    MinoProgram *_program;
     QFrame *_fPreview;
     QWidget *_wBackground;
 signals:
-    
+
 public slots:
     void setExpanded(bool expanded);
+    void setOnAir(bool onAir);
 };
 
 #endif // UIPROGRAM_H

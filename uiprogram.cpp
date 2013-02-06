@@ -1,13 +1,17 @@
 #include "uiprogram.h"
+#include <QDebug>
 #include <QLayout>
 #include <QLabel>
 #include <QScrollArea>
 #include <QCheckBox>
+#include <QPushButton>
+#include "minotor.h"
 #include "uiprogramview.h"
 #include "uiprogrameditor.h"
 
 UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    _program(program)
 {
     QVBoxLayout *lProgram = new QVBoxLayout(this);
 
@@ -37,6 +41,12 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QWidget *wCollapse = new QWidget(wRightArea);
     lRightArea->addWidget(wCollapse);
     QHBoxLayout *lCollapse = new QHBoxLayout(wCollapse);
+    QPushButton *bOnAir = new QPushButton(wRightArea);
+    bOnAir->setCheckable(true);
+    bOnAir->setObjectName("bOnAir");
+    bOnAir->setText("On Air");
+    connect(bOnAir,SIGNAL(toggled(bool)),this,SLOT(setOnAir(bool)));
+    lCollapse->addWidget(bOnAir);
     lCollapse->addStretch();
     QCheckBox *cbCollapse = new QCheckBox(wCollapse);
     cbCollapse->setObjectName("arrow");
@@ -81,4 +91,10 @@ void UiProgram::setExpanded(bool expanded)
        this->setMinimumHeight(110);
        this->setMaximumHeight(110);
     }
+}
+
+void UiProgram::setOnAir(bool onAir)
+{
+    qDebug() << "On Air" << onAir;
+    _program->minotor()->master()->setProgram(_program);
 }

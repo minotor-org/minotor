@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QScrollArea>
+#include <QPushButton>
 #include "uiprogram.h"
 
 UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
@@ -39,11 +40,15 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     wScrollContent->setObjectName("scrollbackground");
     sa->setWidget(wScrollContent);
     QVBoxLayout *lScrollContent =  new QVBoxLayout(wScrollContent);
+    _bgOnAir = new QButtonGroup(wScrollContent);
 
     foreach(MinoProgram* program, minotor->programs())
     {
 
         UiProgram *uip = new UiProgram(program, wScrollContent);
+        QPushButton *pbOnAir = uip->findChild<QPushButton*>("bOnAir");
+        _bgOnAir->addButton(pbOnAir);
+        //connect(uip->b,SIGNAL(clicked(bool)),;
         //connect(uip, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
         lScrollContent->addWidget(uip);
 

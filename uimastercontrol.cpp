@@ -40,7 +40,7 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     {
         addAnimation(animation);
     }
-
+    connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
 }
 
 void UiMasterControl::addAnimation(MinoAnimation *animation)
@@ -49,6 +49,19 @@ void UiMasterControl::addAnimation(MinoAnimation *animation)
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
 
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
+}
+
+void UiMasterControl::updateProgram()
+{
+    qDebug() << "updateProgram";
+    foreach (UiAnimation *animation, this->findChildren<UiAnimation*>())
+    {
+        delete(animation);
+    }
+    foreach (MinoAnimation *animation, _master->program()->animations())
+    {
+        addAnimation(animation);
+    }
 }
 
 UiMasterControl::~UiMasterControl()

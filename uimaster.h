@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "minotor.h"
+#include "uiprogramview.h"
 
 class UiMaster : public QWidget
 {
@@ -14,9 +15,11 @@ signals:
 
 private slots:
     void brightnessChanged(int value);
-
+    void updateProgram();
 protected:
     MinoMaster *_master;
+private:
+    UiProgramView *_uiMasterMonitor;
 };
 
 #endif // UIMASTER_H

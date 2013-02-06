@@ -15,6 +15,7 @@ protected:
         void paintEvent(QPaintEvent *event);
         virtual int heightForWidth( int width ) const;
 public slots:
+        void setProgram(MinoProgram *program);
 private:
     MinoProgram *_program;
 };

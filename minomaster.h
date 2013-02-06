@@ -11,12 +11,12 @@ public:
     ~MinoMaster();
 
     QString name() { return QString("Master"); }
-    void setProgram(MinoProgram *program) { _program = program; }
+    void setProgram(MinoProgram *program);
     MinoProgram *program() { return _program; }
 private:
     MinoProgram *_program;
 signals:
-    
+    void programChanged();
 public slots:
     void setBrightness(qreal value);
 };

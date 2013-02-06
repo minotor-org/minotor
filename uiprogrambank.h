@@ -2,6 +2,7 @@
 #define UIPROGRAMBANK_H
 
 #include <QWidget>
+#include <QButtonGroup>
 #include "minotor.h"
 
 class UiProgramBank : public QWidget
@@ -13,7 +14,8 @@ public:
 signals:
     
 public slots:
-    
+private:
+    QButtonGroup *_bgOnAir;
 };
 
 #endif // UIPROGRAMBANK_H

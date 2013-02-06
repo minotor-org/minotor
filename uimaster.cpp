@@ -14,6 +14,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
     _master(master)
 {
+    connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
     this->setMaximumHeight(335);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
     QWidget *wBackground = new QWidget(this);
@@ -48,7 +49,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     //master view
     QWidget *wMasterView = new QWidget(wContent);
     lContent->addWidget(wMasterView);
-    wMasterView->setMaximumWidth(244);
+    wMasterView->setMaximumWidth(245);
     QVBoxLayout *lMasterView = new QVBoxLayout(wMasterView);
 
     // Monitor
@@ -58,10 +59,10 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     fMonitor->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     fMonitor->setMinimumSize(240, 160);
     lMasterView->addWidget(fMonitor);
-    UiProgramView *uiMasterMonitor = new UiProgramView(_master->program(), fMonitor);
+    _uiMasterMonitor = new UiProgramView(_master->program(), fMonitor);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
-    lMonitor->addWidget(uiMasterMonitor);
+    lMonitor->addWidget(_uiMasterMonitor);
 
     //Monitor tools
     QWidget *wTools = new QWidget(wMasterView);
@@ -84,3 +85,9 @@ void UiMaster::brightnessChanged(int value)
 {
     _master->setBrightness((qreal)value/127);
 }
+
+void UiMaster::updateProgram()
+{
+    _uiMasterMonitor->setProgram(_master->program());
+}
+
