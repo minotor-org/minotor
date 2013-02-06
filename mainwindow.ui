@@ -33,8 +33,8 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dwDebug">
-   <property name="features">
-    <set>QDockWidget::DockWidgetMovable</set>
+   <property name="windowTitle">
+    <string>Debug</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -136,8 +136,11 @@
      <height>140</height>
     </size>
    </property>
+   <property name="windowTitle">
+    <string>Animation Picker</string>
+   </property>
    <attribute name="dockWidgetArea">
-    <number>4</number>
+    <number>8</number>
    </attribute>
    <widget class="QWidget" name="dwAnimationPickerContent">
     <layout class="QVBoxLayout" name="verticalLayout_4"/>

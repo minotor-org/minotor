@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _actionMidiCapture = new QAction("Assign MIDI control", this);
     connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
 
+    ui->dwDebug->hide();
+
     // Configuration dialog box
     _configDialog = new ConfigDialog(_minotor, this);
 
