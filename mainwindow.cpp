@@ -42,9 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // Programs editor (central)
     QSplitter *sProgramsEditor = new QSplitter(Qt::Vertical, ui->centralWidget);
     QVBoxLayout *lProgramsEditor = new QVBoxLayout(sProgramsEditor);
-    _uiMasterEditor = new UiProgramEditor(_minotor->master()->program(), sProgramsEditor);
-    lProgramsEditor->addWidget(_uiMasterEditor);
-    connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+
+
+    //connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
     foreach(MinoProgram* program, _minotor->programs())
     {

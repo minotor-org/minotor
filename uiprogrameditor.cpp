@@ -23,6 +23,9 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 
     _wContent = new QWidget(this);
     sa->setWidget(_wContent);
+    sa->setFocusPolicy(Qt::NoFocus);
+    sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     sa->setWidgetResizable(true);
 
     QVBoxLayout *lContent = new QVBoxLayout(_wContent);

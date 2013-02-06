@@ -74,7 +74,8 @@ HEADERS  += mainwindow.h \
     minaflash.h
 
 FORMS    += mainwindow.ui \
-    configdialog.ui
+    configdialog.ui \
+    mainwindowng.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
 
