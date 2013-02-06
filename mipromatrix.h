@@ -8,7 +8,7 @@ class MiproMatrix : public MinoProgram
     Q_OBJECT
 public:
     explicit MiproMatrix(Minotor *minotor);
-    QString name() { return QString("Cue"); }
+    QString name() { return QString("Matrix"); }
 
 signals:
     

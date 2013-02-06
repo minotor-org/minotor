@@ -12,6 +12,7 @@
 #include "minaflash.h"
 #include "minawaveform.h"
 #include "minabarsfromsides.h"
+#include "miprowaves.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -21,6 +22,7 @@ Minotor::Minotor(QObject *parent) :
 
     _master = new MinoMaster();
     _master->setProgram(new MiproMatrix(this));
+    new MiproWaves(this);
 
     // MIDI interfaces
     Midi *midi = new Midi(this);

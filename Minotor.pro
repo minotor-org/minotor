@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     uimastercontrol.cpp \
     uiprogrambank.cpp \
     uiprogram.cpp \
-    uiprogramview.cpp
+    uiprogramview.cpp \
+    miprowaves.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -75,7 +76,8 @@ HEADERS  += mainwindow.h \
     minaflash.h \
     uimastercontrol.h \
     uiprogrambank.h \
-    uiprogram.h
+    uiprogram.h \
+    miprowaves.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

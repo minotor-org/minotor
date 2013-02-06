@@ -36,7 +36,7 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     QWidget *wScrollContent = new QWidget(sa);
     sa->setWidget(wScrollContent);
-    QHBoxLayout *lScrollContent =  new QHBoxLayout(wScrollContent);
+    QVBoxLayout *lScrollContent =  new QVBoxLayout(wScrollContent);
 
     foreach(MinoProgram* program, minotor->programs())
     {
