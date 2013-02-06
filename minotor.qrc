@@ -1,8 +1,8 @@
 <RCC>
-    <qresource prefix="/animations">
-        <file>res/flash.png</file>
-    </qresource>
     <qresource prefix="/">
         <file>style.qss</file>
+        <file>images/flash.png</file>
+        <file>pictos/arrow_closed.png</file>
+        <file>pictos/arrow_opened.png</file>
     </qresource>
 </RCC>

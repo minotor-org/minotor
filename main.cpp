@@ -30,6 +30,10 @@ int main(int argc, char *argv[])
     style +="QCheckBox {background-color:#2c2c2c;}";
     style +="QDockWidget {background-color:#3a3a3a;}";
     style +="QDockWidget::title {padding-left:10px;font:bold;font-size:30px;background-color: #3a3a3a;}";
+    style +="QCheckBox#arrow {background-color:transparent;}";
+    style +="QCheckBox#arrow::indicator:unchecked {image: url(:/pictos/arrow_closed.png);}";
+    style +="QCheckBox#arrow::indicator:checked {image: url(:/pictos/arrow_opened.png);}";
+
     //style +="UiAnimationPicker#scrollcontent {background-color:#454545;}";
 
     qDebug() << "style" << style;

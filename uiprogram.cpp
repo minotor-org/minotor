@@ -39,6 +39,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QHBoxLayout *lCollapse = new QHBoxLayout(wCollapse);
     lCollapse->addStretch();
     QCheckBox *cbCollapse = new QCheckBox(wCollapse);
+    cbCollapse->setObjectName("arrow");
     cbCollapse->setChecked(false);
     lCollapse->addWidget(cbCollapse);
     connect(cbCollapse,SIGNAL(toggled(bool)),this,SLOT(setExpanded(bool)));
