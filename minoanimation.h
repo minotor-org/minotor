@@ -51,6 +51,7 @@ public:
 
 public slots:
     void setEnabled(const bool enabled);
+    void setDelayedEnabled(const bool enabled);
 
 protected:
     // Parent

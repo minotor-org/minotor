@@ -65,7 +65,6 @@ MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)
 
 void MinoProgram::setDrawingPos(const QPointF pos)
 {
-    qDebug() << "draw pos" << pos;
      _itemGroup.setPos(pos);
      _drawingPos = pos;
 }
@@ -81,19 +80,14 @@ void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, con
         {
             foreach(MinoAnimation *animation, _minoAnimationsToEnable)
             {
-                animation->graphicItem()->show();
-                qDebug() << "animation: (0,0) scene: " << animation->graphicItem()->mapToScene(0, 0);
                 animation->_setEnabled(true);
             }
             _minoAnimationsToEnable.clear();
         }
         if(_minoAnimationsToDisable.count())
         {
-            qDebug() << "program" << _id << ": (0,0) scene: " << _itemGroup.mapToScene(0,0);
             foreach(MinoAnimation *animation, _minoAnimationsToDisable)
             {
-                animation->graphicItem()->hide();
-                qDebug() << "animation: (0,0) scene: " << animation->graphicItem()->mapToScene(0, 0);
                 animation->_setEnabled(false);
             }
             _minoAnimationsToDisable.clear();
@@ -103,7 +97,7 @@ void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, con
     // Animate whole content (ie. this includes objects creation/desctruction moves)
     foreach(MinoAnimation *minoAnimation, _minoAnimations)
     {
-        //if(minoAnimation->enabled())
+        if(minoAnimation->enabled())
         {
             minoAnimation->animate(gppqn, ppqn, qn);
         }
@@ -111,7 +105,6 @@ void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, con
 
     // Reset position to the affected one_itemGroup
     _itemGroup.setPos(_drawingPos);
-    if(ppqn==0) qDebug() << "program" << _id << ": (0,0) scene: " << _itemGroup.mapToScene(0,0) << "drawing pos:" << _drawingPos;
 
     // Set background
     _image->fill(Qt::black);

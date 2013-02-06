@@ -38,13 +38,22 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
     */
 }
 
-void MinoAnimation::setEnabled(const bool on)
+void MinoAnimation::setDelayedEnabled(const bool on)
 {
         _program->registerAnimationEnableChange(this, on);
+}
+
+void MinoAnimation::setEnabled(const bool on)
+{
+    if(on != _enabled)
+    {
+        _setEnabled(on);
+    }
 }
 
 void MinoAnimation::_setEnabled(const bool on)
 {
     _enabled = on;
+    graphicItem()->setVisible(on);
     emit enabledChanged(on);
 }

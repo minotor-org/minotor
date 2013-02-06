@@ -26,14 +26,20 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lContent->setMargin(0);
     lContent->setContentsMargins(0,0,0,0);
 
-    //Checkbox
+    //Checkboxes
     _wEnable = new QWidget(wContent);
     QHBoxLayout *lEnable = new QHBoxLayout(_wEnable);
     _cbEnable = new QCheckBox(_wEnable);
     _cbEnable->setFocusPolicy(Qt::NoFocus);
     connect(_cbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
+    QCheckBox *cbDelayedEnable = new QCheckBox(_wEnable);
+    cbDelayedEnable->setFocusPolicy(Qt::NoFocus);
+    connect(cbDelayedEnable, SIGNAL(toggled(bool)), animation, SLOT(setDelayedEnabled(bool)));
     lEnable->addStretch();
     lEnable->addWidget(_cbEnable);
+    lEnable->addStretch();
+    lEnable->addWidget(cbDelayedEnable);
+    connect(_cbEnable, SIGNAL(toggled(bool)), cbDelayedEnable, SLOT(setChecked(bool)));
     lEnable->addStretch();
     lContent->addWidget(_wEnable);
 
