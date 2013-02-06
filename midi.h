@@ -41,6 +41,7 @@ signals:
     void stopReceived();
     void continueReceived();
     void controlChanged(quint8 channel, quint8 number, quint8 value);
+    void noteChanged(quint8 channel, bool on, quint8 number, quint8 value);
 
 public slots:
     
