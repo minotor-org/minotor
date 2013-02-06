@@ -26,12 +26,13 @@ protected:
 signals:
     
 public slots:
-
+    void setExpanded(bool expanded);
 private slots:
 
 
 private:
     MinoProgram *_program;
+    bool _expanded;
 };
 
 #endif // UICHANNELEDITOR_H

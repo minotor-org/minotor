@@ -42,10 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
     // Programs editor (central)
 
-    //connect(_uiMasterEditor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
-    /*
-
-    */
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
     lCentralWidget->addWidget(_uiMaster);
@@ -87,10 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sa->setFocusPolicy(Qt::NoFocus);
     sa->setWidgetResizable(true);
     UiAnimationPicker *ap = new UiAnimationPicker(sa);
-    //ap->setObjectName("scrollcontent");
-    //sa->setLayout(new QHBoxLayout);
-   // sa->layout()->addWidget(ap);
-    ap->setStyleSheet("background-color:#454545;");
+
     sa->setWidget(ap);
     ui->panel->layout()->addWidget(sa);
     ui->panel->layout()->setSpacing(0);

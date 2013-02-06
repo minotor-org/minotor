@@ -18,7 +18,9 @@ int main(int argc, char *argv[])
     style = "QWidget { color:#ffffff;}";
     style += "QWidget#panel { background-color:#3a3a3a; }";
     style += "QWidget#content { background-color:#2c2c2c;border-radius:3px;}";
-    //style += "QWidget#scrollcontent {background-color:#454545;}";
+    style += "QWidget#programbackground {background-color:#333333;border-radius:3px;}";
+    style += "QWidget#scrollbackground {background-color:#454545;}";
+    style += "QScrollArea#scroll {background-color:#3a3a3a;}";
     style +="QGroupBox { background-color:#323232;border-radius:3px; }";
     style +="QLabel#title {font:bold;font-size:14px;}";
     style +="QLabel#image {background-color:#666666;border-radius:3px;}";

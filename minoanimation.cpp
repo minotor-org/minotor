@@ -40,10 +40,7 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 
 void MinoAnimation::setEnabled(const bool on)
 {
-    if(_enabled != on)
-    {
         _program->registerAnimationEnableChange(this, on);
-    }
 }
 
 void MinoAnimation::_setEnabled(const bool on)

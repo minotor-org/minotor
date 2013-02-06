@@ -12,13 +12,11 @@ class UiAnimation : public QGroupBox
     Q_OBJECT
 public:
     explicit UiAnimation(MinoAnimation *animation, QWidget *parent);
-    void collapse();
-    void expand();
+    void setExpanded(bool expanded);
 protected:
     QLabel *_tAnimation;
 
 private:
-    bool _collapsed;
     QWidget *_wProperties;
     QWidget *_wEnable;
     QCheckBox *_cbEnable;

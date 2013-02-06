@@ -11,10 +11,11 @@
 #include "uianimationproperty.h"
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
-    QGroupBox(parent),
-    _collapsed(false)
+    QGroupBox(parent)
 {
+    this->setMinimumWidth(80);
     this->setMaximumWidth(80);
+    animation->setEnabled(false);
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     QWidget *wContent = new QWidget(this);
@@ -66,7 +67,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lContent->addStretch();
 
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-    //this->collapse();
+
 }
 
 void UiAnimation::enable(const bool on)
@@ -83,16 +84,9 @@ void UiAnimation::enable(const bool on)
     }
 }
 
-void UiAnimation::collapse()
+void UiAnimation::setExpanded(bool expanded)
 {
-    _collapsed = true;
-    _wEnable->hide();
-    _wProperties->hide();
-}
+    _wEnable->setVisible(expanded);
+    _wProperties->setVisible(expanded);
 
-void UiAnimation::expand()
-{
-    _collapsed = false;
-    _wEnable->show();
-    _wProperties->show();
 }

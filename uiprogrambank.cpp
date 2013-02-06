@@ -23,11 +23,12 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     //Content
     QWidget *wContent = new QWidget(this);
-    wContent->setObjectName("panel");
     lBackground->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
 
     QScrollArea *sa = new QScrollArea(wContent);
+    sa->setObjectName("scroll");
+    sa->setFrameShadow(QFrame::Plain);
     sa->setFocusPolicy(Qt::NoFocus);
     sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -35,6 +36,7 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     lContent->addWidget(sa);
 
     QWidget *wScrollContent = new QWidget(sa);
+    wScrollContent->setObjectName("scrollbackground");
     sa->setWidget(wScrollContent);
     QVBoxLayout *lScrollContent =  new QVBoxLayout(wScrollContent);
 
@@ -46,5 +48,6 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
         lScrollContent->addWidget(uip);
 
     }
+    lScrollContent->addStretch();
 
 }

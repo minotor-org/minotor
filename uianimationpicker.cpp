@@ -14,7 +14,7 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
 {
     setLayout(new QHBoxLayout);
     QWidget *wContent = new QWidget(this);
-    wContent->setObjectName("panel");
+    wContent->setObjectName("scrollbackground");
     this->layout()->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
 

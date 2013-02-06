@@ -13,7 +13,8 @@
 
 UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _program(program)
+    _program(program),
+    _expanded(true)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -22,7 +23,9 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     layout->addWidget(sa);
 
     _wContent = new QWidget(this);
+    _wContent->setObjectName("scrollbackground");
     sa->setWidget(_wContent);
+    sa->setFrameShadow(QFrame::Plain);
     sa->setFocusPolicy(Qt::NoFocus);
     sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -42,6 +45,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 void UiProgramEditor::addAnimation(MinoAnimation *animation)
 {
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
+    uiAnimation->setExpanded(_expanded);
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
 
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
@@ -107,5 +111,14 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         }
     } else {
         event->ignore();
+    }
+}
+void UiProgramEditor::setExpanded(bool expanded)
+{
+    _expanded = expanded;
+    QList<UiAnimation*> animations = _wContent->findChildren<UiAnimation*>();
+    foreach(UiAnimation *animation, animations)
+    {
+        animation->setExpanded(expanded);
     }
 }

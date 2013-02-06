@@ -14,6 +14,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
     _master(master)
 {
+    this->setMaximumHeight(335);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
     QWidget *wBackground = new QWidget(this);
     wBackground->setObjectName("panel");
@@ -33,13 +34,21 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     wContent->setObjectName("panel");
     lBackground->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
+
+    //master left widget
+    QWidget *leftArea = new QWidget(wContent);
+    lContent->addWidget(leftArea);
+    QVBoxLayout *lLeftArea = new QVBoxLayout(leftArea);
+    leftArea->setMinimumSize(66,20);
+    leftArea->setMaximumSize(66,20);
+    //master control
     UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);
     lContent->addWidget(uiMasterControl);
 
     //master view
     QWidget *wMasterView = new QWidget(wContent);
     lContent->addWidget(wMasterView);
-    wMasterView->setMaximumWidth(240);
+    wMasterView->setMaximumWidth(244);
     QVBoxLayout *lMasterView = new QVBoxLayout(wMasterView);
 
     // Monitor
@@ -47,7 +56,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QVBoxLayout *lMonitor = new QVBoxLayout(fMonitor);
     fMonitor->setObjectName("view");
     fMonitor->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    fMonitor->setMinimumSize(250, 170);
+    fMonitor->setMinimumSize(240, 160);
     lMasterView->addWidget(fMonitor);
     UiProgramView *uiMasterMonitor = new UiProgramView(_master->program(), fMonitor);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);

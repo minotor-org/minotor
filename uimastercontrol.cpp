@@ -16,17 +16,21 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-
+    QWidget *wContent = new QWidget(this);
+    layout->addWidget(wContent);
+    wContent->setObjectName("panel");
     // Animations properties
     QScrollArea *sa = new QScrollArea(this);
     layout->addWidget(sa);
 
 
     _wContent = new QWidget(this);
+    _wContent->setObjectName("scrollbackground");
     sa->setWidget(_wContent);
-    sa->setFocusPolicy(Qt::NoFocus);
+    sa->setFrameShadow(QFrame::Plain);
     sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    sa->setFocusPolicy(Qt::NoFocus);
     sa->setWidgetResizable(true);
 
     QHBoxLayout *lContent = new QHBoxLayout(_wContent);
