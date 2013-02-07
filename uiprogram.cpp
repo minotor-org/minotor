@@ -117,10 +117,10 @@ void UiProgram::setOnAir(bool onAir)
     _program->minotor()->master()->setProgram(_program);
     if (onAir)
     {
-        _border->setStyleSheet("#border {background-color:#e75f00;border-radius:3px}");
+        _border->setStyleSheet("#border {background-color:#e75f00;border-radius:5px}");
     }
     else
     {
-        _border->setStyleSheet("#border {border-radius:3px}");
+        _border->setStyleSheet("#border {}");
     }
 }

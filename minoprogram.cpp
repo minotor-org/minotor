@@ -51,6 +51,7 @@ void MinoProgram::addAnimation(MinoAnimation *animation)
     animation->graphicItem()->setParentItem(&_itemGroup);
     animation->graphicItem()->setGroup(&_itemGroup);
     animation->graphicItem()->setPos(0,0);
+    animation->setEnabled(false);
 }
 
 MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)

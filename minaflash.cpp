@@ -4,7 +4,8 @@
 #include <QDebug>
 
 MinaFlash::MinaFlash(MinoProgram *program):
-    MinoAnimation(program)
+    MinoAnimation(program),
+    _rectItem(NULL)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
@@ -14,14 +15,13 @@ MinaFlash::MinaFlash(MinoProgram *program):
     _properties.append(&_color);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(0.4, 1.0, 1.0);
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
-    _rectItem->hide();
 }
 
 MinaFlash::~MinaFlash()
 {
-    delete _rectItem;
+    //delete _rectItem;
 }
 
 void MinaFlash::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -32,7 +32,8 @@ void MinaFlash::animate(const unsigned int gppqn, const unsigned int ppqn, const
 
     QColor color;
     color.setHsvF(_color.value(), 1.0, 1.0);
-    _rectItem->setBrush(QBrush(color));
 
+    _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
+    _rectItem->setBrush(QBrush(color));
     _rectItem->setOpacity(_beatAnimatedProperty.currentValue().toFloat());
 }

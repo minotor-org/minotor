@@ -34,7 +34,6 @@
    </widget>
    <addaction name="menu_File"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dwDebug">
    <property name="windowTitle">
     <string>Debug</string>
@@ -156,7 +155,7 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="panel">
+   <widget class="QWidget" name="toolbarpanel">
     <layout class="QVBoxLayout" name="verticalLayout_4"/>
    </widget>
   </widget>

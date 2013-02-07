@@ -10,6 +10,7 @@
 #include <QToolButton>
 #include <QLCDNumber>
 #include <QSplitter>
+#include <QDoubleSpinBox>
 
 #include "uidial.h"
 #include "uianimationdescription.h"
@@ -42,6 +43,71 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
     // Programs editor (central)
 
+    //Toolbar
+    QToolBar *_tToolBar = this->addToolBar("tools");
+
+    QButtonGroup *_bgTransport = new QButtonGroup(_tToolBar);
+    //Transport
+    QPushButton *pbStart = new QPushButton(_tToolBar);
+    _tToolBar->addWidget(pbStart);
+    _bgTransport->addButton(pbStart);
+    pbStart->setCheckable(true);
+    pbStart->setIcon(QIcon(":/pictos/play.png"));
+    pbStart->setIconSize(QSize(16,16));
+    pbStart->setMinimumSize(30,30);
+    pbStart->setMaximumSize(30,30);
+    connect(pbStart,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStart()));
+    //_tToolBar->addSeparator();
+    QPushButton *pbStop = new QPushButton(_tToolBar);
+    _tToolBar->addWidget(pbStop);
+    _bgTransport->addButton(pbStop);
+    pbStop->setCheckable(true);
+    pbStop->setIcon(QIcon(":/pictos/stop.png"));
+    pbStop->setIconSize(QSize(16,16));
+    pbStop->setMinimumSize(30,30);
+    pbStop->setMaximumSize(30,30);
+    //pbStop->setText("Stop");
+    connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
+    //_tToolBar->addSeparator();
+    QPushButton *pbSync = new QPushButton(_tToolBar);
+    _tToolBar->addWidget(pbSync);
+    pbSync->setIcon(QIcon(":/pictos/sync.png"));
+    pbSync->setIconSize(QSize(16,16));
+    pbSync->setMinimumSize(30,30);
+    pbSync->setMaximumSize(30,30);
+    //pbSync->setText("Sync");
+    connect(pbSync,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiSync()));
+    _tToolBar->addSeparator();
+    //BPM
+    QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(_tToolBar);
+    _sbBPM->setMinimum(20);
+    _sbBPM->setMaximum(300);
+    _sbBPM->setSingleStep(0.1);
+    _sbBPM->setDecimals(1);
+    _sbBPM->setFocusPolicy(Qt::NoFocus);
+
+    _tToolBar->addWidget(_sbBPM);
+    _sbBPM->setValue(_minotor->clockSource()->bpm());
+    connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), _sbBPM, SLOT(setValue(double)));
+    connect(_sbBPM,SIGNAL(valueChanged(double)),_minotor->clockSource(),SLOT(setBPM(double)));
+
+    //Tap
+    QPushButton *pbTap = new QPushButton(_tToolBar);
+    _tToolBar->addWidget(pbTap);
+    pbTap->setIcon(QIcon(":/pictos/tap.png"));
+    pbTap->setIconSize(QSize(20,20));
+    pbTap->setMinimumSize(30,30);
+    pbTap->setMaximumSize(30,30);
+    connect(pbTap,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiTapOn()));
+    _tToolBar->addSeparator();
+
+    // MIDI toolbar
+    QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
+    connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
+    pbMidiLearn->setText("MIDI learn");
+    pbMidiLearn->setCheckable(true);
+    _tToolBar->addWidget(pbMidiLearn);
+
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
     lCentralWidget->addWidget(_uiMaster);
@@ -62,10 +128,10 @@ MainWindow::MainWindow(QWidget *parent) :
     UiAnimationPicker *ap = new UiAnimationPicker(sa);
 
     sa->setWidget(ap);
-    ui->panel->layout()->addWidget(sa);
-    ui->panel->layout()->setSpacing(0);
-    ui->panel->layout()->setMargin(0);
-    ui->panel->layout()->setContentsMargins(0,0,0,0);
+    ui->toolbarpanel->layout()->addWidget(sa);
+    ui->toolbarpanel->layout()->setSpacing(0);
+    ui->toolbarpanel->layout()->setMargin(0);
+    ui->toolbarpanel->layout()->setContentsMargins(0,0,0,0);
 }
 
 MainWindow::~MainWindow()

@@ -69,11 +69,12 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     foreach (MinoProperty *property, animation->properties())
     {
         UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
+        uiAnimationProperty->setObjectName("animationproperty");
         connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
         lProperties->addWidget(uiAnimationProperty);
     }
-    lContent->addStretch();
 
+    lContent->addStretch();
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
 }

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>style.qss</file>
         <file>images/flash.png</file>
         <file>pictos/arrow_closed.png</file>
         <file>pictos/arrow_opened.png</file>
@@ -8,5 +7,14 @@
         <file>images/barsfromsides.png</file>
         <file>images/expandingobjects.png</file>
         <file>images/waveform.png</file>
+        <file>pictos/play.png</file>
+        <file>pictos/stop.png</file>
+        <file>pictos/sync.png</file>
+        <file>pictos/left-arrow.png</file>
+        <file>pictos/down-arrow.png</file>
+        <file>pictos/right-arrow.png</file>
+        <file>pictos/up-arrow.png</file>
+        <file>pictos/handle.png</file>
+        <file>pictos/tap.png</file>
     </qresource>
 </RCC>

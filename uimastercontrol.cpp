@@ -16,6 +16,9 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setSpacing(0);
+    layout->setMargin(0);
+    layout->setContentsMargins(0,0,0,5);
     QWidget *wContent = new QWidget(this);
     layout->addWidget(wContent);
     wContent->setObjectName("panel");

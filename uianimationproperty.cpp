@@ -71,11 +71,17 @@ void UiAnimationProperty::paintEvent(QPaintEvent *pe)
 
         QPainter painter(this);
         painter.setPen(Qt::NoPen);
-        QColor color(127, 127, 127, 127);
+        QColor color(127, 127, 127, 80);
         if (this->testAttribute(Qt::WA_UnderMouse))
+        {
             color.setGreen(255);
+        }
         else
-            color.setRed(255);
+        {
+            color.setRed(230);
+            color.setGreen(95);
+            color.setBlue(0);
+        }
 
         if (_dial->property()->isMidiControlled())
         {

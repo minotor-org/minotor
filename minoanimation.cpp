@@ -6,7 +6,7 @@
 MinoAnimation::MinoAnimation(MinoProgram *program) :
     QObject(program),
     _program(program),
-    _enabled(false)
+    _enabled(true)
 {
     _scene = program->minotor()->scene();
     _boundingRect = program->minotor()->displayRect();

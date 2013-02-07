@@ -93,4 +93,4 @@ RESOURCES += \
     minotor.qrc
 
 OTHER_FILES += \
-    style.qss
+    style.css
