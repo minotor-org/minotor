@@ -31,6 +31,10 @@ void MinoMaster::setProgram(MinoProgram *program)
 }
 
 
+#define KORG_NOTE_SHIFT 24
+#define KORG_NOTE_MIN   9
+#define KORG_NOTE_MAX   24
+
 void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
 {
     if(_program)
@@ -38,13 +42,13 @@ void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
         qDebug() << "note changed" << channel << note << on << value;
         switch(note)
         {
-        case 72:
+        case KORG_NOTE_SHIFT:
             _shifted = on;
             break;
         default:
         {
-            const int noteMin = 57;
-            const int noteMax = qMax(60, noteMin + _program->animations().count() - 1);
+            const int noteMin = KORG_NOTE_MIN;
+            const int noteMax = qMax(KORG_NOTE_MAX, noteMin + _program->animations().count() - 1);
             if ((note >= noteMin) && (note <= noteMax))
             {
                 const int i = note-noteMin;
