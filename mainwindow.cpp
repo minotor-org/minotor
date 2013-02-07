@@ -41,15 +41,22 @@ MainWindow::MainWindow(QWidget *parent) :
     _configDialog = new ConfigDialog(_minotor, this);
 
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
+    lCentralWidget->setSpacing(5);
+    lCentralWidget->setMargin(0);
+    lCentralWidget->setContentsMargins(5,5,5,5);
     // Programs editor (central)
 
     //Toolbar
-    QToolBar *_tToolBar = this->addToolBar("tools");
+    QToolBar *_tToolBar = new QToolBar("Transport",this);
+    this->addToolBar(Qt::TopToolBarArea,_tToolBar);
 
     QButtonGroup *_bgTransport = new QButtonGroup(_tToolBar);
     //Transport
+    QWidget *wTransportButtons = new QWidget(_tToolBar);
+    _tToolBar->addWidget(wTransportButtons);
+    QHBoxLayout *lTransportButtons = new QHBoxLayout(wTransportButtons);
     QPushButton *pbStart = new QPushButton(_tToolBar);
-    _tToolBar->addWidget(pbStart);
+    lTransportButtons->addWidget(pbStart);
     _bgTransport->addButton(pbStart);
     pbStart->setCheckable(true);
     pbStart->setIcon(QIcon(":/pictos/play.png"));
@@ -57,27 +64,30 @@ MainWindow::MainWindow(QWidget *parent) :
     pbStart->setMinimumSize(30,30);
     pbStart->setMaximumSize(30,30);
     connect(pbStart,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStart()));
-    //_tToolBar->addSeparator();
     QPushButton *pbStop = new QPushButton(_tToolBar);
-    _tToolBar->addWidget(pbStop);
+    lTransportButtons->addWidget(pbStop);
     _bgTransport->addButton(pbStop);
     pbStop->setCheckable(true);
     pbStop->setIcon(QIcon(":/pictos/stop.png"));
     pbStop->setIconSize(QSize(16,16));
     pbStop->setMinimumSize(30,30);
     pbStop->setMaximumSize(30,30);
-    //pbStop->setText("Stop");
+
     connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
-    //_tToolBar->addSeparator();
     QPushButton *pbSync = new QPushButton(_tToolBar);
-    _tToolBar->addWidget(pbSync);
+    lTransportButtons->addWidget(pbSync);
     pbSync->setIcon(QIcon(":/pictos/sync.png"));
     pbSync->setIconSize(QSize(16,16));
     pbSync->setMinimumSize(30,30);
     pbSync->setMaximumSize(30,30);
-    //pbSync->setText("Sync");
     connect(pbSync,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiSync()));
     _tToolBar->addSeparator();
+
+
+    QWidget *wTempoButtons = new QWidget(_tToolBar);
+    _tToolBar->addWidget(wTempoButtons);
+    QHBoxLayout *lTempoButtons = new QHBoxLayout(wTempoButtons);
+
     //BPM
     QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(_tToolBar);
     _sbBPM->setMinimum(20);
@@ -86,14 +96,14 @@ MainWindow::MainWindow(QWidget *parent) :
     _sbBPM->setDecimals(1);
     _sbBPM->setFocusPolicy(Qt::NoFocus);
 
-    _tToolBar->addWidget(_sbBPM);
+    lTempoButtons->addWidget(_sbBPM);
     _sbBPM->setValue(_minotor->clockSource()->bpm());
     connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), _sbBPM, SLOT(setValue(double)));
     connect(_sbBPM,SIGNAL(valueChanged(double)),_minotor->clockSource(),SLOT(setBPM(double)));
 
     //Tap
     QPushButton *pbTap = new QPushButton(_tToolBar);
-    _tToolBar->addWidget(pbTap);
+    lTempoButtons->addWidget(pbTap);
     pbTap->setIcon(QIcon(":/pictos/tap.png"));
     pbTap->setIconSize(QSize(20,20));
     pbTap->setMinimumSize(30,30);
@@ -101,12 +111,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(pbTap,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiTapOn()));
     _tToolBar->addSeparator();
 
+    QWidget *wMidiButtons = new QWidget(_tToolBar);
+    _tToolBar->addWidget(wMidiButtons);
+    QHBoxLayout *lMidiButtons = new QHBoxLayout(wMidiButtons);
+
     // MIDI toolbar
     QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
     connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
     pbMidiLearn->setText("MIDI learn");
     pbMidiLearn->setCheckable(true);
-    _tToolBar->addWidget(pbMidiLearn);
+    lMidiButtons->addWidget(pbMidiLearn);
 
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
@@ -118,6 +132,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
 
+    QToolBar *_tAnimationToolBar = new QToolBar("Animations",this);
+    this->addToolBar(Qt::BottomToolBarArea,_tAnimationToolBar);
+    QWidget *_wAnimations = new QWidget(_tAnimationToolBar);
+    _tAnimationToolBar->addWidget(_wAnimations);
+    QHBoxLayout *lAnimations = new QHBoxLayout(_wAnimations);
+
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea();
     sa->setFrameShadow(QFrame::Plain);
@@ -128,10 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
     UiAnimationPicker *ap = new UiAnimationPicker(sa);
 
     sa->setWidget(ap);
-    ui->toolbarpanel->layout()->addWidget(sa);
-    ui->toolbarpanel->layout()->setSpacing(0);
-    ui->toolbarpanel->layout()->setMargin(0);
-    ui->toolbarpanel->layout()->setContentsMargins(0,0,0,0);
+    lAnimations->addWidget(sa);
 }
 
 MainWindow::~MainWindow()

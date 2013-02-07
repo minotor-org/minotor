@@ -29,6 +29,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     if(itemizedProperty)
     {
         QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), this);
+        tItemName->setObjectName("dialinfo");
         tItemName->setAlignment(Qt::AlignHCenter);
         connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
         lProperty->addWidget(tItemName);
@@ -42,14 +43,15 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     lDial->setContentsMargins(0,0,0,0);
     lDial->addStretch();
     _dial = new UiDial(property, this);
-    _dial->setMinimumSize(25,25);
-    _dial->setMaximumSize(25,25);
+    _dial->setMinimumSize(32,32);
+    _dial->setMaximumSize(32,32);
     _dial->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     connect(_dial, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
     lDial->addWidget(_dial);
     lDial->addStretch();
 
     QLabel *t = new QLabel(QString(property->objectName()), this);
+    t->setObjectName("dialinfo");
     t->setAlignment(Qt::AlignHCenter);
     lProperty->addWidget(t);
 

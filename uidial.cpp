@@ -10,13 +10,14 @@ UiDial::UiDial(MinoProperty *property, QWidget *parent) :
     _property(property)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setFocusPolicy(Qt::NoFocus);
     connect(property, SIGNAL(valueChanged(qreal)), this, SLOT(setValueFromProperty(qreal)));
     this->setValueFromProperty(property->value());
     this->setMaximum(127);
     this->setMinimum(0);
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(setAnimationPropertyValue(int)));
-    this->setMaximumHeight(40);
-
+    this->setMaximumHeight(30);
+    //this->setStyle(new QMotifStyle());
     if(property->step() != 0.0)
     {
         setNotchesVisible(true);

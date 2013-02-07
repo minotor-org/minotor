@@ -53,8 +53,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget *leftArea = new QWidget(wContent);
     lContent->addWidget(leftArea);
     QVBoxLayout *lLeftArea = new QVBoxLayout(leftArea);
-    leftArea->setMinimumSize(72,20);
-    leftArea->setMaximumSize(72,20);
+    leftArea->setMinimumSize(72,320);
+    leftArea->setMaximumSize(72,320);
     //master control
     UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);
     lContent->addWidget(uiMasterControl);
@@ -62,6 +62,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     //master view
     QWidget *wMasterView = new QWidget(wContent);
     lContent->addWidget(wMasterView);
+    wMasterView->setMinimumWidth(250);
     wMasterView->setMaximumWidth(250);
     QVBoxLayout *lMasterView = new QVBoxLayout(wMasterView);
 
