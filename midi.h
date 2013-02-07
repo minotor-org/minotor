@@ -11,6 +11,7 @@ class Midi : public QObject
     Q_OBJECT
 public:
     explicit Midi(QObject *parent = 0);
+    ~Midi();
 
     // List ports
     QStringList getPorts();

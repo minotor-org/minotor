@@ -74,9 +74,6 @@ private:
     // Master
     MinoMaster *_master;
 
-    // Programs (TODO remove this hardcoded programs)
-    MiproMatrix *_miproMatrix;
-
     // External connections
     LedMatrix *_ledMatrix;
 

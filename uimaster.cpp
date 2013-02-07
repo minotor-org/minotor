@@ -11,8 +11,8 @@
 #include "uimastercontrol.h"
 #include "minotor.h"
 
-
 #include "uiprogramview.h"
+#include "minotor.h"
 
 UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),

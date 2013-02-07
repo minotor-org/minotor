@@ -51,13 +51,14 @@ Minotor::~Minotor()
 {
     delete _clockSource;
 
-    delete _master;
-
-    delete _ledMatrix;
     foreach (Midi *midi, _midiInterfaces)
     {
         delete midi;
     }
+
+    delete _master;
+
+    delete _ledMatrix;
 }
 
 void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

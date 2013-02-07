@@ -15,6 +15,12 @@ Midi::Midi(QObject *parent) :
     }
 }
 
+Midi::~Midi()
+{
+    if(_midiIn)
+        delete _midiIn;
+}
+
 QStringList Midi::getPorts()
 {
     QStringList ports;
