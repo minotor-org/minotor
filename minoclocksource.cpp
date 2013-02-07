@@ -28,7 +28,7 @@ void MinoClockSource::internalTimerTimeout()
 void MinoClockSource::uiTapOn()
 {
     int ms = _bpmTap.restart();
-    qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs;
+    //qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs;
 
     if ( (ms < 3000) // filter tapping where BPM is less than 20 beat per minute.
          && ((qreal)abs(ms-_bpmAverageMs) < (_bpmAverageMs/2)) // filter tapping where new tap is distant from average at least 50%
@@ -46,10 +46,10 @@ void MinoClockSource::uiTapOn()
 
         _bpmPeriodMs = _bpmAverageMs;
         const qreal bpm = (1000.0 / _bpmAverageMs) * 60.0;
-        qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
+        //qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs << "(bpm" << bpm << ")" << "index" << _bpmValuesIndex << "count" << _bpmValuesCount;
 
         const qreal ms = _bpmPeriodMs / 24;
-        qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
+        // qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
         _internalTimer.setInterval(ms);
 
         emit bpmChanged(bpm);
@@ -124,6 +124,6 @@ void MinoClockSource::setBPM(double bpm)
 {
     _bpmPeriodMs = 60000.0 / bpm;
     const qreal ms = _bpmPeriodMs / 24;
-    qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
+    // qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
     _internalTimer.setInterval(ms);
 }
