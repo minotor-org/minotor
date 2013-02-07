@@ -219,3 +219,12 @@ void MainWindow::on_pbShot_clicked()
         qDebug() << "saved:" << p.save(shotname);
     }
 }
+
+void MainWindow::on_pbScene_clicked()
+{
+    QList<QGraphicsItem*> items = Minotor::minotor()->scene()->items();
+    foreach(QGraphicsItem *item, items)
+    {
+        qDebug() << item;
+    }
+}

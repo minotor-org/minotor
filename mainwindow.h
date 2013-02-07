@@ -45,6 +45,8 @@ private slots:
 
     void on_pbShot_clicked();
 
+    void on_pbScene_clicked();
+
 private:
     // UI
     // == Main window ==
