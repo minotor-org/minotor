@@ -15,11 +15,12 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
     _density.setObjectName("Density");
     _properties.append(&_density);
 
-    for (int i=0;i<_boundingRect.height();i++)
+    for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {
-        for (int j=0; j<_boundingRect.width();j++)
+        for (qreal j=0.0; j<_boundingRect.width();j+=1.0)
         {
-            _itemGroup.addToGroup(_scene->addLine ( j, i, j+1, i+1, QPen(Qt::red) ));
+            const qreal h = 0.1;
+            _itemGroup.addToGroup(_scene->addLine ( j, i, j+h, i+h, QPen(Qt::red) ));
         }
     }
 }
