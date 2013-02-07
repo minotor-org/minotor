@@ -95,6 +95,12 @@ void MinoClockSource::midiClock()
     {
         _gppqn = (_gppqn + 1)%384;
         emit clock(_gppqn, _gppqn%24, _gppqn/24);
+
+        // HACK
+        if(_gppqn%24 == 0)
+        {
+            uiTapOn();
+        }
     }
 }
 
