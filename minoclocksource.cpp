@@ -15,11 +15,8 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     // Connect internal generator timer to its slot
     connect(&_internalTimer, SIGNAL(timeout()), this, SLOT(internalTimerTimeout()));
 
-    // Set default BPM to 125.8
-    _bpmPeriodMs = 60000.0 / 125.8;
-    const qreal ms = _bpmPeriodMs / 24;
-    qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
-    _internalTimer.setInterval(ms);
+    // Set default BPM to 124
+    setBPM(124);
 }
 
 void MinoClockSource::internalTimerTimeout()
@@ -121,4 +118,12 @@ void MinoClockSource::midiContinue()
 
     // Stop internal generator
     _internalTimer.stop();
+}
+
+void MinoClockSource::setBPM(double bpm)
+{
+    _bpmPeriodMs = 60000.0 / bpm;
+    const qreal ms = _bpmPeriodMs / 24;
+    qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
+    _internalTimer.setInterval(ms);
 }

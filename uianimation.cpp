@@ -15,7 +15,6 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 {
     this->setMinimumWidth(80);
     this->setMaximumWidth(80);
-    animation->setEnabled(false);
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     QWidget *wContent = new QWidget(this);

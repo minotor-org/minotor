@@ -27,6 +27,7 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
         ad->setObjectName("image");
         lContent->addWidget(ad);
     }
+    lContent->addStretch();
 
 }
 

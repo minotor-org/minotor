@@ -15,7 +15,9 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     // Master
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
-
+    lBackground->setSpacing(0);
+    lBackground->setMargin(0);
+    lBackground->setContentsMargins(5,5,0,0);
     //Title
     QLabel *tTitle = new QLabel(this);
     tTitle->setObjectName("title");
@@ -37,6 +39,7 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     lContent->addWidget(sa);
 
     QWidget *wScrollContent = new QWidget(sa);
+
     wScrollContent->setObjectName("scrollbackground");
     sa->setWidget(wScrollContent);
     QVBoxLayout *lScrollContent =  new QVBoxLayout(wScrollContent);

@@ -46,6 +46,7 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
 void UiMasterControl::addAnimation(MinoAnimation *animation)
 {
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
+    uiAnimation->enable(animation->enabled());
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
 
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
@@ -61,6 +62,7 @@ void UiMasterControl::updateProgram()
     foreach (MinoAnimation *animation, _master->program()->animations())
     {
         addAnimation(animation);
+
     }
 }
 

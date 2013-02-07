@@ -28,6 +28,7 @@ public slots:
     void uiStart();
     void uiStop();
     void uiSync();
+    void setBPM(double bpm);
 
 private:
     // Current Global Pulse-Per-Quarter-Note Id (in range of [0-384[)

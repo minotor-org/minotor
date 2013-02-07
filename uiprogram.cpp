@@ -14,10 +14,22 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     _program(program)
 {
     QVBoxLayout *lProgram = new QVBoxLayout(this);
+    lProgram->setSpacing(0);
+    lProgram->setMargin(0);
+    lProgram->setContentsMargins(0,0,0,0);
+
+    _border = new QWidget();
+    _border->setObjectName("border");
+    lProgram->addWidget(_border);
+
+    QVBoxLayout *lBorder = new QVBoxLayout(_border);
+
 
     _wBackground = new QWidget(this);
     _wBackground->setObjectName("programbackground");
-    lProgram->addWidget(_wBackground);
+
+
+    lBorder->addWidget(_wBackground);
     QHBoxLayout *lBackground = new QHBoxLayout(_wBackground);
 
     QWidget *wTitle = new QWidget(_wBackground);
@@ -97,4 +109,12 @@ void UiProgram::setOnAir(bool onAir)
 {
     qDebug() << "On Air" << onAir;
     _program->minotor()->master()->setProgram(_program);
+    if (onAir)
+    {
+        _border->setStyleSheet("#border {background-color:#e75f00;border-radius:3px}");
+    }
+    else
+    {
+        _border->setStyleSheet("#border {border-radius:3px}");
+    }
 }

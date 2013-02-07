@@ -50,30 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Default MIDI menu
     _menu.addAction(_actionMidiCapture);
 
-    // Transport
-    QToolBar *tbTransport = new QToolBar("Transport", this);
-    tbTransport->addAction("Tap", _minotor->clockSource(), SLOT(uiTapOn()));
-    QLCDNumber *lcdBpm = new QLCDNumber();
-    lcdBpm->setFrameShape(QFrame::Panel);
-    lcdBpm->setFrameShadow(QFrame::Plain);
-    lcdBpm->setSegmentStyle(QLCDNumber::Flat);
-    lcdBpm->setMaximumHeight(17);
-    lcdBpm->display(_minotor->clockSource()->bpm());
-    connect(_minotor->clockSource(), SIGNAL(bpmChanged(double)), lcdBpm, SLOT(display(double)));
-    tbTransport->addWidget(lcdBpm);
-    tbTransport->addAction("Start", _minotor->clockSource(), SLOT(uiStart()));
-    tbTransport->addAction("Stop", _minotor->clockSource(), SLOT(uiStop()));
-    tbTransport->addAction("Sync", _minotor->clockSource(), SLOT(uiSync()));
-    this->addToolBar(tbTransport);
-
-    // MIDI toolbar
-    QToolBar *tbMidi = new QToolBar("MIDI", this);
-    QToolButton *tbMidiLearn = new QToolButton(tbMidi);
-    tbMidiLearn->setText("MIDI learn");
-    tbMidiLearn->setCheckable(true);
-    connect(tbMidiLearn, SIGNAL(toggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
-    tbMidi->addWidget(tbMidiLearn);
-    this->addToolBar(tbMidi);
+    connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
 
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea();

@@ -33,8 +33,10 @@ int main(int argc, char *argv[])
     style +="QCheckBox#arrow {background-color:transparent;}";
     style +="QCheckBox#arrow::indicator:unchecked {image: url(:/pictos/arrow_closed.png);}";
     style +="QCheckBox#arrow::indicator:checked {image: url(:/pictos/arrow_opened.png);}";
-    style +="QPushButton {background-color:#3a3a3a;}";
-
+    style +="QPushButton {background-color:#3a3a3a; }";
+    style +="QPushButton:pressed {background-color:#e75f00; }";
+    style +="QPushButton:checked {background-color:#e75f00; }";
+    style +="QDoubleSpinBox {background-color:#2c2c2c;font:bold;}";
     //style +="UiAnimationPicker#scrollcontent {background-color:#454545;}";
 
     qDebug() << "style" << style;

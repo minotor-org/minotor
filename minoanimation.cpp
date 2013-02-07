@@ -10,7 +10,6 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
 {
     _scene = program->minotor()->scene();
     _boundingRect = program->minotor()->displayRect();
-
     _beatFactor.setObjectName("Beat");
     _beatFactor.addItem("16", 16);
     _beatFactor.addItem("8", 8);

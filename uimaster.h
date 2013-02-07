@@ -12,7 +12,7 @@ public:
     explicit UiMaster(MinoMaster *master, QWidget *parent);
     
 signals:
-
+    void midiLearnToggled(bool);
 private slots:
     void brightnessChanged(int value);
     void updateProgram();
