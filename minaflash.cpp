@@ -33,7 +33,6 @@ void MinaFlash::animate(const unsigned int gppqn, const unsigned int ppqn, const
     QColor color;
     color.setHsvF(_color.value(), 1.0, 1.0);
 
-    _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
     _rectItem->setBrush(QBrush(color));
     _rectItem->setOpacity(_beatAnimatedProperty.currentValue().toFloat());
 }
