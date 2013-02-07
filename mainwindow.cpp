@@ -120,3 +120,19 @@ void MainWindow::tbMidiLearnToggled(bool checked)
         animationProperty->update();
     }
 }
+
+void MainWindow::on_pbShot_clicked()
+{
+    static int id = 0;
+    QString shotname = "master_";
+    shotname.append(QString::number(id++));
+    shotname.append(QString(".png"));
+
+    qDebug() << "shotname:" << shotname;
+    UiProgramView *masterMonitor = findChild<UiProgramView*>("masterMonitor");
+    if(masterMonitor)
+    {
+        QPixmap p = QPixmap::grabWidget(masterMonitor);
+        qDebug() << "saved:" << p.save(shotname);
+    }
+}

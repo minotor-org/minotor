@@ -2,7 +2,8 @@
 #define UIMASTER_H
 
 #include <QWidget>
-#include "minotor.h"
+
+#include "minomaster.h"
 #include "uiprogramview.h"
 
 class UiMaster : public QWidget

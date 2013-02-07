@@ -16,6 +16,7 @@ MinaFlash::MinaFlash(MinoProgram *program):
     QColor color;
     color.setHsvF(_color.value(), 1.0, 1.0);
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
+    _rectItem->hide();
 }
 
 MinaFlash::~MinaFlash()

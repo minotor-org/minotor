@@ -48,6 +48,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lDescription->addStretch();
     MinoAnimationDescription desc = animation->description();
     _tAnimation = new QLabel(desc.name());
+    if(!desc.pixmap().isNull())
+        _tAnimation->setPixmap(desc.pixmap().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+
     _tAnimation->setObjectName("image");
     _tAnimation->setAlignment(Qt::AlignCenter);
     _tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);

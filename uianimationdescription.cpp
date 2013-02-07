@@ -7,7 +7,7 @@ UiAnimationDescription::UiAnimationDescription(const MinoAnimationDescription an
     this->setText(_animation.name());
     this->setToolTip(_animation.tooltip());
     if(!_animation.pixmap().isNull())
-        this->setPixmap(_animation.pixmap());
+        this->setPixmap(_animation.pixmap().scaled(80,60,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     this->setMinimumSize(80, 60);
     this->setMaximumSize(80, 60);
     this->setAlignment(Qt::AlignCenter);

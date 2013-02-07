@@ -6,3 +6,4 @@ moc_*.cpp
 qrc_minotor.cpp
 ui_configdialog.h
 ui_mainwindow.h
+ui_mainwindowng.h

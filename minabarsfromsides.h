@@ -11,7 +11,7 @@ public:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Bars from sides", "XXX", QPixmap(), MinaBarsFromSides::staticMetaObject.className());
+        return MinoAnimationDescription("Bars from sides", "Beat-synced random borders bars", QPixmap(":/images/barsfromsides.png"), MinaBarsFromSides::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaBarsFromSides::getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }

@@ -14,7 +14,7 @@ public:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Flash", "### This is tooltip ###", QPixmap(":/images/flash.png"), MinaFlash::staticMetaObject.className());
+        return MinoAnimationDescription("Flash", "Beat-sync flash", QPixmap(":/images/flash.png"), MinaFlash::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaFlash::getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }

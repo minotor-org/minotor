@@ -103,6 +103,12 @@ void UiProgram::setExpanded(bool expanded)
        this->setMinimumHeight(110);
        this->setMaximumHeight(110);
     }
+    QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
+//    qDebug() << "gnii" << parentWidget() << parentWidget()->parentWidget() << parentWidget()->parentWidget()->parentWidget();
+    if(sa)
+    {
+        sa->ensureWidgetVisible(this,0,0);
+    }
 }
 
 void UiProgram::setOnAir(bool onAir)

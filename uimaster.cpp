@@ -67,6 +67,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     fMonitor->setMinimumSize(240, 160);
     lMasterView->addWidget(fMonitor);
     _uiMasterMonitor = new UiProgramView(_master->program(), fMonitor);
+    _uiMasterMonitor->setObjectName("masterMonitor");
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
     lMonitor->addWidget(_uiMasterMonitor);

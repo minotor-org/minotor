@@ -43,6 +43,8 @@ private slots:
     void on_sPpqn_valueChanged(int value);
 
 
+    void on_pbShot_clicked();
+
 private:
     // UI
     // == Main window ==

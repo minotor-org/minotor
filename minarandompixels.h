@@ -11,7 +11,7 @@ public:
     void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Random pixels", "ZZZ", QPixmap(), MinaRandomPixels::staticMetaObject.className());
+        return MinoAnimationDescription("Random pixels", "Beat-synced randomly placed pixels", QPixmap(":/images/randompixels.png"), MinaRandomPixels::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaRandomPixels::getDescription(); }
 

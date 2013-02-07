@@ -4,5 +4,9 @@
         <file>images/flash.png</file>
         <file>pictos/arrow_closed.png</file>
         <file>pictos/arrow_opened.png</file>
+        <file>images/randompixels.png</file>
+        <file>images/barsfromsides.png</file>
+        <file>images/expandingobjects.png</file>
+        <file>images/waveform.png</file>
     </qresource>
 </RCC>
