@@ -91,8 +91,8 @@ public:
         _graphicsItem(graphicsItem)
     {
     }
-    const unsigned int _startUppqn;
-    const unsigned int _duration;
+    unsigned int _startUppqn;
+    unsigned int _duration;
     QGraphicsItem *_graphicsItem;
 
 } ;
