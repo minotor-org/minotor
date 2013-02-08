@@ -4,8 +4,6 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-#include "minotor.h"
-
 namespace Ui {
 class ConfigDialog;
 }
@@ -15,7 +13,7 @@ class ConfigDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit ConfigDialog(Minotor *minotor, QWidget *parent = 0);
+    explicit ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
     
 private slots:
@@ -30,7 +28,6 @@ private slots:
 private:
     Ui::ConfigDialog *ui;
 
-    Minotor *_minotor;
 };
 
 #endif // CONFIGDIALOG_H

@@ -38,13 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dwDebug->hide();
 
     // Configuration dialog box
-    _configDialog = new ConfigDialog(_minotor, this);
+    _configDialog = new ConfigDialog(this);
 
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
     lCentralWidget->setSpacing(5);
     lCentralWidget->setMargin(0);
     lCentralWidget->setContentsMargins(5,5,5,5);
-    // Programs editor (central)
 
     //Toolbar
     QToolBar *_tToolBar = new QToolBar("Transport",this);
@@ -134,6 +133,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
     lCentralWidget->addWidget(_uiMaster);
+
+    // Programs bank
     UiProgramBank *uiProgramBank = new UiProgramBank(_minotor, ui->centralWidget);
     lCentralWidget->addWidget(uiProgramBank);
     // Default MIDI menu

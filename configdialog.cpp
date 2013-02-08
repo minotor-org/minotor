@@ -6,10 +6,11 @@
 #include <QtCore/QDebug>
 #include <QSettings>
 
-ConfigDialog::ConfigDialog(Minotor *minotor, QWidget *parent) :
+#include "minotor.h"
+
+ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigDialog),
-    _minotor(minotor)
+    ui(new Ui::ConfigDialog)
 {
     ui->setupUi(this);
 
@@ -19,12 +20,12 @@ ConfigDialog::ConfigDialog(Minotor *minotor, QWidget *parent) :
 
     QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
-    connect(_minotor->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
-    connect(_minotor->ledMatrix(), SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
+    connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
+    connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
 
     // TODO: Search in port list
-    _minotor->ledMatrix()->openPortByName(_settings.value("serial/interface").toString());
-    if (_minotor->ledMatrix()->isConnected())
+    Minotor::minotor()->ledMatrix()->openPortByName(_settings.value("serial/interface").toString());
+    if (Minotor::minotor()->ledMatrix()->isConnected())
     {
         // Port enumeration
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -38,23 +39,23 @@ ConfigDialog::ConfigDialog(Minotor *minotor, QWidget *parent) :
         }
 
         int currentItem = -1;
-        if(portnames.contains(_minotor->ledMatrix()->portName()))
+        if(portnames.contains(Minotor::minotor()->ledMatrix()->portName()))
         {
-            currentItem = portnames.indexOf(_minotor->ledMatrix()->portName());
+            currentItem = portnames.indexOf(Minotor::minotor()->ledMatrix()->portName());
         }
         ui->cbSerialPort->setCurrentIndex(currentItem);
     }
 
     // MIDI
-    connect(_minotor->midi(), SIGNAL(connected(bool)), ui->cbMidiPort, SLOT(setDisabled(bool)));
-    connect(_minotor->midi(), SIGNAL(connected(bool)), ui->pbMidiConnect, SLOT(setChecked(bool)));
+    connect(Minotor::minotor()->midi(), SIGNAL(connected(bool)), ui->cbMidiPort, SLOT(setDisabled(bool)));
+    connect(Minotor::minotor()->midi(), SIGNAL(connected(bool)), ui->pbMidiConnect, SLOT(setChecked(bool)));
 
     const QString midiPort = _settings.value("midi/interface").toString();
-    if (_minotor->midi()->getPorts().contains(midiPort))
+    if (Minotor::minotor()->midi()->getPorts().contains(midiPort))
     {
-        if(_minotor->midi()->openPort(_minotor->midi()->getPorts().indexOf(midiPort)))
+        if(Minotor::minotor()->midi()->openPort(Minotor::minotor()->midi()->getPorts().indexOf(midiPort)))
         {
-            ui->cbMidiPort->setCurrentIndex(_minotor->midi()->getPorts().indexOf(midiPort));
+            ui->cbMidiPort->setCurrentIndex(Minotor::minotor()->midi()->getPorts().indexOf(midiPort));
         }
     }
 }
@@ -71,12 +72,12 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     case 0: // MIDI tab
     {
         int currentItem = -1;
-        if(_minotor->midi()->getPorts().contains(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex())))
+        if(Minotor::minotor()->midi()->getPorts().contains(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex())))
         {
-            currentItem = _minotor->midi()->getPorts().indexOf(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex()));
+            currentItem = Minotor::minotor()->midi()->getPorts().indexOf(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex()));
         }
         ui->cbMidiPort->clear();
-        ui->cbMidiPort->addItems(_minotor->midi()->getPorts());
+        ui->cbMidiPort->addItems(Minotor::minotor()->midi()->getPorts());
         ui->cbMidiPort->setCurrentIndex(currentItem);
     }
         break;
@@ -123,8 +124,8 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
         QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
-        _settings.setValue("serial/interface", _minotor->ledMatrix()->portName());
-        _settings.setValue("midi/interface", _minotor->midi()->portName());
+        _settings.setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
+        _settings.setValue("midi/interface", Minotor::minotor()->midi()->portName());
         _settings.sync();
     }
 }
@@ -133,13 +134,13 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
 {
     if (checked)
     {
-        _minotor->ledMatrix()->openPortByName(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
-        if(!_minotor->ledMatrix()->isConnected())
+        Minotor::minotor()->ledMatrix()->openPortByName(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
+        if(!Minotor::minotor()->ledMatrix()->isConnected())
         {
             qDebug() << "Unable to connect to serial port";
         }
     } else {
-        _minotor->ledMatrix()->closePort();
+        Minotor::minotor()->ledMatrix()->closePort();
     }
 }
 
@@ -147,11 +148,11 @@ void ConfigDialog::on_pbMidiConnect_clicked(bool checked)
 {
     if (checked)
     {
-        if(!_minotor->midi()->openPort(ui->cbMidiPort->currentIndex()))
+        if(!Minotor::minotor()->midi()->openPort(ui->cbMidiPort->currentIndex()))
         {
             qDebug() << "Unable to open MIDI port";
         }
     } else {
-        _minotor->midi()->closePort();
+        Minotor::minotor()->midi()->closePort();
     }
 }
