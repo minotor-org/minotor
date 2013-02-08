@@ -25,6 +25,8 @@ public slots:
 private:
     MinoProperty _color;
     MinoItemizedProperty _beatDuration;
+    MinoItemizedProperty _generatorStyle;
+    MinoItemizedProperty _generatorShape;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 };

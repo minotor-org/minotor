@@ -37,6 +37,11 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
     */
 }
 
+QPointF MinoAnimation::qrandPointF()
+{
+    return QPointF(qrandF()*_boundingRect.width(), qrandF()*_boundingRect.height());
+}
+
 void MinoAnimation::setDelayedEnabled(const bool on)
 {
     _program->registerAnimationEnableChange(this, on);

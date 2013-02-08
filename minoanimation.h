@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QGraphicsItemGroup>
+#include <QPointF>
 
 #include "minoproperty.h"
 #include "minoitemizedproperty.h"
@@ -46,6 +47,7 @@ public:
     virtual void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
+    QPointF qrandPointF();
 
     bool enabled() const { return _enabled; }
 
