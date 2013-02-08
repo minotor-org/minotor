@@ -16,6 +16,7 @@ class MinoProgram : public QObject
 
     // Minotor can access to protected/private functions
     friend class Minotor;
+    friend class MinoMaster;
 
 public:
     explicit MinoProgram(Minotor *minotor);
@@ -38,6 +39,7 @@ public:
 
     // Selection
     bool isSelected() { return true; }
+    bool isOnAir() { return _onAir; }
 
     // Function is compute height with a given width (very useful for UI)
     int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
@@ -49,6 +51,9 @@ protected:
     void setId(const int id) { _id = id; }
     void setRect(const QRect rect);
     void setDrawingPos(const QPointF pos);
+
+    // Acceded by MinoMaster
+    void setOnAir(bool on);
 
 private:
     // ID
@@ -71,6 +76,8 @@ private:
     MinoPropertyList _properties;
     MinoItemizedProperty _beatFactor;
 
+    bool _onAir;
+
 protected:
     MinoAnimationList _minoAnimations;
     MinoAnimationList _minoAnimationsToEnable;
@@ -81,6 +88,7 @@ protected:
 signals:
     void customContextMenuRequested(const QPoint &pos);
     void animated();
+    void onAir(bool on);
 
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);

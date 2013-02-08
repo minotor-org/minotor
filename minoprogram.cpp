@@ -7,7 +7,8 @@
 
 MinoProgram::MinoProgram(Minotor *minotor) :
     QObject(minotor),
-    _image(NULL)
+    _image(NULL),
+    _onAir(false)
 {
     _scene = minotor->scene();
     _scene->addItem(&_itemGroup);
@@ -146,5 +147,14 @@ void MinoProgram::registerAnimationEnableChange(MinoAnimation *animation, const 
     else
     {
         _minoAnimationsToDisable.append(animation);
+    }
+}
+
+void MinoProgram::setOnAir(bool on)
+{
+    if(on != _onAir)
+    {
+        _onAir = on;
+        emit onAir(on);
     }
 }

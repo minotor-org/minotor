@@ -41,6 +41,7 @@ signals:
     void startReceived();
     void stopReceived();
     void continueReceived();
+    void programChanged(quint8 channel, quint8 program);
     void controlChanged(quint8 channel, quint8 number, quint8 value);
     void noteChanged(quint8 channel, quint8 note, bool on, quint8 value);
 

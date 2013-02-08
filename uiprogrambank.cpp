@@ -54,15 +54,11 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     foreach(MinoProgram* program, minotor->programs())
     {
-
         UiProgram *uip = new UiProgram(program, wScrollContent);
         QPushButton *pbOnAir = uip->findChild<QPushButton*>("bOnAir");
         _bgOnAir->addButton(pbOnAir);
-        //connect(uip->b,SIGNAL(clicked(bool)),;
-        //connect(uip, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
         lScrollContent->addWidget(uip);
 
     }
     lScrollContent->addStretch();
-
 }

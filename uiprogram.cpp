@@ -65,7 +65,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     bOnAir->setCheckable(true);
     bOnAir->setObjectName("bOnAir");
     bOnAir->setText("On Air");
-    connect(bOnAir,SIGNAL(toggled(bool)),this,SLOT(setOnAir(bool)));
+    connect(bOnAir,SIGNAL(toggled(bool)),this,SLOT(requestMasterProgramChange(bool)));
     lCollapse->addWidget(bOnAir);
     lCollapse->addStretch();
     QCheckBox *cbCollapse = new QCheckBox(wCollapse);
@@ -89,6 +89,10 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 
     setExpanded(false);
     editor->setExpanded(false);
+
+    connect(_program, SIGNAL(onAir(bool)), bOnAir, SLOT(setChecked(bool)));
+    connect(_program, SIGNAL(onAir(bool)), this, SLOT(updateOnAirStatus(bool)));
+    updateOnAirStatus(_program->isOnAir());
 }
 
 void UiProgram::setExpanded(bool expanded)
@@ -119,10 +123,15 @@ void UiProgram::setExpanded(bool expanded)
     }
 }
 
-void UiProgram::setOnAir(bool onAir)
+void UiProgram::requestMasterProgramChange(bool on)
 {
-    qDebug() << "On Air" << onAir;
-    _program->minotor()->master()->setProgram(_program);
+    if(on)
+        _program->minotor()->master()->setProgram(_program);
+}
+
+void UiProgram::updateOnAirStatus(bool onAir)
+{
+    //_bOnAir->setChecked(onAir);
     if (onAir)
     {
         _border->setStyleSheet("#border {background-color:#e75f00;border-radius:5px}");

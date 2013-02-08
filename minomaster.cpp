@@ -34,10 +34,12 @@ void MinoMaster::setProgram(MinoProgram *program)
         if(_program)
         {
             _itemGroup.removeFromGroup(_program->itemGroup());
+            _program->setOnAir(false);
         }
         if(program)
         {
             _itemGroup.addToGroup(program->itemGroup());
+	        program->setOnAir(true);
         }
         _program = program;
         emit programChanged();

@@ -10,6 +10,7 @@ class UiProgram : public QWidget
     Q_OBJECT
 public:
     explicit UiProgram(MinoProgram *program, QWidget *parent = 0);
+    void setOnAir(bool onAir);
 private:
     MinoProgram *_program;
     QFrame *_fPreview;
@@ -19,7 +20,10 @@ signals:
 
 public slots:
     void setExpanded(bool expanded);
-    void setOnAir(bool onAir);
+
+private slots:
+    void updateOnAirStatus(bool onAir);
+    void requestMasterProgramChange(bool on);
 };
 
 #endif // UIPROGRAM_H

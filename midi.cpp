@@ -46,6 +46,7 @@ QStringList Midi::getPorts()
 #define MIDI_CVM_NOTE_OFF           0b10000000      // 1000nnnn
 #define MIDI_CVM_NOTE_ON            0b10010000      // 1001nnnn
 #define MIDI_CVM_CONTROL_CHANGE     0b10110000      // 1011nnnn
+#define MIDI_CVM_PROGRAM_CHANGE     0b11000000      // 1100nnnn
 
 // System Real-Time Messages (SRTM)
 #define MIDI_SRTM_CLOCK      248  // 11111000
@@ -65,15 +66,20 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
     }
 
     switch(command) {
-    /* TODO implement me! */
-    case MIDI_CVM_NOTE_OFF: /* qDebug() << "Note OFF:" << quint8 (message->at(1)); */
+    case MIDI_CVM_NOTE_OFF:
+        /* qDebug() << "Note OFF:" << quint8 (message->at(1)); */
         emit noteChanged(quint8 (channel), quint8 (message->at(1)), false, quint8(message->at(2)));
         break;
-    /* TODO implement me! */
-    case MIDI_CVM_NOTE_ON:  /* qDebug() << "Note ON:" << quint8 (message->at(1)); */
+    case MIDI_CVM_NOTE_ON:
+        /* qDebug() << "Note ON:" << quint8 (message->at(1)); */
         emit noteChanged(quint8 (channel), quint8 (message->at(1)), true, quint8(message->at(2)));
         break;
-    case MIDI_CVM_CONTROL_CHANGE: emit controlChanged(quint8 (channel), quint8 (message->at(1)), quint8(message->at(2))); break;
+    case MIDI_CVM_CONTROL_CHANGE:
+        emit controlChanged(quint8 (channel), quint8 (message->at(1)), quint8(message->at(2)));
+        break;
+    case MIDI_CVM_PROGRAM_CHANGE:
+        emit programChanged(quint8 (channel), quint8 (message->at(1)));
+        break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;
     case MIDI_SRTM_STOP: emit stopReceived(); break;
     case MIDI_SRTM_START: emit startReceived(); break;

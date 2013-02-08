@@ -66,6 +66,7 @@ public slots:
 
     // Midi messages handlers
     void handleMidiInterfaceControlChange(quint8 channel, quint8 control, quint8 value);
+    void handleMidiInterfaceProgramChange(quint8 channel, quint8 program);
 
 private:
     // Scene

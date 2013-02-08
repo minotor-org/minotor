@@ -28,7 +28,7 @@ Minotor::Minotor(QObject *parent) :
     Midi *midi = new Midi(this);
     _midiInterfaces.append(midi);
     connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
-
+    connect(midi, SIGNAL(programChanged(quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(quint8,quint8)));
     connect(midi, SIGNAL(noteChanged(quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(quint8,quint8,bool,quint8)));
 
     // Link Minotor to MidiMapping
@@ -95,6 +95,15 @@ void Minotor::handleMidiInterfaceControlChange(quint8 program, quint8 control, q
         emit(controlChanged(midiInterfaceId, program, control, value));
     } else {
         qDebug() << "Unknow sender";
+    }
+}
+
+void Minotor::handleMidiInterfaceProgramChange(quint8 channel, quint8 program)
+{
+    (void)channel;
+    if(program < _programs.count())
+    {
+        _master->setProgram(_programs.at(program));
     }
 }
 
