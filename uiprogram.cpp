@@ -103,7 +103,7 @@ void UiProgram::setExpanded(bool expanded)
     _fPreview->setVisible(expanded);
     if (expanded)
     {
-        _wBackground->setStyleSheet("#programbackground { background-color:#666666;}");
+        _wBackground->setStyleSheet("#programbackground { background-color:#444444;}");
         //_wBackground->setObjectName("programbackgroundon");
         //_wBackground->
         //_wBackground->setStyleSheet("");
