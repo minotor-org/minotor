@@ -45,7 +45,10 @@ SOURCES += main.cpp\
     uiprogramview.cpp \
     miprowaves.cpp \
     minadebug.cpp \
-    uimidiproperty.cpp
+    uimidiproperty.cpp \
+    minatext.cpp \
+    minotextproperty.cpp \
+    miprotext.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -81,7 +84,10 @@ HEADERS  += mainwindow.h \
     uiprogram.h \
     miprowaves.h \
     minadebug.h \
-    uimidiproperty.h
+    uimidiproperty.h \
+    minatext.h \
+    minotextproperty.h \
+    miprotext.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

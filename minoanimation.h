@@ -9,6 +9,7 @@
 
 #include "minoproperty.h"
 #include "minoitemizedproperty.h"
+#include "minotextproperty.h"
 
 class MinoProgram;
 

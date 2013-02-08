@@ -22,7 +22,7 @@ public:
     explicit MinoProgram(Minotor *minotor);
     ~MinoProgram();
 
-    virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
+    //virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
 
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);

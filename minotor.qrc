@@ -17,5 +17,6 @@
         <file>pictos/handle.png</file>
         <file>pictos/tap.png</file>
         <file>pictos/fullscreen.png</file>
+        <file>images/text.png</file>
     </qresource>
 </RCC>
