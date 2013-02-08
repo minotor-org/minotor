@@ -43,7 +43,7 @@ public:
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;
     const MinoPropertyList properties() { return _properties; }
-    virtual void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
+    virtual void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
 
@@ -80,4 +80,20 @@ signals:
 
 typedef QList<MinoAnimation*> MinoAnimationList;
 
+class MinoAnimatedItem
+{
+public:
+    explicit MinoAnimatedItem(const unsigned int startUppqn,const unsigned int duration,QGraphicsItem *graphicsItem):
+        _startUppqn(startUppqn),
+        _duration(duration),
+        _graphicsItem(graphicsItem)
+    {
+    }
+    const unsigned int _startUppqn;
+    const unsigned int _duration;
+    QGraphicsItem *_graphicsItem;
+
+} ;
+
+typedef QList<MinoAnimatedItem> MinoAnimatedItems;
 #endif // MINOANIMATION_H

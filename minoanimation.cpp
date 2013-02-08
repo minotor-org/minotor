@@ -11,13 +11,13 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
     _scene = program->minotor()->scene();
     _boundingRect = program->minotor()->displayRect();
     _beatFactor.setObjectName("Beat");
-    _beatFactor.addItem("16", 16);
-    _beatFactor.addItem("8", 8);
-    _beatFactor.addItem("4", 4);
-    _beatFactor.addItem("2", 2);
-    _beatFactor.addItem("1", 1);
-    _beatFactor.addItem("1/2", 0.5);
-    _beatFactor.addItem("1/4", 0.25);
+    _beatFactor.addItem("16", 384);
+    _beatFactor.addItem("8", 192);
+    _beatFactor.addItem("4", 96);
+    _beatFactor.addItem("2", 48);
+    _beatFactor.addItem("1", 24);
+    _beatFactor.addItem("1/2", 12);
+    _beatFactor.addItem("1/4", 6);
     _beatFactor.setCurrentItem("1");
 
     _properties.append(&_beatFactor);
@@ -25,7 +25,7 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 {
-    const unsigned int ppqnMax = _beatFactor.currentItem()->real() * 24;
+    const unsigned int ppqnMax = _beatFactor.currentItem()->real();
     const qreal lppqn = gppqn % ppqnMax;
     const qreal durationFactor = lppqn / ppqnMax;
     _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
@@ -39,7 +39,7 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 
 void MinoAnimation::setDelayedEnabled(const bool on)
 {
-        _program->registerAnimationEnableChange(this, on);
+    _program->registerAnimationEnableChange(this, on);
 }
 
 void MinoAnimation::setEnabled(const bool on)

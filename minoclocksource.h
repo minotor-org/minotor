@@ -17,7 +17,7 @@ public:
     qreal bpm() const { return (60000.0 / _bpmPeriodMs); }
 signals:
     // Signal emitting a pre-computed pulse-per-quarter-note and quarter-note id (less code in receiver-classes, ie. MinoAnimations)
-    void clock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+    void clock(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     // Signal emitting the BPM value changed (useful for UI feedback)
     void bpmChanged(const double bpm);
@@ -34,6 +34,7 @@ private:
     // Current Global Pulse-Per-Quarter-Note Id (in range of [0-384[)
     // 24 ppqn * 16 qn = 384 gppqn
     unsigned int _gppqn;
+    unsigned int _uppqn;
 
     // Current tempo, please note that we don't store in BPM unit to prevent from precision lose
     qreal _bpmPeriodMs; // Unit is milliseconds between two beats

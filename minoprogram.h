@@ -76,8 +76,11 @@ signals:
     void customContextMenuRequested(const QPoint &pos);
     void animated();
 
+public:
+    void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+
 public slots:
-    void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+
     void destroyAnimation(QObject *animation);
 };
 

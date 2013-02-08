@@ -25,7 +25,7 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
     }
 }
 
-void MinaRandomPixels::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)qn;
     computeAnimaBeatProperty(gppqn);

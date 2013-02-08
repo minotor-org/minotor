@@ -5,6 +5,7 @@
 MinoClockSource::MinoClockSource(QObject *parent) :
     QObject(parent),
     _gppqn(0),
+    _uppqn(0),
     _bpmValuesCount(0),
     _bpmValuesIndex(0),
     _isMidiSequencerRunning(false)
@@ -21,8 +22,9 @@ MinoClockSource::MinoClockSource(QObject *parent) :
 
 void MinoClockSource::internalTimerTimeout()
 {
+    emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
+    _uppqn++;
     _gppqn = (_gppqn + 1)%384;
-    emit clock(_gppqn, _gppqn%24, _gppqn/24);
 }
 
 void MinoClockSource::uiTapOn()
@@ -93,8 +95,9 @@ void MinoClockSource::midiClock()
 {
     if(_isMidiSequencerRunning)
     {
-        _gppqn = (_gppqn + 1)%384;
-        emit clock(_gppqn, _gppqn%24, _gppqn/24);
+        emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
+        _uppqn++;
+        _gppqn = (_gppqn + 1)%(24*16);
 
         // HACK
         if(_gppqn%24 == 0)

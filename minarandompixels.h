@@ -8,7 +8,7 @@ class MinaRandomPixels : public MinoAnimation
     Q_OBJECT
 public:
     explicit MinaRandomPixels(MinoProgram *program);
-    void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+    void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Random pixels", "Beat-synced randomly placed pixels", QPixmap(":/images/randompixels.png"), MinaRandomPixels::staticMetaObject.className());

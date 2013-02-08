@@ -189,9 +189,11 @@ void MainWindow::customContextMenuRequested(const QPoint &pos)
 
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
+    static unsigned int uppqn = 0;
     const unsigned int ppqn = value%24;
     const unsigned int qn = value/24;
-    _minotor->dispatchClock(value, ppqn, qn);
+    _minotor->dispatchClock(uppqn, value, ppqn, qn);
+    uppqn++;
 }
 
 void MainWindow::tbMidiLearnToggled(bool checked)

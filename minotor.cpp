@@ -37,7 +37,7 @@ Minotor::Minotor(QObject *parent) :
     // Clock source
     _clockSource = new MinoClockSource(this);
     _clockSource->setMidiClockInterface(midi);
-    connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int)));
+    connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
 
     // Register animations
     MinoAnimationFactory::registerClass<MinaFlash>();
@@ -61,11 +61,11 @@ Minotor::~Minotor()
     delete _ledMatrix;
 }
 
-void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     if((ppqn%2) == 0) {
         // Animate master
-        _master->program()->animate(gppqn, ppqn, qn);
+        _master->program()->animate(uppqn, gppqn, ppqn, qn);
 
         // Render scene to led matrix
         _ledMatrix->show(master()->program()->rendering());
@@ -73,9 +73,12 @@ void Minotor::dispatchClock(const unsigned int gppqn, const unsigned int ppqn, c
         for(int i=0; i<_programs.count(); i++)
         {
             MinoProgram *program = _programs.at(i);
-            if(program->isSelected())
+            if (program!=_master->program())
             {
-                program->animate(gppqn, ppqn, qn);
+                if(program->isSelected())
+                {
+                    program->animate(uppqn, gppqn, ppqn, qn);
+                }
             }
         }
     }

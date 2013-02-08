@@ -13,7 +13,7 @@ MinaWaveform::MinaWaveform(MinoProgram *program) :
     _properties.append(&_color);
 }
 
-void MinaWaveform::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

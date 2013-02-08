@@ -8,7 +8,7 @@ class MinaBarsFromSides : public MinoAnimation
     Q_OBJECT
 public:
     explicit MinaBarsFromSides(MinoProgram *program);
-    void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+    void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Bars from sides", "Beat-synced random borders bars", QPixmap(":/images/barsfromsides.png"), MinaBarsFromSides::staticMetaObject.className());

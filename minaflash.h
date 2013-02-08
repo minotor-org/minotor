@@ -11,7 +11,7 @@ class MinaFlash : public MinoAnimation
 public:
     explicit MinaFlash(MinoProgram *program);
     ~MinaFlash();
-    void animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
+    void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Flash", "Beat-sync flash", QPixmap(":/images/flash.png"), MinaFlash::staticMetaObject.className());

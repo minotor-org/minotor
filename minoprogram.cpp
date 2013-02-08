@@ -70,7 +70,7 @@ void MinoProgram::setDrawingPos(const QPointF pos)
      _drawingPos = pos;
 }
 
-void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     // Set position to origin
     _itemGroup.setPos(0,0);
@@ -100,7 +100,7 @@ void MinoProgram::animate(const unsigned int gppqn, const unsigned int ppqn, con
     {
         if(minoAnimation->enabled())
         {
-            minoAnimation->animate(gppqn, ppqn, qn);
+            minoAnimation->animate(uppqn, gppqn, ppqn, qn);
         }
     }
 

@@ -24,7 +24,7 @@ MinaFlash::~MinaFlash()
     //delete _rectItem;
 }
 
-void MinaFlash::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaFlash::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

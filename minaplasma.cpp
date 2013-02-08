@@ -24,7 +24,7 @@ MinaPlasma::MinaPlasma(MinoProgram *program):
     }
 }
 
-void MinaPlasma::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
     (void)qn;

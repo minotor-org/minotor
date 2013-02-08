@@ -13,7 +13,7 @@ MinaBarsFromSides::MinaBarsFromSides(MinoProgram *program) :
     _properties.append(&_color);
 }
 
-void MinaBarsFromSides::animate(const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)ppqn;
 
