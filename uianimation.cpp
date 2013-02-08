@@ -17,6 +17,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     this->setMaximumWidth(80);
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
+    lGroupBox->setSpacing(0);
+    lGroupBox->setMargin(0);
+    lGroupBox->setContentsMargins(1,1,1,1);
     QWidget *wContent = new QWidget(this);
     wContent->setObjectName("content");
     lGroupBox->addWidget(wContent);
@@ -89,7 +92,7 @@ void UiAnimation::enable(const bool on)
     }
     else
     {
-        this->setStyleSheet("QGroupBox { background-color:#323232;}");
+        this->setStyleSheet("QGroupBox { background-color:#222222;}");
     }
 }
 
