@@ -16,12 +16,13 @@ QComboBox::drop-down {
       border: 1px solid #5F5F5F;
       selection-background-color: #505050;
   }
-QWidget#panel { background-color:#3a3a3a; border-radius:3px; }
-QWidget#border { background-color:#222222; border-radius:3px; }
+QWidget#panel { background-color:#3a3a3a; border-radius:3px; border: 1px solid #505050; border-radius:3px;}
+QWidget#border { background-color:#505050; border-radius:3px; }
 QWidget#content { background-color:#2c2c2c;border-radius:3px;}
 QWidget#toolbarpanel { background-color:#3a3a3a;}
 QWidget#programbackground {background-color:#3a3a3a;border-radius:3px;}
-QWidget#scrollbackground {background-color:#303030;border-radius:3px;}
+QWidget#scrollbackground {background-color:#202020;border-radius:3px;}
+QWidget#scrollcontainer {border: 1px solid #505050; background: #404040;border-radius:3px;}
 QScrollBar:horizontal { border: 1px solid #505050;background: #323232;height: 15px;margin-top: 0px; margin-right:21px;margin-left: 21px; margin-bottom:0px;}
 QScrollBar:vertical { border: 1px solid #505050;background: #323232;width: 15px;margin-top: 21px; margin-right:0px;margin-left: 0px; margin-bottom:21px;}
 QScrollBar::handle {border: 1px solid #5F5F5F;background: #404040;min-width: 20px;min-height: 20px;}
@@ -34,7 +35,7 @@ QScrollBar::right-arrow {image: url(:/pictos/right-arrow.png);}
 QScrollBar::up-arrow {image: url(:/pictos/up-arrow.png);}
 QScrollBar::down-arrow {image: url(:/pictos/down-arrow.png);}
 QScrollArea#scroll {background-color:#3a3a3a;}
-QGroupBox { background-color:#222222;border-radius:3px; }
+QGroupBox { background-color:#454545;border-radius:3px; }
 QLabel#title {font:bold;color:#9c9c9c;font-size:14px;}
 QLabel#bigLabel {font:bold;font-size:10px;color:#9c9c9c;}
 QLabel#image {background-color:#666666;border-radius:3px;}

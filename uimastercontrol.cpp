@@ -19,12 +19,18 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     layout->setSpacing(0);
     layout->setMargin(0);
     layout->setContentsMargins(0,0,0,5);
+
+    QWidget *wContainer = new QWidget(this);
+    layout->addWidget(wContainer);
+    wContainer->setObjectName("scrollcontainer");
+    QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+
     QWidget *wContent = new QWidget(this);
-    layout->addWidget(wContent);
+    lContainer->addWidget(wContent);
     wContent->setObjectName("panel");
     // Animations properties
     QScrollArea *sa = new QScrollArea(this);
-    layout->addWidget(sa);
+    lContainer->addWidget(sa);
 
 
     _wContent = new QWidget(this);

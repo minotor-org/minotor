@@ -18,24 +18,32 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     // Master
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
-    lBackground->setSpacing(0);
-    lBackground->setMargin(0);
-    lBackground->setContentsMargins(0,0,0,0);
+    lBackground->setSpacing(5);
+    lBackground->setMargin(10);
+    //lBackground->setContentsMargins(5,5,5,5);
     //Title
     QLabel *tTitle = new QLabel(this);
     tTitle->setObjectName("title");
-    tTitle->setContentsMargins(5,5,0,0);
+    tTitle->setContentsMargins(0,0,0,0);
 
     lBackground->addWidget(tTitle);
     tTitle->setText("Program Bank");
 
+    QWidget *wContainer = new QWidget(this);
+    lBackground->addWidget(wContainer);
+    wContainer->setObjectName("scrollcontainer");
+    QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+    lContainer->setSpacing(0);
+    lContainer->setMargin(0);
+    lContainer->setContentsMargins(0,0,0,0);
+
     //Content
     QWidget *wContent = new QWidget(this);
-    lBackground->addWidget(wContent);
+    lContainer->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
     lContent->setSpacing(0);
     lContent->setMargin(0);
-    lContent->setContentsMargins(5,0,5,5);
+    lContent->setContentsMargins(5,5,5,5);
     QScrollArea *sa = new QScrollArea(wContent);
     //sa->setObjectName("scroll");
     sa->setFrameShadow(QFrame::Plain);

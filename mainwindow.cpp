@@ -41,27 +41,49 @@ MainWindow::MainWindow(QWidget *parent) :
     _configDialog = new ConfigDialog(this);
 
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
-    lCentralWidget->setSpacing(5);
+    lCentralWidget->setSpacing(10);
     lCentralWidget->setMargin(0);
-    lCentralWidget->setContentsMargins(5,5,5,5);
+    lCentralWidget->setContentsMargins(10,5,5,5);
 
     //Toolbar
     QToolBar *_tToolBar = new QToolBar("Transport",this);
     this->addToolBar(Qt::TopToolBarArea,_tToolBar);
 
+    QWidget *_wToolBar = new QWidget(_tToolBar);
+    _tToolBar->addWidget(_wToolBar);
+    QHBoxLayout *lToolBar = new QHBoxLayout(_wToolBar);
+
+    QWidget *wToolContainer = new QWidget(this);
+    lToolBar->addWidget(wToolContainer);
+    QHBoxLayout *lToolContainer = new QHBoxLayout(wToolContainer);
+    lToolContainer->setObjectName("scrollcontainer");
+    lToolContainer->setSpacing(0);
+    lToolContainer->setMargin(0);
+    lToolContainer->setContentsMargins(1,1,1,1);
+
+    QWidget *wBackground = new QWidget(_tToolBar);
+    lToolContainer->addWidget(wBackground);
+    wBackground->setObjectName("panel");
+    QHBoxLayout *lBackground = new QHBoxLayout(wBackground);
+    lBackground->setSpacing(10);
+    lBackground->setMargin(0);
+    lBackground->setContentsMargins(5,2,5,2);
     QButtonGroup *_bgTransport = new QButtonGroup(_tToolBar);
     //Transport
     QWidget *wTransportButtons = new QWidget(_tToolBar);
-    _tToolBar->addWidget(wTransportButtons);
+    lBackground->addWidget(wTransportButtons);
     QHBoxLayout *lTransportButtons = new QHBoxLayout(wTransportButtons);
+    lTransportButtons->setSpacing(5);
+    lTransportButtons->setMargin(0);
+    lTransportButtons->setContentsMargins(0,0,0,0);
     QPushButton *pbStart = new QPushButton(_tToolBar);
     lTransportButtons->addWidget(pbStart);
     _bgTransport->addButton(pbStart);
     pbStart->setCheckable(true);
     pbStart->setIcon(QIcon(":/pictos/play.png"));
     pbStart->setIconSize(QSize(16,16));
-    pbStart->setMinimumSize(30,30);
-    pbStart->setMaximumSize(30,30);
+    pbStart->setMinimumSize(28,28);
+    pbStart->setMaximumSize(28,28);
     connect(pbStart,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStart()));
     QPushButton *pbStop = new QPushButton(_tToolBar);
     lTransportButtons->addWidget(pbStop);
@@ -69,24 +91,25 @@ MainWindow::MainWindow(QWidget *parent) :
     pbStop->setCheckable(true);
     pbStop->setIcon(QIcon(":/pictos/stop.png"));
     pbStop->setIconSize(QSize(16,16));
-    pbStop->setMinimumSize(30,30);
-    pbStop->setMaximumSize(30,30);
+    pbStop->setMinimumSize(28,28);
+    pbStop->setMaximumSize(28,28);
 
     connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
     QPushButton *pbSync = new QPushButton(_tToolBar);
     lTransportButtons->addWidget(pbSync);
     pbSync->setIcon(QIcon(":/pictos/sync.png"));
     pbSync->setIconSize(QSize(16,16));
-    pbSync->setMinimumSize(30,30);
-    pbSync->setMaximumSize(30,30);
+    pbSync->setMinimumSize(28,28);
+    pbSync->setMaximumSize(28,28);
     connect(pbSync,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiSync()));
-    _tToolBar->addSeparator();
 
 
     QWidget *wTempoButtons = new QWidget(_tToolBar);
-    _tToolBar->addWidget(wTempoButtons);
+    lBackground->addWidget(wTempoButtons);
     QHBoxLayout *lTempoButtons = new QHBoxLayout(wTempoButtons);
-
+    lTempoButtons->setSpacing(5);
+    lTempoButtons->setMargin(0);
+    lTempoButtons->setContentsMargins(0,0,0,0);
     //BPM
     QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(_tToolBar);
     _sbBPM->setMinimum(20);
@@ -105,28 +128,31 @@ MainWindow::MainWindow(QWidget *parent) :
     lTempoButtons->addWidget(pbTap);
     pbTap->setIcon(QIcon(":/pictos/tap.png"));
     pbTap->setIconSize(QSize(20,20));
-    pbTap->setMinimumSize(30,30);
-    pbTap->setMaximumSize(30,30);
+    pbTap->setMinimumSize(28,28);
+    pbTap->setMaximumSize(28,28);
     connect(pbTap,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiTapOn()));
-    _tToolBar->addSeparator();
+    //_tToolBar->addSeparator();
 
     QWidget *wMidiButtons = new QWidget(_tToolBar);
-    _tToolBar->addWidget(wMidiButtons);
+    lBackground->addWidget(wMidiButtons);
     QHBoxLayout *lMidiButtons = new QHBoxLayout(wMidiButtons);
-
+    lMidiButtons->setSpacing(5);
+    lMidiButtons->setMargin(0);
+    lMidiButtons->setContentsMargins(0,0,0,0);
     // MIDI toolbar
     QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
     connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
     pbMidiLearn->setText("MIDI learn");
     pbMidiLearn->setCheckable(true);
     lMidiButtons->addWidget(pbMidiLearn);
-
+    lBackground->addStretch();
     // Fullscreen
     QPushButton *pbFullscreen = new QPushButton(_tToolBar);
-    _tToolBar->addWidget(pbFullscreen);
+    lBackground->addWidget(pbFullscreen);
+    pbFullscreen->setIcon(QIcon(":/pictos/fullscreen.png"));
     pbFullscreen->setIconSize(QSize(20,20));
-    pbFullscreen->setMinimumSize(30,30);
-    pbFullscreen->setMaximumSize(30,30);
+    pbFullscreen->setMinimumSize(28,28);
+    pbFullscreen->setMaximumSize(28,28);
     pbFullscreen->setCheckable(true);
     connect(pbFullscreen,SIGNAL(toggled(bool)),this,SLOT(tbFullScreenToggled(bool)));
 
@@ -148,6 +174,13 @@ MainWindow::MainWindow(QWidget *parent) :
     _tAnimationToolBar->addWidget(_wAnimations);
     QHBoxLayout *lAnimations = new QHBoxLayout(_wAnimations);
 
+    QWidget *wContainer = new QWidget(this);
+    lAnimations->addWidget(wContainer);
+    wContainer->setObjectName("scrollcontainer");
+    QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+    lContainer->setSpacing(0);
+    lContainer->setMargin(0);
+    lContainer->setContentsMargins(5,5,5,5);
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea();
     sa->setFrameShadow(QFrame::Plain);
@@ -158,7 +191,7 @@ MainWindow::MainWindow(QWidget *parent) :
     UiAnimationPicker *ap = new UiAnimationPicker(sa);
 
     sa->setWidget(ap);
-    lAnimations->addWidget(sa);
+    lContainer->addWidget(sa);
 }
 
 MainWindow::~MainWindow()

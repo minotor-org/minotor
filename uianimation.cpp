@@ -92,7 +92,7 @@ void UiAnimation::enable(const bool on)
     }
     else
     {
-        this->setStyleSheet("QGroupBox { background-color:#222222;}");
+        this->setStyleSheet("QGroupBox { background-color:#454545;}");
     }
 }
 

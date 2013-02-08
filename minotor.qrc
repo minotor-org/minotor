@@ -16,5 +16,6 @@
         <file>pictos/up-arrow.png</file>
         <file>pictos/handle.png</file>
         <file>pictos/tap.png</file>
+        <file>pictos/fullscreen.png</file>
     </qresource>
 </RCC>

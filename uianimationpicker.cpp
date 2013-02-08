@@ -12,7 +12,12 @@
 UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     QWidget(parent)
 {
-    setLayout(new QHBoxLayout);
+
+    QVBoxLayout *lMain = new QVBoxLayout(this);
+    setLayout(lMain);
+    lMain->setSpacing(0);
+    lMain->setMargin(0);
+    lMain->setContentsMargins(0,0,0,0);
     QWidget *wContent = new QWidget(this);
     wContent->setObjectName("scrollbackground");
     this->layout()->addWidget(wContent);

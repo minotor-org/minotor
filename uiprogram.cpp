@@ -37,6 +37,8 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QHBoxLayout *lBackground = new QHBoxLayout(_wBackground);
 
     QWidget *wTitle = new QWidget(_wBackground);
+    wTitle->setMinimumWidth(85);
+    wTitle->setMaximumWidth(85);
     lBackground->addWidget(wTitle);
     QVBoxLayout *lTitle = new QVBoxLayout(wTitle);
 
@@ -113,8 +115,8 @@ void UiProgram::setExpanded(bool expanded)
        _wBackground->setStyleSheet("#programbackground { background-color:#333333;}");
        //_wBackground->setObjectName("programbackgroundoff");
        //_wBackground->setStyleSheet("");
-       this->setMinimumHeight(100);
-       this->setMaximumHeight(100);
+       this->setMinimumHeight(110);
+       this->setMaximumHeight(110);
     }
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
 //    qDebug() << "gnii" << parentWidget() << parentWidget()->parentWidget() << parentWidget()->parentWidget()->parentWidget();
@@ -135,7 +137,7 @@ void UiProgram::updateOnAirStatus(bool onAir)
     //_bOnAir->setChecked(onAir);
     if (onAir)
     {
-        _border->setStyleSheet("#border {background-color:#e75f00;border-radius:5px}");
+        _border->setStyleSheet("#border {background-color:#e75f00;}");
     }
     else
     {

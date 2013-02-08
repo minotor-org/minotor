@@ -18,9 +18,14 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
+    QWidget *wContainer = new QWidget(this);
+    layout->addWidget(wContainer);
+    wContainer->setObjectName("scrollcontainer");
+    QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+
     // Animations properties
     QScrollArea *sa = new QScrollArea(this);
-    layout->addWidget(sa);
+    lContainer->addWidget(sa);
 
     _wContent = new QWidget(this);
     _wContent->setObjectName("scrollbackground");
