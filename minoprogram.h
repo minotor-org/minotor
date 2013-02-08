@@ -34,6 +34,8 @@ public:
     MinoAnimationList animations() { return _minoAnimations; }
     const QImage *rendering() { return _image; }
     int id() { return _id; }
+    const MinoPropertyList properties() { return _properties; }
+
     // Selection
     bool isSelected() { return true; }
 
@@ -64,6 +66,10 @@ private:
 
     // Image ratio
     qreal _heightForWidthRatio;
+
+    // Properties
+    MinoPropertyList _properties;
+    MinoItemizedProperty _beatFactor;
 
 protected:
     MinoAnimationList _minoAnimations;

@@ -6,8 +6,10 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include "minotor.h"
+
 #include "uiprogramview.h"
 #include "uiprogrameditor.h"
+#include "uimidiproperty.h"
 
 UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
@@ -42,7 +44,11 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lTitle->addWidget(tTitle);
     tTitle->setObjectName("title");
     tTitle->setText(QString("Prg ") + QString::number(program->id()));
+
+    UiMidiProperty *mpBeat = new UiMidiProperty(_program->properties().at(0), this);
+    lTitle->addWidget(mpBeat);
     lTitle->addStretch();
+
     UiProgramEditor * editor = new UiProgramEditor(program, _wBackground);
     connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lBackground->addWidget(editor);

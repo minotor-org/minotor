@@ -10,8 +10,16 @@ MinoProgram::MinoProgram(Minotor *minotor) :
     _image(NULL)
 {
     _scene = minotor->scene();
-
     _scene->addItem(&_itemGroup);
+
+    _beatFactor.setObjectName("Beat");
+    _beatFactor.addItem("1", 24);
+    _beatFactor.addItem("2", 48);
+    _beatFactor.addItem("4", 96);
+    _beatFactor.addItem("8", 192);
+    _beatFactor.addItem("16", 384);
+    _beatFactor.setCurrentItem("1");
+    _properties.append(&_beatFactor);
 
     minotor->addProgram(this);
 }
@@ -75,7 +83,8 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
     // Set position to origin
     _itemGroup.setPos(0,0);
 
-    if(ppqn==0)
+    const unsigned int beat = _beatFactor.currentItem()->real();
+    if((gppqn%beat)==0)
     {
         if(_minoAnimationsToEnable.count())
         {
