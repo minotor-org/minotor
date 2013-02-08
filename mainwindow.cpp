@@ -122,6 +122,15 @@ MainWindow::MainWindow(QWidget *parent) :
     pbMidiLearn->setCheckable(true);
     lMidiButtons->addWidget(pbMidiLearn);
 
+    // Fullscreen
+    QPushButton *pbFullscreen = new QPushButton(_tToolBar);
+    _tToolBar->addWidget(pbFullscreen);
+    pbFullscreen->setIconSize(QSize(20,20));
+    pbFullscreen->setMinimumSize(30,30);
+    pbFullscreen->setMaximumSize(30,30);
+    pbFullscreen->setCheckable(true);
+    connect(pbFullscreen,SIGNAL(toggled(bool)),this,SLOT(tbFullScreenToggled(bool)));
+
     //UiMaster
     _uiMaster = new UiMaster(_minotor->master(), ui->centralWidget);
     lCentralWidget->addWidget(_uiMaster);
@@ -204,6 +213,15 @@ void MainWindow::tbMidiLearnToggled(bool checked)
         midiProperty->setMidiLearnMode(checked);
         midiProperty->update();
     }
+}
+
+void MainWindow::tbFullScreenToggled(bool on)
+{
+    if(isFullScreen()) {
+         this->setWindowState(Qt::WindowMaximized);
+      } else {
+         this->setWindowState(Qt::WindowFullScreen);
+      }
 }
 
 void MainWindow::on_pbShot_clicked()

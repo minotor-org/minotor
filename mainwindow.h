@@ -39,6 +39,8 @@ private slots:
     // UI: Action file->configuration
     void on_action_Configuration_triggered();
 
+    void tbFullScreenToggled(bool on);
+
     // Debug: PPQN slider
     void on_sPpqn_valueChanged(int value);
 
