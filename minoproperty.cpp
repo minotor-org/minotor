@@ -25,3 +25,12 @@ void MinoProperty::setMidiControl(MidiControl *control)
     _midiControl = control;
     connect(_midiControl, SIGNAL(valueChanged(quint8)), this, SLOT(midiControlValueChange(quint8)));
 }
+
+void MinoProperty::setValue(qreal value)
+ {
+    if(_value != value)
+    {
+        _value = value;
+        emit valueChanged(value);
+    }
+ }

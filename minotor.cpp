@@ -20,7 +20,7 @@ Minotor::Minotor(QObject *parent) :
     // LED Matrix
     _ledMatrix = new LedMatrix(this);
 
-    _master = new MinoMaster();
+    _master = new MinoMaster(this);
     _master->setProgram(new MiproMatrix(this));
     new MiproWaves(this);
 

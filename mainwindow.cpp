@@ -198,11 +198,11 @@ void MainWindow::on_sPpqn_valueChanged(int value)
 
 void MainWindow::tbMidiLearnToggled(bool checked)
 {
-    QList<UiAnimationProperty*> animationProperties = findChildren<UiAnimationProperty*>();
-    foreach(UiAnimationProperty *animationProperty, animationProperties)
+    QList<UiMidiProperty*> midiProperties = findChildren<UiMidiProperty*>();
+    foreach(UiMidiProperty *midiProperty, midiProperties)
     {
-        animationProperty->setMidiLearnMode(checked);
-        animationProperty->update();
+        midiProperty->setMidiLearnMode(checked);
+        midiProperty->update();
     }
 }
 

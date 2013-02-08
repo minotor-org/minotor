@@ -4,11 +4,17 @@
 
 #include <QDebug>
 
-MinoMaster::MinoMaster():
+MinoMaster::MinoMaster(Minotor *minotor):
     QObject(),
     _program(NULL),
     _shifted(false)
 {
+    minotor->scene()->addItem(&_itemGroup);
+
+    MinoProperty *mpBrightness = new MinoProperty(1.0);
+    mpBrightness->setObjectName("Brightness");
+    connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
+    _properties.append(mpBrightness);
 }
 
 MinoMaster::~MinoMaster()
@@ -18,13 +24,21 @@ MinoMaster::~MinoMaster()
 
 void MinoMaster::setBrightness(qreal value)
 {
-    _program->itemGroup()->setOpacity(value);
+    _itemGroup.setOpacity(value);
 }
 
 void MinoMaster::setProgram(MinoProgram *program)
 {
     if (_program != program)
     {
+        if(_program)
+        {
+            _itemGroup.removeFromGroup(_program->itemGroup());
+        }
+        if(program)
+        {
+            _itemGroup.addToGroup(program->itemGroup());
+        }
         _program = program;
         emit programChanged();
     }

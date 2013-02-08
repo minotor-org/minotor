@@ -1,18 +1,19 @@
 #include "uianimationproperty.h"
 
-#include <QLayout>
 #include <QLabel>
 #include <QDebug>
-#include <QPainter>
+#include <QLayout>
 
 #include "minotor.h"
 
 #include "minoitemizedproperty.h"
 
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent) :
-    QWidget(parent),
-    _midiLearnMode(false)
+    UiMidiProperty(property, parent)
 {
+    if(this->layout())
+        delete this->layout();
+
     QVBoxLayout *lProperty = new QVBoxLayout(this);
     lProperty->setSpacing(1);
     lProperty->setMargin(0);
@@ -42,7 +43,6 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     lDial->setMargin(0);
     lDial->setContentsMargins(0,0,0,0);
     lDial->addStretch();
-    _dial = new UiDial(property, this);
     _dial->setMinimumSize(32,32);
     _dial->setMaximumSize(32,32);
     _dial->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -54,63 +54,4 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     t->setObjectName("dialinfo");
     t->setAlignment(Qt::AlignHCenter);
     lProperty->addWidget(t);
-
-
-
-}
-
-void UiAnimationProperty::paintEvent(QPaintEvent *pe)
-{
-    (void)pe;
-    static bool midiControlled = _dial->property()->isMidiControlled();
-    if(_midiLearnMode)
-    {
-        if(midiControlled != _dial->property()->isMidiControlled())
-        {
-            // Tricky way to update full widget region (instead of UiDial only)
-            update();
-        }
-
-        QPainter painter(this);
-        painter.setPen(Qt::NoPen);
-        QColor color(127, 127, 127, 80);
-        if (this->testAttribute(Qt::WA_UnderMouse))
-        {
-            color.setGreen(255);
-        }
-        else
-        {
-            color.setRed(230);
-            color.setGreen(95);
-            color.setBlue(0);
-        }
-
-        if (_dial->property()->isMidiControlled())
-        {
-            color.setBlue(255);
-        }
-
-        painter.setBrush(QBrush(color));
-        painter.drawRect(this->rect());
-    }
-}
-
-void UiAnimationProperty::leaveEvent(QEvent *event)
-{
-    (void)event;
-    if (_midiLearnMode)
-    {
-        Minotor::minotor()->midiMapping()->assignCapturedControlTo(NULL);
-        update();
-    }
-}
-
-void UiAnimationProperty::enterEvent(QEvent *event)
-{
-    (void)event;
-    if (_midiLearnMode)
-    {
-        Minotor::minotor()->midiMapping()->assignCapturedControlTo(_dial->property());
-        update();
-    }
 }

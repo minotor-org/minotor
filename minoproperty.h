@@ -14,7 +14,7 @@ public:
 
     // value (0.0 - 1.0)
     virtual qreal value() { return _value; }
-    virtual void setValue(qreal value) { _value = value; }
+    virtual void setValue(qreal value);
 
     // step (0.0 - 1.0)
     virtual qreal step() { return _step; }

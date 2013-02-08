@@ -3,20 +3,25 @@
 
 #include "minoprogram.h"
 
+class Minotor;
+
 class MinoMaster : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoMaster();
+    explicit MinoMaster(Minotor *minotor);
     ~MinoMaster();
 
-    QString name() { return QString("Master"); }
     void setProgram(MinoProgram *program);
     MinoProgram *program() { return _program; }
+
+    const MinoPropertyList properties() { return _properties; }
 
 private:
     MinoProgram *_program;
     bool _shifted;
+    QGraphicsItemGroup _itemGroup;
+    MinoPropertyList _properties;
 
 signals:
     void programChanged();

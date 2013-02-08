@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     uiprogram.cpp \
     uiprogramview.cpp \
     miprowaves.cpp \
-    minadebug.cpp
+    minadebug.cpp \
+    uimidiproperty.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -79,7 +80,8 @@ HEADERS  += mainwindow.h \
     uiprogrambank.h \
     uiprogram.h \
     miprowaves.h \
-    minadebug.h
+    minadebug.h \
+    uimidiproperty.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

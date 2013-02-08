@@ -3,7 +3,6 @@
 #include <QVBoxLayout>
 #include <QFrame>
 #include <QScrollArea>
-#include <QDial>
 #include <QLabel>
 #include <QPushButton>
 #include <QLCDNumber>
@@ -12,6 +11,9 @@
 #include "minotor.h"
 
 #include "uiprogramview.h"
+#include "uidial.h"
+#include "uimidiproperty.h"
+
 #include "minotor.h"
 
 UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
@@ -85,27 +87,17 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
 
 
-    QDial *dBrightness = new QDial(wTools);
+    UiMidiProperty *dBrightness = new UiMidiProperty(_master->properties().at(0), wTools);
     dBrightness->setMaximumSize(25,25);
-    connect(dBrightness, SIGNAL(valueChanged(int)), this, SLOT(brightnessChanged(int)));
-    dBrightness->setMinimum(0);
-    dBrightness->setMaximum(127);
     lTools->addWidget(dBrightness);
     QLabel *tBrightness = new QLabel(wTools);
     lTools->addWidget(tBrightness);
     tBrightness->setObjectName("bigLabel");
-    tBrightness->setText("Brightness");
+    tBrightness->setText(_master->properties().at(0)->objectName());
 
     lTools->addStretch();
     //
     lMasterView->addStretch();
-
-
-}
-
-void UiMaster::brightnessChanged(int value)
-{
-    _master->setBrightness((qreal)value/127);
 }
 
 void UiMaster::updateProgram()
