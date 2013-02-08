@@ -64,7 +64,7 @@ void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
         default:
         {
             const int noteMin = KORG_NOTE_MIN;
-            const int noteMax = qMax(KORG_NOTE_MAX, noteMin + _program->animations().count() - 1);
+            const int noteMax = qMin(KORG_NOTE_MAX, noteMin + _program->animations().count() - 1);
             if ((note >= noteMin) && (note <= noteMax))
             {
                 const int i = note-noteMin;
