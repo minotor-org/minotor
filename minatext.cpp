@@ -46,7 +46,6 @@ MinaText::MinaText(MinoProgram *program) :
 
 void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    static QGraphicsItem* item = NULL;
     (void)qn;
     (void)ppqn;
 
@@ -56,19 +55,14 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     const unsigned int b = _beatFactor.currentItem()->real();
     if ((gppqn%b)==0)
     {
-        const unsigned int shape = _generatorShape.currentItem()->real();
         QFont *fText = new QFont("Arial",12,QFont::Bold,false);
 
-        QGraphicsTextItem *t = _scene->addText(_text.textValue(),QFont("Arial",12,QFont::Bold,false));
-        QRectF tRect = t->boundingRect();
+        QGraphicsTextItem* item = _scene->addText(_text.textValue(),QFont("Arial",12,QFont::Bold,false));
+        QRectF tRect = item->boundingRect();
         tRect.adjust(0,0,-1,-1);
         tRect.moveCenter(_boundingRect.center());
-        t->setPos(tRect.topLeft());
-
-
-        t->setDefaultTextColor(color);
-        item = t;
-
+        item->setPos(tRect.topLeft());
+        item->setDefaultTextColor(color);
 
         const unsigned int style = _generatorStyle.currentItem()->real();
         switch(style)
