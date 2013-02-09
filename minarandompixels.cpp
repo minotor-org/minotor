@@ -20,7 +20,7 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
         for (qreal j=0.0; j<_boundingRect.width();j+=1.0)
         {
             const qreal h = 0.1;
-            _itemGroup.addToGroup(_scene->addLine ( j, i, j+h, i+h, QPen(Qt::red) ));
+            _itemGroup.addToGroup(_scene->addLine ( j, i, j+h, i+h, QPen(Qt::NoPen) ));
         }
     }
 }
