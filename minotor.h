@@ -59,7 +59,7 @@ public:
 
 signals:
     void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
-
+    void beatToggled(bool active);
 public slots:
     // Clock handler
     void dispatchClock(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);

@@ -68,15 +68,15 @@ MainWindow::MainWindow(QWidget *parent) :
     lBackground->setSpacing(10);
     lBackground->setMargin(0);
     lBackground->setContentsMargins(5,2,5,2);
-    QButtonGroup *_bgTransport = new QButtonGroup(_tToolBar);
+    QButtonGroup *_bgTransport = new QButtonGroup(wBackground);
     //Transport
-    QWidget *wTransportButtons = new QWidget(_tToolBar);
+    QWidget *wTransportButtons = new QWidget(wBackground);
     lBackground->addWidget(wTransportButtons);
     QHBoxLayout *lTransportButtons = new QHBoxLayout(wTransportButtons);
     lTransportButtons->setSpacing(5);
     lTransportButtons->setMargin(0);
     lTransportButtons->setContentsMargins(0,0,0,0);
-    QPushButton *pbStart = new QPushButton(_tToolBar);
+    QPushButton *pbStart = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbStart);
     _bgTransport->addButton(pbStart);
     pbStart->setCheckable(true);
@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pbStart->setMinimumSize(28,28);
     pbStart->setMaximumSize(28,28);
     connect(pbStart,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStart()));
-    QPushButton *pbStop = new QPushButton(_tToolBar);
+    QPushButton *pbStop = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbStop);
     _bgTransport->addButton(pbStop);
     pbStop->setCheckable(true);
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pbStop->setMaximumSize(28,28);
 
     connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
-    QPushButton *pbSync = new QPushButton(_tToolBar);
+    QPushButton *pbSync = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbSync);
     pbSync->setIcon(QIcon(":/pictos/sync.png"));
     pbSync->setIconSize(QSize(16,16));
@@ -104,14 +104,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(pbSync,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiSync()));
 
 
-    QWidget *wTempoButtons = new QWidget(_tToolBar);
+    QWidget *wTempoButtons = new QWidget(wBackground);
     lBackground->addWidget(wTempoButtons);
     QHBoxLayout *lTempoButtons = new QHBoxLayout(wTempoButtons);
     lTempoButtons->setSpacing(5);
     lTempoButtons->setMargin(0);
     lTempoButtons->setContentsMargins(0,0,0,0);
     //BPM
-    QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(_tToolBar);
+    QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(wTempoButtons);
     _sbBPM->setMinimum(20);
     _sbBPM->setMaximum(300);
     _sbBPM->setSingleStep(0.1);
@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_sbBPM,SIGNAL(valueChanged(double)),_minotor->clockSource(),SLOT(setBPM(double)));
 
     //Tap
-    QPushButton *pbTap = new QPushButton(_tToolBar);
+    QPushButton *pbTap = new QPushButton(wTempoButtons);
     lTempoButtons->addWidget(pbTap);
     pbTap->setIcon(QIcon(":/pictos/tap.png"));
     pbTap->setIconSize(QSize(20,20));
@@ -133,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(pbTap,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiTapOn()));
     //_tToolBar->addSeparator();
 
-    QWidget *wMidiButtons = new QWidget(_tToolBar);
+    QWidget *wMidiButtons = new QWidget(wBackground);
     lBackground->addWidget(wMidiButtons);
     QHBoxLayout *lMidiButtons = new QHBoxLayout(wMidiButtons);
     lMidiButtons->setSpacing(5);
@@ -145,9 +145,57 @@ MainWindow::MainWindow(QWidget *parent) :
     pbMidiLearn->setText("MIDI learn");
     pbMidiLearn->setCheckable(true);
     lMidiButtons->addWidget(pbMidiLearn);
+
+
+    //Midi monitors
+    QWidget *wMidiMonitor = new QWidget(wBackground);
+    lBackground->addWidget(wMidiMonitor);
+    QVBoxLayout *lMidiMonitor = new QVBoxLayout(wMidiMonitor);
+    lMidiMonitor->setSpacing(0);
+    lCentralWidget->setMargin(0);
+    lMidiMonitor->setContentsMargins(0,0,0,0);
+    //Midi clock
+    QWidget *wMidiClock = new QWidget(wMidiMonitor);
+    lMidiMonitor->addWidget(wMidiClock);
+    QHBoxLayout *lMidiClock = new QHBoxLayout(wMidiClock);
+    lMidiClock->setSpacing(5);
+    lMidiClock->setMargin(0);
+    lMidiClock->setContentsMargins(0,0,0,0);
+
+    _wClockLed = new QWidget(wMidiClock);
+    _wClockLed->setObjectName("offled");
+    lMidiClock->addWidget(_wClockLed);
+    _wClockLed->setMinimumSize(8,8);
+    _wClockLed->setMaximumSize(8,8);
+
+    connect(_minotor,SIGNAL(beatToggled(bool)),this,SLOT(beatToggledReceived(bool)));
+
+    QLabel *tClockLed = new QLabel(wMidiClock);
+    lMidiClock->addWidget(tClockLed);
+    tClockLed->setText("clock");
+
+    //Midi note
+    QWidget *wMidiNote = new QWidget(wMidiMonitor);
+    lMidiMonitor->addWidget(wMidiNote);
+    QHBoxLayout *lMidiNote = new QHBoxLayout(wMidiNote);
+    lMidiNote->setSpacing(5);
+    lMidiNote->setMargin(0);
+    lMidiNote->setContentsMargins(0,0,0,0);
+
+    QWidget *wNoteLed = new QWidget(wMidiNote);
+    wNoteLed->setObjectName("offled");
+    lMidiNote->addWidget(wNoteLed);
+    wNoteLed->setMinimumSize(8,8);
+    wNoteLed->setMaximumSize(8,8);
+
+    QLabel *tNoteLed = new QLabel(wMidiNote);
+    lMidiNote->addWidget(tNoteLed);
+    tNoteLed->setText("midi note");
+
+
     lBackground->addStretch();
     // Fullscreen
-    QPushButton *pbFullscreen = new QPushButton(_tToolBar);
+    QPushButton *pbFullscreen = new QPushButton(wBackground);
     lBackground->addWidget(pbFullscreen);
     pbFullscreen->setIcon(QIcon(":/pictos/fullscreen.png"));
     pbFullscreen->setIconSize(QSize(20,20));
@@ -280,5 +328,17 @@ void MainWindow::on_pbScene_clicked()
     foreach(QGraphicsItem *item, items)
     {
         qDebug() << item;
+    }
+}
+
+void MainWindow::beatToggledReceived(bool active)
+{
+    if (active)
+    {
+        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #cff672,stop: 0.5 #95cd0e,stop: 1 #8ac300);");
+    }
+    else
+    {
+        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);");
     }
 }

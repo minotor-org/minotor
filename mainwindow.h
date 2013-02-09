@@ -49,6 +49,8 @@ private slots:
 
     void on_pbScene_clicked();
 
+    void beatToggledReceived(bool active);
+
 private:
     // UI
     // == Main window ==
@@ -66,6 +68,8 @@ private:
 
     // Minotor
     Minotor *_minotor;
+
+    QWidget *_wClockLed;
 };
 
 #endif // MAINWINDOW_H

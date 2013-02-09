@@ -1,5 +1,6 @@
 QWidget { color:#9c9c9c;}
-/*QWidget#panel { background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.08 #5a5a5a,stop: 0.14 #4a4a4a, stop: 0.3 #404040, stop: 0.6 #3a3a3a, stop: 1 #2c2c2c);; border-radius:3px; }
+/*QWidget#panel { background:;; border-radius:3px; }
+qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.08 #5a5a5a,stop: 0.14 #4a4a4a, stop: 0.3 #404040, stop: 0.6 #3a3a3a, stop: 1 #2c2c2c)
 */
 QDialog {background-color:#3a3a3a;}
 QComboBox {background-color:#3a3a3a;height:26px;border: 1px solid #5F5F5F;border-radius:3px;}
@@ -23,6 +24,9 @@ QWidget#toolbarpanel { background-color:#3a3a3a;}
 QWidget#programbackground {background-color:#3a3a3a;border-radius:3px;}
 QWidget#scrollbackground {background-color:#202020;border-radius:3px;}
 QWidget#scrollcontainer {border: 1px solid #505050; background: #404040;border-radius:3px;}
+QWidget#offled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);border-radius:2px;}
+QWidget#greenled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #cff672,stop: 0.5 #95cd0e,stop: 1 #8ac300);border-radius:2px;}
+QWidget#orangeled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #e79e11,stop: 0.5 #e75f00,stop: 1 #d55400);border-radius:2px;}
 QScrollBar:horizontal { border: 1px solid #505050;background: #323232;height: 15px;margin-top: 0px; margin-right:21px;margin-left: 21px; margin-bottom:0px;}
 QScrollBar:vertical { border: 1px solid #505050;background: #323232;width: 15px;margin-top: 21px; margin-right:0px;margin-left: 0px; margin-bottom:21px;}
 QScrollBar::handle {border: 1px solid #5F5F5F;background: #404040;min-width: 20px;min-height: 20px;}
