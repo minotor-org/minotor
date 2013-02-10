@@ -31,7 +31,7 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     colorMin.setHsvF(minValue, 1.0, 1.0);
 
     QLinearGradient
-       grad(0.0, 0.0, 0.0, 16.0) ;
+            grad(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
     grad.setColorAt(0.0, colorMin) ;
     grad.setColorAt(0.3, color) ;
     grad.setColorAt(0.45, colorMax) ;

@@ -17,37 +17,37 @@ QComboBox::drop-down {
       border: 1px solid #5F5F5F;
       selection-background-color: #505050;
   }
-QWidget#panel { background-color:#3a3a3a; border-radius:3px; border: 1px solid #505050; border-radius:3px;}
+QWidget#panel { background-color:#3a3a3a; border-radius:3px; border: 1px solid #151515; border-radius:3px;}
 QWidget#border { background-color:#505050; border-radius:3px; }
 QWidget#content { background-color:#2c2c2c;border-radius:3px;}
 QWidget#toolbarpanel { background-color:#3a3a3a;}
 QWidget#programbackground {background-color:#3a3a3a;border-radius:3px;}
-QWidget#scrollbackground {background-color:#202020;border-radius:3px;}
-QWidget#scrollcontainer {border: 1px solid #505050; background: #404040;border-radius:3px;}
+QWidget#scrollbackground {background-color:#151515;border-radius:3px;}
+QWidget#scrollcontainer {border: 1px solid #151515; background: #404040;border-radius:3px;}
 QWidget#offled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);border-radius:2px;}
 QWidget#greenled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #cff672,stop: 0.5 #95cd0e,stop: 1 #8ac300);border-radius:2px;}
 QWidget#orangeled { background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #e79e11,stop: 0.5 #e75f00,stop: 1 #d55400);border-radius:2px;}
-QScrollBar:horizontal { border: 1px solid #505050;background: #323232;height: 15px;margin-top: 0px; margin-right:21px;margin-left: 21px; margin-bottom:0px;}
-QScrollBar:vertical { border: 1px solid #505050;background: #323232;width: 15px;margin-top: 21px; margin-right:0px;margin-left: 0px; margin-bottom:21px;}
+QScrollBar:horizontal { border: 1px solid #151515;background: #323232;height: 15px;margin-top: 0px; margin-right:21px;margin-left: 21px; margin-bottom:0px;}
+QScrollBar:vertical { border: 1px solid #151515;background: #323232;width: 15px;margin-top: 21px; margin-right:0px;margin-left: 0px; margin-bottom:21px;}
 QScrollBar::handle {border: 1px solid #5F5F5F;background: #404040;min-width: 20px;min-height: 20px;}
-QScrollBar::add-line:horizontal {border: 1px solid #505050; background: #404040;width: 20px;subcontrol-position: right;subcontrol-origin: margin;}
-QScrollBar::sub-line:horizontal {border: 1px solid #505050;background: #404040;width: 20px;subcontrol-position: left;subcontrol-origin: margin;}
-QScrollBar::add-line:vertical {border: 1px solid #505050; background: #404040;height: 20px;subcontrol-position: bottom;subcontrol-origin: margin;}
-QScrollBar::sub-line:vertical {border: 1px solid #505050;background: #404040;height: 20px;subcontrol-position: top;subcontrol-origin: margin;}
+QScrollBar::add-line:horizontal {border: 1px solid #151515; background: #404040;width: 20px;subcontrol-position: right;subcontrol-origin: margin;}
+QScrollBar::sub-line:horizontal {border: 1px solid #151515;background: #404040;width: 20px;subcontrol-position: left;subcontrol-origin: margin;}
+QScrollBar::add-line:vertical {border: 1px solid #151515; background: #404040;height: 20px;subcontrol-position: bottom;subcontrol-origin: margin;}
+QScrollBar::sub-line:vertical {border: 1px solid #151515;background: #404040;height: 20px;subcontrol-position: top;subcontrol-origin: margin;}
 QScrollBar::left-arrow {image: url(:/pictos/left-arrow.png);}
 QScrollBar::right-arrow {image: url(:/pictos/right-arrow.png);}
 QScrollBar::up-arrow {image: url(:/pictos/up-arrow.png);}
 QScrollBar::down-arrow {image: url(:/pictos/down-arrow.png);}
 QScrollArea#scroll {background-color:#3a3a3a;}
-QGroupBox { background-color:#454545;border-radius:3px; }
+QGroupBox { background-color:#151515;border-radius:3px; }
 QLabel#title {font:bold;color:#9c9c9c;font-size:14px;}
 QLabel#bigLabel {font:bold;font-size:10px;color:#9c9c9c;}
-QLabel#image {border: 1px solid #505050;}
+QLabel#image {border: 1px solid #151515;}
 QLabel#dialinfo {color:#9c9c9c;}
 QFrame#line {background-color:#2c2c2c;}
 QToolBar {spacing: 1px;}
 QToolBar::separator {background-color:transparent;width:25px;}
-QFrame#view {background-color:#202020;}
+QFrame#view {background-color:#151515;}
 QMainWindow {background-color:#242424;font-size:9px;}
 QCheckBox {background-color:#2c2c2c;}
 QDockWidget {background-color:#3a3a3a;border: 1px solid lightgray;
