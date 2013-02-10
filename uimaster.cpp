@@ -23,6 +23,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
     this->setMaximumHeight(335);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
+    this->setLayout(lMaster);
     lMaster->setSpacing(0);
     lMaster->setMargin(0);
     lMaster->setContentsMargins(0,0,0,0);
@@ -34,18 +35,25 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
     lBackground->setSpacing(0);
     lBackground->setMargin(0);
-    lBackground->setContentsMargins(0,0,0,0);
+    lBackground->setContentsMargins(2,2,2,2);
+
+    QWidget *wContainer = new QWidget(this);
+    wContainer->setObjectName("panelcontent");
+    lBackground->addWidget(wContainer);
+    QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+
     //Title
-    QLabel *tTitle = new QLabel(this);
+    QLabel *tTitle = new QLabel(wContainer);
     tTitle->setObjectName("title");
     tTitle->setContentsMargins(5,5,0,0);
-    lBackground->addWidget(tTitle);
+    lContainer->addWidget(tTitle);
     tTitle->setText("Master");
 
+
     //Content
-    QWidget *wContent = new QWidget(this);
+    QWidget *wContent = new QWidget(wContainer);
     //wContent->setObjectName("panel");
-    lBackground->addWidget(wContent);
+    lContainer->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
 
     lContent->setSpacing(0);

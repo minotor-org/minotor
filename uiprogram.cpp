@@ -20,17 +20,19 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lProgram->setMargin(0);
     lProgram->setContentsMargins(0,0,0,0);
 
+
     _border = new QWidget();
-    _border->setObjectName("border");
+    _border->setObjectName("panel");
     lProgram->addWidget(_border);
 
     QVBoxLayout *lBorder = new QVBoxLayout(_border);
     lBorder->setSpacing(0);
     lBorder->setMargin(0);
-    lBorder->setContentsMargins(1,1,1,1);
+    lBorder->setContentsMargins(2,2,2,2);
 
-    _wBackground = new QWidget(this);
+    _wBackground = new QWidget(_border);
     _wBackground->setObjectName("programbackground");
+    //_wBackground->setStyleSheet("background-color:red;");
 
 
     lBorder->addWidget(_wBackground);
@@ -109,11 +111,11 @@ void UiProgram::setExpanded(bool expanded)
     }
     else
     {
-       _wBackground->setStyleSheet("#programbackground { background-color:#333333;}");
+       _wBackground->setStyleSheet("#programbackground { background-color:#3a3a3a;}");
        //_wBackground->setObjectName("programbackgroundoff");
        //_wBackground->setStyleSheet("");
-       this->setMinimumHeight(105);
-       this->setMaximumHeight(105);
+       this->setMinimumHeight(110);
+       this->setMaximumHeight(110);
     }
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
 //    qDebug() << "gnii" << parentWidget() << parentWidget()->parentWidget() << parentWidget()->parentWidget()->parentWidget();

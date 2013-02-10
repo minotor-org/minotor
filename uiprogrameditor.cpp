@@ -20,12 +20,22 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 
     QWidget *wContainer = new QWidget(this);
     layout->addWidget(wContainer);
-    wContainer->setObjectName("scrollcontainer");
+    wContainer->setObjectName("scroll");
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+    lContainer->setSpacing(0);
+    lContainer->setMargin(0);
+    lContainer->setContentsMargins(2,2,2,2);
 
+    QWidget *wContent = new QWidget(wContainer);
+    lContainer->addWidget(wContent);
+    wContent->setObjectName("scrollcontent");
+    QVBoxLayout *lContent = new QVBoxLayout(wContent);
+    lContent->setSpacing(0);
+    lContent->setMargin(0);
+    lContent->setContentsMargins(3,3,3,3);
     // Animations properties
     QScrollArea *sa = new QScrollArea(this);
-    lContainer->addWidget(sa);
+    lContent->addWidget(sa);
 
     _wContent = new QWidget(this);
     _wContent->setObjectName("scrollbackground");
@@ -36,8 +46,8 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     sa->setWidgetResizable(true);
 
-    QHBoxLayout *lContent = new QHBoxLayout(_wContent);
-    lContent->addStretch();
+    QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
+    _lContent->addStretch();
 
     foreach (MinoAnimation *animation, _program->animations())
     {

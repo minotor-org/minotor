@@ -22,15 +22,20 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
 
     QWidget *wContainer = new QWidget(this);
     layout->addWidget(wContainer);
-    wContainer->setObjectName("scrollcontainer");
+    wContainer->setObjectName("scroll");
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+    lContainer->setSpacing(0);
+    lContainer->setMargin(0);
+    lContainer->setContentsMargins(2,2,2,2);
 
-    QWidget *wContent = new QWidget(this);
+    QWidget *wContent = new QWidget(wContainer);
     lContainer->addWidget(wContent);
-    wContent->setObjectName("panel");
+    wContent->setObjectName("scrollcontent");
+    QVBoxLayout *lContent = new QVBoxLayout(wContent);
+
     // Animations properties
-    QScrollArea *sa = new QScrollArea(this);
-    lContainer->addWidget(sa);
+    QScrollArea *sa = new QScrollArea(wContent);
+    lContent->addWidget(sa);
 
 
     _wContent = new QWidget(this);
@@ -42,8 +47,8 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     sa->setFocusPolicy(Qt::NoFocus);
     sa->setWidgetResizable(true);
 
-    QHBoxLayout *lContent = new QHBoxLayout(_wContent);
-    lContent->addStretch();
+    QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
+    _lContent->addStretch();
 
     foreach (MinoAnimation *animation, _master->program()->animations())
     {

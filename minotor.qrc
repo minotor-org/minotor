@@ -19,5 +19,6 @@
         <file>pictos/fullscreen.png</file>
         <file>images/text.png</file>
         <file>images/falling.png</file>
+        <file>images/stars.png</file>
     </qresource>
 </RCC>

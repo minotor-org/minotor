@@ -16,6 +16,7 @@
 #include "miprowaves.h"
 #include "miprotext.h"
 #include "minafallingobjects.h"
+#include "minastars.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -45,11 +46,12 @@ Minotor::Minotor(QObject *parent) :
     // Register animations
     MinoAnimationFactory::registerClass<MinaFlash>();
     MinoAnimationFactory::registerClass<MinaExpandingObjects>();
-    MinoAnimationFactory::registerClass<MinaBarsFromSides>();
-    MinoAnimationFactory::registerClass<MinaRandomPixels>();
     MinoAnimationFactory::registerClass<MinaWaveform>();
-    MinoAnimationFactory::registerClass<MinaText>();
+    MinoAnimationFactory::registerClass<MinaBarsFromSides>();
     MinoAnimationFactory::registerClass<MinaFallingObjects>();
+    MinoAnimationFactory::registerClass<MinaText>();
+    MinoAnimationFactory::registerClass<MinaRandomPixels>();
+    MinoAnimationFactory::registerClass<MinaStars>();
 }
 
 Minotor::~Minotor()

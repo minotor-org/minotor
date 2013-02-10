@@ -12,16 +12,26 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     lMaster->setSpacing(0);
     lMaster->setMargin(0);
     lMaster->setContentsMargins(0,0,0,0);
+
+    QWidget *wBorder = new QWidget(this);
+    lMaster->addWidget(wBorder);
+    wBorder->setObjectName("panel");
+
+    QVBoxLayout *lBorder = new QVBoxLayout(wBorder);
+    lBorder->setSpacing(0);
+    lBorder->setMargin(0);
+    lBorder->setContentsMargins(2,2,2,2);
+
+
     QWidget *wBackground = new QWidget(this);
-    wBackground->setObjectName("panel");
-    lMaster->addWidget(wBackground);
+    lBorder->addWidget(wBackground);
+    wBackground->setObjectName("panelcontent");
 
     // Master
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
     lBackground->setSpacing(5);
     lBackground->setMargin(10);
-    //lBackground->setContentsMargins(5,5,5,5);
-    //Title
+
     QLabel *tTitle = new QLabel(this);
     tTitle->setObjectName("title");
     tTitle->setContentsMargins(0,0,0,0);
@@ -31,15 +41,16 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     QWidget *wContainer = new QWidget(this);
     lBackground->addWidget(wContainer);
-    wContainer->setObjectName("scrollcontainer");
+    wContainer->setObjectName("scroll");
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
     lContainer->setSpacing(0);
     lContainer->setMargin(0);
-    lContainer->setContentsMargins(0,0,0,0);
+    lContainer->setContentsMargins(2,2,2,2);
 
     //Content
-    QWidget *wContent = new QWidget(this);
+    QWidget *wContent = new QWidget(wContainer);
     lContainer->addWidget(wContent);
+    wContent->setObjectName("scrollcontent");
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
     lContent->setSpacing(0);
     lContent->setMargin(0);

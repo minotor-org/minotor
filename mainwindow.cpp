@@ -55,15 +55,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QWidget *wToolContainer = new QWidget(this);
     lToolBar->addWidget(wToolContainer);
+    wToolContainer->setObjectName("panel");
     QHBoxLayout *lToolContainer = new QHBoxLayout(wToolContainer);
-    lToolContainer->setObjectName("scrollcontainer");
     lToolContainer->setSpacing(0);
     lToolContainer->setMargin(0);
-    lToolContainer->setContentsMargins(1,1,1,1);
+    lToolContainer->setContentsMargins(2,2,2,2);
 
-    QWidget *wBackground = new QWidget(_tToolBar);
+    QWidget *wBackground = new QWidget(wToolContainer);
     lToolContainer->addWidget(wBackground);
-    wBackground->setObjectName("panel");
+    wBackground->setObjectName("panelcontent");
     QHBoxLayout *lBackground = new QHBoxLayout(wBackground);
     lBackground->setSpacing(10);
     lBackground->setMargin(0);
@@ -224,11 +224,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QWidget *wContainer = new QWidget(this);
     lAnimations->addWidget(wContainer);
-    wContainer->setObjectName("scrollcontainer");
+    wContainer->setObjectName("panel");
+    //wContainer->setStyleSheet("background-color:red;");
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
     lContainer->setSpacing(0);
     lContainer->setMargin(0);
-    lContainer->setContentsMargins(5,5,5,5);
+    lContainer->setContentsMargins(2,2,2,2);
+
+    QWidget *wContent = new QWidget(wContainer);
+    lContainer->addWidget(wContent);
+    wContent->setObjectName("panelcontent");
+    QVBoxLayout *lContent = new QVBoxLayout(wContent);
+    lContent->setSpacing(0);
+    lContent->setMargin(0);
+    lContent->setContentsMargins(5,5,5,5);
+
     // Populate animation scrollarea
     QScrollArea *sa =  new QScrollArea();
     sa->setFrameShadow(QFrame::Plain);
@@ -239,7 +249,7 @@ MainWindow::MainWindow(QWidget *parent) :
     UiAnimationPicker *ap = new UiAnimationPicker(sa);
 
     sa->setWidget(ap);
-    lContainer->addWidget(sa);
+    lContent->addWidget(sa);
 }
 
 MainWindow::~MainWindow()

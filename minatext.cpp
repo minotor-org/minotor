@@ -55,7 +55,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     const unsigned int b = _beatFactor.currentItem()->real();
     if ((gppqn%b)==0)
     {
-        QFont *fText = new QFont("Arial",12,QFont::Bold,false);
+        QFont *fText = new QFont("Arial",10,QFont::Bold,false);
 
         QGraphicsTextItem* item = _scene->addText(_text.textValue(),QFont("Arial",12,QFont::Bold,false));
         QRectF tRect = item->boundingRect();
