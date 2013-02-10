@@ -122,6 +122,7 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
 
     // Render the scene at previously saved view rect
     QPainter painter(_image);
+    //painter.setRenderHint(QPainter::Antialiasing);
     _scene->render(&painter, QRectF(_image->rect()), QRectF(_drawingPos, _rect.size()), Qt::IgnoreAspectRatio);
 
     // Let's connected object to know the program's animation is done

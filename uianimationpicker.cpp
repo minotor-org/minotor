@@ -22,6 +22,8 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     wContent->setObjectName("scrollbackground");
     this->layout()->addWidget(wContent);
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
+    lContent->setSpacing(10);
+
 
     this->setAttribute(Qt::WA_TranslucentBackground,false);
 

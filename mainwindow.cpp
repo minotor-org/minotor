@@ -146,13 +146,13 @@ MainWindow::MainWindow(QWidget *parent) :
     pbMidiLearn->setCheckable(true);
     lMidiButtons->addWidget(pbMidiLearn);
 
-
+    lBackground->addStretch();
     //Midi monitors
     QWidget *wMidiMonitor = new QWidget(wBackground);
     lBackground->addWidget(wMidiMonitor);
     QVBoxLayout *lMidiMonitor = new QVBoxLayout(wMidiMonitor);
     lMidiMonitor->setSpacing(0);
-    lCentralWidget->setMargin(0);
+    lMidiMonitor->setMargin(0);
     lMidiMonitor->setContentsMargins(0,0,0,0);
     //Midi clock
     QWidget *wMidiClock = new QWidget(wMidiMonitor);
@@ -165,8 +165,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _wClockLed = new QWidget(wMidiClock);
     _wClockLed->setObjectName("offled");
     lMidiClock->addWidget(_wClockLed);
-    _wClockLed->setMinimumSize(8,8);
-    _wClockLed->setMaximumSize(8,8);
+    _wClockLed->setMinimumSize(10,10);
+    _wClockLed->setMaximumSize(10,10);
 
     connect(_minotor,SIGNAL(beatToggled(bool)),this,SLOT(beatToggledReceived(bool)));
 
@@ -185,15 +185,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget *wNoteLed = new QWidget(wMidiNote);
     wNoteLed->setObjectName("offled");
     lMidiNote->addWidget(wNoteLed);
-    wNoteLed->setMinimumSize(8,8);
-    wNoteLed->setMaximumSize(8,8);
+    wNoteLed->setMinimumSize(10,10);
+    wNoteLed->setMaximumSize(10,10);
 
     QLabel *tNoteLed = new QLabel(wMidiNote);
     lMidiNote->addWidget(tNoteLed);
     tNoteLed->setText("midi note");
 
 
-    lBackground->addStretch();
+
     // Fullscreen
     QPushButton *pbFullscreen = new QPushButton(wBackground);
     lBackground->addWidget(pbFullscreen);
@@ -335,7 +335,7 @@ void MainWindow::beatToggledReceived(bool active)
 {
     if (active)
     {
-        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #cff672,stop: 0.5 #95cd0e,stop: 1 #8ac300);");
+        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #e79e11,stop: 0.5 #e75f00,stop: 1 #d55400);");
     }
     else
     {

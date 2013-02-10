@@ -18,5 +18,6 @@
         <file>pictos/tap.png</file>
         <file>pictos/fullscreen.png</file>
         <file>images/text.png</file>
+        <file>images/falling.png</file>
     </qresource>
 </RCC>

@@ -115,8 +115,8 @@ void UiProgram::setExpanded(bool expanded)
        _wBackground->setStyleSheet("#programbackground { background-color:#333333;}");
        //_wBackground->setObjectName("programbackgroundoff");
        //_wBackground->setStyleSheet("");
-       this->setMinimumHeight(110);
-       this->setMaximumHeight(110);
+       this->setMinimumHeight(105);
+       this->setMaximumHeight(105);
     }
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
 //    qDebug() << "gnii" << parentWidget() << parentWidget()->parentWidget() << parentWidget()->parentWidget()->parentWidget();
