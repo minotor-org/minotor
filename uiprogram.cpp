@@ -32,8 +32,6 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 
     _wBackground = new QWidget(_border);
     _wBackground->setObjectName("programbackground");
-    //_wBackground->setStyleSheet("background-color:red;");
-
 
     lBorder->addWidget(_wBackground);
     QHBoxLayout *lBackground = new QHBoxLayout(_wBackground);
@@ -105,20 +103,17 @@ void UiProgram::setExpanded(bool expanded)
     _fPreview->setVisible(expanded);
     if (expanded)
     {
-        _wBackground->setStyleSheet("#programbackground { background-color:#444444;}");
+        _wBackground->setStyleSheet("#programbackground { background-color:#484848;}");
         this->setMinimumHeight(320);
         this->setMaximumHeight(320);
     }
     else
     {
        _wBackground->setStyleSheet("#programbackground { background-color:#3a3a3a;}");
-       //_wBackground->setObjectName("programbackgroundoff");
-       //_wBackground->setStyleSheet("");
        this->setMinimumHeight(110);
        this->setMaximumHeight(110);
     }
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
-//    qDebug() << "gnii" << parentWidget() << parentWidget()->parentWidget() << parentWidget()->parentWidget()->parentWidget();
     if(sa)
     {
         sa->ensureWidgetVisible(this,0,0);
@@ -133,10 +128,9 @@ void UiProgram::requestMasterProgramChange(bool on)
 
 void UiProgram::updateOnAirStatus(bool onAir)
 {
-    //_bOnAir->setChecked(onAir);
     if (onAir)
     {
-        _border->setStyleSheet("#border {background-color:#e75f00;}");
+        _border->setStyleSheet("#panel {background-color:#e75f00;}");
     }
     else
     {
