@@ -15,7 +15,7 @@ MinaStars::MinaStars(MinoProgram *program) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _properties.append(&_beatDuration);
+    _mplMain.append(&_beatDuration);
 
     _generatorDensity.setObjectName("Density");
     _generatorDensity.addItem("1", 1);
@@ -27,11 +27,8 @@ MinaStars::MinaStars(MinoProgram *program) :
     _generatorDensity.addItem("7", 7);
     _generatorDensity.addItem("8", 8);
     _generatorDensity.setCurrentItem("1");
-    _properties.append(&_generatorDensity);
-
-    _color.setObjectName("Color");
-    _properties.append(&_color);
-
+    _mplDensity.append(&_generatorDensity);
+    _propertyGrouped.append(&_mplDensity);
 }
 
 void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

@@ -36,16 +36,16 @@ QScrollBar::add-line:horizontal {border: 1px solid #171717; background: #404040;
 QScrollBar::sub-line:horizontal {border: 1px solid #171717;background: #404040;width: 20px;subcontrol-position: left;subcontrol-origin: margin;border-radius:2px;}
 QScrollBar::add-line:vertical {border: 1px solid #171717; background: #404040;height: 20px;subcontrol-position: bottom;subcontrol-origin: margin;border-radius:2px;}
 QScrollBar::sub-line:vertical {border: 1px solid #171717;background: #404040;height: 20px;subcontrol-position: top;subcontrol-origin: margin;border-radius:2px;}
-QScrollBar::left-arrow {image: url(:/pictos/left-arrow.png);}
-QScrollBar::right-arrow {image: url(:/pictos/right-arrow.png);}
-QScrollBar::up-arrow {image: url(:/pictos/up-arrow.png);}
-QScrollBar::down-arrow {image: url(:/pictos/down-arrow.png);}
-QScrollArea#scroll {background-color:#3a3a3a;}
+QScrollBar::left-arrow {image: url(:/pictos/left-arrow.png);border-radius:2px;}
+QScrollBar::right-arrow {image: url(:/pictos/right-arrow.png);border-radius:2px;}
+QScrollBar::up-arrow {image: url(:/pictos/up-arrow.png);border-radius:2px;}
+QScrollBar::down-arrow {image: url(:/pictos/down-arrow.png);border-radius:2px;}
+QScrollArea#scroll {background-color:#3a3a3a;border-radius:2px;}
 QGroupBox { background-color:#404040;border-radius:3px;border: 1px solid #101010;}
 QLabel#title {font:bold;color:#9c9c9c;font-size:14px;}
 QLabel#bigLabel {font:bold;font-size:10px;color:#9c9c9c;}
 QLabel#image {border: 1px solid #1C1C1C;}
-QLabel#dialinfo {color:#9c9c9c;}
+QLabel#dialinfo {color:#9c9c9c;font-size:9px;}
 QFrame#line {background-color:#2c2c2c;}
 QToolBar {spacing: 1px;}
 QToolBar::separator {background-color:transparent;width:25px;}

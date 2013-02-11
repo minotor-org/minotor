@@ -11,9 +11,6 @@ MinaFlash::MinaFlash(MinoProgram *program):
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _color.setObjectName("Color");
-    _properties.append(&_color);
-
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));

@@ -91,7 +91,8 @@ HEADERS  += mainwindow.h \
     minotextproperty.h \
     miprotext.h \
     minafallingobjects.h \
-    minastars.h
+    minastars.h \
+    minopropertygroup.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

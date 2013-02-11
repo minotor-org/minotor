@@ -13,8 +13,8 @@
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent)
 {
-    this->setMinimumWidth(80);
-    this->setMaximumWidth(80);
+    this->setMinimumWidth(145);
+    this->setMaximumWidth(145);
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
@@ -31,6 +31,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     //Checkboxes
     _wEnable = new QWidget(wContent);
     QHBoxLayout *lEnable = new QHBoxLayout(_wEnable);
+    lEnable->setSpacing(0);
+    lEnable->setMargin(0);
+    lEnable->setContentsMargins(0,5,0,0);
     _cbEnable = new QCheckBox(_wEnable);
     _cbEnable->setFocusPolicy(Qt::NoFocus);
     connect(_cbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
@@ -48,6 +51,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QWidget *wDescription = new QWidget(this);
     lContent->addWidget(wDescription);
     QHBoxLayout *lDescription = new QHBoxLayout(wDescription);
+    lDescription->setSpacing(0);
+    lDescription->setMargin(0);
+    lDescription->setContentsMargins(0,3,0,0);
     lDescription->addStretch();
     MinoAnimationDescription desc = animation->description();
     _tAnimation = new QLabel(desc.name());
@@ -69,14 +75,47 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    foreach (MinoProperty *property, animation->properties())
+    foreach (MinoPropertyList *group, animation->propertyGrouped())
     {
-        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
-        uiAnimationProperty->setObjectName("animationproperty");
-        connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-        lProperties->addWidget(uiAnimationProperty);
-    }
+        QFrame *fSeparator = new QFrame(_wProperties);
+        fSeparator->setObjectName("line");
+        fSeparator->setFrameShape(QFrame::HLine);
+        fSeparator->setFrameShadow(QFrame::Sunken);
 
+        fSeparator->setLineWidth(1);
+
+
+
+        QWidget *wPropGroup = new QWidget(_wProperties);
+        lProperties->addWidget(wPropGroup);
+        QHBoxLayout *lPropGroup = new QHBoxLayout(wPropGroup);
+        lPropGroup->setSpacing(0);
+        lPropGroup->setMargin(0);
+        lPropGroup->setContentsMargins(0,0,0,0);
+        qDebug() << "test 1";
+        //if (group->properties())
+        //if ((MinoPropertyList)group->properties())
+        //{
+            qDebug() << "test 2";
+            for (int i=0;i<group->length();i++)
+            {
+                MinoProperty *property = group->at(i);
+
+            //}
+            //foreach (MinoProperty *property, )
+            //{
+                qDebug() << "test 3";
+                UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
+                uiAnimationProperty->setObjectName("animationproperty");
+                connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
+                lPropGroup->addWidget(uiAnimationProperty);
+
+            }
+
+            lProperties->addWidget(fSeparator);
+        //}
+    }
+    lProperties->addStretch();
     lContent->addStretch();
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 

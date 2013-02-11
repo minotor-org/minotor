@@ -11,7 +11,10 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
     _scene = program->minotor()->scene();
     _boundingRect = program->minotor()->displayRect();
 
-    _beatFactor.setObjectName("Beat");
+    _color.setObjectName("Color");
+    _mplMain.append(&_color);
+
+    _beatFactor.setObjectName("Frequency");
     _beatFactor.addItem("16", 384);
     _beatFactor.addItem("8", 192);
     _beatFactor.addItem("4", 96);
@@ -20,7 +23,10 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
     _beatFactor.addItem("1/2", 12);
     _beatFactor.addItem("1/4", 6);
     _beatFactor.setCurrentItem("1");
-    _properties.append(&_beatFactor);
+    _mplMain.append(&_beatFactor);
+
+    _propertyGrouped.append(&_mplMain);
+
 }
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)

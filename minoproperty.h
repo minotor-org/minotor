@@ -37,5 +37,5 @@ protected:
 };
 
 typedef QList<MinoProperty*> MinoPropertyList;
-
+typedef QList<MinoPropertyList*> MinoPropertyGrouped;
 #endif // MINOPROPERTY_H

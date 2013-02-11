@@ -24,7 +24,6 @@ signals:
 public slots:
 
 private:
-    MinoProperty _color;
     MinoProperty _density;
     QGraphicsItemGroup _itemGroup;
 };

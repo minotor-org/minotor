@@ -22,7 +22,6 @@ public:
     QGraphicsItem *graphicItem() { return _rectItem; }
 
 private:
-    MinoProperty _color;
     QGraphicsRectItem *_rectItem;
 
 signals:

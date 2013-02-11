@@ -18,7 +18,6 @@ public:
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 private:
-    MinoProperty _color;
     QGraphicsItemGroup _itemGroup;
 
 signals:

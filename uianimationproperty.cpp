@@ -15,19 +15,14 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
 {
     if(this->layout())
         delete this->layout();
-
+    this->setMinimumWidth(45);
+    this->setMaximumWidth(45);
     QVBoxLayout *lProperty = new QVBoxLayout(this);
-    lProperty->setSpacing(1);
+    lProperty->setSpacing(0);
     lProperty->setMargin(0);
     lProperty->setContentsMargins(0,0,0,0);
-    QFrame *fSeparator = new QFrame(this);
-    fSeparator->setObjectName("line");
-    fSeparator->setFrameShape(QFrame::HLine);
-    fSeparator->setFrameShadow(QFrame::Sunken);
 
-    fSeparator->setLineWidth(1);
-    lProperty->addWidget(fSeparator);
-
+    lProperty->addStretch();
     MinoTextProperty* textProperty = dynamic_cast<MinoTextProperty*>(property);
     if(textProperty)
     {
@@ -56,8 +51,8 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         lDial->setMargin(0);
         lDial->setContentsMargins(0,0,0,0);
         lDial->addStretch();
-        _dial->setMinimumSize(32,32);
-        _dial->setMaximumSize(32,32);
+        _dial->setMinimumSize(28,28);
+        _dial->setMaximumSize(28,28);
         _dial->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         connect(_dial, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
         lDial->addWidget(_dial);

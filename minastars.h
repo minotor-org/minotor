@@ -21,10 +21,10 @@ signals:
 public slots:
 
 private:
-    MinoProperty _color;
     MinoItemizedProperty _beatDuration;
     MinoItemizedProperty _generatorLength;
     MinoItemizedProperty _generatorDensity;
+    MinoPropertyList _mplDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 };

@@ -17,7 +17,7 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _properties.append(&_beatDuration);
+    _mplMain.append(&_beatDuration);
 
 
     _generatorStyle.setObjectName("Style");
@@ -27,7 +27,7 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
-    _properties.append(&_generatorStyle);
+    _mplStyle.append(&_generatorStyle);
 
     _generatorShape.setObjectName("Shape");
     _generatorShape.addItem("Ellipse", 0);
@@ -35,12 +35,9 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _generatorShape.addItem("Circle", 2);
     _generatorShape.addItem("Square", 3);
     _generatorShape.setCurrentItem("Ellipse");
-    _properties.append(&_generatorShape);
+    _mplStyle.append(&_generatorShape);
 
-    _color.setObjectName("Color");
-    _properties.append(&_color);
-
-//    _itemGroup.setTransformOriginPoint(_boundingRect.center());
+    _propertyGrouped.append(&_mplStyle);
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

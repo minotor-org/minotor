@@ -12,9 +12,6 @@ MinaPlasma::MinaPlasma(MinoProgram *program):
     _beatAnimatedProperty.setEndValue(QVariant(10));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _color.setObjectName("Color");
-    _properties.append(&_color);
-
     for (int i=0;i<160;i+=10)
     {
         for (int j=0; j<240;j+=10)

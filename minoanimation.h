@@ -10,6 +10,7 @@
 #include "minoproperty.h"
 #include "minoitemizedproperty.h"
 #include "minotextproperty.h"
+#include "minopropertygroup.h"
 
 class MinoProgram;
 
@@ -44,7 +45,8 @@ public:
 
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;
-    const MinoPropertyList properties() { return _properties; }
+    const MinoPropertyGrouped propertyGrouped() { return _propertyGrouped; }
+
     virtual void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
@@ -64,11 +66,12 @@ protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
 
-    MinoPropertyList _properties;
-
+    MinoPropertyGrouped _propertyGrouped;
+    MinoPropertyList _mplMain;
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
     MinoItemizedProperty _beatFactor;
+    MinoProperty _color;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 

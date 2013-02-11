@@ -9,11 +9,9 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _color.setObjectName("Hue");
-    _properties.append(&_color);
 
     _density.setObjectName("Density");
-    _properties.append(&_density);
+    _mplMain.append(&_density);
 
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {

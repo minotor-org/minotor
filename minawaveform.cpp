@@ -9,8 +9,6 @@ MinaWaveform::MinaWaveform(MinoProgram *program) :
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _color.setObjectName("Color");
-    _properties.append(&_color);
 }
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

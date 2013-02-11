@@ -15,8 +15,6 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _properties.append(&_beatDuration);
-
 
     _generatorDirection.setObjectName("Direction");
     _generatorDirection.addItem("Droite", 0);
@@ -24,7 +22,7 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _generatorDirection.addItem("Haut", 2);
     _generatorDirection.addItem("Bas", 3);
     _generatorDirection.setCurrentItem("Droite");
-    _properties.append(&_generatorDirection);
+    _mplStyle.append(&_generatorDirection);
 
     _generatorLength.setObjectName("Length");
     _generatorLength.addItem("1", 1);
@@ -40,8 +38,7 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _generatorLength.addItem("11", 11);
     _generatorLength.addItem("12", 12);
     _generatorLength.setCurrentItem("8");
-
-    _properties.append(&_generatorLength);
+    _mplStyle.append(&_generatorLength);
 
     _generatorDensity.setObjectName("Density");
     _generatorDensity.addItem("1", 1);
@@ -53,10 +50,9 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _generatorDensity.addItem("7", 7);
     _generatorDensity.addItem("8", 8);
     _generatorDensity.setCurrentItem("1");
-    _properties.append(&_generatorDensity);
 
-    _color.setObjectName("Color");
-    _properties.append(&_color);
+    _mplStyle.append(&_generatorDensity);
+    _propertyGrouped.append(&_mplStyle);
 
 }
 

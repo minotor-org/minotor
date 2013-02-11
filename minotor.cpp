@@ -17,6 +17,7 @@
 #include "miprotext.h"
 #include "minafallingobjects.h"
 #include "minastars.h"
+#include "minaplasma.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -26,7 +27,7 @@ Minotor::Minotor(QObject *parent) :
 
     _master = new MinoMaster(this);
     _master->setProgram(new MiproText(this));
-    new MiproWaves(this);
+    //new MiproWaves(this);
     new MiproMatrix(this);
     // MIDI interfaces
     Midi *midi = new Midi(this);
