@@ -8,24 +8,6 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));
 
-    _generatorStyle.setObjectName("Style");
-    _generatorStyle.addItem("P:F T:F", 0);
-    _generatorStyle.addItem("P:R T:F", 1);
-    _generatorStyle.addItem("P:F T:R", 2);
-    _generatorStyle.addItem("P:R=T:R", 3);
-    _generatorStyle.addItem("P:R T:R", 4);
-    _generatorStyle.setCurrentItem("P:R T:F");
-    _mplStyle.append(&_generatorStyle);
-
-    _generatorShape.setObjectName("Shape");
-    _generatorShape.addItem("Ellipse", 0);
-    _generatorShape.addItem("Rect", 1);
-    _generatorShape.addItem("Circle", 2);
-    _generatorShape.addItem("Square", 3);
-    _generatorShape.setCurrentItem("Ellipse");
-    _mplStyle.append(&_generatorShape);
-
-    _propertyGrouped.append(&_mplStyle);
 
     _beatDuration.setObjectName("Duration");
     _beatDuration.addItem("1/4", 6);
@@ -36,9 +18,28 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _mplLength.append(&_beatDuration);
+    _mplLine2.append(&_beatDuration);
 
-    _propertyGrouped.append(&_mplLength);
+    _generatorStyle.setObjectName("Style");
+    _generatorStyle.addItem("P:F T:F", 0);
+    _generatorStyle.addItem("P:R T:F", 1);
+    _generatorStyle.addItem("P:F T:R", 2);
+    _generatorStyle.addItem("P:R=T:R", 3);
+    _generatorStyle.addItem("P:R T:R", 4);
+    _generatorStyle.setCurrentItem("P:R T:F");
+    _mplLine2.append(&_generatorStyle);
+
+    _propertyGrouped.append(&_mplLine2);
+
+    _generatorShape.setObjectName("Shape");
+    _generatorShape.addItem("Ellipse", 0);
+    _generatorShape.addItem("Rect", 1);
+    _generatorShape.addItem("Circle", 2);
+    _generatorShape.addItem("Square", 3);
+    _generatorShape.setCurrentItem("Ellipse");
+    _mplLine3.append(&_generatorShape);
+
+    _propertyGrouped.append(&_mplLine3);
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

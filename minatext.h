@@ -25,8 +25,8 @@ private:
     MinoItemizedProperty _beatDuration;
     MinoItemizedProperty _generatorStyle;
     MinoTextProperty _text;
-    MinoPropertyList _mplText;
-    MinoPropertyList _mplStyle;
+    MinoPropertyList _mplLine2;
+    MinoPropertyList _mplLine3;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 };

@@ -16,7 +16,7 @@ MinaText::MinaText(MinoProgram *program) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _mplStyle.append(&_beatDuration);
+    _mplLine2.append(&_beatDuration);
 
 
     _generatorStyle.setObjectName("Style");
@@ -26,13 +26,13 @@ MinaText::MinaText(MinoProgram *program) :
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
-    _mplStyle.append(&_generatorStyle);
+    _mplLine2.append(&_generatorStyle);
 
-    _propertyGrouped.append(&_mplStyle);
+    _propertyGrouped.append(&_mplLine2);
 
     _text.setObjectName("Text");
-    _mplText.append(&_text);
-    _propertyGrouped.append(&_mplText);
+    _mplLine3.append(&_text);
+    _propertyGrouped.append(&_mplLine3);
 }
 
 void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

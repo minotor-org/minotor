@@ -16,7 +16,33 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _mplLength.append(&_beatDuration);
+    _mplLine2.append(&_beatDuration);
+
+
+    _generatorDensity.setObjectName("Density");
+    _generatorDensity.addItem("1", 1);
+    _generatorDensity.addItem("2", 2);
+    _generatorDensity.addItem("3", 3);
+    _generatorDensity.addItem("4", 4);
+    _generatorDensity.addItem("5", 5);
+    _generatorDensity.addItem("6", 6);
+    _generatorDensity.addItem("7", 7);
+    _generatorDensity.addItem("8", 8);
+    _generatorDensity.setCurrentItem("1");
+
+    _mplLine2.append(&_generatorDensity);
+
+    _propertyGrouped.append(&_mplLine2);
+
+
+    //Second line of properties
+    _generatorDirection.setObjectName("Direction");
+    _generatorDirection.addItem("Droite", 0);
+    _generatorDirection.addItem("Gauche", 1);
+    _generatorDirection.addItem("Haut", 2);
+    _generatorDirection.addItem("Bas", 3);
+    _generatorDirection.setCurrentItem("Droite");
+    _mplLine3.append(&_generatorDirection);
 
     _generatorLength.setObjectName("Length");
     _generatorLength.addItem("1", 1);
@@ -32,34 +58,10 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
     _generatorLength.addItem("11", 11);
     _generatorLength.addItem("12", 12);
     _generatorLength.setCurrentItem("8");
-    _mplLength.append(&_generatorLength);
 
-    _propertyGrouped.append(&_mplLength);
+    _mplLine3.append(&_generatorLength);
 
-
-    //Second line of properties
-    _generatorDirection.setObjectName("Direction");
-    _generatorDirection.addItem("Droite", 0);
-    _generatorDirection.addItem("Gauche", 1);
-    _generatorDirection.addItem("Haut", 2);
-    _generatorDirection.addItem("Bas", 3);
-    _generatorDirection.setCurrentItem("Droite");
-    _mplStyle.append(&_generatorDirection);
-
-    _generatorDensity.setObjectName("Density");
-    _generatorDensity.addItem("1", 1);
-    _generatorDensity.addItem("2", 2);
-    _generatorDensity.addItem("3", 3);
-    _generatorDensity.addItem("4", 4);
-    _generatorDensity.addItem("5", 5);
-    _generatorDensity.addItem("6", 6);
-    _generatorDensity.addItem("7", 7);
-    _generatorDensity.addItem("8", 8);
-    _generatorDensity.setCurrentItem("1");
-
-    _mplStyle.append(&_generatorDensity);
-
-    _propertyGrouped.append(&_mplStyle);
+    _propertyGrouped.append(&_mplLine3);
 
 }
 
