@@ -13,6 +13,8 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
     _density.setObjectName("Density");
     _mplLine2.append(&_density);
 
+    _propertyGrouped.append(&_mplLine2);
+
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {
         for (qreal j=0.0; j<_boundingRect.width();j+=1.0)
@@ -51,11 +53,5 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
 
             static_cast<QGraphicsLineItem*>(_itemGroup.childItems().at(pixelIndex))->setPen(QPen(color));
         }
-    } /*else {
-        foreach(QGraphicsItem* item, _itemGroup.childItems ())
-        {
-            static_cast<QGraphicsLineItem*>(item)->setPen(QPen(color));
-        }
-    }*/
-
+    }
 }

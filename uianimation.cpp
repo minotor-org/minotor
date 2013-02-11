@@ -92,28 +92,17 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         lPropGroup->setSpacing(0);
         lPropGroup->setMargin(0);
         lPropGroup->setContentsMargins(0,0,0,0);
-        qDebug() << "test 1";
-        //if (group->properties())
-        //if ((MinoPropertyList)group->properties())
-        //{
-            qDebug() << "test 2";
-            for (int i=0;i<group->length();i++)
-            {
-                MinoProperty *property = group->at(i);
 
-            //}
-            //foreach (MinoProperty *property, )
-            //{
-                qDebug() << "test 3";
-                UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
-                uiAnimationProperty->setObjectName("animationproperty");
-                connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-                lPropGroup->addWidget(uiAnimationProperty);
+        for (int i=0;i<group->length();i++)
+        {
+            MinoProperty *property = group->at(i);
+            UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
+            uiAnimationProperty->setObjectName("animationproperty");
+            connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
+            lPropGroup->addWidget(uiAnimationProperty);
+        }
 
-            }
-
-            lProperties->addWidget(fSeparator);
-        //}
+        lProperties->addWidget(fSeparator);
     }
     lProperties->addStretch();
     lContent->addStretch();

@@ -37,11 +37,11 @@ MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
 
     //Second line of properties
     _generatorDirection.setObjectName("Direction");
-    _generatorDirection.addItem("Droite", 0);
-    _generatorDirection.addItem("Gauche", 1);
-    _generatorDirection.addItem("Haut", 2);
-    _generatorDirection.addItem("Bas", 3);
-    _generatorDirection.setCurrentItem("Droite");
+    _generatorDirection.addItem("Right", 0);
+    _generatorDirection.addItem("Left", 1);
+    _generatorDirection.addItem("Up", 2);
+    _generatorDirection.addItem("Down", 3);
+    _generatorDirection.setCurrentItem("Down");
     _mplLine3.append(&_generatorDirection);
 
     _generatorLength.setObjectName("Length");
