@@ -27,6 +27,7 @@ protected:
     MinoItemizedProperty _generatorLength;
     MinoItemizedProperty _generatorDensity;
     MinoPropertyList _mplStyle;
+    MinoPropertyList _mplLength;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 };

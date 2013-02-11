@@ -29,12 +29,13 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
 
     // Master
     QVBoxLayout *lBackground = new QVBoxLayout(wBackground);
-    lBackground->setSpacing(5);
-    lBackground->setMargin(10);
+    lBackground->setSpacing(0);
+    lBackground->setMargin(0);
+    lBackground->setContentsMargins(10,5,10,10);
 
     QLabel *tTitle = new QLabel(this);
     tTitle->setObjectName("title");
-    tTitle->setContentsMargins(0,0,0,0);
+    tTitle->setContentsMargins(0,0,0,2);
 
     lBackground->addWidget(tTitle);
     tTitle->setText("Program Bank");

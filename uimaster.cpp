@@ -21,7 +21,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
-    this->setMaximumHeight(335);
+    this->setMinimumHeight(350);
+    this->setMaximumHeight(350);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
     this->setLayout(lMaster);
     lMaster->setSpacing(0);
@@ -45,7 +46,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     //Title
     QLabel *tTitle = new QLabel(wContainer);
     tTitle->setObjectName("title");
-    tTitle->setContentsMargins(5,5,0,0);
+    tTitle->setContentsMargins(5,0,0,0);
     lContainer->addWidget(tTitle);
     tTitle->setText("Master");
 
@@ -63,7 +64,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget *leftArea = new QWidget(wContent);
     lContent->addWidget(leftArea);
     QVBoxLayout *lLeftArea = new QVBoxLayout(leftArea);
-    leftArea->setMinimumSize(120,320);
+    leftArea->setMinimumSize(120,32);
     leftArea->setMaximumSize(120,320);
     //master control
     UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);

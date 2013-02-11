@@ -104,8 +104,8 @@ void UiProgram::setExpanded(bool expanded)
     if (expanded)
     {
         _wBackground->setStyleSheet("#programbackground { background-color:#484848;}");
-        this->setMinimumHeight(320);
-        this->setMaximumHeight(320);
+        this->setMinimumHeight(325);
+        this->setMaximumHeight(325);
     }
     else
     {

@@ -13,8 +13,8 @@
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent)
 {
-    this->setMinimumWidth(145);
-    this->setMaximumWidth(145);
+    this->setMinimumWidth(100);
+    this->setMaximumWidth(100);
     connect(animation, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);

@@ -27,6 +27,7 @@ private:
     MinoItemizedProperty _generatorStyle;
     MinoItemizedProperty _generatorShape;
     MinoPropertyList _mplStyle;
+    MinoPropertyList _mplLength;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 };

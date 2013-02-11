@@ -14,7 +14,7 @@ MinoAnimation::MinoAnimation(MinoProgram *program) :
     _color.setObjectName("Color");
     _mplMain.append(&_color);
 
-    _beatFactor.setObjectName("Frequency");
+    _beatFactor.setObjectName("Freq.");
     _beatFactor.addItem("16", 384);
     _beatFactor.addItem("8", 192);
     _beatFactor.addItem("4", 96);

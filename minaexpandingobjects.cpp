@@ -8,18 +8,6 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));
 
-    _beatDuration.setObjectName("Duration");
-    _beatDuration.addItem("1/4", 6);
-    _beatDuration.addItem("1/2", 12);
-    _beatDuration.addItem("1", 24);
-    _beatDuration.addItem("2", 48);
-    _beatDuration.addItem("4", 96);
-    _beatDuration.addItem("8", 192);
-    _beatDuration.addItem("16", 384);
-    _beatDuration.setCurrentItem("1");
-    _mplMain.append(&_beatDuration);
-
-
     _generatorStyle.setObjectName("Style");
     _generatorStyle.addItem("P:F T:F", 0);
     _generatorStyle.addItem("P:R T:F", 1);
@@ -38,6 +26,19 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _mplStyle.append(&_generatorShape);
 
     _propertyGrouped.append(&_mplStyle);
+
+    _beatDuration.setObjectName("Duration");
+    _beatDuration.addItem("1/4", 6);
+    _beatDuration.addItem("1/2", 12);
+    _beatDuration.addItem("1", 24);
+    _beatDuration.addItem("2", 48);
+    _beatDuration.addItem("4", 96);
+    _beatDuration.addItem("8", 192);
+    _beatDuration.addItem("16", 384);
+    _beatDuration.setCurrentItem("1");
+    _mplLength.append(&_beatDuration);
+
+    _propertyGrouped.append(&_mplLength);
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

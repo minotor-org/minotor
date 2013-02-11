@@ -15,7 +15,7 @@ MinaStars::MinaStars(MinoProgram *program) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
-    _mplMain.append(&_beatDuration);
+    _mplDensity.append(&_beatDuration);
 
     _generatorDensity.setObjectName("Density");
     _generatorDensity.addItem("1", 1);
