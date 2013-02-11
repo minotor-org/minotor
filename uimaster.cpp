@@ -21,8 +21,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
-    this->setMinimumHeight(335);
-    this->setMaximumHeight(335);
+    this->setMinimumHeight(336);
+    this->setMaximumHeight(336);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
     this->setLayout(lMaster);
     lMaster->setSpacing(0);
