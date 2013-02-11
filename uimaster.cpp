@@ -21,8 +21,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     _master(master)
 {
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
-    this->setMinimumHeight(350);
-    this->setMaximumHeight(350);
+    this->setMinimumHeight(335);
+    this->setMaximumHeight(335);
     QVBoxLayout *lMaster = new QVBoxLayout(this);
     this->setLayout(lMaster);
     lMaster->setSpacing(0);
@@ -42,11 +42,14 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     wContainer->setObjectName("panelcontent");
     lBackground->addWidget(wContainer);
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
+    lContainer->setSpacing(0);
+    lContainer->setMargin(0);
+    lContainer->setContentsMargins(0,0,0,0);
 
     //Title
     QLabel *tTitle = new QLabel(wContainer);
     tTitle->setObjectName("title");
-    tTitle->setContentsMargins(5,0,0,0);
+    tTitle->setContentsMargins(10,5,0,0);
     lContainer->addWidget(tTitle);
     tTitle->setText("Master");
 

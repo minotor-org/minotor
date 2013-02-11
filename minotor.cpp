@@ -27,7 +27,7 @@ Minotor::Minotor(QObject *parent) :
 
     _master = new MinoMaster(this);
     _master->setProgram(new MiproText(this));
-    //new MiproWaves(this);
+    new MiproWaves(this);
     new MiproMatrix(this);
     // MIDI interfaces
     Midi *midi = new Midi(this);

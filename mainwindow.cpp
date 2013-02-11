@@ -41,9 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _configDialog = new ConfigDialog(this);
 
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
-    lCentralWidget->setSpacing(10);
+    lCentralWidget->setSpacing(5);
     lCentralWidget->setMargin(0);
-    lCentralWidget->setContentsMargins(10,5,5,5);
+    lCentralWidget->setContentsMargins(10,0,5,0);
 
     //Toolbar
     QToolBar *_tToolBar = new QToolBar("Transport",this);
