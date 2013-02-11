@@ -55,6 +55,7 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
         addAnimation(animation);
     }
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
+    connect(_master,SIGNAL(programUpdated()),this,SLOT(updateProgram()));
 }
 
 void UiMasterControl::addAnimation(MinoAnimation *animation)

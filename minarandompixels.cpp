@@ -11,6 +11,7 @@ MinaRandomPixels::MinaRandomPixels(MinoProgram *program) :
 
 
     _density.setObjectName("Density");
+    _density.setValue(0.1);
     _mplLine2.append(&_density);
 
     _propertyGrouped.append(&_mplLine2);

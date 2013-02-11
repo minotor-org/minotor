@@ -113,6 +113,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                  << "x-dndanimationdescrition" << className;
 
         MinoAnimation *animation = _program->addAnimation(className);
+
         if(animation)
         {
             this->addAnimation(animation);

@@ -1,5 +1,6 @@
 #include "uimaster.h"
 
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QFrame>
 #include <QScrollArea>

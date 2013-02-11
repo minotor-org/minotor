@@ -46,6 +46,15 @@ void MinoMaster::setProgram(MinoProgram *program)
     }
 }
 
+void MinoMaster::updateProgram()
+{
+    if(_program)
+    {
+        _itemGroup.removeFromGroup(_program->itemGroup());
+        _itemGroup.addToGroup(_program->itemGroup());
+    }
+    emit programUpdated();
+}
 
 #define KORG_NOTE_SHIFT 24
 #define KORG_NOTE_MIN   9

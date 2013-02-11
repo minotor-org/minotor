@@ -94,6 +94,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 
     connect(_program, SIGNAL(onAir(bool)), bOnAir, SLOT(setChecked(bool)));
     connect(_program, SIGNAL(onAir(bool)), this, SLOT(updateOnAirStatus(bool)));
+
     bOnAir->setChecked(_program->isOnAir());
     updateOnAirStatus(_program->isOnAir());
 }

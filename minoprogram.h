@@ -89,7 +89,7 @@ signals:
     void customContextMenuRequested(const QPoint &pos);
     void animated();
     void onAir(bool on);
-
+    void programUpdated();
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

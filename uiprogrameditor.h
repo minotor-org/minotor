@@ -24,7 +24,7 @@ protected:
 
     void addAnimation(MinoAnimation *animation);
 signals:
-    
+
 public slots:
     void setExpanded(bool expanded);
 private slots:

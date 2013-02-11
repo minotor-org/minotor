@@ -14,7 +14,7 @@ public:
     
 signals:
     void midiLearnToggled(bool);
-private slots:
+public slots:
     void updateProgram();
 protected:
     MinoMaster *_master;
