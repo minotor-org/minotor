@@ -90,7 +90,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
 
     qreal param1 = _beatAnimatedProperty.currentValue().toReal();
-    grad.setColorAt(param1, Qt::black);
+    grad.setColorAt(param1, Qt::transparent);
 
     qreal param2;
     if ((_beatAnimatedProperty.currentValue().toReal()+0.166)>1)
@@ -112,7 +112,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     {
         param3 = (_beatAnimatedProperty.currentValue().toReal()+0.333);
     }
-    grad.setColorAt(param3, Qt::black) ;
+    grad.setColorAt(param3, Qt::transparent) ;
 
     qreal param4;
     if ((_beatAnimatedProperty.currentValue().toReal()+0.499)>1)
@@ -134,7 +134,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     {
         param5 = (_beatAnimatedProperty.currentValue().toReal()+0.666);
     }
-    grad.setColorAt(param5, Qt::black) ;
+    grad.setColorAt(param5, Qt::transparent) ;
 
     qreal param6;
     if ((_beatAnimatedProperty.currentValue().toReal()+0.833)>1)
@@ -156,7 +156,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     {
         param7 = (_beatAnimatedProperty.currentValue().toReal()+1.0);
     }
-    grad.setColorAt(param7, Qt::black) ;
+    grad.setColorAt(param7, Qt::transparent) ;
 
     _rectItem->setBrush(QBrush(grad));
 

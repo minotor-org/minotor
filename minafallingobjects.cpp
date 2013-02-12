@@ -92,7 +92,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
             {
                 //left to right
                 QLinearGradient grad(0.0, 0.0, length, 0.0) ;
-                grad.setColorAt(0.0, Qt::black) ;
+                grad.setColorAt(0.0, Qt::transparent) ;
                 grad.setColorAt(1, color) ;
                 randomPos = qrand()%_boundingRect.height();
                 item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
@@ -103,7 +103,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 //right to left
                 QLinearGradient grad(0.0, 0.0, length, 0.0) ;
                 grad.setColorAt(0.0, color) ;
-                grad.setColorAt(1, Qt::black) ;
+                grad.setColorAt(1, Qt::transparent) ;
                 randomPos = qrand()%_boundingRect.height();
                 item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
             }
@@ -113,7 +113,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 //bottom to top
                 QLinearGradient grad(0.0, 0.0, 0.0, length) ;
                 grad.setColorAt(0.0, color) ;
-                grad.setColorAt(1, Qt::black) ;
+                grad.setColorAt(1, Qt::transparent) ;
                 randomPos = qrand()%_boundingRect.width();
                 item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
             }
@@ -122,7 +122,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
             {
                 //top to bottom
                 QLinearGradient grad(0.0, 0.0, 0.0, length) ;
-                grad.setColorAt(0.0, Qt::black) ;
+                grad.setColorAt(0.0, Qt::transparent) ;
                 grad.setColorAt(1, color) ;
                 randomPos = qrand()%_boundingRect.width();
                 item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
