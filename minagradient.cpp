@@ -33,7 +33,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     center.setX(center.x()+1);
     center.setY(center.y()+1);
     QRadialGradient
-            grad(center,_boundingRect.width());
+            grad(center,_boundingRect.height());
 
     qreal param1 = _beatAnimatedProperty.currentValue().toReal();
     grad.setColorAt(param1, Qt::black);
