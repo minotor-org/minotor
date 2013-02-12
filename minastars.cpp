@@ -5,6 +5,7 @@ MinaStars::MinaStars(MinoProgram *program) :
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(2.0));
+    _beatAnimatedProperty.setEasingCurve(QEasingCurve::InQuart);
 
     _beatDuration.setObjectName("Duration");
     _beatDuration.addItem("1/4", 6);
