@@ -8,7 +8,23 @@ MinaGradient::MinaGradient(MinoProgram *program):
 
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::Linear);
+    _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
+
+    _generatorStyle.setObjectName("Style");
+    _generatorStyle.addItem("Radial", 0);
+    _generatorStyle.addItem("Conical", 1);
+    _generatorStyle.setCurrentItem("Radial");
+    _mplLine2.append(&_generatorStyle);
+
+    _generatorCurve.setObjectName("Curve");
+    _generatorCurve.addItem("Linear", 0);
+    _generatorCurve.addItem("OutInBack", 1);
+    _generatorCurve.addItem("InOutBounce", 2);
+    _generatorCurve.addItem("InOutQuart", 3);
+    _generatorCurve.setCurrentItem("Linear");
+    _mplLine2 .append(&_generatorCurve);
+
+    _propertyGrouped.append(&_mplLine2);
 
     QColor color;
     color.setHsvF(_color.value(), 1.0, 1.0);
@@ -31,9 +47,47 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     color.setHsvF(_color.value(), 1.0, 1.0);
     QPointF center = _boundingRect.center();
     center.setX(center.x()+1);
-    center.setY(center.y()+1);
-    QRadialGradient
-            grad(center,_boundingRect.height());
+    QGradient grad;
+
+    switch ((int)_generatorStyle.currentItem()->real())
+    {
+    case 0 :
+    {
+        center.setY(center.y()+1);
+        grad = QRadialGradient(center,_boundingRect.height());
+    }
+        break;
+    case 1 :
+    {
+        center.setY(-1);
+        grad = QConicalGradient(center,_boundingRect.height());
+    }
+        break;
+    }
+
+    switch ((int)_generatorCurve.currentItem()->real())
+    {
+    case 0 :
+    {
+        _beatAnimatedProperty.setEasingCurve(QEasingCurve::Linear);
+    }
+        break;
+    case 1 :
+    {
+        _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutInBack);
+    }
+        break;
+    case 2 :
+    {
+        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
+    }
+        break;
+    case 3 :
+    {
+        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutQuart);
+    }
+        break;
+    }
 
     qreal param1 = _beatAnimatedProperty.currentValue().toReal();
     grad.setColorAt(param1, Qt::black);
