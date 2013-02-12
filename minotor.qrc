@@ -20,5 +20,6 @@
         <file>images/text.png</file>
         <file>images/falling.png</file>
         <file>images/stars.png</file>
+        <file>images/gradient.png</file>
     </qresource>
 </RCC>

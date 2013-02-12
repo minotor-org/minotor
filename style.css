@@ -62,8 +62,8 @@ QCheckBox#arrow::indicator:checked {image: url(:/pictos/arrow_opened.png);}
 
 QPushButton {background-color:#4C4C4C;color:#1C1C1C;font:bold;height:26px;border: 1px solid #5F5F5F;border-radius:3px;padding-left:5px;padding-right:5px;}
 QPushButton:hover {border: 1px solid #e75f00;}
-QPushButton:pressed {background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.1 #e79e11,stop: 0.3 #e75f00,stop: 1 #d55400);}
-QPushButton:checked {background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.1 #e79e11,stop: 0.3 #e75f00,stop: 1 #d55400);border: 1px solid #e75f00;}
+QPushButton:pressed {background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);}
+QPushButton:checked {background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);border: 1px solid #e75f00;}
 QDoubleSpinBox {background-color:#2c2c2c;font:bold;color:#e75f00;height:34px;width:70px;}
 UiAnimationPicker#scrollcontent {background-color:#454545;}
 QMenuBar {background-color: #1C1C1C;font:bold;}

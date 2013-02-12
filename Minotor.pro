@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     minotextproperty.cpp \
     miprotext.cpp \
     minafallingobjects.cpp \
-    minastars.cpp
+    minastars.cpp \
+    minagradient.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -92,6 +93,7 @@ HEADERS  += mainwindow.h \
     miprotext.h \
     minafallingobjects.h \
     minastars.h \
+    minagradient.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

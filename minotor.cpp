@@ -18,6 +18,7 @@
 #include "minafallingobjects.h"
 #include "minastars.h"
 #include "minaplasma.h"
+#include "minagradient.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -53,6 +54,7 @@ Minotor::Minotor(QObject *parent) :
     MinoAnimationFactory::registerClass<MinaText>();
     MinoAnimationFactory::registerClass<MinaRandomPixels>();
     MinoAnimationFactory::registerClass<MinaStars>();
+    MinoAnimationFactory::registerClass<MinaGradient>();
 }
 
 Minotor::~Minotor()
