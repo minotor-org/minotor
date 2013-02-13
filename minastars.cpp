@@ -43,14 +43,15 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     const unsigned int b = _beatFactor.currentItem()->real();
     const unsigned int density = _generatorDensity.currentItem()->real();
     const unsigned int duration = _beatDuration.currentItem()->real();
+
     QGraphicsItem *item = NULL;
     if ((gppqn%b)==0)
     {
         const QPointF offset(0.1, 0.1);
+        QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
 
         for (unsigned int i=0;i<density;i++)
         {
-            QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
             QPointF randPoint = qrandPointF();
 
             const QLineF line1(randPoint-offset, randPoint+offset);
@@ -71,11 +72,10 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
             const QLineF line4(randPoint-offset, randPoint+offset);
             item = _scene->addLine(line4, QPen(color));
             group->addToGroup(item);
-
-            group->setTransformOriginPoint(_boundingRect.center());
-            MinoAnimatedItem maItem (uppqn, duration, group);
-            _animatedItems.append(maItem);
         }
+        group->setTransformOriginPoint(_boundingRect.center());
+        MinoAnimatedItem maItem (uppqn, duration, group);
+        _animatedItems.append(maItem);
     }
 
     for (int i=_animatedItems.count()-1;i>-1;i--)
