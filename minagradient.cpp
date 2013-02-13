@@ -5,7 +5,6 @@
 MinaGradient::MinaGradient(MinoProgram *program):
     MinoAnimation(program)
 {
-
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
@@ -45,20 +44,23 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
 
     QColor color;
     color.setHsvF(_color.value(), 1.0, 1.0);
-    QPointF center = _boundingRect.center();
-    center.setX(center.x()+1);
+
+    // HACK bounding rect center is not really at screen center without that...
+    QPointF center = _boundingRect.adjusted(0,0,1,1).center();
+
     QGradient grad;
 
     switch ((int)_generatorStyle.currentItem()->real())
     {
     case 0 :
     {
-        center.setY(center.y()+1);
-        grad = QRadialGradient(center,_boundingRect.height());
+        // Water waves style
+        grad = QRadialGradient(center,_boundingRect.width());
     }
         break;
     case 1 :
     {
+        // Spotlight style
         center.setY(-1);
         grad = QConicalGradient(center,_boundingRect.height());
     }
@@ -89,74 +91,25 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
         break;
     }
 
-    qreal param1 = _beatAnimatedProperty.currentValue().toReal();
-    grad.setColorAt(param1, Qt::transparent);
+    const unisigned int waves = 6;
+	const qreal step = 1.0 / ((qreal) waves *2.0);
+    const qreal anipos = _beatAnimatedProperty.currentValue().toReal();
+    bool toogle = true;
+    for (qreal pos = 0.0; pos <= 1.0; pos+=step)
+    {
+        qreal at = anipos + pos;
+        if(at > 1.0) at -= 1.0;
 
-    qreal param2;
-    if ((_beatAnimatedProperty.currentValue().toReal()+0.166)>1)
-    {
-        param2 = (_beatAnimatedProperty.currentValue().toReal()+0.166)-1.0;
+        if(toogle)
+        {
+            grad.setColorAt(at, Qt::transparent);
+        }
+        else
+        {
+            grad.setColorAt(at, color) ;
+        }
+        toogle = !toogle;
     }
-    else
-    {
-        param2 = (_beatAnimatedProperty.currentValue().toReal()+0.166);
-    }
-    grad.setColorAt(param2, color) ;
-
-    qreal param3;
-    if ((_beatAnimatedProperty.currentValue().toReal()+0.333)>1)
-    {
-        param3 = (_beatAnimatedProperty.currentValue().toReal()+0.333)-1.0;
-    }
-    else
-    {
-        param3 = (_beatAnimatedProperty.currentValue().toReal()+0.333);
-    }
-    grad.setColorAt(param3, Qt::transparent) ;
-
-    qreal param4;
-    if ((_beatAnimatedProperty.currentValue().toReal()+0.499)>1)
-    {
-        param4 = (_beatAnimatedProperty.currentValue().toReal()+0.499)-1.0;
-    }
-    else
-    {
-        param4 = (_beatAnimatedProperty.currentValue().toReal()+0.499);
-    }
-    grad.setColorAt(param4, color) ;
-
-    qreal param5;
-    if ((_beatAnimatedProperty.currentValue().toReal()+0.666)>1)
-    {
-        param5 = (_beatAnimatedProperty.currentValue().toReal()+0.666)-1.0;
-    }
-    else
-    {
-        param5 = (_beatAnimatedProperty.currentValue().toReal()+0.666);
-    }
-    grad.setColorAt(param5, Qt::transparent) ;
-
-    qreal param6;
-    if ((_beatAnimatedProperty.currentValue().toReal()+0.833)>1)
-    {
-        param6 = (_beatAnimatedProperty.currentValue().toReal()+0.833)-1.0;
-    }
-    else
-    {
-        param6 = (_beatAnimatedProperty.currentValue().toReal()+0.833);
-    }
-    grad.setColorAt(param6, color) ;
-
-    qreal param7;
-    if ((_beatAnimatedProperty.currentValue().toReal()+1.0)>1)
-    {
-        param7 = (_beatAnimatedProperty.currentValue().toReal()+1.0)-1.0;
-    }
-    else
-    {
-        param7 = (_beatAnimatedProperty.currentValue().toReal()+1.0);
-    }
-    grad.setColorAt(param7, Qt::transparent) ;
 
     _rectItem->setBrush(QBrush(grad));
 
