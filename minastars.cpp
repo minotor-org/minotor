@@ -48,7 +48,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     {
         int randomPosX1, randomPosY1, randomPosX2, randomPosY2, randomPosX3, randomPosY3, randomPosX4, randomPosY4;
 
-        for (int i=0;i<density;i++)
+        for (unsigned int i=0;i<density;i++)
         {
             const qreal h = 0.1;
             randomPosX1 = qrandF()*((qreal)_boundingRect.height()/2.0);
