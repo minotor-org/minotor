@@ -55,7 +55,7 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
         addAnimation(animation);
     }
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
-    connect(_master,SIGNAL(programUpdated()),this,SLOT(updateProgram()));
+    connect(_master,SIGNAL(updated()),this,SLOT(updateProgram()));
 }
 
 void UiMasterControl::addAnimation(MinoAnimation *animation)
@@ -69,7 +69,6 @@ void UiMasterControl::addAnimation(MinoAnimation *animation)
 
 void UiMasterControl::updateProgram()
 {
-    qDebug() << "updateProgram";
     foreach (UiAnimation *animation, this->findChildren<UiAnimation*>())
     {
         delete(animation);
@@ -77,7 +76,6 @@ void UiMasterControl::updateProgram()
     foreach (MinoAnimation *animation, _master->program()->animations())
     {
         addAnimation(animation);
-
     }
 }
 

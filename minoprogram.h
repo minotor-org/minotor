@@ -87,9 +87,16 @@ protected:
 
 signals:
     void customContextMenuRequested(const QPoint &pos);
+
+    // Signal emitted when animate() is done
     void animated();
+
+    // Signal emitted when "On Air" status changed (means Master uses a different program)
     void onAir(bool on);
-    void programUpdated();
+
+    // Signal emitted when animations have been changed (ie. create, delete, moved)
+    void updated();
+
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

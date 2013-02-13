@@ -25,11 +25,12 @@ private:
 
 signals:
     void programChanged();
-    void programUpdated();
+    void updated();
+
 public slots:
     void setBrightness(qreal value);
     void noteChanged(quint8 channel, quint8 note, bool on, quint8 value);
-    void updateProgram();
+
 };
 
 #endif // MINOMASTER_H

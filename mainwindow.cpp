@@ -216,10 +216,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _menu.addAction(_actionMidiCapture);
 
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
-    foreach (MinoProgram *prog,_minotor->programs())
-    {
-        connect(prog,SIGNAL(programUpdated()),_minotor->master(),SLOT(updateProgram()));
-    }
     QToolBar *_tAnimationToolBar = new QToolBar("Animations",this);
     this->addToolBar(Qt::BottomToolBarArea,_tAnimationToolBar);
     QWidget *_wAnimations = new QWidget(_tAnimationToolBar);

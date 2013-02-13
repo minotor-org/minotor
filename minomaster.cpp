@@ -33,27 +33,19 @@ void MinoMaster::setProgram(MinoProgram *program)
     {
         if(_program)
         {
+            disconnect(_program, SIGNAL(updated()), this, SIGNAL(updated()));
             _itemGroup.removeFromGroup(_program->itemGroup());
             _program->setOnAir(false);
         }
         if(program)
         {
+            connect(program, SIGNAL(updated()), this, SIGNAL(updated()));
             _itemGroup.addToGroup(program->itemGroup());
 	        program->setOnAir(true);
         }
         _program = program;
         emit programChanged();
     }
-}
-
-void MinoMaster::updateProgram()
-{
-    if(_program)
-    {
-        _itemGroup.removeFromGroup(_program->itemGroup());
-        _itemGroup.addToGroup(_program->itemGroup());
-    }
-    emit programUpdated();
 }
 
 #define KORG_NOTE_SHIFT 24
