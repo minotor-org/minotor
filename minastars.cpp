@@ -29,6 +29,7 @@ MinaStars::MinaStars(MinoProgram *program) :
     _generatorDensity.addItem("8", 8);
     _generatorDensity.setCurrentItem("1");
     _mplDensity.append(&_generatorDensity);
+
     _propertyGrouped.append(&_mplDensity);
 }
 

@@ -13,7 +13,12 @@ public:
         return MinoAnimationDescription("falling", "Falling Objects", QPixmap(":/images/falling.png"), MinaFallingObjects::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaFallingObjects::getDescription(); }
+
     void setColorH(qreal hue) { _color.setValue(hue); }
+    void setBeatPeriod(const QString period) { _beatFactor.setCurrentItem(period); }
+    void setDuration(const unsigned int duration) { _beatDuration.setCurrentItem(QString::number(duration)); }
+    void setDensity(const unsigned int density) { _generatorDensity.setCurrentItem(QString::number(density)); }
+    void setLength(const unsigned int length) { _generatorLength.setCurrentItem(QString::number(length)); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
     
