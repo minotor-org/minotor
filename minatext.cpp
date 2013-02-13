@@ -18,6 +18,8 @@ MinaText::MinaText(MinoProgram *program) :
     _beatDuration.setCurrentItem("1");
     _mplLine2.append(&_beatDuration);
 
+    _text.setObjectName("Text");
+    _properties.append(&_text);
 
     _generatorStyle.setObjectName("Style");
     _generatorStyle.addItem("P:F T:F", 0);
@@ -30,7 +32,9 @@ MinaText::MinaText(MinoProgram *program) :
 
     _propertyGrouped.append(&_mplLine2);
 
-    _text.setObjectName("Text");
+    _color.setObjectName("Color");
+    _properties.append(&_color);
+
     _mplLine3.append(&_text);
     _propertyGrouped.append(&_mplLine3);
 }
@@ -46,8 +50,6 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     const unsigned int b = _beatFactor.currentItem()->real();
     if ((gppqn%b)==0)
     {
-        QFont *fText = new QFont("Arial",10,QFont::Bold,false);
-
         QGraphicsTextItem* item = _scene->addText(_text.textValue(),QFont("Arial",12,QFont::Bold,false));
         QRectF tRect = item->boundingRect();
         tRect.adjust(0,0,-1,-1);
@@ -86,8 +88,6 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
         }
             break;
         }
-
-
 
         const unsigned int duration = _beatDuration.currentItem()->real();
         MinoAnimatedItem maItem (uppqn, duration, item);

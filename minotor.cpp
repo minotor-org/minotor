@@ -7,18 +7,22 @@
 #include "minoprogram.h"
 #include "minoanimation.h"
 
+// Animations
 #include "minarandompixels.h"
 #include "minaexpandingobjects.h"
 #include "minaflash.h"
 #include "minawaveform.h"
 #include "minabarsfromsides.h"
 #include "minatext.h"
-#include "miprowaves.h"
-#include "miprotext.h"
 #include "minafallingobjects.h"
 #include "minastars.h"
 #include "minaplasma.h"
 #include "minagradient.h"
+
+// Programs
+#include "miprowaves.h"
+#include "miprobnzichru.h"
+#include "mipromatrix.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -27,7 +31,7 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     _master = new MinoMaster(this);
-    _master->setProgram(new MiproText(this));
+    _master->setProgram(new MiproBnzIchRU(this));
     new MiproWaves(this);
     new MiproMatrix(this);
     // MIDI interfaces

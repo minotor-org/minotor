@@ -14,9 +14,13 @@ public:
     }
     const MinoAnimationDescription description() const { return MinaText::getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }
+    void setText(QString value) { _text.setTextValue(value); }
+    void setDuration(QString duration) { _beatDuration.setCurrentItem(duration); }
+    void setBeatFactor(QString beat) { _beatFactor.setCurrentItem(beat); }
+    void setGeneratorStyle(QString style) { _generatorStyle.setCurrentItem(style); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
-    void setText(QString value) { _text.setTextValue(value); }
+
 signals:
     
 public slots:
@@ -25,6 +29,7 @@ private:
     MinoItemizedProperty _beatDuration;
     MinoItemizedProperty _generatorStyle;
     MinoTextProperty _text;
+    MinoPropertyList _properties;
     MinoPropertyList _mplLine2;
     MinoPropertyList _mplLine3;
     QGraphicsItemGroup _itemGroup;
