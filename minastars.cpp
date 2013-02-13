@@ -41,7 +41,6 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     color.setHsvF(_color.value(), 1.0, 1.0);
 
     const unsigned int b = _beatFactor.currentItem()->real();
-    const unsigned int length = _generatorLength.currentItem()->real();
     const unsigned int density = _generatorDensity.currentItem()->real();
     const unsigned int duration = _beatDuration.currentItem()->real();
     QGraphicsItem *item = NULL;

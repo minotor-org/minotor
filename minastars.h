@@ -22,11 +22,11 @@ public slots:
 
 private:
     MinoItemizedProperty _beatDuration;
-    MinoItemizedProperty _generatorLength;
     MinoItemizedProperty _generatorDensity;
     MinoPropertyList _mplDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
+
 };
 
 #endif // MINASTARS_H
