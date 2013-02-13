@@ -17,18 +17,17 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
 
     computeAnimaBeatProperty(gppqn);
 
-    QColor color;
+    // Colors
+    QColor color, colorMin, colorMax;
     color.setHsvF(_color.value(), 1.0, 1.0);
-    qreal maxValue = (_color.value()<0.8)?_color.value()+0.2:1.0;
-    qreal minValue = (_color.value()>0.2)?_color.value()-0.2:0.0;
-    QColor colorMax;
-    QColor colorMin;
 
-    colorMax.setHsvF(maxValue, 1.0, 1.0);
+    qreal minValue = _color.value()-0.2; if(minValue<0.0) minValue += 1.0;
     colorMin.setHsvF(minValue, 1.0, 1.0);
 
-    QLinearGradient
-            gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
+    qreal maxValue = _color.value()+0.2; if(maxValue>1.0) maxValue -= 1.0;
+    colorMax.setHsvF(maxValue, 1.0, 1.0);
+
+    QLinearGradient gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
     gradH.setColorAt(0.0, colorMax) ;
     gradH.setColorAt(0.3, color) ;
     gradH.setColorAt(0.45, colorMin) ;
@@ -36,8 +35,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     gradH.setColorAt(0.7, color) ;
     gradH.setColorAt(1, colorMax) ;
 
-    QLinearGradient
-            gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
+    QLinearGradient gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
     gradV.setColorAt(0.0, colorMax) ;
     gradV.setColorAt(0.3, color) ;
     gradV.setColorAt(0.45, colorMin) ;
