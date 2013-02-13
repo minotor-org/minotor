@@ -46,43 +46,35 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     QGraphicsItem *item = NULL;
     if ((gppqn%b)==0)
     {
-        int randomPosX1, randomPosY1, randomPosX2, randomPosY2, randomPosX3, randomPosY3, randomPosX4, randomPosY4;
+        const QPointF offset(0.1, 0.1);
 
         for (unsigned int i=0;i<density;i++)
         {
-            const qreal h = 0.1;
-            randomPosX1 = qrandF()*((qreal)_boundingRect.height()/2.0);
-            randomPosY1 = qrandF()*((qreal)_boundingRect.width()/2.0);
-            //up left
-            item = _scene->addLine(randomPosX1-h, randomPosY1-h, randomPosX1+h, randomPosY1+h, QPen(color));
-            item->setTransformOriginPoint(_boundingRect.center().x(),_boundingRect.center().y());
-            MinoAnimatedItem maItem1 (uppqn, duration, item);
-            _itemGroup.addToGroup(item);
-            _animatedItems.append(maItem1);
-            //up right
-            randomPosX2 = _boundingRect.width()-randomPosX1;
-            randomPosY2 = randomPosY1;
-            item = _scene->addLine(randomPosX2-h, randomPosY2-h, randomPosX2+h, randomPosY2+h, QPen(color));
-            item->setTransformOriginPoint(_boundingRect.center().x()-2,_boundingRect.center().y());
-            MinoAnimatedItem maItem2 (uppqn, duration, item);
-            _itemGroup.addToGroup(item);
-            _animatedItems.append(maItem2);
-            //bottom left
-            randomPosX3 = randomPosX1;
-            randomPosY3 =_boundingRect.height()-randomPosY1;
-            item = _scene->addLine(randomPosX3-h, randomPosY3-h, randomPosX3+h, randomPosY3+h, QPen(color));
-            item->setTransformOriginPoint(_boundingRect.center().x(),_boundingRect.center().y()-2);
-            MinoAnimatedItem maItem3 (uppqn, duration, item);
-            _itemGroup.addToGroup(item);
-            _animatedItems.append(maItem3);
-            //bottom right
-            randomPosX4 = _boundingRect.width()-randomPosX1;
-            randomPosY4 =_boundingRect.height()-randomPosY1;
-            item = _scene->addLine(randomPosX4-h, randomPosY4-h, randomPosX4+h, randomPosY4+h, QPen(color));
-            item->setTransformOriginPoint(_boundingRect.center().x()-2,_boundingRect.center().y()-2);
-            MinoAnimatedItem maItem4 (uppqn, duration, item);
-            _itemGroup.addToGroup(item);
-            _animatedItems.append(maItem4);
+            QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
+            QPointF randPoint = qrandPointF();
+
+            const QLineF line1(randPoint-offset, randPoint+offset);
+            item = _scene->addLine(line1, QPen(color));
+            group->addToGroup(item);
+            // Mirror on X
+            randPoint.setX(_boundingRect.width()-randPoint.x());
+            const QLineF line2(randPoint-offset, randPoint+offset);
+            item = _scene->addLine(line2, QPen(color));
+            group->addToGroup(item);
+            // Mirror on Y
+            randPoint.setY(_boundingRect.height()-randPoint.y());
+            const QLineF line3(randPoint-offset, randPoint+offset);
+            item = _scene->addLine(line3, QPen(color));
+            group->addToGroup(item);
+            // Mirror on X
+            randPoint.setX(_boundingRect.width()-randPoint.x());
+            const QLineF line4(randPoint-offset, randPoint+offset);
+            item = _scene->addLine(line4, QPen(color));
+            group->addToGroup(item);
+
+            group->setTransformOriginPoint(_boundingRect.center());
+            MinoAnimatedItem maItem (uppqn, duration, group);
+            _animatedItems.append(maItem);
         }
     }
 
