@@ -51,8 +51,8 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         for (int i=0;i<density;i++)
         {
             const qreal h = 0.1;
-            randomPosX1 = qrand()%(_boundingRect.height()/2);
-            randomPosY1 =qrand()%(_boundingRect.width()/2);
+            randomPosX1 = qrandF()*((qreal)_boundingRect.height()/2.0);
+            randomPosY1 = qrandF()*((qreal)_boundingRect.width()/2.0);
             //up left
             item = _scene->addLine(randomPosX1-h, randomPosY1-h, randomPosX1+h, randomPosY1+h, QPen(color));
             item->setTransformOriginPoint(_boundingRect.center().x(),_boundingRect.center().y());
@@ -103,3 +103,4 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         }
     }
 }
+
