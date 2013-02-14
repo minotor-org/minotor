@@ -1,5 +1,7 @@
 #include "minaexpandingobjects.h"
 
+#include <QGraphicsBlurEffect>
+
 #include <QDebug>
 
 MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
@@ -40,6 +42,10 @@ MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
     _mplLine3.append(&_generatorShape);
 
     _propertyGrouped.append(&_mplLine3);
+
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
+    blur->setBlurRadius(1.1);
+    _itemGroup.setGraphicsEffect(blur);
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -118,8 +124,6 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
         }
             break;
         }
-
-
 
         const unsigned int duration = _beatDuration.currentItem()->real();
         MinoAnimatedItem maItem (uppqn, duration, item);
