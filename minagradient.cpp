@@ -91,7 +91,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
         break;
     }
 
-    const unisigned int waves = 6;
+    const unsigned int waves = 6;
 	const qreal step = 1.0 / ((qreal) waves *2.0);
     const qreal anipos = _beatAnimatedProperty.currentValue().toReal();
     bool toogle = true;
