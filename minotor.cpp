@@ -59,6 +59,7 @@ Minotor::Minotor(QObject *parent) :
     MinoAnimationFactory::registerClass<MinaRandomPixels>();
     MinoAnimationFactory::registerClass<MinaStars>();
     MinoAnimationFactory::registerClass<MinaGradient>();
+    MinoAnimationFactory::registerClass<MinaPlasma>();
 }
 
 Minotor::~Minotor()

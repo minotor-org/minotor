@@ -2,27 +2,34 @@
 #define MINOANIMATIONPLASMA_H
 
 #include "minoanimation.h"
+#include <QGraphicsRectItem>
 
 class MinaPlasma : public MinoAnimation
 {
     Q_OBJECT
 public:
     explicit MinaPlasma(MinoProgram *program);
+    ~MinaPlasma();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("Plasma", "YYY", QPixmap(), "MinoAnimationPlasma");
+        return MinoAnimationDescription("plasma", "Plasma", QPixmap(":/images/plasma.png"), MinaPlasma::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return MinaPlasma::getDescription(); }
-    QGraphicsItem* graphicItem() { return &_itemGroup; }
+    void setColorH(qreal hue) { _color.setValue(hue); }
 
-signals:
-
-public slots:
+    QGraphicsItem *graphicItem() { return &_itemGroup; }
 
 private:
     QGraphicsItemGroup _itemGroup;
-
+    QGraphicsRectItem *_rectBackground;
+    QGraphicsRectItem *_rectTopLeft;
+    QGraphicsRectItem *_rectTopRight;
+    QGraphicsRectItem *_rectBottomLeft;
+    QGraphicsRectItem *_rectBottomRight;
+    MinoPropertyList _mplLine2;
+    MinoItemizedProperty _generatorCurve;
+    MinoItemizedProperty _generatorSteps;
 };
 
 #endif // MINOANIMATIONPLASMA_H

@@ -21,5 +21,6 @@
         <file>images/falling.png</file>
         <file>images/stars.png</file>
         <file>images/gradient.png</file>
+        <file>images/plasma.png</file>
     </qresource>
 </RCC>
