@@ -65,8 +65,60 @@ ConfigDialog::~ConfigDialog()
     delete ui;
 }
 
+void ConfigDialog::midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value)
+{
+    bool found = false;
+    int row;
+    for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
+    {
+        if(interface == ui->tableMidiMapping->item(row, 0)->text().toInt() &&
+                channel == ui->tableMidiMapping->item(row, 1)->text().toInt() &&
+                control == ui->tableMidiMapping->item(row, 2)->text().toInt())
+        {
+            ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
+            found = true;
+            break;
+        }
+    }
+    if(!found)
+    {
+        addMidiControl(row, interface, channel, control, value);
+
+        row++;
+    }
+}
+
+void ConfigDialog::addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value)
+{
+    ui->tableMidiMapping->insertRow(row);
+    QTableWidgetItem *item;
+    // Interface
+    item = new QTableWidgetItem(QString::number(interface));
+    item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+    item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ui->tableMidiMapping->setItem(row, 0, item);
+    // Channel
+    item = new QTableWidgetItem(QString::number(channel));
+    item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+    item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ui->tableMidiMapping->setItem(row, 1, item);
+    // Control
+    item = new QTableWidgetItem(QString::number(control));
+    item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+    item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ui->tableMidiMapping->setItem(row, 2, item);
+    // Value
+    item = new QTableWidgetItem(QString::number(value));
+    item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+    item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ui->tableMidiMapping->setItem(row, 3, item);
+    ui->lMidiControlsCount->setText(QString::number(ui->tableMidiMapping->rowCount()));
+}
+
 void ConfigDialog::on_tabWidget_currentChanged(int index)
 {
+    disconnect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+
     switch(index)
     {
     case 0: // MIDI tab
@@ -79,6 +131,23 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
         ui->cbMidiPort->clear();
         ui->cbMidiPort->addItems(Minotor::minotor()->midi()->getPorts());
         ui->cbMidiPort->setCurrentIndex(currentItem);
+
+        connect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+
+        const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
+        ui->tableMidiMapping->clear();
+
+        ui->tableMidiMapping->setColumnCount(4);
+        //Set Header Label Texts
+        ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
+
+        int row = 0;
+        foreach(MidiControl *midiControl, midiControls)
+        {
+            addMidiControl(row, midiControl->interface(), midiControl->channel(), midiControl->control(), midiControl->value());
+            row++;
+        }
+
     }
         break;
     case 1: // Serial tab
@@ -155,4 +224,10 @@ void ConfigDialog::on_pbMidiConnect_clicked(bool checked)
     } else {
         Minotor::minotor()->midi()->closePort();
     }
+}
+
+void ConfigDialog::on_ConfigDialog_finished(int result)
+{
+    qDebug() << "ConfigDialog: result" << result;
+    disconnect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }

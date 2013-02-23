@@ -261,7 +261,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_Configuration_triggered()
 {
-    _configDialog->show();
+    _configDialog->exec();
 }
 
 void MainWindow::midiCaptureTrigged()

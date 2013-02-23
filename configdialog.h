@@ -17,6 +17,8 @@ public:
     ~ConfigDialog();
     
 private slots:
+    void midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value);
+
     void on_tabWidget_currentChanged(int index);
 
     void on_buttonBox_clicked(QAbstractButton *button);
@@ -25,8 +27,12 @@ private slots:
 
     void on_pbMidiConnect_clicked(bool checked);
 
+    void on_ConfigDialog_finished(int result);
+
 private:
     Ui::ConfigDialog *ui;
+
+    void addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value);
 
 };
 
