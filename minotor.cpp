@@ -133,8 +133,11 @@ void Minotor::addProgram(MinoProgram *program)
 {
     _programs.append(program);
     const int id = _programs.indexOf(program);
-    program->setId(id);
 
+    // Program ID starts at 1
+    program->setId(id+1);
+
+    // Inform program about matrix size (used by animations)
     program->setRect(_ledMatrix->rect());
 
     // Drawing rect
