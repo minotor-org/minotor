@@ -9,9 +9,10 @@ class MidiControl : public QObject
 public:
     explicit MidiControl(int interface, quint8 channel, quint8 control, QObject *parent = 0);
     void setValue(quint8 value);
-    int interface();
-    quint8 channel();
-    quint8 control();
+    int interface() const { return _interface; }
+    quint8 channel() const { return _channel; }
+    quint8 control() const { return _control; }
+    quint8 value() const { return _value; }
 
 protected:
     quint8 _value;
