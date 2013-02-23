@@ -84,7 +84,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
 
         int randomPos;
-        for (int i=0;i<density;i++)
+        for (unsigned int i=0;i<density;i++)
         {
             switch(direction)
             {

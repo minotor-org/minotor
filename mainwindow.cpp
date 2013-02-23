@@ -309,6 +309,7 @@ void MainWindow::tbMidiLearnToggled(bool checked)
 
 void MainWindow::tbFullScreenToggled(bool on)
 {
+    (void)on;
     if(isFullScreen()) {
          this->setWindowState(Qt::WindowMaximized);
       } else {
