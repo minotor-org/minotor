@@ -141,6 +141,9 @@ void Minotor::addProgram(MinoProgram *program)
     program->setRect(_ledMatrix->rect());
 
     // Drawing rect
-    QPointF pos = QPointF(_ledMatrix->size().width() + 100, (_ledMatrix->size().height() + 100) * id);
+    // On the scene, the program have a dedicated area to display/draw animations
+    // This area left one "screen" before and one "screen" areas to prevent from collisions
+    // Note: Developer of animations should take care to not collide: its objects should never be larger than one screen-size in all directions (up, down, left, right, diagonals)
+    QPointF pos = QPointF(_ledMatrix->size().width()*3, _ledMatrix->size().height() + ((_ledMatrix->size().height()*3) * id));
     program->setDrawingPos(pos);
 }
