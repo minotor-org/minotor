@@ -71,19 +71,19 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
 
     QColor color2;
     qreal minValue1 = _color.value()-0.2; if(minValue1<0.0) minValue1 += 1.0;
-    color2.setHsvF(minValue1, 1.0, 0.9);
+    color2.setHsvF(minValue1, 1.0, 1.0);
 
     QColor color3;
     qreal maxValue1 = _color.value()+0.2; if(maxValue1>1.0) maxValue1 -= 1.0;
-    color3.setHsvF(maxValue1, 1.0, 0.9);
+    color3.setHsvF(maxValue1, 1.0, 1.0);
 
     QColor color4;
     qreal minValue2 = _color.value()-0.4; if(minValue2<0.0) minValue2 += 1.0;
-    color4.setHsvF(minValue2, 1.0, 0.8);
+    color4.setHsvF(minValue2, 1.0, 0.96);
 
     QColor color5;
     qreal maxValue2 = _color.value()+0.4; if(maxValue2>1.0) maxValue2 -= 1.0;
-    color5.setHsvF(maxValue2, 1.0, 0.7);
+    color5.setHsvF(maxValue2, 1.0, 0.9);
 
     QGradient grad1;
     QGradient grad2;
