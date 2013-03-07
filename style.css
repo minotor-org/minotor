@@ -326,6 +326,10 @@ QWidget#orangeled {
     border-radius:2px;
 }
 
+UiAnimation[active=true] {
+    background-color:#e75f00;
+}
+
 UiAnimationPicker#scrollcontent {
     background-color:#454545;
 }
