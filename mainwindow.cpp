@@ -225,7 +225,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget *wContainer = new QWidget(this);
     lAnimations->addWidget(wContainer);
     wContainer->setObjectName("panel");
-    //wContainer->setStyleSheet("background-color:red;");
     QVBoxLayout *lContainer = new QVBoxLayout(wContainer);
     lContainer->setSpacing(0);
     lContainer->setMargin(0);
