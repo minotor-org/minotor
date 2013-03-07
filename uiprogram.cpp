@@ -52,7 +52,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lTitle->addStretch();
 
     UiProgramEditor * editor = new UiProgramEditor(program, _wBackground);
-    connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    //connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lBackground->addWidget(editor);
 
     QWidget *wRightArea = new QWidget(_wBackground);
