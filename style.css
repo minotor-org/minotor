@@ -1,3 +1,8 @@
+QAbstractItemView
+{
+    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0.1 #646464, stop: 1 #5d5d5d);
+}
+
 QCheckBox {
     background-color:#2c2c2c;
 }
@@ -220,7 +225,6 @@ QScrollBar::right-arrow {
     border-radius:2px;
 }
 
-
 QScrollBar::add-line:vertical {
     border: 1px solid #171717;
     background: #404040;
@@ -274,9 +278,7 @@ QTabBar::tab:last
 
 QTabBar::tab:first:!selected
 {
- margin-left: 0px; /* the last selected tab has nothing to overlap with on the right */
-
-
+    margin-left: 0px; /* the last selected tab has nothing to overlap with on the right */
     border-top-left-radius: 3px;
 }
 
@@ -304,6 +306,15 @@ QTabBar::tab:!selected:hover
     background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:0.4 #343434, stop:0.2 #343434, stop:0.1 #ffaa00);
 }
 
+QTableView {
+    /* selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400); */
+    selection-background-color: #e75f00;
+}
+
+QTableView QTableCornerButton::section {
+    background: #e75f00;
+    border: 2px outset #e75f00;
+}
 
 QToolBar {
     spacing: 1px;
