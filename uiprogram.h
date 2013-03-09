@@ -15,7 +15,7 @@ private:
     MinoProgram *_program;
     QFrame *_fPreview;
     QWidget *_wBackground;
-    QWidget *_border;
+    QWidget *_wBorder;
 signals:
 
 public slots:
