@@ -393,6 +393,14 @@ QWidget#orangeled {
     border-radius:2px;
 }
 
+QWidget#led[active=true] {
+    background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #e79e11,stop: 0.5 #e75f00,stop: 1 #d55400);
+}
+
+QWidget#led[active=false] {
+    background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);
+}
+
 UiAnimation[active=true] {
     background-color:#e75f00;
 }

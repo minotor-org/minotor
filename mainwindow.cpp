@@ -343,12 +343,8 @@ void MainWindow::on_pbScene_clicked()
 
 void MainWindow::beatToggledReceived(bool active)
 {
-    if (active)
-    {
-        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #e79e11,stop: 0.5 #e75f00,stop: 1 #d55400);");
-    }
-    else
-    {
-        _wClockLed->setStyleSheet("background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);");
-    }
+    _wClockLed->setObjectName("led");
+    _wClockLed->setProperty("active", active);
+    _wClockLed->style()->unpolish(_wClockLed);
+    _wClockLed->style()->polish(_wClockLed);
 }
