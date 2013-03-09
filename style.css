@@ -408,3 +408,11 @@ UiAnimation[active=true] {
 UiAnimationPicker#scrollcontent {
     background-color:#454545;
 }
+
+QWidget#programbackground[expanded=true] {
+    background-color:#484848;
+}
+
+QWidget#programbackground[expanded=false] {
+    background-color:#3a3a3a
+}

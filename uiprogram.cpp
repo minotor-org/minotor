@@ -1,10 +1,13 @@
 #include "uiprogram.h"
+
 #include <QDebug>
 #include <QLayout>
 #include <QLabel>
 #include <QScrollArea>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QStyle>
+
 #include "minotor.h"
 
 #include "uiprogramview.h"
@@ -102,18 +105,21 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 void UiProgram::setExpanded(bool expanded)
 {
     _fPreview->setVisible(expanded);
+    _wBackground->setProperty("expanded", expanded);
+    _wBackground->style()->unpolish(_wBackground);
+    _wBackground->style()->polish(_wBackground);
+
     if (expanded)
-    {
-        _wBackground->setStyleSheet("#programbackground { background-color:#484848;}");
+    {        
         this->setMinimumHeight(325);
         this->setMaximumHeight(325);
     }
     else
     {
-        _wBackground->setStyleSheet("#programbackground { background-color:#3a3a3a;}");
         this->setMinimumHeight(110);
         this->setMaximumHeight(110);
     }
+
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
     if(sa)
     {
