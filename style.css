@@ -152,6 +152,7 @@ QPushButton {
 QPushButton:checked {
     background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);
     border: 1px solid #e75f00;
+    color:#2e2e2e;
 }
 
 QPushButton:hover {
@@ -160,6 +161,7 @@ QPushButton:hover {
 
 QPushButton:pressed {
     background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);
+    color:#2e2e2e;
 }
 
 QScrollArea#scroll {
