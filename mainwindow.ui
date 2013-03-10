@@ -165,6 +165,9 @@
    <property name="text">
     <string>Minotor wiki</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
   </action>
   <action name="action_About">
    <property name="text">
