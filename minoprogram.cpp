@@ -135,6 +135,16 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
 void MinoProgram::destroyAnimation(QObject *animation)
 {
     _minoAnimations.removeAt(_minoAnimations.indexOf(static_cast<MinoAnimation*>(animation)));
+    const int ate = _minoAnimationsToEnable.indexOf(static_cast<MinoAnimation*>(animation));
+    if (ate != -1)
+    {
+        _minoAnimationsToEnable.removeAt(ate);
+    }
+    const int atd = _minoAnimationsToDisable.indexOf(static_cast<MinoAnimation*>(animation));
+    if (atd != -1)
+    {
+        _minoAnimationsToDisable.removeAt(atd);
+    }
 }
 
 Minotor *MinoProgram::minotor()

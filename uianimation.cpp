@@ -31,21 +31,31 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     //Checkboxes
     _wEnable = new QWidget(wContent);
-    QHBoxLayout *lEnable = new QHBoxLayout(_wEnable);
-    lEnable->setSpacing(0);
+    QVBoxLayout *lEnable = new QVBoxLayout(_wEnable);
+    lEnable->setSpacing(5);
     lEnable->setMargin(0);
-    lEnable->setContentsMargins(0,5,0,0);
+    lEnable->setContentsMargins(5,5,0,2);
     _cbEnable = new QCheckBox(_wEnable);
     _cbEnable->setFocusPolicy(Qt::NoFocus);
+    _cbEnable->setText("Activ");
     connect(_cbEnable, SIGNAL(toggled(bool)), animation, SLOT(setEnabled(bool)));
-    QCheckBox *cbDelayedEnable = new QCheckBox(_wEnable);
-    cbDelayedEnable->setFocusPolicy(Qt::NoFocus);
-    connect(cbDelayedEnable, SIGNAL(toggled(bool)), animation, SLOT(setDelayedEnabled(bool)));
     lEnable->addStretch();
     lEnable->addWidget(_cbEnable);
+
+    QCheckBox *cbDelayedEnable = new QCheckBox(_wEnable);
+    cbDelayedEnable->setFocusPolicy(Qt::NoFocus);
+    cbDelayedEnable->setText("Activ  beat");
+    connect(cbDelayedEnable, SIGNAL(toggled(bool)), animation, SLOT(setDelayedEnabled(bool)));
     lEnable->addStretch();
     lEnable->addWidget(cbDelayedEnable);
     connect(_cbEnable, SIGNAL(toggled(bool)), cbDelayedEnable, SLOT(setChecked(bool)));
+
+    QCheckBox *cbDelete = new QCheckBox(_wEnable);
+    cbDelete->setFocusPolicy(Qt::NoFocus);
+    cbDelete->setText("Delete");
+    connect(cbDelete, SIGNAL(toggled(bool)), animation, SLOT(deleteLater()));
+    lEnable->addWidget(cbDelete);
+
     lEnable->addStretch();
     lContent->addWidget(_wEnable);
 
