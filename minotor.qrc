@@ -22,5 +22,9 @@
         <file>images/stars.png</file>
         <file>images/gradient.png</file>
         <file>images/plasma.png</file>
+        <file>pictos/unchecked.png</file>
+        <file>pictos/checked.png</file>
+        <file>pictos/checked_hover.png</file>
+        <file>pictos/unchecked_hover.png</file>
     </qresource>
 </RCC>
