@@ -116,10 +116,18 @@ QDoubleSpinBox::up-button {
  }
 
 QDoubleSpinBox::down-arrow {
-    image: url(:/pictos/down-arrow.png);
+    image: url(:/pictos/down-arrow_off.png);
 }
 
 QDoubleSpinBox::up-arrow {
+    image: url(:/pictos/up-arrow_off.png);
+}
+
+QDoubleSpinBox::down-arrow:hover {
+    image: url(:/pictos/down-arrow.png);
+}
+
+QDoubleSpinBox::up-arrow:hover {
     image: url(:/pictos/up-arrow.png);
 }
 
@@ -310,7 +318,8 @@ QScrollBar::down-arrow {
 }
 
 QTabBar::tab {
-    color: #b1b1b1;
+    color: #9c9c9c;
+    font:bold;
     border-top: 1px solid #171717;
     border-left: 1px solid #171717;
     border-bottom: 1px solid #171717;
@@ -319,9 +328,10 @@ QTabBar::tab {
     background-color: #454545;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 2px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    min-height:60px;
+    margin-bottom: 3px;
 }
 
 QTabWidget::pane {
@@ -330,26 +340,19 @@ QTabWidget::pane {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-}
-
-QTabBar::tab:last
-{
-    /* Not used for the moment */
-}
-
-QTabBar::tab:first:!selected
-{
-    /* Not used for the moment */
+    margin-left:-1px;
 }
 
 QTabBar::tab:!selected
 {
     background-color:#323232;
+    border-right:1px solid #171717;
 }
 
 QTabBar::tab:selected
 {
-    /* Not used for the moment */
+    background-color:#454545;
+    border-right:1px solid #454545;
 }
 
 QTabBar::tab:!selected:hover {

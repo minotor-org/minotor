@@ -26,5 +26,7 @@
         <file>pictos/checked.png</file>
         <file>pictos/checked_hover.png</file>
         <file>pictos/unchecked_hover.png</file>
+        <file>pictos/down-arrow_off.png</file>
+        <file>pictos/up-arrow_off.png</file>
     </qresource>
 </RCC>
