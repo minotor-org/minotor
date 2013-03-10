@@ -92,6 +92,16 @@ QGroupBox {
     border-radius:3px;
     border: 1px solid #101010;
 }
+QHeaderView::section {
+    background-color:#3a3a3a;
+}
+QHeaderView::down-arrow {
+    image: url(:/pictos/down-arrow.png);
+}
+
+QHeaderView::up-arrow {
+    image: url(:/pictos/up-arrow.png);
+}
 
 QLabel#bigLabel {
     font:bold;
@@ -257,65 +267,61 @@ QScrollBar::down-arrow {
 
 QTabBar::tab {
     color: #b1b1b1;
-    border: 1px solid #444;
-    border-bottom-style: none;
-    background-color: #323232;
+    border-top: 1px solid #171717;
+    border-left: 1px solid #171717;
+    border-bottom: 1px solid #171717;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #454545;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 2px;
-    margin-right: -1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 2px;
 }
 
 QTabWidget::pane {
-    border: 1px solid #444;
-    top: 1px;
+    background-color: #454545;
+    border: 1px solid #171717;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 QTabBar::tab:last
 {
-    margin-right: 0; /* the last selected tab has nothing to overlap with on the right */
-    border-top-right-radius: 3px;
+    /* Not used for the moment */
 }
 
 QTabBar::tab:first:!selected
 {
-    margin-left: 0px; /* the last selected tab has nothing to overlap with on the right */
-    border-top-left-radius: 3px;
+    /* Not used for the moment */
 }
 
 QTabBar::tab:!selected
 {
-    color: #b1b1b1;
-    border-bottom-style: solid;
-    margin-top: 3px;
-    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:.4 #343434);
+    background-color:#323232;
 }
 
 QTabBar::tab:selected
 {
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    margin-bottom: 0px;
+    /* Not used for the moment */
 }
 
-QTabBar::tab:!selected:hover
-{
-    /*border-top: 2px solid #ffaa00;
-    padding-bottom: 3px;*/
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:0.4 #343434, stop:0.2 #343434, stop:0.1 #ffaa00);
+QTabBar::tab:!selected:hover {
+    border-top: 1px solid #e75f00;
+    border-left: 1px solid #e75f00;
+    border-bottom: 1px solid #e75f00;
 }
 
 QTableView {
-    /* selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400); */
+    background-color: #242424;
+    border: none;
     selection-background-color: #e75f00;
 }
 
 QTableView QTableCornerButton::section {
     background: #e75f00;
-    border: 2px outset #e75f00;
 }
 
 QToolBar {
