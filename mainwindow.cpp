@@ -11,6 +11,8 @@
 #include <QLCDNumber>
 #include <QSplitter>
 #include <QDoubleSpinBox>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "uidial.h"
 #include "uianimationdescription.h"
@@ -261,6 +263,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_action_Configuration_triggered()
 {
     _configDialog->exec();
+}
+
+void MainWindow::on_action_MinotorWiki_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://bitbucket.org/neomilium/minotor/wiki/Home"));
 }
 
 void MainWindow::midiCaptureTrigged()

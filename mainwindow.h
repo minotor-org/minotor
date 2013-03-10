@@ -38,6 +38,8 @@ private slots:
 
     // UI: Action file->configuration
     void on_action_Configuration_triggered();
+    // UI: Action help->wiki
+    void on_action_MinotorWiki_triggered();
 
     void tbFullScreenToggled(bool on);
 
