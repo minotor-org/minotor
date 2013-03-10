@@ -1,10 +1,13 @@
 #include "uiprogram.h"
+
 #include <QDebug>
 #include <QLayout>
 #include <QLabel>
 #include <QScrollArea>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QStyle>
+
 #include "minotor.h"
 
 #include "uiprogramview.h"
@@ -20,17 +23,16 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lProgram->setMargin(0);
     lProgram->setContentsMargins(0,0,0,0);
 
+    _wBorder = new QWidget();
+    _wBorder->setObjectName("panel");
+    lProgram->addWidget(_wBorder);
 
-    _border = new QWidget();
-    _border->setObjectName("panel");
-    lProgram->addWidget(_border);
-
-    QVBoxLayout *lBorder = new QVBoxLayout(_border);
+    QVBoxLayout *lBorder = new QVBoxLayout(_wBorder);
     lBorder->setSpacing(0);
     lBorder->setMargin(0);
     lBorder->setContentsMargins(2,2,2,2);
 
-    _wBackground = new QWidget(_border);
+    _wBackground = new QWidget(_wBorder);
     _wBackground->setObjectName("programbackground");
 
     lBorder->addWidget(_wBackground);
@@ -52,7 +54,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lTitle->addStretch();
 
     UiProgramEditor * editor = new UiProgramEditor(program, _wBackground);
-    connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    //connect(editor, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
     lBackground->addWidget(editor);
 
     QWidget *wRightArea = new QWidget(_wBackground);
@@ -102,18 +104,21 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 void UiProgram::setExpanded(bool expanded)
 {
     _fPreview->setVisible(expanded);
+    this->setProperty("expanded", expanded);
+    _wBackground->style()->unpolish(_wBackground);
+    _wBackground->style()->polish(_wBackground);
+
     if (expanded)
-    {
-        _wBackground->setStyleSheet("#programbackground { background-color:#484848;}");
+    {        
         this->setMinimumHeight(325);
         this->setMaximumHeight(325);
     }
     else
     {
-       _wBackground->setStyleSheet("#programbackground { background-color:#3a3a3a;}");
-       this->setMinimumHeight(110);
-       this->setMaximumHeight(110);
+        this->setMinimumHeight(110);
+        this->setMaximumHeight(110);
     }
+
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
     if(sa)
     {
@@ -129,12 +134,7 @@ void UiProgram::requestMasterProgramChange(bool on)
 
 void UiProgram::updateOnAirStatus(bool onAir)
 {
-    if (onAir)
-    {
-        _border->setStyleSheet("#panel {background-color:#e75f00;}");
-    }
-    else
-    {
-        _border->setStyleSheet("#border {}");
-    }
+    this->setProperty("onair", onAir);
+    _wBorder->style()->unpolish(_wBorder);
+    _wBorder->style()->polish(_wBorder);
 }

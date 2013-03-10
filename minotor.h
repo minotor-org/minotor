@@ -58,7 +58,7 @@ public:
     QList<MinoProgram*> programs() { return _programs; }
 
 signals:
-    void controlChanged(int midiInterfaceId, quint8 channel, quint8 control, quint8 value);
+    void controlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value);
     void beatToggled(bool active);
 public slots:
     // Clock handler

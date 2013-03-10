@@ -38,6 +38,7 @@ MinaGradient::~MinaGradient()
 
 void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)uppqn;
     (void)ppqn;
     (void)qn;
     computeAnimaBeatProperty(gppqn);

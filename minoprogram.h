@@ -30,11 +30,11 @@ public:
     void registerAnimationEnableChange(MinoAnimation *animation, const bool on);
 
     // Accessors
-    QGraphicsScene *scene() { return _scene; }
+    QGraphicsScene *scene() const { return _scene; }
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
-    MinoAnimationList animations() { return _minoAnimations; }
-    const QImage *rendering() { return _image; }
-    int id() { return _id; }
+    MinoAnimationList animations() const { return _minoAnimations; }
+    const QImage *rendering() const { return _image; }
+    int id() const { return _id; }
     const MinoPropertyList properties() { return _properties; }
 
     // Selection

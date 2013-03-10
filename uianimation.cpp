@@ -2,6 +2,7 @@
 
 #include <QLayout>
 #include <QSizePolicy>
+#include <QStyle>
 #include <QMenu>
 #include <QCheckBox>
 #include <QToolButton>
@@ -81,10 +82,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         fSeparator->setObjectName("line");
         fSeparator->setFrameShape(QFrame::HLine);
         fSeparator->setFrameShadow(QFrame::Sunken);
-
         fSeparator->setLineWidth(1);
-
-
 
         QWidget *wPropGroup = new QWidget(_wProperties);
         lProperties->addWidget(wPropGroup);
@@ -108,25 +106,20 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lContent->addStretch();
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
+    this->enable(animation->enabled());
 }
 
 void UiAnimation::enable(const bool on)
 {
     _cbEnable->setChecked(on);
-    if(on)
-    {
+    this->setProperty("active", on);
 
-        this->setStyleSheet("QGroupBox { background-color:#e75f00;}");
-    }
-    else
-    {
-        this->setStyleSheet("QGroupBox { background-color:#404040;}");
-    }
+    this->style()->unpolish(this);
+    this->style()->polish(this);
 }
 
 void UiAnimation::setExpanded(bool expanded)
 {
     _wEnable->setVisible(expanded);
     _wProperties->setVisible(expanded);
-
 }

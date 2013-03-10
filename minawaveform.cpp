@@ -13,6 +13,7 @@ MinaWaveform::MinaWaveform(MinoProgram *program) :
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)uppqn;
     (void)ppqn;
     (void)qn;
 

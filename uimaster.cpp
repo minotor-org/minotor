@@ -68,8 +68,11 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget *leftArea = new QWidget(wContent);
     lContent->addWidget(leftArea);
     QVBoxLayout *lLeftArea = new QVBoxLayout(leftArea);
+    // TODO add beat factor...
+    (void)lLeftArea;
     leftArea->setMinimumSize(120,32);
     leftArea->setMaximumSize(120,320);
+
     //master control
     UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);
     lContent->addWidget(uiMasterControl);

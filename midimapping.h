@@ -15,6 +15,8 @@ public:
     void assignCapturedControlTo(MinoProperty *property);
     MidiControl* getMidiControlFor(MinoProperty *property);
 
+    MidiControlList midiControls() const { return _midiControls; }
+
 protected:
     MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate = true);
 
