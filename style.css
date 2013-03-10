@@ -320,11 +320,10 @@ QScrollBar::down-arrow {
 QTabBar::tab {
     color: #9c9c9c;
     font:bold;
-    border-top: 1px solid #171717;
-    border-left: 1px solid #171717;
-    border-bottom: 1px solid #171717;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top: 2px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-bottom: 2px solid qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-left: 2px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-right: 1px solid #171717;
     background-color: #454545;
     padding-left: 10px;
     padding-right: 10px;
@@ -336,22 +335,28 @@ QTabBar::tab {
 
 QTabWidget::pane {
     background-color: #454545;
-    border: 1px solid #171717;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top: 2px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-bottom: 2px solid qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-left: 1px solid #171717;
+    border-right: 2px solid qlineargradient(x1: 1, y1: 0, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
     margin-left:-1px;
 }
 
 QTabBar::tab:!selected
 {
     background-color:#323232;
-    border-right:1px solid #171717;
+    border-top: 1px solid #171717;
+    border-bottom: 1px solid #171717;
+    border-left: 1px solid #171717;
+    border-right: 1px solid #171717;
 }
 
 QTabBar::tab:selected
 {
     background-color:#454545;
+    border-top: 2px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-bottom: 2px solid qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
+    border-left: 2px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,stop: 0.5 #171717,stop: 1.0 #9c9c9c);
     border-right:1px solid #454545;
 }
 
