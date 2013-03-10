@@ -72,11 +72,43 @@ QDockWidget::title {
 }
 
 QDoubleSpinBox {
+    border-radius:2px;
+    border:1px solid #454545;
     background-color:#2c2c2c;
     font:bold;
     color:#e75f00;
-    height:34px;
-    width:70px;
+    min-height:26px;
+    min-width:60px;
+}
+
+QDoubleSpinBox:hover {
+    border:1px solid #e75f00;
+}
+
+QDoubleSpinBox::down-button {
+     subcontrol-origin: border;
+     subcontrol-position: bottom right;
+     width: 14px;
+     border-width: 0px;
+     margin-bottom:3px;
+     margin-right:3px;
+ }
+
+QDoubleSpinBox::up-button {
+     subcontrol-origin: border;
+     subcontrol-position: top right;
+     width: 14px;
+     border-width: 0px;
+     margin-top:3px;
+     margin-right:3px;
+ }
+
+QDoubleSpinBox::down-arrow {
+    image: url(:/pictos/down-arrow.png);
+}
+
+QDoubleSpinBox::up-arrow {
+    image: url(:/pictos/up-arrow.png);
 }
 
 QFrame#line {
