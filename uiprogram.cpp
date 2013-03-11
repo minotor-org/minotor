@@ -92,8 +92,8 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lPreview->addWidget(pView);
     lRightArea->addStretch();
 
-    setExpanded(false);
-    editor->setExpanded(false);
+    setExpanded(program->isOnAir());
+    editor->setExpanded(program->isOnAir());
 
     connect(_program, SIGNAL(onAir(bool)), bOnAir, SLOT(setChecked(bool)));
     connect(_program, SIGNAL(onAir(bool)), this, SLOT(updateOnAirStatus(bool)));
