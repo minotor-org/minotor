@@ -22,10 +22,10 @@ public:
         _pixmap(pixmap),
         _className(className) { }
 
-    const QString name() { return _name; }
-    const QString tooltip() { return _tooltip; }
-    const QPixmap pixmap() { return _pixmap; }
-    const QString className() { return _className; }
+    const QString name() const { return _name; }
+    const QString tooltip() const { return _tooltip; }
+    const QPixmap pixmap() const { return _pixmap; }
+    const QString className() const { return _className; }
 
 private:
     QString _name;
@@ -34,13 +34,15 @@ private:
     QString _className;
 };
 
+class MinoAnimationGroup;
+
 class MinoAnimation : public QObject
 {
     Q_OBJECT
-    friend class MinoProgram;
+    friend class MinoAnimationGroup;
 
 public:
-    explicit MinoAnimation(MinoProgram *program);
+    explicit MinoAnimation(MinoAnimationGroup *group);
 
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;
@@ -53,13 +55,14 @@ public:
 
     bool enabled() const { return _enabled; }
     MinoProgram* program() const { return _program; }
+    MinoAnimationGroup* group() const { return _group; }
 
 public slots:
     void setEnabled(const bool enabled);
-    void setDelayedEnabled(const bool enabled);
 
 protected:
     // Parent
+    MinoAnimationGroup *_group;
     MinoProgram *_program;
 
     // Graphics
@@ -75,8 +78,9 @@ protected:
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 
-    // Will be called by channel
+    // Will be called by MinoAnimationGroup
     void _setEnabled(const bool on);
+
     bool _enabled;
     bool _pending;
 signals:

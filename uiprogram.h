@@ -9,7 +9,7 @@ class UiProgram : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiProgram(MinoProgram *program, QWidget *parent = 0);
+    explicit UiProgram(MinoProgram *program, QWidget *parent);
     void setOnAir(bool onAir);
 private:
     MinoProgram *_program;

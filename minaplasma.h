@@ -8,7 +8,7 @@ class MinaPlasma : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaPlasma(MinoProgram *program);
+    explicit MinaPlasma(MinoAnimationGroup *group);
     ~MinaPlasma();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

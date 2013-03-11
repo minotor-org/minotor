@@ -2,6 +2,7 @@
 #include "uianimation.h"
 
 #include "minoanimation.h"
+#include "uianimationgroup.h"
 #include "uiprogramview.h"
 
 #include <QFrame>
@@ -50,32 +51,28 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch();
 
-    foreach (MinoAnimation *animation, _master->program()->animations())
-    {
-        addAnimation(animation);
-    }
+    updateProgram();
+
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
     connect(_master,SIGNAL(updated()),this,SLOT(updateProgram()));
 }
 
-void UiMasterControl::addAnimation(MinoAnimation *animation)
+void UiMasterControl::addAnimationGroup(MinoAnimationGroup *group)
 {
-    UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
-    uiAnimation->enable(animation->enabled());
-    connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-
-    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
+    UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
+    uiAnimationGroup->enable(group->enabled());
+    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimationGroup);
 }
 
 void UiMasterControl::updateProgram()
 {
-    foreach (UiAnimation *animation, this->findChildren<UiAnimation*>())
+    foreach (UiAnimationGroup *group, this->findChildren<UiAnimationGroup*>())
     {
-        delete(animation);
+        delete(group);
     }
-    foreach (MinoAnimation *animation, _master->program()->animations())
+    foreach (MinoAnimationGroup *group, _master->program()->animationGroups())
     {
-        addAnimation(animation);
+        addAnimationGroup(group);
     }
 }
 

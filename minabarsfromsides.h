@@ -7,7 +7,7 @@ class MinaBarsFromSides : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaBarsFromSides(MinoProgram *program);
+    explicit MinaBarsFromSides(MinoAnimationGroup *group);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

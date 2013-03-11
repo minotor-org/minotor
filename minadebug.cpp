@@ -1,6 +1,6 @@
 #include "minadebug.h"
 
-MinaDebug::MinaDebug(MinoProgram *program) :
-    MinoAnimation(program)
+MinaDebug::MinaDebug(MinoAnimationGroup *group) :
+    MinoAnimation(group)
 {
 }

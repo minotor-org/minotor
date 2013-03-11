@@ -51,7 +51,9 @@ SOURCES += main.cpp\
     minafallingobjects.cpp \
     minastars.cpp \
     minagradient.cpp \
-    miprobnzichru.cpp
+    miprobnzichru.cpp \
+    minoanimationgroup.cpp \
+    uianimationgroup.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -93,7 +95,9 @@ HEADERS  += mainwindow.h \
     minafallingobjects.h \
     minastars.h \
     minagradient.h \
-    miprobnzichru.h
+    miprobnzichru.h \
+    minoanimationgroup.h \
+    uianimationgroup.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

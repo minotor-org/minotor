@@ -1,6 +1,7 @@
 #include "minomaster.h"
 
 #include "minotor.h"
+#include "minoanimationgroup.h"
 
 #include <QDebug>
 
@@ -65,7 +66,7 @@ void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
         default:
         {
             const int noteMin = KORG_NOTE_MIN;
-            const int noteMax = qMin(KORG_NOTE_MAX, noteMin + _program->animations().count() - 1);
+            const int noteMax = qMin(KORG_NOTE_MAX, noteMin + _program->animationGroups().count() - 1);
             if ((note >= noteMin) && (note <= noteMax))
             {
                 const int i = note-noteMin;
@@ -73,9 +74,9 @@ void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
                 if(_shifted)
                 {
                     if (on)
-                        _program->animations().at(i)->setDelayedEnabled(!_program->animations().at(i)->enabled());
+                        _program->animationGroups().at(i)->setDelayedEnabled(!_program->animationGroups().at(i)->enabled());
                 }else{
-                    _program->animations().at(i)->setEnabled(on);
+                    _program->animationGroups().at(i)->setEnabled(on);
                 }
             }
         }

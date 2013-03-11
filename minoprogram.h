@@ -7,6 +7,7 @@
 #include <QRect>
 
 #include "minoanimation.h"
+#include "minoanimationgroup.h"
 
 class Minotor;
 
@@ -22,18 +23,12 @@ public:
     explicit MinoProgram(Minotor *minotor);
     ~MinoProgram();
 
-    //virtual QString name() = 0; // Force MinoChannel to become a pure virtual class
-
-    // Animation manipulation
-    void addAnimation(MinoAnimation *animation);
-    MinoAnimation* addAnimation(const QString animationClassName);
-    void moveAnimation(int oldIndex, int newIndex);
-    void registerAnimationEnableChange(MinoAnimation *animation, const bool on);
+    void registerAnimationGroupEnableChange(MinoAnimationGroup *group, const bool on);
 
     // Accessors
     QGraphicsScene *scene() const { return _scene; }
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
-    MinoAnimationList animations() const { return _minoAnimations; }
+    MinoAnimationGroupList animationGroups() const { return _animationGroups; }
     const QImage *rendering() const { return _image; }
     int id() const { return _id; }
     const MinoPropertyList properties() { return _properties; }
@@ -44,6 +39,9 @@ public:
 
     // Function is compute height with a given width (very useful for UI)
     int heightForWidth( int width ) const { return (qreal)width * _heightForWidthRatio; }
+
+    // Animation Group
+    void addAnimationGroup(MinoAnimationGroup *group);
 
     Minotor *minotor();
 
@@ -80,9 +78,9 @@ private:
     bool _onAir;
 
 protected:
-    MinoAnimationList _minoAnimations;
-    MinoAnimationList _minoAnimationsToEnable;
-    MinoAnimationList _minoAnimationsToDisable;
+    MinoAnimationGroupList _animationGroups;
+    MinoAnimationGroupList _animationGroupsToEnable;
+    MinoAnimationGroupList _animationGroupsToDisable;
 
     QGraphicsItemGroup _itemGroup;
 
@@ -102,7 +100,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
     void setUpdated();
 private slots:
-    void destroyAnimation(QObject *animation);
+    void destroyGroup(QObject *group);
 
 };
 

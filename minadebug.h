@@ -7,7 +7,7 @@ class MinaDebug : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaDebug(MinoProgram *program);
+    explicit MinaDebug(MinoAnimationGroup *group);
     
 signals:
     

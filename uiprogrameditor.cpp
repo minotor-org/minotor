@@ -1,15 +1,16 @@
 #include "uiprogrameditor.h"
-#include "uianimation.h"
 
 #include "minoanimation.h"
 #include "uiprogramview.h"
-
 #include <QFrame>
 #include <QScrollArea>
 #include <QLayout>
 #include <QStyle>
 
 #include <QDebug>
+
+#include "uianimation.h"
+#include "uianimationgroup.h"
 
 UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
@@ -49,21 +50,20 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     _lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch();
 
-    foreach (MinoAnimation *animation, _program->animations())
+    foreach (MinoAnimationGroup *group, _program->animationGroups())
     {
-        addAnimation(animation);
+        addAnimationGroup(group);
     }
 
     setAcceptDrops(true);
 }
 
-void UiProgramEditor::addAnimation(MinoAnimation *animation)
+void UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
 {
-    UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
-    uiAnimation->setExpanded(_expanded);
-    connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
+    UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
+    uiAnimationGroup->setExpanded(_expanded);
 
-    _lContent->insertWidget(_lContent->count()-1, uiAnimation);
+    _lContent->insertWidget(_lContent->count()-1, uiAnimationGroup);
 }
 
 UiProgramEditor::~UiProgramEditor()
@@ -148,11 +148,14 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> className >> offset;
 
-        MinoAnimation *animation = _program->addAnimation(className);
+
+        MinoAnimationGroup *group = new MinoAnimationGroup(_program);
+        MinoAnimation *animation = group->addAnimation(className);
+        _program->addAnimationGroup(group);
 
         if(animation)
         {
-            this->addAnimation(animation);
+            this->addAnimationGroup(group);
         }
 
         if (event->source() == this) {
@@ -168,40 +171,55 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         QString className;
         QPoint offset;
         int srcId;
-        int programId;
+        int srcProgramId;
+        int srcGroupId;
         dataStream
                 >> className
                 >> offset
-                >> programId
+                >> srcProgramId
+                >> srcGroupId
                 >> srcId;
 
-        QList<UiAnimation*> children= _wContent->findChildren<UiAnimation*>();
-        for (int i=0;i<children.count();i++)
+
+        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
+
+        for (int i=0;i<uiGroups.count();i++)
         {
-            if(children.at(i)->geometry().contains(event->pos()))
+            UiAnimationGroup *uiGroup = uiGroups.at(i);
+            if (uiGroup->geometry().contains(event->pos()))
             {
-                const int destId = _program->animations().indexOf(children.at(i)->animation());
-                qDebug() << "UiProgramEditor::dropEvent"
-                         << "x-dndanimation" << className << offset << srcId << destId;
-
-                if (destId != -1)
+                const int destGroupId = _program->animationGroups().indexOf(uiGroup->group());
+                if (destGroupId == srcGroupId)
                 {
-                    _program->moveAnimation(srcId, destId);
-                    qDebug() << "plop";
-                    QLayoutItem *li = _lContent->takeAt(srcId);
-
-                    qDebug() << "plop li";
-                    if(li->widget())
+                    QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
+                    for (int j=0;j<uiAnimations.count();j++)
                     {
-                        UiAnimation *uiAnimation = dynamic_cast<UiAnimation*>(li->widget());
-                        if(uiAnimation)
+                        if(uiAnimations.at(j)->geometry().contains(event->pos()))
                         {
-                            qDebug() << "plop uiA";
-                            _lContent->insertWidget(destId, uiAnimation);
+                            const int destId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
+
+                            if (destId != -1)
+                            {
+                                uiGroup->group()->moveAnimation(srcId, destId);
+                                qDebug() << "plop";
+                                QLayoutItem *li = _lContent->takeAt(srcId);
+
+                                qDebug() << "plop li";
+                                if(li->widget())
+                                {
+                                    UiAnimation *uiAnimation = dynamic_cast<UiAnimation*>(li->widget());
+                                    if(uiAnimation)
+                                    {
+                                        qDebug() << "plop uiA";
+                                        _lContent->insertWidget(destId, uiAnimation);
+                                    }
+                                }
+                            }
+                            break;
                         }
                     }
+
                 }
-                break;
             }
         }
 

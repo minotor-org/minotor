@@ -8,7 +8,7 @@ class MinaGradient : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaGradient(MinoProgram *program);
+    explicit MinaGradient(MinoAnimationGroup *group);
     ~MinaGradient();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

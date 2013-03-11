@@ -1,7 +1,7 @@
 #include "minastars.h"
 
-MinaStars::MinaStars(MinoProgram *program) :
-    MinoAnimation(program)
+MinaStars::MinaStars(MinoAnimationGroup *group) :
+    MinoAnimation(group)
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(2.0));

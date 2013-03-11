@@ -148,9 +148,11 @@ QGroupBox {
     border-radius:3px;
     border: 1px solid #101010;
 }
+
 QHeaderView::section {
     background-color:#3a3a3a;
 }
+
 QHeaderView::down-arrow {
     image: url(:/pictos/down-arrow.png);
 }
@@ -391,6 +393,10 @@ QToolBar::separator {
 
 QWidget {
     color:#9c9c9c;
+}
+
+QWidget#group {
+    /*background-color:red;*/
 }
 
 QWidget#border {

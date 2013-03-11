@@ -13,25 +13,32 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
 {
     this->setObjectName("Matrix");
 
-    MinaFlash *af = new MinaFlash(this);
+    MinoAnimationGroup *afg = new MinoAnimationGroup(this);
+    MinaFlash *af = new MinaFlash(afg);
     af->setColorH(0.4);
-    this->addAnimation(af);
-
-    MinaRandomPixels *arp = new MinaRandomPixels(this);
+    afg->addAnimation(af);
+    this->addAnimationGroup(afg);
+    MinaRandomPixels *arp = new MinaRandomPixels(afg);
     arp->setColorH(0.4);
     arp->setDensity(0.4);
-    this->addAnimation(arp);
+    afg->addAnimation(arp);
 
-    MinaStars *as = new MinaStars(this);
+
+    MinoAnimationGroup *asg = new MinoAnimationGroup(this);
+    MinaStars *as = new MinaStars(asg);
     as->setColorH(0.4);
     as->setDensity(6);
-    this->addAnimation(as);
+    asg->addAnimation(as);
+    this->addAnimationGroup(asg);
 
-    MinaFallingObjects *afo = new MinaFallingObjects(this);
+    MinoAnimationGroup *afog = new MinoAnimationGroup(this);
+    MinaFallingObjects *afo = new MinaFallingObjects(afog);
     afo->setColorH(0.4);
     afo->setBeatPeriod("1/2");
     afo->setDensity(7);
     afo->setDuration(8);
     afo->setLength(5);
-    this->addAnimation(afo);
+    afog->addAnimation(afo);
+    this->addAnimationGroup(afog);
+
 }

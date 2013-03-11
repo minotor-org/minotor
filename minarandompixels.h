@@ -7,7 +7,7 @@ class MinaRandomPixels : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaRandomPixels(MinoProgram *program);
+    explicit MinaRandomPixels(MinoAnimationGroup *group);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

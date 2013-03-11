@@ -1,7 +1,7 @@
 #include "minafallingobjects.h"
 #include <QDebug>
-MinaFallingObjects::MinaFallingObjects(MinoProgram *program) :
-    MinoAnimation(program)
+MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
+    MinoAnimation(group)
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));

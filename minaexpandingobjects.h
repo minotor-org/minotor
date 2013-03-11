@@ -7,7 +7,7 @@ class MinaExpandingObjects : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaExpandingObjects(MinoProgram *program);
+    explicit MinaExpandingObjects(MinoAnimationGroup *group);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

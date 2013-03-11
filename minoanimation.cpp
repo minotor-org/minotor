@@ -2,14 +2,15 @@
 
 #include "minotor.h"
 #include "minoprogram.h"
+#include "minoanimationgroup.h"
 
-MinoAnimation::MinoAnimation(MinoProgram *program) :
-    QObject(program),
-    _program(program),
+MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
+    QObject(group),
     _enabled(true)
 {
-    _scene = program->minotor()->scene();
-    _boundingRect = program->minotor()->displayRect();
+    _program = group->program();
+    _scene = _program->minotor()->scene();
+    _boundingRect = _program->minotor()->displayRect();
 
     _color.setObjectName("Color");
     _mplMain.append(&_color);
@@ -46,11 +47,6 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 QPointF MinoAnimation::qrandPointF()
 {
     return QPointF(qrandF()*_boundingRect.width(), qrandF()*_boundingRect.height());
-}
-
-void MinoAnimation::setDelayedEnabled(const bool on)
-{
-    _program->registerAnimationEnableChange(this, on);
 }
 
 void MinoAnimation::setEnabled(const bool on)

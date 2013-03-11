@@ -7,7 +7,7 @@ class MinaWaveform : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaWaveform(MinoProgram *program);
+    explicit MinaWaveform(MinoAnimationGroup *group);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

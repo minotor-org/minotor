@@ -8,6 +8,7 @@
 #include <QDropEvent>
 
 #include "minoprogram.h"
+#include "minoanimationgroup.h"
 
 class UiProgramEditor : public QWidget
 {
@@ -24,7 +25,7 @@ protected:
     QWidget *_wContent;
     QBoxLayout *_lContent;
 
-    void addAnimation(MinoAnimation *animation);
+    void addAnimationGroup(MinoAnimationGroup *group);
 signals:
 
 public slots:

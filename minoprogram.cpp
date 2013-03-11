@@ -1,6 +1,7 @@
 #include "minoprogram.h"
 
 #include "minotor.h"
+#include "minoanimationgroup.h"
 
 #include <QBrush>
 #include <QDebug>
@@ -27,10 +28,6 @@ MinoProgram::MinoProgram(Minotor *minotor) :
 
 MinoProgram::~MinoProgram()
 {
-    foreach (MinoAnimation *animation, _minoAnimations)
-    {
-        delete(animation);
-    }
     delete _image;
 }
 
@@ -40,57 +37,6 @@ void MinoProgram::setRect(const QRect rect)
     if (_image) delete _image;
     _image = new QImage(rect.size(), QImage::Format_RGB32);
     _rect = rect;
-}
-
-void MinoProgram::addAnimation(MinoAnimation *animation)
-{
-    // Add animation to program's list
-    _minoAnimations.append(animation);
-
-    // Will remove animation from list when destroyed
-    connect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
-
-    // Set position to origin
-    //_itemGroup.setPos(0,0);
-
-    // Add to program QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
-    _itemGroup.addToGroup(animation->graphicItem());
-
-    // Re-parent animation to our itemGroup
-    animation->graphicItem()->setParentItem(&_itemGroup);
-    animation->graphicItem()->setGroup(&_itemGroup);
-    animation->graphicItem()->setPos(0,0);
-    animation->graphicItem()->setZValue(_minoAnimations.count()-1);
-    animation->setEnabled(false);
-
-    // Lets others know something is changed
-    emit updated();
-}
-
-MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)
-{
-    MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), this);
-    if(animation)
-    {
-        addAnimation(animation);
-    }
-    return animation;
-}
-
-void MinoProgram::moveAnimation(int oldIndex, int newIndex)
-{
-    _minoAnimations.move(oldIndex, newIndex);
-    for (int z=0;z<_minoAnimations.count();z++)
-    {
-        _minoAnimations.at(z)->graphicItem()->setZValue(z);
-    }
-    // Lets others know something is changed
-    emit updated();
-}
-
-void MinoProgram::setUpdated()
-{
-    emit updated();
 }
 
 void MinoProgram::setDrawingPos(const QPointF pos)
@@ -107,30 +53,36 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
     const unsigned int beat = _beatFactor.currentItem()->real();
     if((gppqn%beat)==0)
     {
-        if(_minoAnimationsToEnable.count())
+        if(_animationGroupsToEnable.count())
         {
-            foreach(MinoAnimation *animation, _minoAnimationsToEnable)
+            foreach(MinoAnimationGroup *group, _animationGroupsToEnable)
             {
-                animation->_setEnabled(true);
+                group->_setEnabled(true);
             }
-            _minoAnimationsToEnable.clear();
+            _animationGroupsToEnable.clear();
         }
-        if(_minoAnimationsToDisable.count())
+        if(_animationGroupsToDisable.count())
         {
-            foreach(MinoAnimation *animation, _minoAnimationsToDisable)
+            foreach(MinoAnimationGroup *group, _animationGroupsToDisable)
             {
-                animation->_setEnabled(false);
+                group->_setEnabled(false);
             }
-            _minoAnimationsToDisable.clear();
+            _animationGroupsToDisable.clear();
         }
     }
 
     // Animate whole content (ie. this includes objects creation/desctruction moves)
-    foreach(MinoAnimation *minoAnimation, _minoAnimations)
+    foreach(MinoAnimationGroup *animationGroup, _animationGroups)
     {
-        if(minoAnimation->enabled())
+        if(animationGroup->enabled())
         {
-            minoAnimation->animate(uppqn, gppqn, ppqn, qn);
+            foreach(MinoAnimation *animation, animationGroup->animations())
+            {
+                if(animation->enabled())
+                {
+                    animation->animate(uppqn, gppqn, ppqn, qn);
+                }
+            }
         }
     }
 
@@ -149,18 +101,18 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
     emit animated();
 }
 
-void MinoProgram::destroyAnimation(QObject *animation)
+void MinoProgram::destroyGroup(QObject *group)
 {
-    _minoAnimations.removeAt(_minoAnimations.indexOf(static_cast<MinoAnimation*>(animation)));
-    const int ate = _minoAnimationsToEnable.indexOf(static_cast<MinoAnimation*>(animation));
+    _animationGroups.removeAt(_animationGroups.indexOf(static_cast<MinoAnimationGroup*>(group)));
+    const int ate = _animationGroupsToEnable.indexOf(static_cast<MinoAnimationGroup*>(group));
     if (ate != -1)
     {
-        _minoAnimationsToEnable.removeAt(ate);
+        _animationGroupsToEnable.removeAt(ate);
     }
-    const int atd = _minoAnimationsToDisable.indexOf(static_cast<MinoAnimation*>(animation));
+    const int atd = _animationGroupsToDisable.indexOf(static_cast<MinoAnimationGroup*>(group));
     if (atd != -1)
     {
-        _minoAnimationsToDisable.removeAt(atd);
+        _animationGroupsToDisable.removeAt(atd);
     }
 }
 
@@ -169,15 +121,15 @@ Minotor *MinoProgram::minotor()
      return static_cast<Minotor*>(parent());
 }
 
-void MinoProgram::registerAnimationEnableChange(MinoAnimation *animation, const bool on)
+void MinoProgram::registerAnimationGroupEnableChange(MinoAnimationGroup *group, const bool on)
 {
     if(on)
     {
-        _minoAnimationsToEnable.append(animation);
+        _animationGroupsToEnable.append(group);
     }
     else
     {
-        _minoAnimationsToDisable.append(animation);
+        _animationGroupsToDisable.append(group);
     }
 }
 
@@ -188,4 +140,9 @@ void MinoProgram::setOnAir(bool on)
         _onAir = on;
         emit onAir(on);
     }
+}
+
+void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
+{
+    _animationGroups.append(group);
 }

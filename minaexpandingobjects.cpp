@@ -4,8 +4,8 @@
 
 #include <QDebug>
 
-MinaExpandingObjects::MinaExpandingObjects(MinoProgram *program):
-    MinoAnimation(program)
+MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
+    MinoAnimation(group)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));

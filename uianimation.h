@@ -23,7 +23,6 @@ private:
     QCheckBox *_cbEnable;
     MinoAnimation *_animation;
 signals:
-    void customContextMenuRequested(const QPoint &pos);
 
 public slots:
     void enable(const bool on);

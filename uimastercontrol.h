@@ -18,7 +18,7 @@ public:
 protected:
     QWidget *_wContent;
 
-    void addAnimation(MinoAnimation *animation);
+    void addAnimationGroup(MinoAnimationGroup *group);
 signals:
     
 public slots:

@@ -3,8 +3,8 @@
 #include <QColor>
 #include <QDebug>
 
-MinaFlash::MinaFlash(MinoProgram *program):
-    MinoAnimation(program),
+MinaFlash::MinaFlash(MinoAnimationGroup *group):
+    MinoAnimation(group),
     _rectItem(NULL)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));

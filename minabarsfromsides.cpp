@@ -2,8 +2,8 @@
 #include <QColor>
 #include <QDebug>
 
-MinaBarsFromSides::MinaBarsFromSides(MinoProgram *program) :
-    MinoAnimation(program)
+MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
+    MinoAnimation(group)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));

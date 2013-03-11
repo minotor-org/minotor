@@ -5,7 +5,7 @@
 class MinaStars : public MinoAnimation
 {
 public:
-    explicit MinaStars(MinoProgram *program);
+    explicit MinaStars(MinoAnimationGroup *group);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

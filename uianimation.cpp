@@ -12,7 +12,9 @@
 #include <QDebug>
 
 #include "uianimationproperty.h"
+
 #include "minoprogram.h"
+#include "minoanimationgroup.h"
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent),
@@ -139,18 +141,22 @@ void UiAnimation::setExpanded(bool expanded)
 
 void UiAnimation::mousePressEvent(QMouseEvent *event)
 {
-        QPixmap pixmap;
-        pixmap = QPixmap::grabWidget(this);
+    QPixmap pixmap;
+    pixmap = QPixmap::grabWidget(this);
 
-        QByteArray itemData;
-        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
 
-        int id = _animation->program()->animations().indexOf(_animation);
+    int groupId = _animation->program()->animationGroups().indexOf(_animation->group());
+    if(groupId!=-1)
+    {
+        int animationId = _animation->program()->animationGroups().at(groupId)->animations().indexOf(_animation);
         dataStream
                 << QString("UiAnimation")
                 << QPoint(event->pos() - this->pos())
                 << _animation->program()->id()
-                << id;
+                << groupId
+                << animationId;
 
         QMimeData *mimeData = new QMimeData;
         mimeData->setData("application/x-dndanimation", itemData);
@@ -174,4 +180,5 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
             this->style()->unpolish(this);
             this->style()->polish(this);
         }
+    }
 }
