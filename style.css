@@ -469,6 +469,10 @@ UiAnimation[active=true] {
     background-color:#e75f00;
 }
 
+UiAnimation[dragged=true] {
+    background-color:#e0e0e0;
+}
+
 UiAnimationPicker#scrollcontent {
     background-color:#454545;
 }

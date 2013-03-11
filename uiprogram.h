@@ -20,7 +20,6 @@ signals:
 
 public slots:
     void setExpanded(bool expanded);
-
 private slots:
     void updateOnAirStatus(bool onAir);
     void requestMasterProgramChange(bool on);

@@ -6,8 +6,8 @@
 
 #include <QFrame>
 #include <QScrollArea>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QLayout>
+#include <QStyle>
 
 #include <QDebug>
 
@@ -46,7 +46,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     sa->setWidgetResizable(true);
 
-    QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
+    _lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch();
 
     foreach (MinoAnimation *animation, _program->animations())
@@ -63,7 +63,7 @@ void UiProgramEditor::addAnimation(MinoAnimation *animation)
     uiAnimation->setExpanded(_expanded);
     connect(uiAnimation, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
 
-    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimation);
+    _lContent->insertWidget(_lContent->count()-1, uiAnimation);
 }
 
 UiProgramEditor::~UiProgramEditor()
@@ -80,6 +80,23 @@ void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)
          } else {
              event->acceptProposedAction();
          }
+     } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
+         qDebug() << "dragEnterEvent" << event->source()->metaObject()->className() << event->source()->objectName();
+         QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
+         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+         QString className;
+         QPoint offset;
+         int srcId;
+         int programId;
+         dataStream
+                 >> className
+                 >> offset
+                 >> programId
+                 >> srcId;
+         qDebug() << "dragEnterEvent" << className << srcId << "(program id:" << programId << ")";
+
+         event->accept();
      } else {
          event->ignore();
      }
@@ -93,6 +110,28 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
             event->accept();
         } else {
             event->acceptProposedAction();
+        }
+    } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
+        qDebug() << "dragMoveEvent" << event->source()->metaObject()->className() << event->source()->objectName();
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QString className;
+        QPoint offset;
+        int srcId;
+        int programId;
+        dataStream
+                >> className
+                >> offset
+                >> programId
+                >> srcId;
+        qDebug() << "dragMoveEvent" << className << srcId << "(program id:" << programId << ")";
+        if (programId == _program->id()) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            //event->acceptProposedAction();
+            event->ignore();
         }
     } else {
         event->ignore();
@@ -109,9 +148,6 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> className >> offset;
 
-        qDebug() << "UiChannelEditor::dropEvent"
-                 << "x-dndanimationdescrition" << className;
-
         MinoAnimation *animation = _program->addAnimation(className);
 
         if(animation)
@@ -125,10 +161,62 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         } else {
             event->acceptProposedAction();
         }
+    } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QString className;
+        QPoint offset;
+        int srcId;
+        int programId;
+        dataStream
+                >> className
+                >> offset
+                >> programId
+                >> srcId;
+
+        QList<UiAnimation*> children= _wContent->findChildren<UiAnimation*>();
+        for (int i=0;i<children.count();i++)
+        {
+            if(children.at(i)->geometry().contains(event->pos()))
+            {
+                const int destId = _program->animations().indexOf(children.at(i)->animation());
+                qDebug() << "UiProgramEditor::dropEvent"
+                         << "x-dndanimation" << className << offset << srcId << destId;
+
+                if (destId != -1)
+                {
+                    _program->moveAnimation(srcId, destId);
+                    qDebug() << "plop";
+                    QLayoutItem *li = _lContent->takeAt(srcId);
+
+                    qDebug() << "plop li";
+                    if(li->widget())
+                    {
+                        UiAnimation *uiAnimation = dynamic_cast<UiAnimation*>(li->widget());
+                        if(uiAnimation)
+                        {
+                            qDebug() << "plop uiA";
+                            _lContent->insertWidget(destId, uiAnimation);
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+
     } else {
         event->ignore();
     }
 }
+
 void UiProgramEditor::setExpanded(bool expanded)
 {
     _expanded = expanded;
@@ -138,3 +226,4 @@ void UiProgramEditor::setExpanded(bool expanded)
         animation->setExpanded(expanded);
     }
 }
+

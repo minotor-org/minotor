@@ -60,6 +60,7 @@ void MinoProgram::addAnimation(MinoAnimation *animation)
     animation->graphicItem()->setParentItem(&_itemGroup);
     animation->graphicItem()->setGroup(&_itemGroup);
     animation->graphicItem()->setPos(0,0);
+    animation->graphicItem()->setZValue(_minoAnimations.count()-1);
     animation->setEnabled(false);
 
     // Lets others know something is changed
@@ -74,6 +75,22 @@ MinoAnimation* MinoProgram::addAnimation(const QString animationClassName)
         addAnimation(animation);
     }
     return animation;
+}
+
+void MinoProgram::moveAnimation(int oldIndex, int newIndex)
+{
+    _minoAnimations.move(oldIndex, newIndex);
+    for (int z=0;z<_minoAnimations.count();z++)
+    {
+        _minoAnimations.at(z)->graphicItem()->setZValue(z);
+    }
+    // Lets others know something is changed
+    emit updated();
+}
+
+void MinoProgram::setUpdated()
+{
+    emit updated();
 }
 
 void MinoProgram::setDrawingPos(const QPointF pos)

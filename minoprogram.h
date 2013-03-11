@@ -27,6 +27,7 @@ public:
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);
     MinoAnimation* addAnimation(const QString animationClassName);
+    void moveAnimation(int oldIndex, int newIndex);
     void registerAnimationEnableChange(MinoAnimation *animation, const bool on);
 
     // Accessors
@@ -99,7 +100,7 @@ signals:
 
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
-
+    void setUpdated();
 private slots:
     void destroyAnimation(QObject *animation);
 

@@ -6,13 +6,17 @@
 #include <QMenu>
 #include <QCheckBox>
 #include <QToolButton>
+#include <QMouseEvent>
+#include <QPainter>
 
 #include <QDebug>
 
 #include "uianimationproperty.h"
+#include "minoprogram.h"
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
-    QGroupBox(parent)
+    QGroupBox(parent),
+    _animation(animation)
 {
     this->setMinimumWidth(100);
     this->setMaximumWidth(100);
@@ -123,7 +127,6 @@ void UiAnimation::enable(const bool on)
 {
     _cbEnable->setChecked(on);
     this->setProperty("active", on);
-
     this->style()->unpolish(this);
     this->style()->polish(this);
 }
@@ -132,4 +135,43 @@ void UiAnimation::setExpanded(bool expanded)
 {
     _wEnable->setVisible(expanded);
     _wProperties->setVisible(expanded);
+}
+
+void UiAnimation::mousePressEvent(QMouseEvent *event)
+{
+        QPixmap pixmap;
+        pixmap = QPixmap::grabWidget(this);
+
+        QByteArray itemData;
+        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+
+        int id = _animation->program()->animations().indexOf(_animation);
+        dataStream
+                << QString("UiAnimation")
+                << QPoint(event->pos() - this->pos())
+                << _animation->program()->id()
+                << id;
+
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setData("application/x-dndanimation", itemData);
+
+        QDrag *drag = new QDrag(this);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(pixmap);
+        drag->setHotSpot(event->pos());
+
+        this->setEnabled(false);
+        this->setProperty("dragged", true);
+        this->style()->unpolish(this);
+        this->style()->polish(this);
+
+        if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
+            this->close();
+        else {
+            this->show();
+            this->setEnabled(true);
+            this->setProperty("dragged", false);
+            this->style()->unpolish(this);
+            this->style()->polish(this);
+        }
 }

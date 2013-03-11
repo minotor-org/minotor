@@ -2,6 +2,7 @@
 #define UICHANNELEDITOR_H
 
 #include <QWidget>
+#include <QLayout>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -21,6 +22,7 @@ protected:
     void dropEvent(QDropEvent *event);
 
     QWidget *_wContent;
+    QBoxLayout *_lContent;
 
     void addAnimation(MinoAnimation *animation);
 signals:

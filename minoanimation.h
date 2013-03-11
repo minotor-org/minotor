@@ -52,6 +52,7 @@ public:
     QPointF qrandPointF();
 
     bool enabled() const { return _enabled; }
+    MinoProgram* program() const { return _program; }
 
 public slots:
     void setEnabled(const bool enabled);

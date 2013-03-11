@@ -13,6 +13,7 @@ class UiAnimation : public QGroupBox
 public:
     explicit UiAnimation(MinoAnimation *animation, QWidget *parent);
     void setExpanded(bool expanded);
+    MinoAnimation *animation() { return _animation; }
 protected:
     QLabel *_tAnimation;
 
@@ -20,11 +21,15 @@ private:
     QWidget *_wProperties;
     QWidget *_wEnable;
     QCheckBox *_cbEnable;
+    MinoAnimation *_animation;
 signals:
     void customContextMenuRequested(const QPoint &pos);
 
 public slots:
     void enable(const bool on);
+
+protected slots:
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // UIANIMATION_H

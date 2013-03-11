@@ -13,6 +13,7 @@
 #include "uiprogramview.h"
 #include "uiprogrameditor.h"
 #include "uimidiproperty.h"
+#include "uianimation.h"
 
 UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
