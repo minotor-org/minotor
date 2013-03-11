@@ -16,14 +16,14 @@ class MinoAnimationGroup : public QObject
 
 public:
     explicit MinoAnimationGroup(MinoProgram *parent);
-/*
+
     ~MinoAnimationGroup() {
-        foreach (MinoAnimation *animation, _minoAnimations)
+        foreach (MinoAnimation *animation, _animations)
         {
             delete(animation);
         }
     }
-*/
+
     // Accessors
     QPixmap screenshot() const { return _screenshot; }
     MinoAnimationList animations() const { return _animations; }

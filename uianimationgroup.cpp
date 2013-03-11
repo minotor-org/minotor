@@ -66,7 +66,8 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
         addAnimation(animation);
     }
     enable(group->enabled());
-    connect(group,SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
+    connect(group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
+    connect(group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation)
