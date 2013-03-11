@@ -78,17 +78,17 @@ void UiAnimationGroup::addAnimation(MinoAnimation *animation)
     _lContent->insertWidget(_lContent->count(), uiAnimation);
 }
 
-void UiAnimationGroup::moveAnimation(UiAnimation *animation, int destId)
+void UiAnimationGroup::insertAnimation(UiAnimation *animation, int destId)
 {
     _lContent->insertWidget(destId, animation);
 }
 
 void UiAnimationGroup::moveAnimation(int srcId, int destId)
 {
-    UiAnimation *animation = this->animationAt(srcId);
+    UiAnimation *animation = this->takeAt(srcId);
     if(animation)
     {
-        moveAnimation(animation, destId);
+        insertAnimation(animation, destId);
     }
 }
 
@@ -107,10 +107,9 @@ void UiAnimationGroup::enable(const bool on)
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
-    //qDebug() <<
 }
 
-UiAnimation* UiAnimationGroup::animationAt(int index)
+UiAnimation* UiAnimationGroup::takeAt(int index)
 {
     QLayoutItem *li = _lContent->takeAt(index);
     if(li->widget())

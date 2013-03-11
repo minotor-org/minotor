@@ -50,6 +50,12 @@ QPointF MinoAnimation::qrandPointF()
     return QPointF(qrandF()*_boundingRect.width(), qrandF()*_boundingRect.height());
 }
 
+void MinoAnimation::setGroup(MinoAnimationGroup *group)
+{
+     _group = group;
+     _program = _group->program();
+}
+
 void MinoAnimation::setEnabled(const bool on)
 {
     if(on != _enabled)

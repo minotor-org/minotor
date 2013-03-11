@@ -42,6 +42,7 @@ public:
 
     // Animation Group
     void addAnimationGroup(MinoAnimationGroup *group);
+    void moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId);
 
     Minotor *minotor();
 
@@ -85,7 +86,6 @@ protected:
     QGraphicsItemGroup _itemGroup;
 
 signals:
-    void customContextMenuRequested(const QPoint &pos);
 
     // Signal emitted when animate() is done
     void animated();

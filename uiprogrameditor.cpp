@@ -172,7 +172,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
 
         QString className;
         QPoint offset;
-        int srcId;
+        int srcAnimationId;
         int srcProgramId;
         int srcGroupId;
         dataStream
@@ -180,9 +180,14 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                 >> offset
                 >> srcProgramId
                 >> srcGroupId
-                >> srcId;
+                >> srcAnimationId;
 
 
+        qDebug() << "UiProgramEditor>"
+                 << " className:" << className
+                 << " srcProgramId:" << srcProgramId
+                 << " srcGroupId:" << srcGroupId
+                 << " srcAnimationId:" << srcAnimationId;
         QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
 
         for (int i=0;i<uiGroups.count();i++)
@@ -190,28 +195,20 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
             UiAnimationGroup *uiGroup = uiGroups.at(i);
             if (uiGroup->geometry().contains(event->pos()))
             {
-                const int destGroupId = _program->animationGroups().indexOf(uiGroup->group());
-                if (destGroupId == srcGroupId)
+                QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
+                for (int j=0; j<uiAnimations.count(); j++)
                 {
-                    QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
-                    for (int j=0;j<uiAnimations.count();j++)
+                    QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
+                    if(uiAnimations.at(j)->rect().contains(pa))
                     {
-                        QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
-                        if(uiAnimations.at(j)->rect().contains(pa))
+                        const int destAnimationId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
+                        if (destAnimationId != -1)
                         {
-                            const int destId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
-                            if (destId != -1)
-                            {
-                                uiGroup->group()->moveAnimation(srcId, destId);
-                                uiGroup->moveAnimation(destId,srcId);
-                            }
-                            break;
-                        } else {
-                            qDebug() << "not matched..";
+                            moveAnimation(srcGroupId, srcAnimationId, uiGroup, destAnimationId);
                         }
                     }
-                    break;
                 }
+                break;
             }
         }
 
@@ -237,3 +234,75 @@ void UiProgramEditor::setExpanded(bool expanded)
     }
 }
 
+UiAnimationGroup* UiProgramEditor::findUiAnimationGroup(int groupId)
+{
+    UiAnimationGroup *uiAnimationGroup = NULL;
+
+    qDebug() << "UiProgramEditor::findUiAnimationGroup(" << groupId << ")";
+    QList<UiAnimationGroup*> uiAnimationGroups = this->findChildren<UiAnimationGroup*>();
+
+    for (int j=0; j<uiAnimationGroups.count(); j++)
+    {
+        int currentGroupId = _program->animationGroups().indexOf(uiAnimationGroups.at(j)->group());
+        if(currentGroupId == groupId)
+        {
+            uiAnimationGroup = uiAnimationGroups.at(j);
+            break;
+        }
+    }
+    qDebug() << "found:" << uiAnimationGroup;
+    return uiAnimationGroup;
+}
+
+UiAnimation* UiProgramEditor::takeAnimationAt(int groupId, int animationId)
+{
+    UiAnimation *ret = NULL;
+    UiAnimationGroup *uiAnimationGroup = findUiAnimationGroup(groupId);
+
+    if(uiAnimationGroup)
+    {
+        QList<UiAnimation*> uiAnimations = uiAnimationGroup->findChildren<UiAnimation*>();
+        qDebug() << "group have" << uiAnimations.count() << "items";
+        for (int j=0; j<uiAnimations.count(); j++)
+        {
+            qDebug() << "animations:" << uiAnimations.at(j)->animation()->group()->animations();
+            const int aId = uiAnimations.at(j)->animation()->group()->animations().indexOf(uiAnimations.at(j)->animation());
+            qDebug() << "current id:" << aId << "animation id" << animationId;
+            if(aId == animationId)
+            {
+                ret = uiAnimationGroup->takeAt(aId);
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+void UiProgramEditor::insertAnimation(UiAnimation *uiAnimation, int destGroupId, int destAnimationId)
+{
+    UiAnimationGroup *destGroup = findUiAnimationGroup(destGroupId);
+    if(destGroup)
+    {
+        destGroup->insertAnimation(uiAnimation, destAnimationId);
+    }
+}
+
+void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId)
+{
+    const int destGroupId = _program->animationGroups().indexOf(destGroup->group());
+    qDebug() << "UiProgramEditor>"
+             << " srcGroupId:" << srcGroupId
+             << " srcAnimationId:" << srcAnimationId
+             << " destGroupId:" << destGroupId
+             << " destAnimationId:" << destAnimationId;
+
+    if (destGroupId == srcGroupId)
+    {
+        destGroup->moveAnimation(srcAnimationId, destAnimationId);
+    } else {
+        UiAnimation *uiAnimation = takeAnimationAt(srcGroupId, srcAnimationId);
+        qDebug() << "uiAnimation: " << uiAnimation;
+        insertAnimation(uiAnimation, destGroupId, destAnimationId);
+    }
+    _program->moveAnimation(_program->animationGroups().at(srcGroupId), srcAnimationId, destGroup->group(), destAnimationId);
+}

@@ -9,6 +9,7 @@
 
 #include "minoprogram.h"
 #include "minoanimationgroup.h"
+#include "uianimationgroup.h"
 
 class UiProgramEditor : public QWidget
 {
@@ -16,6 +17,9 @@ class UiProgramEditor : public QWidget
 public:
     explicit UiProgramEditor(MinoProgram *program, QWidget *parent);
     ~UiProgramEditor();
+    UiAnimation* takeAnimationAt(int groupId, int animationId);
+    UiAnimationGroup* findUiAnimationGroup(int groupId);
+    void insertAnimation(UiAnimation *uiAnimation, int destGroupId, int destAnimationId);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -26,6 +30,7 @@ protected:
     QBoxLayout *_lContent;
 
     void addAnimationGroup(MinoAnimationGroup *group);
+    void moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId);
 signals:
 
 public slots:

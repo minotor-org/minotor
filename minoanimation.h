@@ -56,6 +56,7 @@ public:
     bool enabled() const { return _enabled; }
     MinoProgram* program() const { return _program; }
     MinoAnimationGroup* group() const { return _group; }
+    void setGroup(MinoAnimationGroup *group);
 
 public slots:
     void setEnabled(const bool enabled);

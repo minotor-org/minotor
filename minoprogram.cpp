@@ -145,5 +145,24 @@ void MinoProgram::setOnAir(bool on)
 void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
 {
     _animationGroups.append(group);
+    _itemGroup.addToGroup(group->itemGroup());
+    group->itemGroup()->setParentItem(&_itemGroup);
+    group->itemGroup()->setGroup(&_itemGroup);
+    group->itemGroup()->setPos(0,0);
     connect(group, SIGNAL(updated()), this, SIGNAL(updated()));
+}
+
+void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId)
+{
+    if(srcGroup==destGroup)
+    {
+        if(srcAnimationId!=destAnimationId)
+            srcGroup->moveAnimation(srcAnimationId, destAnimationId);
+    } else {
+        MinoAnimation *animation = srcGroup->takeAnimationAt(srcAnimationId);
+        qDebug() << "MinoProgram> animation(" << srcAnimationId << "):" << animation;
+        destGroup->insertAnimation(animation, destAnimationId);
+        animation->setGroup(destGroup);
+        qDebug() << "MinoProgram> animation inserted";
+    }
 }

@@ -132,8 +132,9 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
         this->style()->polish(this);
 
         if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
+        {
             this->close();
-        else {
+        } else {
             this->show();
             this->setEnabled(true);
             this->setProperty("dragged", false);

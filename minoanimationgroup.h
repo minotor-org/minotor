@@ -35,6 +35,8 @@ public:
     void addAnimation(MinoAnimation *animation);
     MinoAnimation* addAnimation(const QString animationClassName);
     void moveAnimation(int oldIndex, int newIndex);
+    MinoAnimation* takeAnimationAt(int index);
+    void insertAnimation(MinoAnimation *animation, int index);
 
 private:
     QPixmap _screenshot;

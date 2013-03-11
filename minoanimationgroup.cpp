@@ -45,6 +45,32 @@ MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName
     return animation;
 }
 
+void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
+{
+    // Add animation to program's list
+    _animations.insert(index, animation);
+
+    // Will remove animation from list when destroyed
+    connect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
+
+    // Add to program QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
+    _itemGroup.addToGroup(animation->graphicItem());
+
+    // Re-parent animation to our itemGroup
+    animation->graphicItem()->setParentItem(&_itemGroup);
+    animation->graphicItem()->setGroup(&_itemGroup);
+    animation->graphicItem()->setPos(0,0);
+
+    // Reorder Z values
+    for(int z; z<_animations.count(); z++)
+    {
+        _animations.at(z)->graphicItem()->setZValue(z);
+    }
+    animation->setGroup(this);
+
+    emit updated();
+}
+
 void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
 {
     _animations.move(oldIndex, newIndex);
@@ -54,6 +80,13 @@ void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
     }
     // Lets others know something is changed
     emit updated();
+}
+
+MinoAnimation* MinoAnimationGroup::takeAnimationAt(int index)
+{
+    MinoAnimation *animation = _animations.takeAt(index);
+    disconnect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
+    return animation;
 }
 
 void MinoAnimationGroup::setDelayedEnabled(const bool on)
