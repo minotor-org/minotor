@@ -7,6 +7,7 @@
 
 #include "minoanimationgroup.h"
 #include "minoanimation.h"
+#include "uianimation.h"
 
 class UiAnimationGroup : public QGroupBox
 {
@@ -15,7 +16,9 @@ public:
     explicit UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent);
     void setExpanded(bool on);
     void addAnimation(MinoAnimation *animation);
-
+    UiAnimation *animationAt(int index);
+    void moveAnimation(int srcId, int destId);
+    void moveAnimation(UiAnimation *animation, int destId);
     // Accessors
     MinoAnimationGroup* group() const { return _group; }
 

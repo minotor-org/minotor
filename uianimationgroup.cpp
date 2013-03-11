@@ -65,7 +65,8 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     {
         addAnimation(animation);
     }
-    enable(group->enabled());
+    this->enable(group->enabled());
+    this->setExpanded(true);
     connect(group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
@@ -74,8 +75,21 @@ void UiAnimationGroup::addAnimation(MinoAnimation *animation)
 {
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
     uiAnimation->setExpanded(_expanded);
+    _lContent->insertWidget(_lContent->count(), uiAnimation);
+}
 
-    _lContent->insertWidget(_lContent->count()-1, uiAnimation);
+void UiAnimationGroup::moveAnimation(UiAnimation *animation, int destId)
+{
+    _lContent->insertWidget(destId, animation);
+}
+
+void UiAnimationGroup::moveAnimation(int srcId, int destId)
+{
+    UiAnimation *animation = this->animationAt(srcId);
+    if(animation)
+    {
+        moveAnimation(animation, destId);
+    }
 }
 
 void UiAnimationGroup::setExpanded(bool on)
@@ -95,3 +109,18 @@ void UiAnimationGroup::enable(const bool on)
     this->style()->polish(this);
     //qDebug() <<
 }
+
+UiAnimation* UiAnimationGroup::animationAt(int index)
+{
+    QLayoutItem *li = _lContent->takeAt(index);
+    if(li->widget())
+    {
+        return dynamic_cast<UiAnimation*>(li->widget());
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+

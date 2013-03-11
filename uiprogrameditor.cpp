@@ -119,14 +119,16 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
         QString className;
         QPoint offset;
         int srcId;
-        int programId;
+        int srcProgramId;
+        int srcGroupId;
+
         dataStream
                 >> className
                 >> offset
-                >> programId
+                >> srcProgramId
+                >> srcGroupId
                 >> srcId;
-        qDebug() << "dragMoveEvent" << className << srcId << "(program id:" << programId << ")";
-        if (programId == _program->id()) {
+        if (srcProgramId == _program->id()) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
@@ -194,31 +196,21 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                     QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
                     for (int j=0;j<uiAnimations.count();j++)
                     {
-                        if(uiAnimations.at(j)->geometry().contains(event->pos()))
+                        QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
+                        if(uiAnimations.at(j)->rect().contains(pa))
                         {
                             const int destId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
-
                             if (destId != -1)
                             {
                                 uiGroup->group()->moveAnimation(srcId, destId);
-                                qDebug() << "plop";
-                                QLayoutItem *li = _lContent->takeAt(srcId);
-
-                                qDebug() << "plop li";
-                                if(li->widget())
-                                {
-                                    UiAnimation *uiAnimation = dynamic_cast<UiAnimation*>(li->widget());
-                                    if(uiAnimation)
-                                    {
-                                        qDebug() << "plop uiA";
-                                        _lContent->insertWidget(destId, uiAnimation);
-                                    }
-                                }
+                                uiGroup->moveAnimation(destId,srcId);
                             }
                             break;
+                        } else {
+                            qDebug() << "not matched..";
                         }
                     }
-
+                    break;
                 }
             }
         }

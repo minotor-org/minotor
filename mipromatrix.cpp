@@ -17,12 +17,11 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
     MinaFlash *af = new MinaFlash(afg);
     af->setColorH(0.4);
     afg->addAnimation(af);
-    this->addAnimationGroup(afg);
     MinaRandomPixels *arp = new MinaRandomPixels(afg);
     arp->setColorH(0.4);
     arp->setDensity(0.4);
     afg->addAnimation(arp);
-
+    this->addAnimationGroup(afg);
 
     MinoAnimationGroup *asg = new MinoAnimationGroup(this);
     MinaStars *as = new MinaStars(asg);

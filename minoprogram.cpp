@@ -145,4 +145,5 @@ void MinoProgram::setOnAir(bool on)
 void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
 {
     _animationGroups.append(group);
+    connect(group, SIGNAL(updated()), this, SIGNAL(updated()));
 }

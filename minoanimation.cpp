@@ -6,7 +6,8 @@
 
 MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     QObject(group),
-    _enabled(true)
+    _enabled(true),
+    _group(group)
 {
     _program = group->program();
     _scene = _program->minotor()->scene();
