@@ -19,13 +19,10 @@ protected:
 
 private:
     QWidget *_wProperties;
-    QWidget *_wEnable;
-    QCheckBox *_cbEnable;
     MinoAnimation *_animation;
 signals:
 
 public slots:
-    void enable(const bool on);
 
 protected slots:
     void mousePressEvent(QMouseEvent *event);

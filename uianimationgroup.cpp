@@ -12,9 +12,19 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     lGroupBox->setMargin(0);
     lGroupBox->setContentsMargins(1,1,1,1);
 
+    QWidget *wBorder = new QWidget(this);
+    wBorder->setObjectName("group");
+    lGroupBox->addWidget(wBorder);
+    QVBoxLayout *lBorder = new QVBoxLayout(wBorder);
+    lBorder->setSpacing(0);
+    lBorder->setMargin(0);
+    lBorder->setContentsMargins(1,1,1,1);
+
+
     //Checkboxes
-    _wEnable = new QWidget(this);
-    lGroupBox->addWidget(_wEnable);
+    _wEnable = new QWidget(wBorder);
+    _wEnable->setObjectName("content");
+    lBorder->addWidget(_wEnable);
     QVBoxLayout *lEnable = new QVBoxLayout(_wEnable);
     lEnable->setSpacing(5);
     lEnable->setMargin(0);
@@ -43,9 +53,9 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     lEnable->addStretch();
 
 
-    _wContent = new QWidget(this);
-    _wContent->setObjectName("group");
-    lGroupBox->addWidget(_wContent);
+    _wContent = new QWidget(wBorder);
+    _wContent->setObjectName("content");
+    lBorder->addWidget(_wContent);
     _lContent = new QHBoxLayout(_wContent);
     _lContent->setSpacing(5);
     _lContent->setMargin(0);
@@ -55,6 +65,8 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     {
         addAnimation(animation);
     }
+    enable(group->enabled());
+    connect(group,SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation)
@@ -76,9 +88,9 @@ void UiAnimationGroup::setExpanded(bool on)
 
 void UiAnimationGroup::enable(const bool on)
 {
-    //_cbEnable->setChecked(on);
+    _cbEnable->setChecked(on);
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
+    //qDebug() <<
 }
-

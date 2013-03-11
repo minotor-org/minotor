@@ -5,7 +5,8 @@
 
 MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
     QObject(parent),
-    _program(parent)
+    _program(parent),
+    _enabled(false)
 {
 }
 

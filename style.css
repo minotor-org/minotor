@@ -471,12 +471,12 @@ QWidget#led[active=false] {
     background:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0.2 #505050,stop: 0.5 #3a3a3a,stop: 1 #151515);
 }
 
-UiAnimation[active=true] {
-    background-color:#e75f00;
-}
-
 UiAnimation[dragged=true] {
     background-color:#e0e0e0;
+}
+
+UiAnimationGroup[active=true] {
+    background-color:#e75f00;
 }
 
 UiAnimationPicker#scrollcontent {

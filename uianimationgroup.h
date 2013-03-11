@@ -14,7 +14,6 @@ class UiAnimationGroup : public QGroupBox
 public:
     explicit UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent);
     void setExpanded(bool on);
-    void enable(bool on);
     void addAnimation(MinoAnimation *animation);
 
     // Accessors
@@ -30,6 +29,7 @@ private:
 signals:
     
 public slots:
+    void enable(bool on);
     
 };
 
