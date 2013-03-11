@@ -31,9 +31,9 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     _master = new MinoMaster(this);
-    _master->setProgram(new MiproBnzIchRU(this));
+    _master->setProgram(new MiproMatrix(this));
+    new MiproBnzIchRU(this);
     new MiproWaves(this);
-    new MiproMatrix(this);
     // MIDI interfaces
     Midi *midi = new Midi(this);
     _midiInterfaces.append(midi);
