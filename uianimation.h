@@ -21,11 +21,14 @@ private:
     QWidget *_wProperties;
     MinoAnimation *_animation;
 signals:
+    void animationMoved(int programId, int groupId);
 
 public slots:
 
 protected slots:
     void mousePressEvent(QMouseEvent *event);
+
+    void changeAnimationGroup(int programId, int groupId);
 };
 
 #endif // UIANIMATION_H

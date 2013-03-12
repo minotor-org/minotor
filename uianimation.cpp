@@ -90,7 +90,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lProperties->addStretch();
     lContent->addStretch();
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-
+    connect(animation, SIGNAL(groupChanged(int,int)), this, SLOT(changeAnimationGroup(int,int)));
 }
 
 void UiAnimation::setExpanded(bool expanded)
@@ -141,4 +141,11 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
             this->style()->polish(this);
         }
     }
+}
+
+void UiAnimation::changeAnimationGroup(int programId, int groupId)
+{
+    qDebug() << "UiAnimation::changeAnimationGroup(" << programId << "," << groupId << ")"
+             << "sender" << sender();
+    emit animationMoved(programId, groupId);
 }
