@@ -99,6 +99,7 @@ void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
 MinoAnimation* MinoAnimationGroup::takeAnimationAt(int index)
 {
     MinoAnimation *animation = _animations.takeAt(index);
+    animation->setGroup(NULL);
     disconnect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
     return animation;
 }

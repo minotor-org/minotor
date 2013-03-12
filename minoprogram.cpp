@@ -162,7 +162,6 @@ void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId
         MinoAnimation *animation = srcGroup->takeAnimationAt(srcAnimationId);
         qDebug() << "MinoProgram> animation(" << srcAnimationId << "):" << animation;
         destGroup->insertAnimation(animation, destAnimationId);
-        animation->setGroup(destGroup);
         qDebug() << "MinoProgram> animation inserted";
     }
 }
