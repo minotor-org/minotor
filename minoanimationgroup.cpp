@@ -1,5 +1,7 @@
 #include "minoanimationgroup.h"
 
+#include <QDebug>
+
 #include "minoprogram.h"
 #include "minoanimationfactory.h"
 
@@ -33,6 +35,17 @@ void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
 
     // Lets others know something is changed
     emit updated();
+}
+
+MinoAnimationGroup::~MinoAnimationGroup()
+{
+    qDebug() << "~MinoAnimationGroup>"
+                << "animations count:" << _animations.count();
+
+    foreach (MinoAnimation *animation, _animations)
+    {
+        delete(animation);
+    }
 }
 
 MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName)
