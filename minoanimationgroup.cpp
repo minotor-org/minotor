@@ -101,6 +101,10 @@ MinoAnimation* MinoAnimationGroup::takeAnimationAt(int index)
     MinoAnimation *animation = _animations.takeAt(index);
     animation->setGroup(NULL);
     disconnect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
+    if (_animations.count() == 0)
+    {
+        this->deleteLater();
+    }
     return animation;
 }
 
