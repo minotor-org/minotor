@@ -194,7 +194,15 @@ MainWindow::MainWindow(QWidget *parent) :
     lMidiNote->addWidget(tNoteLed);
     tNoteLed->setText("midi note");
 
-
+    // Viewmode
+    QPushButton *pbViewmode = new QPushButton(wBackground);
+    lBackground->addWidget(pbViewmode);
+    //pbViewmode->setIcon(QIcon(":/pictos/fullscreen.png"));
+    pbViewmode->setIconSize(QSize(20,20));
+    pbViewmode->setMinimumSize(28,28);
+    pbViewmode->setMaximumSize(28,28);
+    pbViewmode->setCheckable(true);
+    connect(pbViewmode,SIGNAL(toggled(bool)),this,SLOT(tbViewmodeToggled(bool)));
 
     // Fullscreen
     QPushButton *pbFullscreen = new QPushButton(wBackground);
@@ -218,7 +226,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _menu.addAction(_actionMidiCapture);
 
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
-    QToolBar *_tAnimationToolBar = new QToolBar("Animations",this);
+    _tAnimationToolBar = new QToolBar("Animations",this);
     this->addToolBar(Qt::BottomToolBarArea,_tAnimationToolBar);
     QWidget *_wAnimations = new QWidget(_tAnimationToolBar);
     _tAnimationToolBar->addWidget(_wAnimations);
@@ -251,6 +259,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     sa->setWidget(ap);
     lContent->addWidget(sa);
+	// Set viewmode to editor
+    tbViewmodeToggled(false);
 }
 
 MainWindow::~MainWindow()
@@ -311,6 +321,12 @@ void MainWindow::tbMidiLearnToggled(bool checked)
         midiProperty->setMidiLearnMode(checked);
         midiProperty->update();
     }
+}
+
+void MainWindow::tbViewmodeToggled(bool on)
+{
+    _uiMaster->setVisible(on);
+    _tAnimationToolBar->setVisible(!on);
 }
 
 void MainWindow::tbFullScreenToggled(bool on)

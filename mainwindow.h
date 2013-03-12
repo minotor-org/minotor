@@ -42,6 +42,7 @@ private slots:
     void on_action_MinotorWiki_triggered();
 
     void tbFullScreenToggled(bool on);
+    void tbViewmodeToggled(bool on);
 
     // Debug: PPQN slider
     void on_sPpqn_valueChanged(int value);
@@ -59,13 +60,15 @@ private:
     Ui::MainWindow *ui;
     QAction *_actionMidiCapture;
     QMenu _menu;
-    // Channels
-    UiMaster *_uiMaster;
 
-   // UiProgramEditor *_uiCueEditor;
+    // Master
+    UiMaster *_uiMaster;
     UiProgramEditor *_uiMasterEditor;
 
-    // == Configuration dialog ==
+    // Animation toolbar
+    QToolBar *_tAnimationToolBar;
+
+    // Configuration dialog
     ConfigDialog *_configDialog;
 
     // Minotor
