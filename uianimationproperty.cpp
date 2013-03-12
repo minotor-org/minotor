@@ -51,11 +51,10 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         lDial->setMargin(0);
         lDial->setContentsMargins(0,0,0,0);
         lDial->addStretch();
-        _dial->setMinimumSize(28,28);
-        _dial->setMaximumSize(28,28);
-        _dial->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        connect(_dial, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
-        lDial->addWidget(_dial);
+        _knob->setMinimumSize(28,28);
+        _knob->setMaximumSize(28,28);
+        _knob->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        lDial->addWidget(_knob);
         lDial->addStretch();
 
         QLabel *t = new QLabel(QString(property->objectName()), this);

@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     configdialog.cpp \
     midimapping.cpp \
     midicontrol.cpp \
-    uidial.cpp \
     uianimation.cpp \
     minomaster.cpp \
     uimaster.cpp \
@@ -55,7 +54,8 @@ SOURCES += main.cpp\
     minoanimationgroup.cpp \
     uianimationgroup.cpp \
     miprodebug.cpp \
-    externalmasterview.cpp
+    externalmasterview.cpp \
+    uiknob.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -65,7 +65,6 @@ HEADERS  += mainwindow.h \
     configdialog.h \
     midimapping.h \
     midicontrol.h \
-    uidial.h \
     uianimation.h \
     minomaster.h \
     uimaster.h \
@@ -101,7 +100,8 @@ HEADERS  += mainwindow.h \
     minoanimationgroup.h \
     uianimationgroup.h \
     miprodebug.h \
-    externalmasterview.h
+    externalmasterview.h \
+    uiknob.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

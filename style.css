@@ -2,6 +2,7 @@ QAbstractItemView
 {
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0.1 #646464, stop: 1 #5d5d5d);
 }
+
 QCheckBox {
     color:#9c9c9c;
     font-size:9px;
@@ -483,8 +484,16 @@ UiAnimationPicker#scrollcontent {
     background-color:#454545;
 }
 
+UiKnob {
+    qproperty-indicator_color:#e75f00;
+    qproperty-indicator_background_color:#4f4f4f;
+    qproperty-button_color:#3a3a3a;
+    qproperty-button_border_color:#101010;
+    qproperty-needle_color:#CFCFCF;
+}
+
 UiProgram[expanded=true] > QWidget > QWidget#programbackground {
-    background-color:#484848;
+    background-color:#404040;
 }
 
 UiProgram[expanded=false] > QWidget > QWidget#programbackground {
@@ -494,3 +503,4 @@ UiProgram[expanded=false] > QWidget > QWidget#programbackground {
 UiProgram[onair=true] > QWidget#panel {
     background-color:#e75f00;
 }
+

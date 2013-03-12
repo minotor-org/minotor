@@ -12,7 +12,6 @@
 #include "minotor.h"
 
 #include "uiprogramview.h"
-#include "uidial.h"
 #include "uimidiproperty.h"
 
 #include "minotor.h"

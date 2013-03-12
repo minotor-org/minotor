@@ -14,11 +14,11 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "uidial.h"
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
 #include "uianimationproperty.h"
 #include "uiprogrambank.h"
+#include "uiknob.h"
 
 #include "minoanimation.h"
 #include "minoproperty.h"
@@ -293,11 +293,11 @@ void MainWindow::midiCaptureTrigged()
     {
         QAction *action = ((QAction*)QObject::sender());
         qDebug() << "there:" << action->parent()->metaObject()->className();
-        if (QString(action->parent()->metaObject()->className()) == QString("UiDial"))
+        UiKnob * knob = dynamic_cast<UiKnob*>(action->parent());
+        if (knob)
         {
-            UiDial *dial = ((UiDial*)action->parent());
-            qDebug() << "midiCapture trigged for:" << dial->property()->objectName();
-            _minotor->midiMapping()->assignCapturedControlTo(dial->property());
+            qDebug() << "midiCapture trigged for:" << knob->property()->objectName();
+            _minotor->midiMapping()->assignCapturedControlTo(knob->property());
         }
     }
 }

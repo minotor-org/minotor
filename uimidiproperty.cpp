@@ -9,24 +9,24 @@
 UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
     _midiLearnMode(false),
-    _dial(NULL),
+    _knob(NULL),
     _property(property)
 {
     QHBoxLayout *lDial = new QHBoxLayout(this);
     lDial->setSpacing(0);
     lDial->setMargin(0);
     lDial->setContentsMargins(0,0,0,0);
-    _dial = new UiDial(property, this);
-    lDial->addWidget(_dial);
+    _knob = new UiKnob(property, this);
+    lDial->addWidget(_knob);
 }
 
 void UiMidiProperty::paintEvent(QPaintEvent *pe)
 {
     (void)pe;
-    static bool midiControlled = _dial->property()->isMidiControlled();
+    static bool midiControlled = _property->isMidiControlled();
     if(_midiLearnMode)
     {
-        if(midiControlled != _dial->property()->isMidiControlled())
+        if(midiControlled != _property->isMidiControlled())
         {
             // Tricky way to update full widget region (instead of UiDial only)
             update();
@@ -46,7 +46,7 @@ void UiMidiProperty::paintEvent(QPaintEvent *pe)
             color.setBlue(0);
         }
 
-        if (_dial->property()->isMidiControlled())
+        if (_property->isMidiControlled())
         {
             color.setBlue(255);
         }

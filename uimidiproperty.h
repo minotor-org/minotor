@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "uidial.h"
+#include "uiknob.h"
 #include "minoproperty.h"
 
 class UiMidiProperty : public QWidget
@@ -12,7 +12,6 @@ class UiMidiProperty : public QWidget
 public:
     explicit UiMidiProperty(MinoProperty *property, QWidget *parent);
     void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
-    UiDial *dial() { return _dial; }
 protected:
     void paintEvent(QPaintEvent *pe);
     void enterEvent(QEvent *event);
@@ -20,7 +19,7 @@ protected:
 
     bool _midiLearnMode;
 
-    UiDial *_dial;
+    UiKnob *_knob;
     MinoProperty *_property;
 
 
