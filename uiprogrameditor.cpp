@@ -268,10 +268,10 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
 void UiProgramEditor::setExpanded(bool expanded)
 {
     _expanded = expanded;
-    QList<UiAnimation*> animations = _wContent->findChildren<UiAnimation*>();
-    foreach(UiAnimation *animation, animations)
+    QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
+    foreach(UiAnimationGroup *uiGroup, uiGroups)
     {
-        animation->setExpanded(expanded);
+        uiGroup->setExpanded(expanded);
     }
 }
 
