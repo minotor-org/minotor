@@ -206,6 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Fullscreen
     QPushButton *pbFullscreen = new QPushButton(wBackground);
+    pbFullscreen->setShortcut(Qt::Key_Escape);
     lBackground->addWidget(pbFullscreen);
     pbFullscreen->setIcon(QIcon(":/pictos/fullscreen.png"));
     pbFullscreen->setIconSize(QSize(20,20));
