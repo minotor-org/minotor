@@ -20,6 +20,7 @@
 #include "minagradient.h"
 
 // Programs
+#include "miprodebug.h"
 #include "miprowaves.h"
 #include "miprobnzichru.h"
 #include "mipromatrix.h"
@@ -31,13 +32,14 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     _master = new MinoMaster(this);
-    _master->setProgram(new MiproMatrix(this));
+    _master->setProgram(new MiproDebug(this));
+    new MiproMatrix(this);
     new MiproBnzIchRU(this);
     new MiproWaves(this);
     // MIDI interfaces
     Midi *midi = new Midi(this);
     _midiInterfaces.append(midi);
-    connect(midi,SIGNAL(controlChanged(quint8,quint8,quint8)),this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
+    connect(midi, SIGNAL(controlChanged(quint8,quint8,quint8)), this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
     connect(midi, SIGNAL(programChanged(quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(quint8,quint8)));
     connect(midi, SIGNAL(noteChanged(quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(quint8,quint8,bool,quint8)));
 

@@ -53,7 +53,8 @@ SOURCES += main.cpp\
     minagradient.cpp \
     miprobnzichru.cpp \
     minoanimationgroup.cpp \
-    uianimationgroup.cpp
+    uianimationgroup.cpp \
+    miprodebug.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -97,7 +98,8 @@ HEADERS  += mainwindow.h \
     minagradient.h \
     miprobnzichru.h \
     minoanimationgroup.h \
-    uianimationgroup.h
+    uianimationgroup.h \
+    miprodebug.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
