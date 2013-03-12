@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     miprobnzichru.cpp \
     minoanimationgroup.cpp \
     uianimationgroup.cpp \
-    miprodebug.cpp
+    miprodebug.cpp \
+    externalmasterview.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -99,11 +100,13 @@ HEADERS  += mainwindow.h \
     miprobnzichru.h \
     minoanimationgroup.h \
     uianimationgroup.h \
-    miprodebug.h
+    miprodebug.h \
+    externalmasterview.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
-    mainwindowng.ui
+    mainwindowng.ui \
+    externalmasterview.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
 

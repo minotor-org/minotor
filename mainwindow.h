@@ -6,6 +6,7 @@
 #include <QMenu>
 
 #include "configdialog.h"
+#include "externalmasterview.h"
 #include "uiprogrameditor.h"
 #include "uimaster.h"
 
@@ -27,9 +28,6 @@ public:
     ~MainWindow();
 
 private slots:
-    // Request from widgets
-    void customContextMenuRequested(const QPoint &pos);
-
     // Action from MIDI menu
     void midiCaptureTrigged();
 
@@ -54,6 +52,8 @@ private slots:
 
     void beatToggledReceived(bool active);
 
+    void on_actionExternal_master_view_toggled(bool on);
+
 private:
     // UI
     // == Main window ==
@@ -75,6 +75,9 @@ private:
     Minotor *_minotor;
 
     QWidget *_wClockLed;
+
+    // External master view
+    ExternalMasterView *_externalMasterView;
 };
 
 #endif // MAINWINDOW_H

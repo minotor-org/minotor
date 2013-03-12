@@ -49,8 +49,15 @@
     </property>
     <addaction name="action_MinotorWiki"/>
    </widget>
+   <widget class="QMenu" name="menuOutput">
+    <property name="title">
+     <string>Output</string>
+    </property>
+    <addaction name="actionExternal_master_view"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuOutput"/>
   </widget>
   <widget class="QDockWidget" name="dwDebug">
    <property name="windowTitle">
@@ -172,6 +179,14 @@
   <action name="action_About">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionExternal_master_view">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>External master view</string>
    </property>
   </action>
  </widget>

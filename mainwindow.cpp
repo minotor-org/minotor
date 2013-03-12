@@ -42,6 +42,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // Configuration dialog box
     _configDialog = new ConfigDialog(this);
 
+    // External master view
+    _externalMasterView = new ExternalMasterView(this);
+    _externalMasterView->setVisible(false);
+
     QVBoxLayout *lCentralWidget = new QVBoxLayout(ui->centralWidget);
     lCentralWidget->setSpacing(5);
     lCentralWidget->setMargin(0);
@@ -298,13 +302,6 @@ void MainWindow::midiCaptureTrigged()
     }
 }
 
-void MainWindow::customContextMenuRequested(const QPoint &pos)
-{
-    (void)pos;
-    _actionMidiCapture->setParent(qApp->widgetAt(QCursor::pos()));
-    _menu.exec(QCursor::pos());
-}
-
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
     static unsigned int uppqn = 0;
@@ -371,4 +368,9 @@ void MainWindow::beatToggledReceived(bool active)
     _wClockLed->setProperty("active", active);
     _wClockLed->style()->unpolish(_wClockLed);
     _wClockLed->style()->polish(_wClockLed);
+}
+
+void MainWindow::on_actionExternal_master_view_toggled(bool on)
+{
+    _externalMasterView->setVisible(on);
 }
