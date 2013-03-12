@@ -10,6 +10,7 @@ MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
     _enabled(false),
     _program(parent)
 {
+    connect(this, SIGNAL(destroyed(QObject*)), parent, SLOT(destroyGroup(QObject*)));
 }
 
 void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
