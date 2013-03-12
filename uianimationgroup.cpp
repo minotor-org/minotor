@@ -84,6 +84,7 @@ UiAnimationGroup::~UiAnimationGroup()
 void UiAnimationGroup::addAnimation(MinoAnimation *animation)
 {
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
+    connect(uiAnimation, SIGNAL(animationMoved(int,int)), this, SLOT(_moveAnimation(int,int)));
     uiAnimation->setExpanded(_expanded);
     _lContent->insertWidget(_lContent->count(), uiAnimation);
 }
@@ -99,6 +100,24 @@ void UiAnimationGroup::moveAnimation(int srcId, int destId)
     if(animation)
     {
         insertAnimation(animation, destId);
+    }
+}
+
+void UiAnimationGroup::_moveAnimation(int programId, int groupId)
+{
+    qDebug() << "UiAnimationGroup>"
+             << "sender:" << sender();
+    if(programId == _group->program()->id())
+    {
+        // Same program between src and dest
+        if(groupId == _group->program()->animationGroups().indexOf(_group))
+        {
+            // and same groupid
+        }
+        else
+        {
+            qDebug() << "UiAnimationGroup> group is different between src and dest";
+        }
     }
 }
 

@@ -32,10 +32,12 @@ private:
     QCheckBox *_cbEnable;
     bool _expanded;
 signals:
-    
+    void animationMoved(QObject* uiAnimation, int programId, int groupId);
 public slots:
     void enable(bool on);
     
+protected slots:
+    void _moveAnimation(int programId, int groupId);
 };
 
 #endif // UIANIMATIONGROUP_H
