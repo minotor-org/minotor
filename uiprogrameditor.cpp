@@ -68,7 +68,6 @@ void UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
 
 UiProgramEditor::~UiProgramEditor()
 {
-
 }
 
 void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)

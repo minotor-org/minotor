@@ -32,14 +32,14 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     _cbEnable = new QCheckBox(_wEnable);
     _cbEnable->setFocusPolicy(Qt::NoFocus);
     _cbEnable->setText("Activ");
-    connect(_cbEnable, SIGNAL(toggled(bool)), group, SLOT(setEnabled(bool)));
+    connect(_cbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lEnable->addStretch();
     lEnable->addWidget(_cbEnable);
 
     QCheckBox *cbDelayedEnable = new QCheckBox(_wEnable);
     cbDelayedEnable->setFocusPolicy(Qt::NoFocus);
     cbDelayedEnable->setText("Activ  beat");
-    connect(cbDelayedEnable, SIGNAL(toggled(bool)), group, SLOT(setDelayedEnabled(bool)));
+    connect(cbDelayedEnable, SIGNAL(toggled(bool)), _group, SLOT(setDelayedEnabled(bool)));
     lEnable->addStretch();
     lEnable->addWidget(cbDelayedEnable);
     connect(_cbEnable, SIGNAL(toggled(bool)), cbDelayedEnable, SLOT(setChecked(bool)));
@@ -47,7 +47,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QCheckBox *cbDelete = new QCheckBox(_wEnable);
     cbDelete->setFocusPolicy(Qt::NoFocus);
     cbDelete->setText("Delete");
-    connect(cbDelete, SIGNAL(toggled(bool)), group, SLOT(deleteLater()));
+    connect(cbDelete, SIGNAL(toggled(bool)), _group, SLOT(deleteLater()));
     lEnable->addWidget(cbDelete);
 
     lEnable->addStretch();
@@ -65,7 +65,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     {
         addAnimation(animation);
     }
-    this->enable(group->enabled());
+    this->enable(_group->enabled());
     this->setExpanded(true);
     connect(group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
@@ -121,5 +121,3 @@ UiAnimation* UiAnimationGroup::takeAt(int index)
         return NULL;
     }
 }
-
-

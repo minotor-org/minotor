@@ -82,7 +82,6 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
             MinoProperty *property = group->at(i);
             UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
             uiAnimationProperty->setObjectName("animationproperty");
-            connect(uiAnimationProperty, SIGNAL(customContextMenuRequested(QPoint)), this, SIGNAL(customContextMenuRequested(QPoint)));
             lPropGroup->addWidget(uiAnimationProperty);
         }
 
