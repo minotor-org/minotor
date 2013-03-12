@@ -81,12 +81,14 @@ UiAnimationGroup::~UiAnimationGroup()
 
 }
 
-void UiAnimationGroup::addAnimation(MinoAnimation *animation)
+void UiAnimationGroup::addAnimation(MinoAnimation *animation, int index)
 {
+    if (index == -1)
+        index = _lContent->count();
     UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
     connect(uiAnimation, SIGNAL(animationMoved(int,int)), this, SLOT(_moveAnimation(int,int)));
     uiAnimation->setExpanded(_expanded);
-    _lContent->insertWidget(_lContent->count(), uiAnimation);
+    _lContent->insertWidget(index, uiAnimation);
 }
 
 void UiAnimationGroup::insertAnimation(UiAnimation *animation, int destId)

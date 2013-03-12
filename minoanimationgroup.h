@@ -28,10 +28,10 @@ public:
 
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);
-    MinoAnimation* addAnimation(const QString animationClassName);
+    MinoAnimation* addAnimation(const QString animationClassName, int index = -1);
     void moveAnimation(int oldIndex, int newIndex);
     MinoAnimation* takeAnimationAt(int index);
-    void insertAnimation(MinoAnimation *animation, int index);
+    void insertAnimation(MinoAnimation *animation, int index = -1);
 
 private:
     QPixmap _screenshot;

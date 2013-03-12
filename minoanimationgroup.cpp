@@ -15,27 +15,7 @@ MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
 
 void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
 {
-    // Add animation to program's list
-    _animations.append(animation);
-
-    // Will remove animation from list when destroyed
-    connect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
-
-    // Set position to origin
-    //_itemGroup.setPos(0,0);
-
-    // Add to program QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
-    _itemGroup.addToGroup(animation->graphicItem());
-
-    // Re-parent animation to our itemGroup
-    animation->graphicItem()->setParentItem(&_itemGroup);
-    animation->graphicItem()->setGroup(&_itemGroup);
-    animation->graphicItem()->setPos(0,0);
-    animation->graphicItem()->setZValue(_animations.count()-1);
-    animation->setEnabled(false);
-
-    // Lets others know something is changed
-    emit updated();
+    insertAnimation(animation);
 }
 
 MinoAnimationGroup::~MinoAnimationGroup()
@@ -49,12 +29,13 @@ MinoAnimationGroup::~MinoAnimationGroup()
     }
 }
 
-MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName)
+MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName, int index)
 {
+
     MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), this);
     if(animation)
     {
-        addAnimation(animation);
+        insertAnimation(animation, index);
     }
     return animation;
 }
@@ -62,6 +43,8 @@ MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName
 void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
 {
     // Add animation to program's list
+    if(index<0)
+        index = _animations.size();
     _animations.insert(index, animation);
 
     // Will remove animation from list when destroyed
@@ -99,8 +82,8 @@ void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
 MinoAnimation* MinoAnimationGroup::takeAnimationAt(int index)
 {
     MinoAnimation *animation = _animations.takeAt(index);
+    disconnect(animation);
     animation->setGroup(NULL);
-    disconnect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
     if (_animations.count() == 0)
     {
         this->deleteLater();

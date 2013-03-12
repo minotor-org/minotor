@@ -17,7 +17,7 @@ public:
     ~UiAnimationGroup();
 
     void setExpanded(bool on);
-    void addAnimation(MinoAnimation *animation);
+    void addAnimation(MinoAnimation *animation, int index = -1);
     UiAnimation *takeAt(int index);
     void moveAnimation(int srcId, int destId);
     void insertAnimation(UiAnimation *animation, int destId);

@@ -29,7 +29,7 @@ protected:
     QWidget *_wContent;
     QBoxLayout *_lContent;
 
-    void addAnimationGroup(MinoAnimationGroup *group);
+    UiAnimationGroup* addAnimationGroup(MinoAnimationGroup *group);
     void moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId);
 signals:
 

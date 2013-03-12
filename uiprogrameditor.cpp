@@ -58,12 +58,13 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     setAcceptDrops(true);
 }
 
-void UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
+UiAnimationGroup* UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
 {
     UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
     uiAnimationGroup->setExpanded(_expanded);
 
     _lContent->insertWidget(_lContent->count()-1, uiAnimationGroup);
+    return uiAnimationGroup;
 }
 
 UiProgramEditor::~UiProgramEditor()
@@ -149,14 +150,43 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> className >> offset;
 
-
-        MinoAnimationGroup *group = new MinoAnimationGroup(_program);
-        MinoAnimation *animation = group->addAnimation(className);
-        _program->addAnimationGroup(group);
-
-        if(animation)
+        bool destGroupFound = false;
+        bool destAnimationFound = false;
+        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
+        for (int i=0;i<uiGroups.count();i++)
         {
-            this->addAnimationGroup(group);
+            UiAnimationGroup *uiGroup = uiGroups.at(i);
+            if (uiGroup->geometry().contains(event->pos()))
+            {
+                QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
+                for (int j=0; j<uiAnimations.count(); j++)
+                {
+                    QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
+                    if(uiAnimations.at(j)->rect().contains(pa))
+                    {
+                        const int destAnimationId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
+                        if (destAnimationId != -1)
+                        {
+                            destAnimationFound = true;
+                            MinoAnimation *animation = uiGroup->group()->addAnimation(className,destAnimationId);
+                            uiGroup->addAnimation(animation,destAnimationId);
+                        }
+                    }
+                }
+                destGroupFound = true;
+                break;
+            }
+        }
+
+        if(!destGroupFound)
+        {
+            MinoAnimationGroup *group = new MinoAnimationGroup(_program);
+            MinoAnimation *animation = group->addAnimation(className);
+            _program->addAnimationGroup(group);
+			if(animation)
+            {
+				this->addAnimationGroup(group);
+			}
         }
 
         if (event->source() == this) {
@@ -187,8 +217,10 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                  << " srcProgramId:" << srcProgramId
                  << " srcGroupId:" << srcGroupId
                  << " srcAnimationId:" << srcAnimationId;
-        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
 
+        bool destGroupFound = false;
+        bool destAnimationFound = false;
+        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
         for (int i=0;i<uiGroups.count();i++)
         {
             UiAnimationGroup *uiGroup = uiGroups.at(i);
@@ -203,12 +235,22 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                         const int destAnimationId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
                         if (destAnimationId != -1)
                         {
+                            destAnimationFound = true;
                             moveAnimation(srcGroupId, srcAnimationId, uiGroup, destAnimationId);
                         }
                     }
                 }
+                destGroupFound = true;
                 break;
             }
+        }
+
+        if(!destGroupFound)
+        {
+            MinoAnimationGroup *group = new MinoAnimationGroup(_program);
+            _program->addAnimationGroup(group);
+            UiAnimationGroup *uiGroup = addAnimationGroup(group);
+            moveAnimation(srcGroupId, srcAnimationId, uiGroup, -1);
         }
 
         if (event->source() == this) {
