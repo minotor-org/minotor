@@ -14,6 +14,8 @@ class UiAnimationGroup : public QGroupBox
     Q_OBJECT
 public:
     explicit UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent);
+    ~UiAnimationGroup();
+
     void setExpanded(bool on);
     void addAnimation(MinoAnimation *animation);
     UiAnimation *takeAt(int index);

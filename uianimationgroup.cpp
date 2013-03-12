@@ -1,7 +1,9 @@
 #include "uianimationgroup.h"
 #include "uianimation.h"
+#include "minoprogram.h"
 
 #include <QStyle>
+#include <QDebug>
 
 UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
@@ -67,8 +69,16 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     }
     this->enable(_group->enabled());
     this->setExpanded(true);
-    connect(group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
-    connect(group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
+    connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+}
+
+UiAnimationGroup::~UiAnimationGroup()
+{
+    qDebug() << "~UiAnimationGroup>"
+             << "_lContent->count():" << _lContent->count()
+             << "uiAnimations count:" << _wContent->findChildren<UiAnimation*>().count();
+
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation)
