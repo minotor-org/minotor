@@ -92,6 +92,7 @@ void UiAnimationGroup::addAnimation(MinoAnimation *animation)
 void UiAnimationGroup::insertAnimation(UiAnimation *animation, int destId)
 {
     _lContent->insertWidget(destId, animation);
+    animation->setParent(_wContent);
 }
 
 void UiAnimationGroup::moveAnimation(int srcId, int destId)
