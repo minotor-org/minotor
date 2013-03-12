@@ -197,7 +197,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Viewmode
     QPushButton *pbViewmode = new QPushButton(wBackground);
     lBackground->addWidget(pbViewmode);
-    //pbViewmode->setIcon(QIcon(":/pictos/fullscreen.png"));
+    pbViewmode->setText(QString::fromUtf8("η"));
     pbViewmode->setIconSize(QSize(20,20));
     pbViewmode->setMinimumSize(28,28);
     pbViewmode->setMaximumSize(28,28);
