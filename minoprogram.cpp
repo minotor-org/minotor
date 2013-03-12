@@ -150,6 +150,7 @@ void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
     group->itemGroup()->setGroup(&_itemGroup);
     group->itemGroup()->setPos(0,0);
     connect(group, SIGNAL(updated()), this, SIGNAL(updated()));
+    emit updated();
 }
 
 void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId)
