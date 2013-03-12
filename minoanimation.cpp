@@ -60,6 +60,7 @@ void MinoAnimation::setGroup(MinoAnimationGroup *group)
            emit groupChanged(_program->id(), _program->animationGroups().indexOf(_group));
         } else {
             _program = NULL;
+            graphicItem()->setVisible(false);
         }
     }
 }
