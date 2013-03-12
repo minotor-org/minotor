@@ -14,6 +14,7 @@ MinaFlash::MinaFlash(MinoAnimationGroup *group):
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
+    _rectItem->setVisible(false);
 }
 
 MinaFlash::~MinaFlash()

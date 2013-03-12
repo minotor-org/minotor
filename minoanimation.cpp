@@ -28,7 +28,6 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _mplMain.append(&_beatFactor);
 
     _propertyGrouped.append(&_mplMain);
-
 }
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)

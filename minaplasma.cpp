@@ -49,6 +49,7 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _itemGroup.addToGroup(_rectTopRight);
     _itemGroup.addToGroup(_rectBottomLeft);
     _itemGroup.addToGroup(_rectBottomRight);
+    _itemGroup.setVisible(false);
 }
 
 MinaPlasma::~MinaPlasma()
