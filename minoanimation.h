@@ -87,6 +87,8 @@ protected:
 signals:
     void enabledChanged(bool on);
     void pendingChanged(bool on);
+
+    void groupChanged(int programId, int groupId);
 };
 
 typedef QList<MinoAnimation*> MinoAnimationList;

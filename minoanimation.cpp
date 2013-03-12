@@ -52,8 +52,17 @@ QPointF MinoAnimation::qrandPointF()
 
 void MinoAnimation::setGroup(MinoAnimationGroup *group)
 {
-     _group = group;
-     _program = _group->program();
+    if(_group != group)
+    {
+        _group = group;
+        setParent(group);
+        if(_group) {
+           _program = _group->program();
+           emit groupChanged(_program->id(), _program->animationGroups().indexOf(_group));
+        } else {
+            _program = NULL;
+        }
+    }
 }
 
 void MinoAnimation::setEnabled(const bool on)
