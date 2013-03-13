@@ -187,6 +187,14 @@ QLabel#title {
     font-size:14px;
 }
 
+QLineEdit {
+    border-radius:2px;
+    border:1px solid #1C1C1C;
+    background-color:#3a3a3a;
+    font:bold;
+    color:#e75f00;
+}
+
 QMainWindow {
     background-color:#242424;
     font-size:9px;
