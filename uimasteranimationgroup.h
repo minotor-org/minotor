@@ -25,6 +25,9 @@ public:
     MinoAnimationGroup* group() const { return _group; }
 
 private:
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
+
     MinoAnimationGroup *_group;
     QWidget *_wContent;
 
@@ -38,6 +41,7 @@ private:
 
     QPushButton *_pbEnable;
     bool _expanded;
+
 signals:
     
 public slots:

@@ -60,7 +60,6 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
 void UiMasterControl::addAnimationGroup(MinoAnimationGroup *group)
 {
     UiMasterAnimationGroup *uiAnimationGroup = new UiMasterAnimationGroup(group, _wContent);
-    uiAnimationGroup->enable(group->enabled());
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimationGroup);
 }
 

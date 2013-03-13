@@ -90,11 +90,19 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     _lMidiParameters->setContentsMargins(5,0,5,5);
 
     lContent->addStretch();
-    this->enable(_group->enabled());
+
+    // Connect UI with its group
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
-    updateGroup();
+    // Set policy
+    this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+    // Update (delete,recreate) all components within a group
+    this->updateGroup();
+
+    // Update UI state of "enabled"
+    this->enable(_group->enabled());
 }
 
 void UiMasterAnimationGroup::updateGroup()
@@ -139,3 +147,14 @@ void UiMasterAnimationGroup::enable(const bool on)
     this->style()->unpolish(this);
     this->style()->polish(this);
 }
+
+QSize UiMasterAnimationGroup::minimumSizeHint() const
+{
+    return QSize(75, 50);
+}
+
+QSize UiMasterAnimationGroup::sizeHint() const
+{
+    return QSize(75, 200);
+}
+
