@@ -28,5 +28,8 @@
         <file>pictos/unchecked_hover.png</file>
         <file>pictos/down-arrow_off.png</file>
         <file>pictos/up-arrow_off.png</file>
+        <file>pictos/power.png</file>
+        <file>pictos/close.png</file>
+        <file>pictos/delayed.png</file>
     </qresource>
 </RCC>

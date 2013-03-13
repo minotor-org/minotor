@@ -2,7 +2,7 @@
 #define UIANIMATIONGROUP_H
 
 #include <QGroupBox>
-#include <QCheckBox>
+#include <QPushButton>
 #include <QLayout>
 
 #include "minoanimationgroup.h"
@@ -26,10 +26,10 @@ public:
 
 private:
     MinoAnimationGroup *_group;
-    QWidget *_wEnable;
-    QHBoxLayout *_lContent;
     QWidget *_wContent;
-    QCheckBox *_cbEnable;
+    QHBoxLayout *_lAnimations;
+    QWidget *_wAnimations;
+    QPushButton *_pbEnable;
     bool _expanded;
 signals:
     void animationMoved(QObject* uiAnimation, int programId, int groupId);

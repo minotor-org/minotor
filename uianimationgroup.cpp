@@ -4,6 +4,7 @@
 
 #include <QStyle>
 #include <QDebug>
+#include <QPushButton>
 
 UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
@@ -22,51 +23,70 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     lBorder->setMargin(0);
     lBorder->setContentsMargins(1,1,1,1);
 
-
-    //Checkboxes
-    _wEnable = new QWidget(wBorder);
-    _wEnable->setObjectName("content");
-    lBorder->addWidget(_wEnable);
-    QVBoxLayout *lEnable = new QVBoxLayout(_wEnable);
-    lEnable->setSpacing(5);
-    lEnable->setMargin(0);
-    lEnable->setContentsMargins(5,5,0,2);
-    _cbEnable = new QCheckBox(_wEnable);
-    _cbEnable->setFocusPolicy(Qt::NoFocus);
-    _cbEnable->setText("Activ");
-    connect(_cbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
-    lEnable->addStretch();
-    lEnable->addWidget(_cbEnable);
-
-    QCheckBox *cbDelayedEnable = new QCheckBox(_wEnable);
-    cbDelayedEnable->setFocusPolicy(Qt::NoFocus);
-    cbDelayedEnable->setText("Activ  beat");
-    connect(cbDelayedEnable, SIGNAL(toggled(bool)), _group, SLOT(setDelayedEnabled(bool)));
-    lEnable->addStretch();
-    lEnable->addWidget(cbDelayedEnable);
-    connect(_cbEnable, SIGNAL(toggled(bool)), cbDelayedEnable, SLOT(setChecked(bool)));
-
-    QCheckBox *cbDelete = new QCheckBox(_wEnable);
-    cbDelete->setFocusPolicy(Qt::NoFocus);
-    cbDelete->setText("Delete");
-    connect(cbDelete, SIGNAL(toggled(bool)), _group, SLOT(deleteLater()));
-    lEnable->addWidget(cbDelete);
-
-    lEnable->addStretch();
-
-
     _wContent = new QWidget(wBorder);
-    _wContent->setObjectName("content");
     lBorder->addWidget(_wContent);
-    _lContent = new QHBoxLayout(_wContent);
-    _lContent->setSpacing(5);
-    _lContent->setMargin(0);
-    _lContent->setContentsMargins(5,0,5,5);
+    QVBoxLayout *lContent = new QVBoxLayout(_wContent);
+    lContent->setSpacing(2);
+    lContent->setMargin(0);
+    lContent->setContentsMargins(1,1,1,1);
+
+    QWidget *wTools = new QWidget(_wContent);
+    lContent->addWidget(wTools);
+    QHBoxLayout *lTools = new QHBoxLayout(wTools);
+    lTools->setSpacing(0);
+    lTools->setMargin(0);
+    lTools->setContentsMargins(4,0,4,0);
+
+    //Delayed button
+    QPushButton *pbDelayedEnable = new QPushButton(wTools);
+    pbDelayedEnable->setFocusPolicy(Qt::NoFocus);
+    pbDelayedEnable->setIcon(QIcon(":/pictos/delayed.png"));
+    pbDelayedEnable->setIconSize(QSize(8,8));
+    pbDelayedEnable->setMinimumSize(12,12);
+    pbDelayedEnable->setMaximumSize(12,12);
+    pbDelayedEnable->setCheckable(true);
+    connect(pbDelayedEnable, SIGNAL(toggled(bool)), _group, SLOT(setDelayedEnabled(bool)));
+    lTools->addWidget(pbDelayedEnable);
+
+    lTools->addStretch();
+
+    //Enable button
+    _pbEnable = new QPushButton(wTools);
+    _pbEnable->setFocusPolicy(Qt::NoFocus);
+    _pbEnable->setIcon(QIcon(":/pictos/power.png"));
+    _pbEnable->setIconSize(QSize(20,20));
+    _pbEnable->setMinimumSize(20,20);
+    _pbEnable->setMaximumSize(20,20);
+    _pbEnable->setCheckable(true);
+    connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
+    lTools->addWidget(_pbEnable);
+    connect(_pbEnable, SIGNAL(toggled(bool)), pbDelayedEnable, SLOT(setChecked(bool)));
+
+    lTools->addStretch();
+
+    //Delete button
+    QPushButton *pbDelete = new QPushButton(wTools);
+    pbDelete->setFocusPolicy(Qt::NoFocus);
+    pbDelete->setIcon(QIcon(":/pictos/close.png"));
+    pbDelete->setIconSize(QSize(8,8));
+    pbDelete->setMinimumSize(12,12);
+    pbDelete->setMaximumSize(12,12);
+    pbDelete->setCheckable(true);
+    connect(pbDelete, SIGNAL(toggled(bool)), _group, SLOT(deleteLater()));
+    lTools->addWidget(pbDelete);
+
+     _wAnimations = new QWidget(_wContent);
+    lContent->addWidget(_wAnimations);
+    _lAnimations = new QHBoxLayout(_wAnimations);
+    _lAnimations->setSpacing(5);
+    _lAnimations->setMargin(0);
+    _lAnimations->setContentsMargins(5,0,5,5);
 
     foreach (MinoAnimation *animation, _group->animations())
     {
         addAnimation(animation);
     }
+    lContent->addStretch();
     this->enable(_group->enabled());
     this->setExpanded(true);
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
@@ -76,25 +96,25 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
 UiAnimationGroup::~UiAnimationGroup()
 {
     qDebug() << "~UiAnimationGroup>"
-             << "_lContent->count():" << _lContent->count()
-             << "uiAnimations count:" << _wContent->findChildren<UiAnimation*>().count();
+             << "_lContent->count():" << _lAnimations->count()
+             << "uiAnimations count:" << _lAnimations->findChildren<UiAnimation*>().count();
 
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation, int index)
 {
     if (index == -1)
-        index = _lContent->count();
-    UiAnimation *uiAnimation = new UiAnimation(animation, _wContent);
+        index = _lAnimations->count();
+    UiAnimation *uiAnimation = new UiAnimation(animation, _wAnimations);
     connect(uiAnimation, SIGNAL(animationMoved(int,int)), this, SLOT(_moveAnimation(int,int)));
     uiAnimation->setExpanded(_expanded);
-    _lContent->insertWidget(index, uiAnimation);
+    _lAnimations->insertWidget(index, uiAnimation);
 }
 
 void UiAnimationGroup::insertAnimation(UiAnimation *animation, int destId)
 {
-    _lContent->insertWidget(destId, animation);
-    animation->setParent(_wContent);
+    _lAnimations->insertWidget(destId, animation);
+    animation->setParent(_wAnimations);
 }
 
 void UiAnimationGroup::moveAnimation(int srcId, int destId)
@@ -135,7 +155,7 @@ void UiAnimationGroup::setExpanded(bool on)
 
 void UiAnimationGroup::enable(const bool on)
 {
-    _cbEnable->setChecked(on);
+    _pbEnable->setChecked(on);
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
@@ -143,7 +163,7 @@ void UiAnimationGroup::enable(const bool on)
 
 UiAnimation* UiAnimationGroup::takeAt(int index)
 {
-    QLayoutItem *li = _lContent->takeAt(index);
+    QLayoutItem *li = _lAnimations->takeAt(index);
     if(li->widget())
     {
         return dynamic_cast<UiAnimation*>(li->widget());
