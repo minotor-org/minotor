@@ -26,6 +26,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         QLineEdit *teText = new QLineEdit(this);
         teText->setObjectName("textedit");
         teText->setAlignment(Qt::AlignHCenter);
+        teText->setText(textProperty->textValue());
         connect(teText, SIGNAL(textChanged(QString)), textProperty, SLOT(setTextValue(QString)));
         lProperty->addWidget(teText);
     }
