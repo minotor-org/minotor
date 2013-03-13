@@ -413,6 +413,10 @@ QWidget#content {
     border-radius:3px;
 }
 
+QWidget#debug {
+    background-color:red;
+}
+
 QWidget#group {
     background-color:#333333;
     border-radius:3px;
