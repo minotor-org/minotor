@@ -2,7 +2,7 @@
 #include "uianimation.h"
 
 #include "minoanimation.h"
-#include "uianimationgroup.h"
+#include "uimasteranimationgroup.h"
 #include "uiprogramview.h"
 
 #include <QFrame>
@@ -59,14 +59,14 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
 
 void UiMasterControl::addAnimationGroup(MinoAnimationGroup *group)
 {
-    UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
+    UiMasterAnimationGroup *uiAnimationGroup = new UiMasterAnimationGroup(group, _wContent);
     uiAnimationGroup->enable(group->enabled());
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimationGroup);
 }
 
 void UiMasterControl::updateProgram()
 {
-    foreach (UiAnimationGroup *group, this->findChildren<UiAnimationGroup*>())
+    foreach (UiMasterAnimationGroup *group, this->findChildren<UiMasterAnimationGroup*>())
     {
         delete(group);
     }

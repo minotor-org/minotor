@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     uianimationgroup.cpp \
     miprodebug.cpp \
     externalmasterview.cpp \
-    uiknob.cpp
+    uiknob.cpp \
+    uimasteranimationgroup.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -101,7 +102,8 @@ HEADERS  += mainwindow.h \
     uianimationgroup.h \
     miprodebug.h \
     externalmasterview.h \
-    uiknob.h
+    uiknob.h \
+    uimasteranimationgroup.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
