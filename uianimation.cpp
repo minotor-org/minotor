@@ -91,6 +91,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lContent->addStretch();
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(animation, SIGNAL(groupChanged(int,int)), this, SLOT(changeAnimationGroup(int,int)));
+
+    this->setAttribute(Qt::WA_NoMousePropagation, true);
 }
 
 void UiAnimation::setExpanded(bool expanded)
