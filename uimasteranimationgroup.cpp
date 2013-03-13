@@ -99,7 +99,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
     // Set policy
-    this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+    this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
 
     // Update (delete,recreate) all components within a group
     this->updateGroup();
@@ -153,11 +153,11 @@ void UiMasterAnimationGroup::enable(const bool on)
 
 QSize UiMasterAnimationGroup::minimumSizeHint() const
 {
-    return QSize(150, 50);
+    return QSize(80, 50);
 }
 
 QSize UiMasterAnimationGroup::sizeHint() const
 {
-    return QSize(150, 200);
+    return QSize(80, 200);
 }
 

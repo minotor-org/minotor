@@ -48,7 +48,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     sa->setWidgetResizable(true);
 
     _lContent = new QHBoxLayout(_wContent);
-    _lContent->addStretch();
+    _lContent->addStretch(1);
 
     foreach (MinoAnimationGroup *group, _program->animationGroups())
     {

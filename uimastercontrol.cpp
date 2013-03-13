@@ -49,7 +49,7 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     sa->setWidgetResizable(true);
 
     QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
-    _lContent->addStretch();
+    _lContent->addStretch(1);
 
     updateProgram();
 
