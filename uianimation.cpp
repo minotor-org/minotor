@@ -20,8 +20,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent),
     _animation(animation)
 {
-    this->setMinimumWidth(100);
-    this->setMaximumWidth(100);
+    this->setMinimumWidth(115);
+    this->setMaximumWidth(115);
 
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
@@ -77,14 +77,14 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         QWidget *wPropGroup = new QWidget(_wProperties);
         lProperties->addWidget(wPropGroup);
         QHBoxLayout *lPropGroup = new QHBoxLayout(wPropGroup);
-        lPropGroup->setSpacing(0);
+        lPropGroup->setSpacing(5);
         lPropGroup->setMargin(0);
         lPropGroup->setContentsMargins(0,0,0,0);
 
         for (int i=0;i<group->length();i++)
         {
             MinoProperty *property = group->at(i);
-            UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties);
+            UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties, true);
             uiAnimationProperty->setObjectName("animationproperty");
             lPropGroup->addWidget(uiAnimationProperty);
         }
