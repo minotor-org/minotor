@@ -54,6 +54,8 @@ protected:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
+    void wheelEvent(QWheelEvent * event);
+
     // notches
     QColor _indicatorColor;
     QColor _indicatorBackgroundColor;

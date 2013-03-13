@@ -243,6 +243,26 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
     update();
 }
 
+void UiKnob::wheelEvent(QWheelEvent * event)
+{
+    if (_property->step() != 0.0)
+    {
+        qreal value = _value;
+        value += (_property->step()*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
+        value = qBound(_minValue,value,_maxValue);
+        _setValue(value);
+    }
+    else
+    {
+        qreal value = _value;
+        value += (qreal)event->delta()/60.0;
+        value = qBound(_minValue,value,_maxValue);
+        _setValue(value);
+    }
+    update();
+    qDebug() << "UiKnob::wheelEvent> delta" << event->delta() << "value" << _value;
+}
+
 QSize UiKnob::minimumSizeHint() const
 {
     return QSize(32, ratio()*32);
