@@ -72,7 +72,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     lTools->addWidget(wRight);
 
     QFrame *fSeparator = new QFrame(_wContent);
-    fSeparator->setObjectName("groupLine");
+    fSeparator->setObjectName("groupline");
     fSeparator->setFrameShape(QFrame::HLine);
     fSeparator->setFrameShadow(QFrame::Sunken);
     fSeparator->setLineWidth(1);
@@ -110,6 +110,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
 void UiMasterAnimationGroup::updateGroup()
 {
+    int cpt = 0;
     foreach (UiAnimationProperty *uiAnimationProperty, this->findChildren<UiAnimationProperty*>())
     {
         delete(uiAnimationProperty);
@@ -123,14 +124,34 @@ void UiMasterAnimationGroup::updateGroup()
                 connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()));
                 if(property->attributes().testFlag(MinoProperty::Important))
                 {
+                    if (cpt>0)
+                    {
+                        QFrame *fSeparator = new QFrame(_wImportantParameters);
+                        fSeparator->setObjectName("groupline");
+                        fSeparator->setFrameShape(QFrame::HLine);
+                        fSeparator->setFrameShadow(QFrame::Sunken);
+                        fSeparator->setLineWidth(1);
+                        _lImportantParameters->addWidget(fSeparator);
+                    }
                     UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
                     uiAnimationProperty->setObjectName("animationproperty");
                     _lImportantParameters->addWidget(uiAnimationProperty);
+                    cpt++;
                 } else if (property->attributes().testFlag(MinoProperty::MidiControled))
                 {
+                    if (cpt>0)
+                    {
+                        QFrame *fSeparator = new QFrame(_wMidiParameters);
+                        fSeparator->setObjectName("groupline");
+                        fSeparator->setFrameShape(QFrame::HLine);
+                        fSeparator->setFrameShadow(QFrame::Sunken);
+                        fSeparator->setLineWidth(1);
+                        _lMidiParameters->addWidget(fSeparator);
+                    }
                     UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
                     uiAnimationProperty->setObjectName("animationproperty");
                     _lMidiParameters->addWidget(uiAnimationProperty);
+                    cpt++;
                 }
             }
         }

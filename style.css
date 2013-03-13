@@ -136,7 +136,7 @@ QDoubleSpinBox::up-arrow:hover {
     image: url(:/pictos/up-arrow.png);
 }
 
-QFrame#groupLine {
+QFrame#groupline {
     background-color:#333333;
 }
 

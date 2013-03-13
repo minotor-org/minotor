@@ -76,7 +76,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     lTools->addWidget(pbDelete);
 
     QFrame *fSeparator = new QFrame(_wContent);
-    fSeparator->setObjectName("groupLine");
+    fSeparator->setObjectName("groupline");
     fSeparator->setFrameShape(QFrame::HLine);
     fSeparator->setFrameShadow(QFrame::Sunken);
     fSeparator->setLineWidth(1);
