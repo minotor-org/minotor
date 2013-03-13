@@ -12,6 +12,9 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     QWidget(parent)
 {
     this->setMinimumWidth(45);
+    this->setMinimumHeight(45);
+    this->setMaximumHeight(45);
+
     QHBoxLayout *lProperty = new QHBoxLayout(this);
     lProperty->setSpacing(0);
     lProperty->setMargin(0);

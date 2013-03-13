@@ -85,14 +85,6 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     _lImportantParameters->setMargin(0);
     _lImportantParameters->setContentsMargins(5,0,5,5);
 
-
-    QFrame *fSeparator1 = new QFrame(_wContent);
-    fSeparator1->setObjectName("groupLine");
-    fSeparator1->setFrameShape(QFrame::HLine);
-    fSeparator1->setFrameShadow(QFrame::Sunken);
-    fSeparator1->setLineWidth(1);
-    lContent->addWidget(fSeparator1);
-
     _wMidiParameters = new QWidget(_wContent);
     lContent->addWidget(_wMidiParameters);
     _lMidiParameters = new QVBoxLayout(_wMidiParameters);
@@ -100,14 +92,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     _lMidiParameters->setMargin(0);
     _lMidiParameters->setContentsMargins(5,0,5,5);
 
-    QFrame *fSeparator2 = new QFrame(_wContent);
-    fSeparator2->setObjectName("groupLine");
-    fSeparator2->setFrameShape(QFrame::HLine);
-    fSeparator2->setFrameShadow(QFrame::Sunken);
-    fSeparator2->setLineWidth(1);
-    lContent->addWidget(fSeparator2);
-
-    lContent->addStretch();
+    lContent->addStretch(1);
 
     // Connect UI with its group
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
