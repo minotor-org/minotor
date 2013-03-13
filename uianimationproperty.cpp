@@ -1,6 +1,7 @@
 #include "uianimationproperty.h"
 
 #include <QLabel>
+#include <QPushButton>
 #include <QDebug>
 #include <QLayout>
 #include <QLineEdit>
@@ -34,15 +35,34 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     }
     else
     {
+        QWidget *wTop = new QWidget(this);
+        lProperty->addWidget(wTop);
+        wTop->setFixedHeight(12);
+        QHBoxLayout *lTop = new QHBoxLayout(wTop);
+        lTop->setSpacing(0);
+        lTop->setMargin(0);
+        lTop->setContentsMargins(2,0,2,0);
+        QWidget *wLeft = new QWidget(wTop);
+        wLeft->setMinimumSize(6,6);
+        wLeft->setMaximumSize(6,6);
+        lTop->addWidget(wLeft);
+        lTop->addStretch();
         MinoItemizedProperty* itemizedProperty = dynamic_cast<MinoItemizedProperty*>(property);
         if(itemizedProperty)
         {
-            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), this);
+            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
             tItemName->setObjectName("dialinfo");
             tItemName->setAlignment(Qt::AlignHCenter);
             connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
-            lProperty->addWidget(tItemName);
+            lTop->addWidget(tItemName);
         }
+        lTop->addStretch();
+        QPushButton *pbOnMaster = new QPushButton(wTop);
+        pbOnMaster->setObjectName("tiny");
+        pbOnMaster->setCheckable(true);
+        pbOnMaster->setFixedSize(6,6);
+        lTop->addWidget(pbOnMaster);
+        connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
 
         QWidget *wDial = new QWidget(this);
         lProperty->addWidget(wDial);
@@ -59,5 +79,17 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         t->setObjectName("dialinfo");
         t->setAlignment(Qt::AlignHCenter);
         lProperty->addWidget(t);
+    }
+}
+
+void UiAnimationProperty::togglePropertyToMaster(bool on)
+{
+    if (on)
+    {
+        _property->setAttributes(_property->attributes() | MinoProperty::Important);
+    }
+    else
+    {
+        _property->setAttributes(_property->attributes() & ~MinoProperty::Attributes(MinoProperty::Important));
     }
 }

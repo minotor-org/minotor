@@ -10,6 +10,12 @@ class MinoProperty : public QObject
 {
     Q_OBJECT
 public:
+    enum Attribute {
+        MidiControled = 0x0,   // 0x000000
+        Important = 0x1        // 0x000001
+    };
+    Q_DECLARE_FLAGS(Attributes, Attribute)
+
     explicit MinoProperty(qreal value = 0.0, QObject *parent = 0);
 
     // value (0.0 - 1.0)
@@ -25,6 +31,9 @@ public:
     MidiControl *midiControl() { return _midiControl; }
     bool isMidiControlled() { return _midiControl; }
 
+    MinoProperty::Attributes attributes() { return _attributes; }
+    void setAttributes(MinoProperty::Attributes attributes) { _attributes = attributes; }
+
     enum Type { Linear, Steps, Items };
     virtual MinoProperty::Type type();
 
@@ -37,7 +46,10 @@ protected:
     qreal _step;
     MidiControl *_midiControl;
 
+    MinoProperty::Attributes _attributes;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(MinoProperty::Attributes)
 
 typedef QList<MinoProperty*> MinoPropertyList;
 typedef QList<MinoPropertyList*> MinoPropertyGrouped;

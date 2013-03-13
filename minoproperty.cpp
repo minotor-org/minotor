@@ -17,6 +17,8 @@ void MinoProperty::midiControlValueChange(quint8 value)
 
 void MinoProperty::setMidiControl(MidiControl *control)
 {
+    _attributes = _attributes | MinoProperty::MidiControled;
+
     if(_midiControl)
     {
         // Only one control allowed to change this property

@@ -236,6 +236,9 @@ QPushButton:pressed {
     background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);
     color:#2e2e2e;
 }
+QPushButton#tiny {
+    border-radius:2px;
+}
 
 QScrollArea#scroll {
     background-color:#3a3a3a;

@@ -14,7 +14,9 @@ protected:
 signals:
     
 public slots:
-    
+
+private slots:
+    void togglePropertyToMaster(bool on);
 };
 
 #endif // UIANIMATIONPROPERTY_H
