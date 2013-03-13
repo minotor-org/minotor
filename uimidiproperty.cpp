@@ -49,6 +49,7 @@ UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent) :
     QPushButton *pbOnMaster = new QPushButton(wTop);
     pbOnMaster->setObjectName("tiny");
     pbOnMaster->setCheckable(true);
+    pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
     pbOnMaster->setFixedSize(6,6);
     lTop->addWidget(pbOnMaster);
     connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
