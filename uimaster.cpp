@@ -103,7 +103,6 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
 
 
     UiMidiProperty *dBrightness = new UiMidiProperty(_master->properties().at(0), wTools);
-    dBrightness->setMaximumSize(25,25);
     lTools->addWidget(dBrightness);
     QLabel *tBrightness = new QLabel(wTools);
     lTools->addWidget(tBrightness);
