@@ -35,7 +35,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
     lTools->setSpacing(0);
     lTools->setMargin(0);
-    lTools->setContentsMargins(4,0,4,0);
+    lTools->setContentsMargins(6,0,6,0);
 
     //Delayed button
     QPushButton *pbDelayedEnable = new QPushButton(wTools);
@@ -74,6 +74,13 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     pbDelete->setCheckable(true);
     connect(pbDelete, SIGNAL(toggled(bool)), _group, SLOT(deleteLater()));
     lTools->addWidget(pbDelete);
+
+    QFrame *fSeparator = new QFrame(_wContent);
+    fSeparator->setObjectName("groupLine");
+    fSeparator->setFrameShape(QFrame::HLine);
+    fSeparator->setFrameShadow(QFrame::Sunken);
+    fSeparator->setLineWidth(1);
+    lContent->addWidget(fSeparator);
 
      _wAnimations = new QWidget(_wContent);
     lContent->addWidget(_wAnimations);
