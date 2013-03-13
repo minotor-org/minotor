@@ -115,13 +115,17 @@ void UiMasterAnimationGroup::updateGroup()
     {
         delete(uiAnimationProperty);
     }
+    foreach (QFrame *frame, this->findChildren<QFrame*>())
+    {
+        delete(frame);
+    }
     foreach (MinoAnimation *animation, _group->animations())
     {
         foreach (MinoPropertyList *list, animation->propertyGrouped())
         {
             foreach (MinoProperty *property, *list)
             {
-                connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()));
+                connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
                 if(property->attributes().testFlag(MinoProperty::Important))
                 {
                     if (cpt>0)
