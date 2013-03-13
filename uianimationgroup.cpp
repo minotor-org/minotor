@@ -102,10 +102,6 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
 
 UiAnimationGroup::~UiAnimationGroup()
 {
-    qDebug() << "~UiAnimationGroup>"
-             << "_lContent->count():" << _lAnimations->count()
-             << "uiAnimations count:" << _lAnimations->findChildren<UiAnimation*>().count();
-
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation, int index)

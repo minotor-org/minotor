@@ -69,13 +69,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         pen.setColor(color);
         painter.setPen(pen);
         painter.drawArc(square, startAngle+(spanAngle*normF), spanAngle*invF);
-        qDebug() << "UiKnob::paintEvent()"
-                 << "square:" << square
-                 << "startAngle:" <<  startAngle+(spanAngle*normF)
-                 << "spanAngle" << spanAngle*invF
-                 << "normF" << normF
-                 << "_value" << _value;
-
     }
         break;
     case MinoProperty::Steps:
@@ -94,7 +87,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         const qreal outBoundedFactor = qMin(normF, 0.999999);
         int pos = (qreal)(outBoundedFactor/step);
         const int count = qRound(1.0/step);
-        qDebug() << "pos:" << pos << "count" << count << 1.0/step;
 
         for(int i=0; i<count; i++)
         {
@@ -122,7 +114,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         const qreal outBoundedFactor = qMin(normF, 0.999999);
         int pos = (qreal)(outBoundedFactor/step);
         const int count = qRound(1.0/step);
-        qDebug() << "pos:" << pos << "count" << count << 1.0/step;
 
         for(int i=0; i<count; i++)
         {
@@ -157,8 +148,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     pen.setWidth(2);
     painter.setPen(pen);
     painter.drawArc(square.adjusted(7,7,-7,-7),(220*16)+((-260*16)*normF)-4, 8 );
-
-    qDebug() << "UiKnob::paintEvent()" << _value;
 }
 
 qreal UiKnob::factor() const
