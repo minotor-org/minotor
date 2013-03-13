@@ -9,7 +9,7 @@ class UiMidiProperty : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMidiProperty(MinoProperty *property, QWidget *parent);
+    explicit UiMidiProperty(MinoProperty *property, QWidget *parent, bool editorMode = false);
     void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
 protected:
     void paintEvent(QPaintEvent *pe);

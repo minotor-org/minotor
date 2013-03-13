@@ -8,7 +8,7 @@
 
 #include "minotextproperty.h"
 
-UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent) :
+UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent)
 {
     this->setMinimumWidth(45);
@@ -31,6 +31,6 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     }
     else
     {
-        lProperty->addWidget(new UiMidiProperty(property, this));
+        lProperty->addWidget(new UiMidiProperty(property, this, editorMode));
     }
 }

@@ -12,7 +12,7 @@
 
 #include "uiknob.h"
 
-UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent) :
+UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent),
     _midiLearnMode(false),
     _property(property)
@@ -46,14 +46,17 @@ UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent) :
         lTop->addWidget(tItemName);
     }
     lTop->addStretch();
-    QPushButton *pbOnMaster = new QPushButton(wTop);
-    pbOnMaster->setObjectName("tiny");
-    pbOnMaster->setCheckable(true);
-    pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
-    pbOnMaster->setFixedSize(6,6);
-    lTop->addWidget(pbOnMaster);
-    connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
 
+    if(editorMode)
+    {
+        QPushButton *pbOnMaster = new QPushButton(wTop);
+        pbOnMaster->setObjectName("tiny");
+        pbOnMaster->setCheckable(true);
+        pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
+        pbOnMaster->setFixedSize(6,6);
+        lTop->addWidget(pbOnMaster);
+        connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
+    }
     QWidget *wDial = new QWidget(this);
     lProperty->addWidget(wDial);
     QHBoxLayout *lDial = new QHBoxLayout(wDial);

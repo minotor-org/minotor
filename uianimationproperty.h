@@ -7,7 +7,7 @@ class UiAnimationProperty : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiAnimationProperty(MinoProperty *property, QWidget *parent);
+    explicit UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode = false);
 
 protected:
 
