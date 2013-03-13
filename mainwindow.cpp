@@ -264,8 +264,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     sa->setWidget(ap);
     lContent->addWidget(sa);
-	// Set viewmode to editor
-    tbViewmodeToggled(false);
+    // Set viewmode to live
+    tbViewmodeToggled(true);
 }
 
 MainWindow::~MainWindow()
