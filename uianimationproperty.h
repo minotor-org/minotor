@@ -3,7 +3,7 @@
 
 #include "uimidiproperty.h"
 
-class UiAnimationProperty : public UiMidiProperty
+class UiAnimationProperty : public QWidget
 {
     Q_OBJECT
 public:
@@ -15,8 +15,6 @@ signals:
     
 public slots:
 
-private slots:
-    void togglePropertyToMaster(bool on);
 };
 
 #endif // UIANIMATIONPROPERTY_H

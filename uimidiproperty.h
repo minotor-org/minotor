@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-#include "uiknob.h"
 #include "minoproperty.h"
 
 class UiMidiProperty : public QWidget
@@ -19,14 +18,17 @@ protected:
 
     bool _midiLearnMode;
 
-    UiKnob *_knob;
     MinoProperty *_property;
 
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
 
 signals:
     
 public slots:
     
+private slots:
+    void togglePropertyToMaster(bool on);
 };
 
 #endif // UIMIDIPROPERTY_H

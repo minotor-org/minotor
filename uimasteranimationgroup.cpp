@@ -66,7 +66,10 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     lTools->addStretch();
 
-    // XXX Spacers
+    QWidget *wRight = new QWidget(wTools);
+    wRight->setMinimumSize(12,12);
+    wRight->setMaximumSize(12,12);
+    lTools->addWidget(wRight);
 
     QFrame *fSeparator = new QFrame(_wContent);
     fSeparator->setObjectName("groupLine");
@@ -78,16 +81,31 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     _wImportantParameters = new QWidget(_wContent);
     lContent->addWidget(_wImportantParameters);
     _lImportantParameters = new QVBoxLayout(_wImportantParameters);
-    _lImportantParameters->setSpacing(5);
+    _lImportantParameters->setSpacing(4);
     _lImportantParameters->setMargin(0);
     _lImportantParameters->setContentsMargins(5,0,5,5);
+
+
+    QFrame *fSeparator1 = new QFrame(_wContent);
+    fSeparator1->setObjectName("groupLine");
+    fSeparator1->setFrameShape(QFrame::HLine);
+    fSeparator1->setFrameShadow(QFrame::Sunken);
+    fSeparator1->setLineWidth(1);
+    lContent->addWidget(fSeparator1);
 
     _wMidiParameters = new QWidget(_wContent);
     lContent->addWidget(_wMidiParameters);
     _lMidiParameters = new QVBoxLayout(_wMidiParameters);
-    _lMidiParameters->setSpacing(5);
+    _lMidiParameters->setSpacing(4);
     _lMidiParameters->setMargin(0);
     _lMidiParameters->setContentsMargins(5,0,5,5);
+
+    QFrame *fSeparator2 = new QFrame(_wContent);
+    fSeparator2->setObjectName("groupLine");
+    fSeparator2->setFrameShape(QFrame::HLine);
+    fSeparator2->setFrameShadow(QFrame::Sunken);
+    fSeparator2->setLineWidth(1);
+    lContent->addWidget(fSeparator2);
 
     lContent->addStretch();
 
@@ -150,11 +168,11 @@ void UiMasterAnimationGroup::enable(const bool on)
 
 QSize UiMasterAnimationGroup::minimumSizeHint() const
 {
-    return QSize(75, 50);
+    return QSize(150, 50);
 }
 
 QSize UiMasterAnimationGroup::sizeHint() const
 {
-    return QSize(75, 200);
+    return QSize(150, 200);
 }
 

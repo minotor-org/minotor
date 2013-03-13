@@ -21,6 +21,7 @@ UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
     this->setMinimum(0);
     this->setMaximum(127);
     this->setValueFromProperty(_property->value());
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
 void UiKnob::paintEvent(QPaintEvent *pe)
@@ -259,5 +260,5 @@ QSize UiKnob::minimumSizeHint() const
 
 QSize UiKnob::sizeHint() const
 {
-    return QSize(32, ratio()*32);
+    return QSize(60, ratio()*32);
 }
