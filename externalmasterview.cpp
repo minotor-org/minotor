@@ -15,6 +15,7 @@ ExternalMasterView::ExternalMasterView(QWidget *parent) :
 
     ui->setupUi(this);
     this->layout()->addWidget(_uiMasterMonitor);
+    this->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
 }
 
 void ExternalMasterView::updateProgram()
