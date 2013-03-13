@@ -32,13 +32,15 @@ public:
     bool isMidiControlled() { return _midiControl; }
 
     MinoProperty::Attributes attributes() { return _attributes; }
-    void setAttributes(MinoProperty::Attributes attributes) { _attributes = attributes; }
+    void setAttributes(MinoProperty::Attributes attributes);
 
     enum Type { Linear, Steps, Items };
     virtual MinoProperty::Type type();
 
 signals:
     void valueChanged(qreal value);
+    void attributesChanged();
+
 public slots:
     void midiControlValueChange(quint8 value);
 protected:

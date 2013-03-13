@@ -44,3 +44,12 @@ MinoProperty::Type MinoProperty::type()
 {
     return MinoProperty::Linear;
 }
+
+void MinoProperty::setAttributes(MinoProperty::Attributes attributes)
+{
+    if(_attributes != attributes)
+    {
+        _attributes = attributes;
+        emit attributesChanged();
+    }
+}

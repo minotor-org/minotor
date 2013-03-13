@@ -27,15 +27,17 @@ public:
 private:
     MinoAnimationGroup *_group;
     QWidget *_wContent;
-    QHBoxLayout *_lAnimations;
-    QWidget *_wAnimations;
+    QHBoxLayout *_lParameters;
+    QWidget *_wParameters;
     QPushButton *_pbEnable;
     bool _expanded;
 signals:
     
 public slots:
     void enable(bool on);
-    
+
+private slots:
+    void updateGroup();
 };
 
 #endif // UIMASTERANIMATIONGROUP_H

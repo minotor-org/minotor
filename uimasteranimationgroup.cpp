@@ -1,6 +1,8 @@
 #include "uimasteranimationgroup.h"
 
 #include "uianimation.h"
+#include "uianimationproperty.h"
+
 #include "minoprogram.h"
 
 #include <QStyle>
@@ -73,41 +75,47 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     fSeparator->setLineWidth(1);
     lContent->addWidget(fSeparator);
 
-     _wAnimations = new QWidget(_wContent);
-    lContent->addWidget(_wAnimations);
-    _lAnimations = new QHBoxLayout(_wAnimations);
-    _lAnimations->setSpacing(5);
-    _lAnimations->setMargin(0);
-    _lAnimations->setContentsMargins(5,0,5,5);
+     _wParameters = new QWidget(_wContent);
+    lContent->addWidget(_wParameters);
+    _lParameters = new QHBoxLayout(_wParameters);
+    _lParameters->setSpacing(5);
+    _lParameters->setMargin(0);
+    _lParameters->setContentsMargins(5,0,5,5);
 
-    foreach (MinoAnimation *animation, _group->animations())
-    {
-        addAnimation(animation);
-    }
     lContent->addStretch();
     this->enable(_group->enabled());
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+
+    updateGroup();
+}
+
+void UiMasterAnimationGroup::updateGroup()
+{
+    foreach (UiAnimationProperty *uiAnimationProperty, this->findChildren<UiAnimationProperty*>())
+    {
+        delete(uiAnimationProperty);
+    }
+    foreach (MinoAnimation *animation, _group->animations())
+    {
+        foreach (MinoPropertyList *list, animation->propertyGrouped())
+        {
+            foreach (MinoProperty *property, *list)
+            {
+                connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()));
+                if(property->attributes().testFlag(MinoProperty::Important))
+                {
+                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wParameters);
+                    uiAnimationProperty->setObjectName("animationproperty");
+                    _lParameters->addWidget(uiAnimationProperty);
+                }
+            }
+        }
+    }
 }
 
 UiMasterAnimationGroup::~UiMasterAnimationGroup()
 {
-}
-
-void UiMasterAnimationGroup::addAnimation(MinoAnimation *animation, int index)
-{
-    if (index == -1)
-        index = _lAnimations->count();
-    UiAnimation *uiAnimation = new UiAnimation(animation, _wAnimations);
-    connect(uiAnimation, SIGNAL(animationMoved(int,int)), this, SLOT(_moveAnimation(int,int)));
-    uiAnimation->setExpanded(true);
-    _lAnimations->insertWidget(index, uiAnimation);
-}
-
-void UiMasterAnimationGroup::insertAnimation(UiAnimation *animation, int destId)
-{
-    _lAnimations->insertWidget(destId, animation);
-    animation->setParent(_wAnimations);
 }
 
 void UiMasterAnimationGroup::enable(const bool on)
@@ -116,17 +124,4 @@ void UiMasterAnimationGroup::enable(const bool on)
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
-}
-
-UiAnimation* UiMasterAnimationGroup::takeAt(int index)
-{
-    QLayoutItem *li = _lAnimations->takeAt(index);
-    if(li->widget())
-    {
-        return dynamic_cast<UiAnimation*>(li->widget());
-    }
-    else
-    {
-        return NULL;
-    }
 }
