@@ -264,7 +264,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     sa->setWidget(ap);
     lContent->addWidget(sa);
-    // Set viewmode to live
+
+    // Set default viewmode to live
+    pbViewmode->setChecked(true);
     tbViewmodeToggled(true);
 }
 
