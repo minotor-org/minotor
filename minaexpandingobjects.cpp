@@ -19,6 +19,7 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _beatDuration.addItem("4", 96);
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
+    _beatDuration.setType(MinoProperty::Steps);
     _beatDuration.setCurrentItem("1");
     _mplLine2.append(&_beatDuration);
 

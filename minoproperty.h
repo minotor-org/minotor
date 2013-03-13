@@ -25,6 +25,9 @@ public:
     MidiControl *midiControl() { return _midiControl; }
     bool isMidiControlled() { return _midiControl; }
 
+    enum Type { Linear, Steps, Items };
+    virtual MinoProperty::Type type();
+
 signals:
     void valueChanged(qreal value);
 public slots:

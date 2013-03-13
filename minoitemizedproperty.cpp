@@ -2,7 +2,8 @@
 
 MinoItemizedProperty::MinoItemizedProperty():
     MinoProperty(),
-    _currentItemId(-1)
+    _currentItemId(-1),
+    _type(MinoProperty::Items)
 {
 }
 

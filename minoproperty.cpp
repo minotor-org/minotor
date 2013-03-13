@@ -34,3 +34,8 @@ void MinoProperty::setValue(qreal value)
         emit valueChanged(value);
     }
  }
+
+MinoProperty::Type MinoProperty::type()
+{
+    return MinoProperty::Linear;
+}

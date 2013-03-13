@@ -10,18 +10,12 @@
 
 UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
-    _mode(UiKnob::Linear),
     _minValue(0),
     _maxValue(360),
     _value(0),
     _property(property)
 {
     this->setFocusPolicy(Qt::NoFocus);
-
-    if(_property->step() != 0.0)
-    {
-        setMode(UiKnob::ItemSelector);
-    }
 
     connect(_property, SIGNAL(valueChanged(qreal)), this, SLOT(setValueFromProperty(qreal)));
     this->setMinimum(0);
@@ -57,9 +51,10 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     const qreal normF = factor();
     const qreal startAngle = 220.0*16.0;
     const qreal spanAngle = -260.0*16.0;
-    switch (_mode)
+
+    switch (_property->type())
     {
-    case UiKnob::Linear:
+    case MinoProperty::Linear:
     {
         color = _indicatorColor;
         if (!color.isValid()) { color.setRgb(255,255,255); }
@@ -83,7 +78,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
 
     }
         break;
-    case UiKnob::SteppedLinear:
+    case MinoProperty::Steps:
     {
         color = _indicatorColor;
         if (!color.isValid()) { color.setRgb(255,255,255); }
@@ -107,11 +102,11 @@ void UiKnob::paintEvent(QPaintEvent *pe)
             {
                 painter.setPen(indicatorBackgroundPen);
             }
-            painter.drawArc(square, startAngle+(spanAngle*i*step),spanAngle*step);
+            painter.drawArc(square, startAngle+(spanAngle*i*step)-160,spanAngle*step+320);
         }
     }
         break;
-    case UiKnob::ItemSelector:
+    case MinoProperty::Items:
     {
         color = _indicatorColor;
         if (!color.isValid()) { color.setRgb(255,255,255); }

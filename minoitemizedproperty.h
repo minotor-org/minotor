@@ -37,12 +37,16 @@ public:
     MinoItemizedPropertyItem* currentItem();
     void setCurrentItem(const QString name);
 
+    // Type
+    MinoProperty::Type type() { return _type; }
+    void setType(MinoProperty::Type type) { _type = type; }
 signals:
     void itemChanged(QString name);
 
 private:
     QList<MinoItemizedPropertyItem*> _items;
     int _currentItemId;
+    MinoProperty::Type _type;
 };
 
 #endif // MINOITEMIZEDPROPERTY_H

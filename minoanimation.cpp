@@ -25,6 +25,8 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _beatFactor.addItem("1/2", 12);
     _beatFactor.addItem("1/4", 6);
     _beatFactor.setCurrentItem("1");
+    _beatFactor.setType(MinoProperty::Steps);
+
     _mplMain.append(&_beatFactor);
 
     _propertyGrouped.append(&_mplMain);
