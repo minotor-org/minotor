@@ -43,9 +43,13 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     {
         square.setWidth(square.height());
     }
+    square.setSize(square.size()*(1.0/ratio()));
     square.adjust(2.5,2.5,-2.5,-2.5);
 
-    square.moveCenter(eventRect.center());
+    QPoint center(eventRect.center());
+    center.setY(center.y()*(1.0/ratio()));
+    square.moveCenter(center);
+
     painter.setRenderHints(QPainter::RenderHint(QPainter::Antialiasing | QPainter::SmoothPixmapTransform || QPainter::HighQualityAntialiasing));
 
     QPen pen;
@@ -246,10 +250,10 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
 
 QSize UiKnob::minimumSizeHint() const
 {
-    return QSize(32, 32);
+    return QSize(32, ratio()*32);
 }
 
 QSize UiKnob::sizeHint() const
 {
-    return QSize(32, 32);
+    return QSize(32, ratio()*32);
 }

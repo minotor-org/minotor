@@ -81,6 +81,7 @@ protected:
     qreal factor() const;
 private:
     void _setValue(qreal value);
+    qreal ratio() const { return 0.78; }
 };
 
 #endif // UIKNOB_H
