@@ -488,6 +488,10 @@ UiAnimationGroup[active=true] {
     background-color:#e75f00;
 }
 
+UiMasterAnimationGroup[active=true] {
+    background-color:#e75f00;
+}
+
 UiAnimationPicker#scrollcontent {
     background-color:#454545;
 }
