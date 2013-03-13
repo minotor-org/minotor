@@ -36,6 +36,11 @@ public:
     void setMaximum(qreal maximum) { _maxValue = maximum; }
     void setValue(qreal value) { _value = value; }
     MinoProperty *property() { return _property; }
+
+    enum Mode { Linear, SteppedLinear, ItemSelector };
+
+    UiKnob::Mode mode();
+    void setMode(UiKnob::Mode mode) { _mode = mode; update(); }
 signals:
     
 public slots:
@@ -51,6 +56,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *me);
 
     QSize minimumSizeHint() const;
+    QSize sizeHint() const;
+
+    UiKnob::Mode _mode;
 
     // notches
     QColor _indicatorColor;

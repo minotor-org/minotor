@@ -51,9 +51,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         lDial->setMargin(0);
         lDial->setContentsMargins(0,0,0,0);
         lDial->addStretch();
-        _knob->setMinimumSize(28,28);
-        _knob->setMaximumSize(28,28);
-        _knob->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        _knob->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         lDial->addWidget(_knob);
         lDial->addStretch();
 

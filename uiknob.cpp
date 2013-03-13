@@ -10,24 +10,18 @@
 
 UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
+    _mode(UiKnob::Linear),
     _minValue(0),
     _maxValue(360),
     _value(0),
     _property(property)
 {
     this->setFocusPolicy(Qt::NoFocus);
-    this->setMaximumHeight(32);
-    this->setMaximumWidth(32);
 
-    /*
     if(_property->step() != 0.0)
     {
-        setNotchesVisible(true);
-        const qreal step = (qreal)127*_property->step();
-        setSingleStep(qRound(step));
-        //qDebug() << "UiDial should display notches (" << singleStep() << "~=" << step << ")";
+        setMode(UiKnob::ItemSelector);
     }
-    */
 
     connect(_property, SIGNAL(valueChanged(qreal)), this, SLOT(setValueFromProperty(qreal)));
     this->setMinimum(0);
@@ -37,7 +31,7 @@ UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
 
 void UiKnob::paintEvent(QPaintEvent *pe)
 {
-    QRect eventRect = pe->rect();
+    QRect eventRect = this->rect();
     QPainter painter(this);
 
     QRectF square = eventRect;
@@ -55,20 +49,97 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     painter.setRenderHints(QPainter::RenderHint(QPainter::Antialiasing | QPainter::SmoothPixmapTransform || QPainter::HighQualityAntialiasing));
 
     QPen pen;
-    QColor color(_indicatorColor);
-    if (!color.isValid()) { color.setRgb(255,255,255); }
-    pen.setWidth(2);
-    pen.setColor(color);
-    painter.setPen(pen);
-    qreal normF = factor();
-    qreal invF = 1.0-normF;
-    painter.drawArc(square, 220*16, (-260*16)*normF);
+    QColor color;
+    const qreal normF = factor();
+    const qreal startAngle = 220.0*16.0;
+    const qreal spanAngle = -260.0*16.0;
+    switch (_mode)
+    {
+    case UiKnob::Linear:
+    {
+        color = _indicatorColor;
+        if (!color.isValid()) { color.setRgb(255,255,255); }
+        pen.setWidth(2);
+        pen.setColor(color);
+        painter.setPen(pen);
+        qreal invF = 1.0-normF;
+        painter.drawArc(square, startAngle, spanAngle*normF);
 
-    color = _indicatorBackgroundColor;
-    if (!color.isValid()) { color.setRgb(0,0,0); }
-    pen.setColor(color);
-    painter.setPen(pen);
-    painter.drawArc(square, (220*16)+((-260*16)*normF), (-260*16)*invF);
+        color = _indicatorBackgroundColor;
+        if (!color.isValid()) { color.setRgb(0,0,0); }
+        pen.setColor(color);
+        painter.setPen(pen);
+        painter.drawArc(square, startAngle+(spanAngle*normF), spanAngle*invF);
+        qDebug() << "UiKnob::paintEvent()"
+                 << "square:" << square
+                 << "startAngle:" <<  startAngle+(spanAngle*normF)
+                 << "spanAngle" << spanAngle*invF
+                 << "normF" << normF
+                 << "_value" << _value;
+
+    }
+        break;
+    case UiKnob::SteppedLinear:
+    {
+        color = _indicatorColor;
+        if (!color.isValid()) { color.setRgb(255,255,255); }
+        QPen indicatorPen(color);
+        indicatorPen.setWidth(2);
+        painter.setPen(indicatorPen);
+        color = _indicatorBackgroundColor;
+        if (!color.isValid()) { color.setRgb(255,255,255); }
+        QPen indicatorBackgroundPen(color);
+        indicatorBackgroundPen.setWidth(2);
+
+        const qreal step = _property->step();
+        const qreal outBoundedFactor = qMin(normF, 0.999999);
+        int pos = (qreal)(outBoundedFactor/step);
+        const int count = qRound(1.0/step);
+        qDebug() << "pos:" << pos << "count" << count << 1.0/step;
+
+        for(int i=0; i<count; i++)
+        {
+            if(i>pos)
+            {
+                painter.setPen(indicatorBackgroundPen);
+            }
+            painter.drawArc(square, startAngle+(spanAngle*i*step),spanAngle*step);
+        }
+    }
+        break;
+    case UiKnob::ItemSelector:
+    {
+        color = _indicatorColor;
+        if (!color.isValid()) { color.setRgb(255,255,255); }
+        QPen indicatorPen(color);
+        indicatorPen.setWidth(2);
+        painter.setPen(indicatorPen);
+        color = _indicatorBackgroundColor;
+        if (!color.isValid()) { color.setRgb(255,255,255); }
+        QPen indicatorBackgroundPen(color);
+        indicatorBackgroundPen.setWidth(2);
+
+        const qreal step = _property->step();
+        const qreal outBoundedFactor = qMin(normF, 0.999999);
+        int pos = (qreal)(outBoundedFactor/step);
+        const int count = qRound(1.0/step);
+        qDebug() << "pos:" << pos << "count" << count << 1.0/step;
+
+        for(int i=0; i<count; i++)
+        {
+            if(i != pos)
+            {
+                painter.setPen(indicatorBackgroundPen);
+            }
+            else
+            {
+                painter.setPen(indicatorPen);
+            }
+            painter.drawArc(square, startAngle+(spanAngle*i*step)-160,spanAngle*step+320);
+        }
+    }
+        break;
+    }
 
     color = _buttonBorderColor;
     if (!color.isValid()) { color.setRgb(0,0,0); }
@@ -79,7 +150,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     if (!color.isValid()) { color.setRgb(255,255,255); }
     painter.setBrush(QBrush(color));
     const qreal r = ((qreal)square.width()/2.0)-3.5;
-    qDebug() << "rayon" << r;
     painter.drawEllipse(square.center(),r,r);
 
     color = _needleColor;
@@ -144,11 +214,6 @@ void UiKnob::mousePressEvent(QMouseEvent *e)
     update();
 }
 
-
-/*!
-  \reimp
-*/
-
 void UiKnob::mouseReleaseEvent(QMouseEvent * e)
 {
     if (e->buttons() & (~e->button()) ||
@@ -162,11 +227,6 @@ void UiKnob::mouseReleaseEvent(QMouseEvent * e)
     update();
 }
 
-
-/*!
-  \reimp
-*/
-
 void UiKnob::mouseMoveEvent(QMouseEvent * e)
 {
     if (!(e->buttons() & Qt::LeftButton)) {
@@ -174,8 +234,8 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
         return;
     }
     e->accept();
-/*
- *    d->doNotEmit = true;
+    /*
+    d->doNotEmit = true;
     setSliderPosition(d->valueFromPoint(e->pos()));
     d->doNotEmit = false;
     */
@@ -186,5 +246,10 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
 
 QSize UiKnob::minimumSizeHint() const
 {
-    return QSize(30, 30);
+    return QSize(32, 32);
+}
+
+QSize UiKnob::sizeHint() const
+{
+    return QSize(32, 32);
 }
