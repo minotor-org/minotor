@@ -75,12 +75,19 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     fSeparator->setLineWidth(1);
     lContent->addWidget(fSeparator);
 
-     _wParameters = new QWidget(_wContent);
-    lContent->addWidget(_wParameters);
-    _lParameters = new QHBoxLayout(_wParameters);
-    _lParameters->setSpacing(5);
-    _lParameters->setMargin(0);
-    _lParameters->setContentsMargins(5,0,5,5);
+    _wImportantParameters = new QWidget(_wContent);
+    lContent->addWidget(_wImportantParameters);
+    _lImportantParameters = new QVBoxLayout(_wImportantParameters);
+    _lImportantParameters->setSpacing(5);
+    _lImportantParameters->setMargin(0);
+    _lImportantParameters->setContentsMargins(5,0,5,5);
+
+    _wMidiParameters = new QWidget(_wContent);
+    lContent->addWidget(_wMidiParameters);
+    _lMidiParameters = new QVBoxLayout(_wMidiParameters);
+    _lMidiParameters->setSpacing(5);
+    _lMidiParameters->setMargin(0);
+    _lMidiParameters->setContentsMargins(5,0,5,5);
 
     lContent->addStretch();
     this->enable(_group->enabled());
@@ -105,13 +112,20 @@ void UiMasterAnimationGroup::updateGroup()
                 connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()));
                 if(property->attributes().testFlag(MinoProperty::Important))
                 {
-                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wParameters);
+                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
                     uiAnimationProperty->setObjectName("animationproperty");
-                    _lParameters->addWidget(uiAnimationProperty);
+                    _lImportantParameters->addWidget(uiAnimationProperty);
+                } else if (property->attributes().testFlag(MinoProperty::MidiControled))
+                {
+                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
+                    uiAnimationProperty->setObjectName("animationproperty");
+                    _lMidiParameters->addWidget(uiAnimationProperty);
                 }
             }
         }
     }
+    _lImportantParameters->addStretch();
+    _lMidiParameters->addStretch();
 }
 
 UiMasterAnimationGroup::~UiMasterAnimationGroup()

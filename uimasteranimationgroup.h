@@ -27,8 +27,15 @@ public:
 private:
     MinoAnimationGroup *_group;
     QWidget *_wContent;
-    QHBoxLayout *_lParameters;
-    QWidget *_wParameters;
+
+    // Flagged as "Important" paramaters
+    QBoxLayout *_lImportantParameters;
+    QWidget *_wImportantParameters;
+
+    // MIDI mapped parameters
+    QBoxLayout *_lMidiParameters;
+    QWidget *_wMidiParameters;
+
     QPushButton *_pbEnable;
     bool _expanded;
 signals:

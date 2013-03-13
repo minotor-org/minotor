@@ -11,8 +11,9 @@ class MinoProperty : public QObject
     Q_OBJECT
 public:
     enum Attribute {
-        MidiControled = 0x0,   // 0x000000
-        Important = 0x1        // 0x000001
+        None = 0x0,
+        MidiControled = 0x1,
+        Important = 0x2
     };
     Q_DECLARE_FLAGS(Attributes, Attribute)
 
