@@ -62,14 +62,18 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    foreach (MinoPropertyList *group, animation->propertyGrouped())
+    for (int i=0;i<animation->propertyGrouped().count();i++)
     {
-        QFrame *fSeparator = new QFrame(_wProperties);
-        fSeparator->setObjectName("line");
-        fSeparator->setFrameShape(QFrame::HLine);
-        fSeparator->setFrameShadow(QFrame::Sunken);
-        fSeparator->setLineWidth(1);
-
+        MinoPropertyList *group = animation->propertyGrouped().at(i);
+        if (i>0)
+        {
+            QFrame *fSeparator = new QFrame(_wProperties);
+            fSeparator->setObjectName("line");
+            fSeparator->setFrameShape(QFrame::HLine);
+            fSeparator->setFrameShadow(QFrame::Sunken);
+            fSeparator->setLineWidth(1);
+            lProperties->addWidget(fSeparator);
+        }
         QWidget *wPropGroup = new QWidget(_wProperties);
         lProperties->addWidget(wPropGroup);
         QHBoxLayout *lPropGroup = new QHBoxLayout(wPropGroup);
@@ -84,8 +88,6 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
             uiAnimationProperty->setObjectName("animationproperty");
             lPropGroup->addWidget(uiAnimationProperty);
         }
-
-        lProperties->addWidget(fSeparator);
     }
     lProperties->addStretch();
     lContent->addStretch();
