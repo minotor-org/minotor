@@ -14,6 +14,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _boundingRect = _program->minotor()->displayRect();
 
     _color.setObjectName("Color");
+    _color.setAttributes(MinoProperty::Important);
     _mplMain.append(&_color);
 
     _beatFactor.setObjectName("Freq.");
@@ -26,7 +27,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _beatFactor.addItem("1/4", 6);
     _beatFactor.setCurrentItem("1");
     _beatFactor.setType(MinoProperty::Steps);
-
+    _beatFactor.setAttributes(MinoProperty::Important);
     _mplMain.append(&_beatFactor);
 
     _propertyGrouped.append(&_mplMain);
