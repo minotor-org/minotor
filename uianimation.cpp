@@ -60,7 +60,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QVBoxLayout *lProperties = new QVBoxLayout(_wProperties);
     lContent->addWidget(_wProperties);
 
-    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
     for (int i=0;i<animation->propertyGrouped().count();i++)
     {
@@ -89,8 +89,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
             lPropGroup->addWidget(uiAnimationProperty);
         }
     }
-    lProperties->addStretch();
-    lContent->addStretch();
+    lContent->addStretch(1);
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(animation, SIGNAL(groupChanged(int,int)), this, SLOT(changeAnimationGroup(int,int)));
 

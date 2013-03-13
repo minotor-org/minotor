@@ -93,7 +93,6 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     {
         addAnimation(animation);
     }
-    lContent->addStretch();
     this->enable(_group->enabled());
     this->setExpanded(true);
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
