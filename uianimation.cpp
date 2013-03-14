@@ -8,6 +8,7 @@
 #include <QToolButton>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPushButton>
 
 #include <QDebug>
 
@@ -40,7 +41,13 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QHBoxLayout *lDescription = new QHBoxLayout(wDescription);
     lDescription->setSpacing(0);
     lDescription->setMargin(0);
-    lDescription->setContentsMargins(0,3,0,0);
+    lDescription->setContentsMargins(4,3,4,0);
+
+    QWidget *wLeft = new QWidget(wDescription);
+    wLeft->setMinimumSize(12,12);
+    wLeft->setMaximumSize(12,12);
+    lDescription->addWidget(wLeft);
+
     lDescription->addStretch();
     MinoAnimationDescription desc = animation->description();
     _tAnimation = new QLabel(desc.name());
@@ -55,6 +62,17 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     lDescription->addWidget(_tAnimation);
     lDescription->addStretch();
+
+    //Delete button
+    QPushButton *pbDelete = new QPushButton(wDescription);
+    pbDelete->setFocusPolicy(Qt::NoFocus);
+    pbDelete->setIcon(QIcon(":/pictos/close.png"));
+    pbDelete->setIconSize(QSize(8,8));
+    pbDelete->setMinimumSize(12,12);
+    pbDelete->setMaximumSize(12,12);
+    connect(pbDelete, SIGNAL(clicked()), _animation, SLOT(deleteLater()));
+    lDescription->addWidget(pbDelete);
+    lDescription->setAlignment(pbDelete,Qt::AlignTop);
 
     _wProperties = new QWidget(wContent);
     QVBoxLayout *lProperties = new QVBoxLayout(_wProperties);

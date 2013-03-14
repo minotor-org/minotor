@@ -124,5 +124,8 @@ void MinoAnimationGroup::_setEnabled(const bool on)
 void MinoAnimationGroup::destroyAnimation(QObject *animation)
 {
     _animations.removeAt(_animations.indexOf(static_cast<MinoAnimation*>(animation)));
+    if (_animations.count() == 0)
+        this->deleteLater();
+    emit updated();
 }
 

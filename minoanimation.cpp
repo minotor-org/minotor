@@ -9,6 +9,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _group(group),
     _enabled(true)
 {
+    connect(this, SIGNAL(destroyed(QObject*)), group, SLOT(destroyAnimation(QObject*)));
     _program = group->program();
     _scene = _program->minotor()->scene();
     _boundingRect = _program->minotor()->displayRect();
