@@ -14,6 +14,7 @@ class UiKnob : public QWidget
     Q_PROPERTY(QColor button_color READ buttonColor WRITE setButtonColor DESIGNABLE true)
     Q_PROPERTY(QColor button_border_color READ buttonBorderColor WRITE setButtonBorderColor DESIGNABLE true)
     Q_PROPERTY(QColor needle_color READ needleColor WRITE setNeedleColor DESIGNABLE true)
+    Q_PROPERTY(QColor reflect_color READ reflectColor WRITE setReflectColor DESIGNABLE true)
 public:
     explicit UiKnob(MinoProperty *property, QWidget *parent);
     
@@ -31,6 +32,9 @@ public:
 
     QColor needleColor() { return _needleColor; }
     void setNeedleColor(QColor color) { _needleColor = color; }
+
+    QColor reflectColor() { return _reflectColor; }
+    void setReflectColor(QColor color) { _reflectColor = color; }
 
     void setMinimum(qreal minimum) { _minValue = minimum; }
     void setMaximum(qreal maximum) { _maxValue = maximum; }
@@ -62,6 +66,7 @@ protected:
     QColor _buttonColor;
     QColor _buttonBorderColor;
     QColor _needleColor;
+    QColor _reflectColor;
 
     // Value
     qreal _minValue;

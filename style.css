@@ -522,6 +522,7 @@ UiKnob {
     qproperty-button_color:#3a3a3a;
     qproperty-button_border_color:#101010;
     qproperty-needle_color:#CFCFCF;
+    qproperty-reflect_color:#4E4E4E;
 }
 
 UiProgram[expanded=true] > QWidget > QWidget#programbackground {

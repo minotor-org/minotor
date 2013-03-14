@@ -143,6 +143,13 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     const qreal r = ((qreal)square.width()/2.0)-3.5;
     painter.drawEllipse(square.center(),r,r);
 
+    color = _reflectColor;
+    if (!color.isValid()) { color.setRgb(0,0,0); }
+    pen.setWidth(0.5);
+    pen.setColor(color);
+    painter.setPen(pen);
+    painter.drawArc(square.adjusted(5,5,-5,-5),(60*16), (150*16) );
+
     color = _needleColor;
     if (!color.isValid()) { color.setRgb(255,255,255); }
     pen.setColor(color);
