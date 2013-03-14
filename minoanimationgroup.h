@@ -20,6 +20,7 @@ public:
     ~MinoAnimationGroup();
 
     // Accessors
+    int id();
     QPixmap screenshot() const { return _screenshot; }
     MinoAnimationList animations() const { return _animations; }
     MinoProgram *program() const { return _program; }

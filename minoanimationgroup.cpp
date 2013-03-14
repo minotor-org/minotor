@@ -13,6 +13,11 @@ MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
     connect(this, SIGNAL(destroyed(QObject*)), parent, SLOT(destroyGroup(QObject*)));
 }
 
+int MinoAnimationGroup::id ()
+{
+    return _program->animationGroups().indexOf(this);
+}
+
 void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
 {
     insertAnimation(animation);
