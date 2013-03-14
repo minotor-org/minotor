@@ -33,7 +33,7 @@ void UiProgramView::paintEvent(QPaintEvent *event)
     qreal stepY = (qreal)height() / rendering->height();
 
     QPen pen;
-    pen.setWidth(2);
+    pen.setWidth(1);
     pen.setColor(Qt::black);
     painter.setPen(pen);
     const int nbLines = (rendering->width()-1) + (rendering->height()-1);
