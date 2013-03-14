@@ -54,6 +54,14 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     //Enable button
     _pbEnable = new QPushButton(wTools);
+    enum Qt::Key notesKeys[6] = { Qt::Key_W, Qt::Key_X, Qt::Key_C, Qt::Key_V, Qt::Key_B, Qt::Key_N };
+
+    const int groupId = _group->id();
+    if((groupId>=0)&&(groupId<6))
+    {
+        _pbEnable->setShortcut(notesKeys[groupId]);
+    }
+
     _pbEnable->setFocusPolicy(Qt::NoFocus);
     _pbEnable->setIcon(QIcon(":/pictos/power.png"));
     _pbEnable->setIconSize(QSize(20,20));
