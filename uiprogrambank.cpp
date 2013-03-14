@@ -57,7 +57,6 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     lContent->setMargin(0);
     lContent->setContentsMargins(5,5,5,5);
     QScrollArea *sa = new QScrollArea(wContent);
-    //sa->setObjectName("scroll");
     sa->setFrameShadow(QFrame::Plain);
     sa->setFocusPolicy(Qt::NoFocus);
     sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
