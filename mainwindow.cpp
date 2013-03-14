@@ -137,7 +137,6 @@ MainWindow::MainWindow(QWidget *parent) :
     pbTap->setMinimumSize(28,28);
     pbTap->setMaximumSize(28,28);
     connect(pbTap,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiTapOn()));
-    //_tToolBar->addSeparator();
 
     QWidget *wMidiButtons = new QWidget(wBackground);
     lBackground->addWidget(wMidiButtons);
