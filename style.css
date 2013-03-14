@@ -534,6 +534,7 @@ UiProgram[expanded=false] > QWidget > QWidget#programbackground {
 
 UiProgram[onair=true] > QWidget#panel {
     background-color:#e75f00;
+    border:1px solid #e75f00;
 }
 
 
