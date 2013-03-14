@@ -465,9 +465,11 @@ QWidget#scrollcontent {
 }
 
 QWidget#titlebar {
-    border : 1px solid #404040;
     background: #2c2c2c;
-    border-radius:3px;
+    border-top: 2px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.5 #171717,stop: 1.0 #666666);
+    border-bottom: 2px solid qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #666666);
+    border-left: 2px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,stop: 0.5 #171717,stop: 1.0 #666666);
+    border-right: 2px solid qlineargradient(x1: 1, y1: 0, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #666666);
 }
 
 QWidget#toolbarpanel {
