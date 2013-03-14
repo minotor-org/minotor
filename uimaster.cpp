@@ -100,17 +100,10 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget *wTools = new QWidget(wMasterView);
     lMasterView->addWidget(wTools);
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
-
-
     UiMidiProperty *dBrightness = new UiMidiProperty(_master->properties().at(0), wTools);
     lTools->addWidget(dBrightness);
-    QLabel *tBrightness = new QLabel(wTools);
-    lTools->addWidget(tBrightness);
-    tBrightness->setObjectName("bigLabel");
-    tBrightness->setText(_master->properties().at(0)->objectName());
-
     lTools->addStretch();
-    //
+
     lMasterView->addStretch();
 }
 
