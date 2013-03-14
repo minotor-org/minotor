@@ -57,6 +57,13 @@ UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent, bool edi
         lTop->addWidget(pbOnMaster);
         connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
     }
+    else
+    {
+        QWidget *wRight = new QWidget(wTop);
+        wRight->setMinimumSize(6,6);
+        wRight->setMaximumSize(6,6);
+        lTop->addWidget(wRight);
+    }
     QWidget *wDial = new QWidget(this);
     lProperty->addWidget(wDial);
     QHBoxLayout *lDial = new QHBoxLayout(wDial);
