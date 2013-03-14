@@ -464,6 +464,12 @@ QWidget#scrollcontent {
     border-radius:3px;
 }
 
+QWidget#titlebar {
+    border : 1px solid #404040;
+    background: #2c2c2c;
+    border-radius:3px;
+}
+
 QWidget#toolbarpanel {
     background-color:#3a3a3a;
 }

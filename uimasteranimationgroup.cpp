@@ -35,10 +35,11 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     QWidget *wTools = new QWidget(_wContent);
     lContent->addWidget(wTools);
+    wTools->setObjectName("titlebar");
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
     lTools->setSpacing(0);
     lTools->setMargin(0);
-    lTools->setContentsMargins(6,0,6,0);
+    lTools->setContentsMargins(6,4,6,4);
 
     //Delayed button
     QPushButton *pbDelayedEnable = new QPushButton(wTools);
@@ -64,9 +65,9 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     _pbEnable->setFocusPolicy(Qt::NoFocus);
     _pbEnable->setIcon(QIcon(":/pictos/power.png"));
-    _pbEnable->setIconSize(QSize(20,20));
-    _pbEnable->setMinimumSize(20,20);
-    _pbEnable->setMaximumSize(20,20);
+    _pbEnable->setIconSize(QSize(18,18));
+    _pbEnable->setMinimumSize(18,18);
+    _pbEnable->setMaximumSize(18,18);
     _pbEnable->setCheckable(true);
     connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lTools->addWidget(_pbEnable);
