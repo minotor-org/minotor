@@ -16,7 +16,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
     lGroupBox->setMargin(0);
-    lGroupBox->setContentsMargins(1,1,1,1);
+    lGroupBox->setContentsMargins(2,2,2,2);
 
     QWidget *wBorder = new QWidget(this);
     wBorder->setObjectName("group");
@@ -87,21 +87,35 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     fSeparator->setLineWidth(1);
     lContent->addWidget(fSeparator);
 
+    QGroupBox *gbParameters = new QGroupBox(_wContent);
+    lContent->addWidget(gbParameters);
+    gbParameters->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+    QVBoxLayout *lParameters = new QVBoxLayout(gbParameters);
+    lParameters->setSpacing(0);
+    lParameters->setMargin(0);
+    lParameters->setContentsMargins(1,1,1,1);
+    _wGroupParameters  = new QWidget(gbParameters);
+    lParameters->addWidget(_wGroupParameters);
+    _wGroupParameters->setObjectName("content");
+    QVBoxLayout *lGroupParameters = new QVBoxLayout(_wGroupParameters);
+    lGroupParameters->setSpacing(2);
+    lGroupParameters->setMargin(0);
+    lGroupParameters->setContentsMargins(1,1,1,1);
+
     _wImportantParameters = new QWidget(_wContent);
-    lContent->addWidget(_wImportantParameters);
+    lGroupParameters->addWidget(_wImportantParameters);
     _lImportantParameters = new QVBoxLayout(_wImportantParameters);
     _lImportantParameters->setSpacing(4);
     _lImportantParameters->setMargin(0);
     _lImportantParameters->setContentsMargins(5,0,5,5);
 
     _wMidiParameters = new QWidget(_wContent);
-    lContent->addWidget(_wMidiParameters);
+    lGroupParameters->addWidget(_wMidiParameters);
     _lMidiParameters = new QVBoxLayout(_wMidiParameters);
     _lMidiParameters->setSpacing(4);
     _lMidiParameters->setMargin(0);
     _lMidiParameters->setContentsMargins(5,0,5,5);
-
-    lContent->addStretch(1);
+    lGroupParameters->addStretch(1);
 
     // Connect UI with its group
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
@@ -124,7 +138,7 @@ void UiMasterAnimationGroup::updateGroup()
     {
         delete(uiAnimationProperty);
     }
-    foreach (QFrame *frame, this->findChildren<QFrame*>())
+    foreach (QFrame *frame, _wGroupParameters->findChildren<QFrame*>())
     {
         delete(frame);
     }
@@ -140,7 +154,7 @@ void UiMasterAnimationGroup::updateGroup()
                     if (cpt>0)
                     {
                         QFrame *fSeparator = new QFrame(_wImportantParameters);
-                        fSeparator->setObjectName("groupline");
+                        fSeparator->setObjectName("line");
                         fSeparator->setFrameShape(QFrame::HLine);
                         fSeparator->setFrameShadow(QFrame::Sunken);
                         fSeparator->setLineWidth(1);
@@ -155,7 +169,7 @@ void UiMasterAnimationGroup::updateGroup()
                     if (cpt>0)
                     {
                         QFrame *fSeparator = new QFrame(_wMidiParameters);
-                        fSeparator->setObjectName("groupline");
+                        fSeparator->setObjectName("line");
                         fSeparator->setFrameShape(QFrame::HLine);
                         fSeparator->setFrameShadow(QFrame::Sunken);
                         fSeparator->setLineWidth(1);

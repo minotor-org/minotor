@@ -13,7 +13,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
     lGroupBox->setMargin(0);
-    lGroupBox->setContentsMargins(1,1,1,1);
+    lGroupBox->setContentsMargins(2,2,2,2);
 
     QWidget *wBorder = new QWidget(this);
     wBorder->setObjectName("group");
@@ -88,7 +88,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     _lAnimations = new QHBoxLayout(_wAnimations);
     _lAnimations->setSpacing(5);
     _lAnimations->setMargin(0);
-    _lAnimations->setContentsMargins(5,0,5,5);
+    _lAnimations->setContentsMargins(0,0,0,0);
 
     foreach (MinoAnimation *animation, _group->animations())
     {

@@ -30,6 +30,7 @@ private:
 
     MinoAnimationGroup *_group;
     QWidget *_wContent;
+    QWidget *_wGroupParameters;
 
     // Flagged as "Important" paramaters
     QBoxLayout *_lImportantParameters;
