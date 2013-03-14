@@ -117,8 +117,8 @@ void UiProgram::setExpanded(bool expanded)
     }
     else
     {
-        this->setMinimumHeight(110);
-        this->setMaximumHeight(110);
+        this->setMinimumHeight(150);
+        this->setMaximumHeight(150);
     }
 
     QScrollArea * sa = dynamic_cast<QScrollArea*>(parentWidget()->parentWidget()->parentWidget());
