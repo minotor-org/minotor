@@ -28,6 +28,7 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
+    _generatorStyle.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorStyle);
 
     _propertyGrouped.append(&_mplLine2);

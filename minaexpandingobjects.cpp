@@ -30,6 +30,7 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
+    _generatorStyle.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorStyle);
 
     _propertyGrouped.append(&_mplLine2);
@@ -40,8 +41,8 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _generatorShape.addItem("Circle", 2);
     _generatorShape.addItem("Square", 3);
     _generatorShape.setCurrentItem("Ellipse");
+    _generatorShape.setType(MinoProperty::Items);
     _mplLine3.append(&_generatorShape);
-
     _propertyGrouped.append(&_mplLine3);
 
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);

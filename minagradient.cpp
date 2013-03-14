@@ -13,6 +13,7 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _generatorStyle.addItem("Radial", 0);
     _generatorStyle.addItem("Conical", 1);
     _generatorStyle.setCurrentItem("Radial");
+    _generatorStyle.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorStyle);
 
     _generatorCurve.setObjectName("Curve");
@@ -21,6 +22,7 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _generatorCurve.addItem("InOutBounce", 2);
     _generatorCurve.addItem("InOutQuart", 3);
     _generatorCurve.setCurrentItem("Linear");
+    _generatorCurve.setType(MinoProperty::Items);
     _mplLine2 .append(&_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);
