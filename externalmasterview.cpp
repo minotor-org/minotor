@@ -9,6 +9,11 @@ ExternalMasterView::ExternalMasterView(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ExternalMasterView)
 {
+    QVBoxLayout *lMain = new QVBoxLayout(this);
+    setLayout(lMain);
+    lMain->setSpacing(0);
+    lMain->setMargin(0);
+    lMain->setContentsMargins(0,0,0,0);
     connect(Minotor::minotor()->master(),SIGNAL(programChanged()),this,SLOT(updateProgram()));
     _uiMasterMonitor = new UiProgramView(Minotor::minotor()->master()->program(), this);
     _uiMasterMonitor->setObjectName("masterMonitor");
