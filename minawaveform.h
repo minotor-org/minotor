@@ -23,6 +23,10 @@ public slots:
 
 private:
     QGraphicsItemGroup _itemGroup;
+
+protected:
+    MinoItemizedProperty _colorType;
+    MinoPropertyList _mplLine2;
 };
 
 #endif // MINOANIMATIONWAVEFORM_H
