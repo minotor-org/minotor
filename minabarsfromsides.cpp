@@ -9,6 +9,15 @@ MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
+    _colorType.setObjectName("color type");
+    _colorType.addItem("plain", 0);
+    _colorType.addItem("grad.", 1);
+    _colorType.setCurrentItem("plain");
+    _colorType.setType(MinoProperty::Items);
+    _mplLine2.append(&_colorType);
+
+    _propertyGrouped.append(&_mplLine2);
+
 }
 
 void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -22,28 +31,41 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     QColor color, colorMin, colorMax;
     color.setHsvF(_color.value(), 1.0, 1.0);
 
-    qreal minValue = _color.value()-0.2; if(minValue<0.0) minValue += 1.0;
-    colorMin.setHsvF(minValue, 1.0, 1.0);
-
-    qreal maxValue = _color.value()+0.2; if(maxValue>1.0) maxValue -= 1.0;
-    colorMax.setHsvF(maxValue, 1.0, 1.0);
-
     QLinearGradient gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
-    gradH.setColorAt(0.0, colorMax) ;
-    gradH.setColorAt(0.3, color) ;
-    gradH.setColorAt(0.45, colorMin) ;
-    gradH.setColorAt(0.55, colorMin) ;
-    gradH.setColorAt(0.7, color) ;
-    gradH.setColorAt(1, colorMax) ;
-
     QLinearGradient gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
-    gradV.setColorAt(0.0, colorMax) ;
-    gradV.setColorAt(0.3, color) ;
-    gradV.setColorAt(0.45, colorMin) ;
-    gradV.setColorAt(0.55, colorMin) ;
-    gradV.setColorAt(0.7, color) ;
-    gradV.setColorAt(1, colorMax) ;
 
+    if (_colorType.currentItem()->real() == 0.0)
+    {
+        gradH.setColorAt(0.0, color) ;
+        gradH.setColorAt(0.5, Qt::transparent) ;
+        gradH.setColorAt(1.0, color) ;
+
+        gradV.setColorAt(0.0, color) ;
+        gradV.setColorAt(0.5, Qt::transparent) ;
+        gradV.setColorAt(1.0, color) ;
+    }
+    else
+    {
+        qreal minValue = _color.value()-0.15; if(minValue<0.0) minValue += 1.0;
+        colorMin.setHsvF(minValue, 1.0, 1.0);
+
+        qreal maxValue = _color.value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
+        colorMax.setHsvF(maxValue, 1.0, 1.0);
+
+        gradH.setColorAt(0.0, colorMax) ;
+        gradH.setColorAt(0.3, color) ;
+        gradH.setColorAt(0.45, colorMin) ;
+        gradH.setColorAt(0.55, colorMin) ;
+        gradH.setColorAt(0.7, color) ;
+        gradH.setColorAt(1, colorMax) ;
+
+        gradV.setColorAt(0.0, colorMax) ;
+        gradV.setColorAt(0.3, color) ;
+        gradV.setColorAt(0.45, colorMin) ;
+        gradV.setColorAt(0.55, colorMin) ;
+        gradV.setColorAt(0.7, color) ;
+        gradV.setColorAt(1, colorMax) ;
+    }
 
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
     {
