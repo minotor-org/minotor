@@ -49,7 +49,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
        delete item;
     }
-    if (qn%2)
+    if ((int)(gppqn/_beatFactor.currentItem()->real())%2)
     {
         for (int i=0;i< _boundingRect.height();i++)
         {
