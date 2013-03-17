@@ -75,7 +75,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
         for (int i=0;i< _boundingRect.height();i++)
         {
-            qreal lineLength = qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.width() / 2.0;
+            qreal lineLength = 0.5 + (qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.width() / 2.0);
             _itemGroup.addToGroup(_scene->addLine(_boundingRect.left(), i, _boundingRect.left()+lineLength, i, QPen(QBrush(gradV),1)));
             _itemGroup.addToGroup(_scene->addLine(_boundingRect.width()-lineLength, i, _boundingRect.width(), i, QPen(QBrush(gradV),1)));
         }
@@ -84,7 +84,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
         for (int i=0;i< _boundingRect.width();i++)
         {
-            qreal lineLength = qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.height() / 2.0;
+            qreal lineLength = 0.5 + (qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.height() / 2.0);
             _itemGroup.addToGroup(_scene->addLine(i, _boundingRect.top(), i, _boundingRect.top()+lineLength, QPen(QBrush(gradH),1)));
             _itemGroup.addToGroup(_scene->addLine(i, (qreal)_boundingRect.height()-lineLength, i, _boundingRect.height(), QPen(QBrush(gradH),1)));
         }
