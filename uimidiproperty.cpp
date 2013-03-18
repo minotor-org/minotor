@@ -30,40 +30,45 @@ UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent, bool edi
     lTop->setSpacing(0);
     lTop->setMargin(0);
     lTop->setContentsMargins(2,0,2,0);
-    QWidget *wLeft = new QWidget(wTop);
-    wLeft->setMinimumSize(6,6);
-    wLeft->setMaximumSize(6,6);
-    lTop->addWidget(wLeft);
-    lTop->addStretch();
 
     MinoItemizedProperty* itemizedProperty = dynamic_cast<MinoItemizedProperty*>(property);
     if(itemizedProperty)
     {
-        QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
-        tItemName->setObjectName("dialinfo");
-        tItemName->setAlignment(Qt::AlignHCenter);
-        connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
-        lTop->addWidget(tItemName);
-    }
-    lTop->addStretch();
+        if(editorMode)
+        {
+            QWidget *wLeft = new QWidget(wTop);
+            wLeft->setMinimumSize(6,6);
+            wLeft->setMaximumSize(6,6);
+            lTop->addWidget(wLeft);
+            lTop->addStretch();
 
-    if(editorMode)
-    {
-        QPushButton *pbOnMaster = new QPushButton(wTop);
-        pbOnMaster->setObjectName("tiny");
-        pbOnMaster->setCheckable(true);
-        pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
-        pbOnMaster->setFixedSize(6,6);
-        lTop->addWidget(pbOnMaster);
-        connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
+            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
+            tItemName->setObjectName("dialinfo");
+            tItemName->setAlignment(Qt::AlignHCenter);
+            connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
+            lTop->addWidget(tItemName);
+            lTop->addStretch();
+
+            QPushButton *pbOnMaster = new QPushButton(wTop);
+            pbOnMaster->setObjectName("tiny");
+            pbOnMaster->setCheckable(true);
+            pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
+            pbOnMaster->setFixedSize(6,6);
+            lTop->addWidget(pbOnMaster);
+            connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
+        }
+        else
+        {
+            lTop->addStretch();
+            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
+            tItemName->setObjectName("dialinfo");
+            tItemName->setAlignment(Qt::AlignHCenter);
+            connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
+            lTop->addWidget(tItemName);
+            lTop->addStretch();
+        }
     }
-    else
-    {
-        QWidget *wRight = new QWidget(wTop);
-        wRight->setMinimumSize(6,6);
-        wRight->setMaximumSize(6,6);
-        lTop->addWidget(wRight);
-    }
+
     QWidget *wDial = new QWidget(this);
     lProperty->addWidget(wDial);
     QHBoxLayout *lDial = new QHBoxLayout(wDial);
