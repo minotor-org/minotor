@@ -16,6 +16,7 @@ public:
     }
     const MinoAnimationDescription description() const { return MinaVibration::getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }
+    void setSegments(qreal value) { _segments.setValue(value); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
