@@ -9,7 +9,7 @@ MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _segments.setObjectName("segment");
-    _segments.setValue(0.1);
+    _segments.setValue(0.3);
     _mplLine2.append(&_segments);
 
     _propertyGrouped.append(&_mplLine2);
