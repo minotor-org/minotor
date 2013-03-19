@@ -57,6 +57,7 @@ public:
     MinoProgram* program() const { return _program; }
     MinoAnimationGroup* group() const { return _group; }
     void setGroup(MinoAnimationGroup *group);
+    void setFrequency(QString frequency) { _beatFactor.setCurrentItem(frequency); }
 
 public slots:
     void setEnabled(const bool enabled);
