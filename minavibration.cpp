@@ -1,5 +1,6 @@
 #include "minavibration.h"
 #include <QDebug>
+#include <QGraphicsBlurEffect>
 
 MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     MinoAnimation(group)
@@ -7,6 +8,10 @@ MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
+    blur->setBlurRadius(1.1);
+    _itemGroup.setGraphicsEffect(blur);
 
     _segments.setObjectName("segment");
     _segments.setValue(0.3);
