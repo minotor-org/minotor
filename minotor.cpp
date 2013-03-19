@@ -18,6 +18,7 @@
 #include "minastars.h"
 #include "minaplasma.h"
 #include "minagradient.h"
+#include "minavibration.h"
 
 // Programs
 #include "miprodebug.h"
@@ -55,6 +56,7 @@ Minotor::Minotor(QObject *parent) :
     MinoAnimationFactory::registerClass<MinaFlash>();
     MinoAnimationFactory::registerClass<MinaExpandingObjects>();
     MinoAnimationFactory::registerClass<MinaWaveform>();
+    MinoAnimationFactory::registerClass<MinaVibration>();
     MinoAnimationFactory::registerClass<MinaBarsFromSides>();
     MinoAnimationFactory::registerClass<MinaFallingObjects>();
     MinoAnimationFactory::registerClass<MinaText>();

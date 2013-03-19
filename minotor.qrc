@@ -31,5 +31,6 @@
         <file>pictos/power.png</file>
         <file>pictos/close.png</file>
         <file>pictos/delayed.png</file>
+        <file>images/vibration.png</file>
     </qresource>
 </RCC>
