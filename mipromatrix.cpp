@@ -33,7 +33,7 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
     asg->addAnimation(as);
     MinaVibration *av = new MinaVibration(asg);
     av->setColorH(0.32);
-    av->setSegments(0.4);
+    av->setSegments(0.2);
     asg->addAnimation(av);
     this->addAnimationGroup(asg);
 
