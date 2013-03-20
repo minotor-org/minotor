@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Minotor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="minotor.qrc">
+    <normaloff>:/pictos/icone.png</normaloff>:/pictos/icone.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -164,6 +168,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="minotor.qrc"/>
+ </resources>
  <connections/>
 </ui>
