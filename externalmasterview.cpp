@@ -2,6 +2,7 @@
 #include "ui_externalmasterview.h"
 #include "minotor.h"
 
+#include <QLayout>
 #include <QMouseEvent>
 #include <QDebug>
 
@@ -10,7 +11,6 @@ ExternalMasterView::ExternalMasterView(QWidget *parent) :
     ui(new Ui::ExternalMasterView)
 {
     QVBoxLayout *lMain = new QVBoxLayout(this);
-    setLayout(lMain);
     lMain->setSpacing(0);
     lMain->setMargin(0);
     lMain->setContentsMargins(0,0,0,0);
