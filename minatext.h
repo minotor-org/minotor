@@ -12,7 +12,7 @@ public:
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("text", "Beat-synced text", QPixmap(":/images/text.png"), MinaText::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinaText::getDescription(); }
+    const MinoAnimationDescription description() const { return getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }
     void setText(QString value) { _text.setTextValue(value); }
     void setDuration(QString duration) { _beatDuration.setCurrentItem(duration); }

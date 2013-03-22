@@ -13,7 +13,7 @@ public:
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Random pixels", "Beat-synced randomly placed pixels", QPixmap(":/images/randompixels.png"), MinaRandomPixels::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinaRandomPixels::getDescription(); }
+    const MinoAnimationDescription description() const { return getDescription(); }
 
     void setColorH(qreal hue) { _color.setValue(hue); }
     void setDensity(qreal density) { _density.setValue(density); }

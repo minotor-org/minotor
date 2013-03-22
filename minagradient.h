@@ -15,7 +15,7 @@ public:
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("gradient", "Gradient", QPixmap(":/images/gradient.png"), MinaGradient::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinaGradient::getDescription(); }
+    const MinoAnimationDescription description() const { return getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }
 
     QGraphicsItem *graphicItem() { return _rectItem; }

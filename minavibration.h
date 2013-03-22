@@ -14,7 +14,7 @@ public:
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Vibration", "Beat-synced vibration", QPixmap(":/images/vibration.png"), MinaVibration::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinaVibration::getDescription(); }
+    const MinoAnimationDescription description() const { return getDescription(); }
     void setColorH(qreal hue) { _color.setValue(hue); }
     void setSegments(qreal value) { _segments.setValue(value); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
