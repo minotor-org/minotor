@@ -112,9 +112,7 @@ void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, 
 
 void Minotor::handleMidiInterfaceControlChange(quint8 program, quint8 control, quint8 value)
 {
-    // qDebug() << "sender:" << QObject::sender()->metaObject()->className();
-
-    Midi *midiInterface = ((Midi*)QObject::sender());
+    Midi *midiInterface = static_cast<Midi*>(QObject::sender());
     if (_midiInterfaces.contains(midiInterface))
     {
         const int midiInterfaceId = _midiInterfaces.indexOf(midiInterface);
