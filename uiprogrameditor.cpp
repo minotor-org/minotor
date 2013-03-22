@@ -158,28 +158,37 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
             UiAnimationGroup *uiGroup = uiGroups.at(i);
             if (uiGroup->geometry().contains(event->pos()))
             {
+                MinoAnimationGroup *group = uiGroup->group();
                 QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
                 for (int j=0; j<uiAnimations.count(); j++)
                 {
                     QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
                     if(uiAnimations.at(j)->rect().contains(pa))
                     {
-                        const int destAnimationId = uiGroup->group()->animations().indexOf(uiAnimations.at(j)->animation());
+                        const int destAnimationId = group->animations().indexOf(uiAnimations.at(j)->animation());
                         if (destAnimationId != -1)
                         {
                             destAnimationFound = true;
-                            MinoAnimation *animation = uiGroup->group()->addAnimation(className,destAnimationId);
+                            MinoAnimation *animation = group->addAnimation(className,destAnimationId);
                             uiGroup->addAnimation(animation,destAnimationId);
                         }
                     }
                 }
                 destGroupFound = true;
+
+                if(!destAnimationFound)
+                {
+                    // Group was found but no target animation under mouse: let's create it at the end of group
+                    MinoAnimation *animation = group->addAnimation(className);
+                    uiGroup->addAnimation(animation, -1);
+                }
                 break;
             }
         }
 
         if(!destGroupFound)
         {
+            // No group found under mouse: let's create a new group
             MinoAnimationGroup *group = new MinoAnimationGroup(_program);
             MinoAnimation *animation = group->addAnimation(className);
             _program->addAnimationGroup(group);
