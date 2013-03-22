@@ -100,7 +100,7 @@ void Midi::midiCallback(double deltatime, std::vector< unsigned char > *message)
 
 void _midiCallback(double deltatime, std::vector< unsigned char > *message, void *userData )
 {
-    ((Midi*)userData)->midiCallback(deltatime, message);
+    (static_cast<Midi*>(userData))->midiCallback(deltatime, message);
 }
 
 bool Midi::openPort(const unsigned int portIndex)
