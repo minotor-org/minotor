@@ -10,6 +10,12 @@
 
 UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
     QWidget(parent),
+    _indicatorColor(255,255,255),
+    _indicatorBackgroundColor(0,0,0),
+    _buttonColor(255,255,255),
+    _buttonBorderColor(0,0,0),
+    _needleColor(255,255,255),
+    _reflectColor(0,0,0),
     _minValue(0),
     _maxValue(360),
     _value(0),
@@ -58,7 +64,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     case MinoProperty::Linear:
     {
         color = _indicatorColor;
-        if (!color.isValid()) { color.setRgb(255,255,255); }
         pen.setWidth(2);
         pen.setColor(color);
         painter.setPen(pen);
@@ -66,7 +71,6 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         painter.drawArc(square, startAngle, spanAngle*normF);
 
         color = _indicatorBackgroundColor;
-        if (!color.isValid()) { color.setRgb(0,0,0); }
         pen.setColor(color);
         painter.setPen(pen);
         painter.drawArc(square, startAngle+(spanAngle*normF), spanAngle*invF);
@@ -75,12 +79,10 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     case MinoProperty::Steps:
     {
         color = _indicatorColor;
-        if (!color.isValid()) { color.setRgb(255,255,255); }
         QPen indicatorPen(color);
         indicatorPen.setWidth(2);
         painter.setPen(indicatorPen);
         color = _indicatorBackgroundColor;
-        if (!color.isValid()) { color.setRgb(255,255,255); }
         QPen indicatorBackgroundPen(color);
         indicatorBackgroundPen.setWidth(2);
 
@@ -102,12 +104,10 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     case MinoProperty::Items:
     {
         color = _indicatorColor;
-        if (!color.isValid()) { color.setRgb(255,255,255); }
         QPen indicatorPen(color);
         indicatorPen.setWidth(2);
         painter.setPen(indicatorPen);
         color = _indicatorBackgroundColor;
-        if (!color.isValid()) { color.setRgb(255,255,255); }
         QPen indicatorBackgroundPen(color);
         indicatorBackgroundPen.setWidth(2);
 
@@ -133,25 +133,21 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     }
 
     color = _buttonBorderColor;
-    if (!color.isValid()) { color.setRgb(0,0,0); }
     pen.setWidth(1);
     pen.setColor(color);
     painter.setPen(pen);
     color = _buttonColor;
-    if (!color.isValid()) { color.setRgb(255,255,255); }
     painter.setBrush(QBrush(color));
     const qreal r = ((qreal)square.width()/2.0)-3.5;
     painter.drawEllipse(square.center(),r,r);
 
     color = _reflectColor;
-    if (!color.isValid()) { color.setRgb(0,0,0); }
     pen.setWidth(0.5);
     pen.setColor(color);
     painter.setPen(pen);
     painter.drawArc(square.adjusted(5,5,-5,-5),(60*16), (150*16) );
 
     color = _needleColor;
-    if (!color.isValid()) { color.setRgb(255,255,255); }
     pen.setColor(color);
     pen.setWidth(2);
     painter.setPen(pen);
