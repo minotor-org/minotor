@@ -5,6 +5,7 @@
 Midi::Midi(QObject *parent) :
     QObject(parent),
     _midiIn(NULL),
+    _portIndex(0),
     _connected(false)
 {
     try {
