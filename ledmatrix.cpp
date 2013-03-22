@@ -8,7 +8,8 @@ LedMatrix::LedMatrix(QObject *parent) :
     QObject(parent),
     _size(24,16),
     _port(NULL),
-    _connected(false)
+    _connected(false),
+    _framebuffer()
 {
 }
 
