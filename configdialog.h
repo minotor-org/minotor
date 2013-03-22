@@ -27,7 +27,7 @@ private slots:
 
     void on_pbMidiConnect_clicked(bool checked);
 
-    void on_ConfigDialog_finished(int result);
+    void configDialogFinished(int result);
 
 private:
     Ui::ConfigDialog *ui;

@@ -23,6 +23,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
     connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
 
+    connect(this, SIGNAL(finished(int)), this, SLOT(configDialogFinished(int)));
     // TODO: Search in port list
     Minotor::minotor()->ledMatrix()->openPortByName(_settings.value("serial/interface").toString());
     if (Minotor::minotor()->ledMatrix()->isConnected())
@@ -226,7 +227,7 @@ void ConfigDialog::on_pbMidiConnect_clicked(bool checked)
     }
 }
 
-void ConfigDialog::on_ConfigDialog_finished(int result)
+void ConfigDialog::configDialogFinished(int result)
 {
     qDebug() << "ConfigDialog: result" << result;
     disconnect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
