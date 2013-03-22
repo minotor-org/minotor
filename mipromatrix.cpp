@@ -12,14 +12,16 @@
 MiproMatrix::MiproMatrix(Minotor *minotor) :
     MinoProgram(minotor)
 {
+    const qreal matrixColorH = 0.32;
+
     this->setObjectName("Matrix");
 
     MinoAnimationGroup *afg = new MinoAnimationGroup(this);
     MinaFlash *af = new MinaFlash(afg);
-    af->setColorH(0.4);
+    af->setColorH(matrixColorH);
     afg->addAnimation(af);
     MinaRandomPixels *arp = new MinaRandomPixels(afg);
-    arp->setColorH(0.4);
+    arp->setColorH(matrixColorH);
     arp->setDensity(0.4);
     afg->addAnimation(arp);
     this->addAnimationGroup(afg);
@@ -39,7 +41,7 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
 
     MinoAnimationGroup *afog = new MinoAnimationGroup(this);
     MinaFallingObjects *afo = new MinaFallingObjects(afog);
-    afo->setColorH(0.4);
+    afo->setColorH(matrixColorH);
     afo->setBeatPeriod("1/2");
     afo->setDensity(7);
     afo->setDuration(8);
