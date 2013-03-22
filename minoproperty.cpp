@@ -35,8 +35,7 @@ void MinoProperty::setValue(qreal value)
         _value = value;
         emit valueChanged(value);
     }
-    qDebug() << Q_FUNC_INFO
-             << "" << value;
+    // qDebug() << Q_FUNC_INFO << "" << value;
  }
 
 MinoProperty::Type MinoProperty::type()
