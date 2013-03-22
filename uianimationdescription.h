@@ -9,7 +9,7 @@ class UiAnimationDescription : public QLabel
 {
     Q_OBJECT
 public:
-    explicit UiAnimationDescription(const MinoAnimationDescription animation, QWidget *parent);
+    explicit UiAnimationDescription(const MinoAnimationDescription& animation, QWidget *parent);
 
     MinoAnimationDescription *description() { return &_animation; }
 signals:

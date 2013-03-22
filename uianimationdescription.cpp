@@ -1,6 +1,6 @@
 #include "uianimationdescription.h"
 
-UiAnimationDescription::UiAnimationDescription(const MinoAnimationDescription animation, QWidget *parent) :
+UiAnimationDescription::UiAnimationDescription(const MinoAnimationDescription &animation, QWidget *parent) :
     QLabel(parent),
     _animation(animation)
 {
