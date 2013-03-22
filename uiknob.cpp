@@ -32,6 +32,8 @@ UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
 
 void UiKnob::paintEvent(QPaintEvent *pe)
 {
+    (void)pe;
+
     QRect eventRect = this->rect();
     QPainter painter(this);
 

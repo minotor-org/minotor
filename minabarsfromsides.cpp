@@ -24,6 +24,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
 {
     (void)uppqn;
     (void)ppqn;
+    (void)qn;
 
     computeAnimaBeatProperty(gppqn);
 
