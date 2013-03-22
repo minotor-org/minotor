@@ -250,6 +250,11 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                     }
                 }
                 destGroupFound = true;
+
+                if (!destAnimationFound)
+                {
+                    moveAnimation(srcGroupId, srcAnimationId, uiGroup, -1);
+                }
                 break;
             }
         }
