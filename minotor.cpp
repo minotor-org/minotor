@@ -33,10 +33,15 @@ Minotor::Minotor(QObject *parent) :
     _ledMatrix = new LedMatrix(this);
 
     _master = new MinoMaster(this);
-    _master->setProgram(new MiproMatrix(this));
-    new MiproDebug(this);
+    // Please let MiproDebug as first program:
+    //   MiproDebug is design to debug, hence the name, so it should be quick to access.
+    //   BTW, MiproDebug can be tweaked depending on current topic..
+    _master->setProgram(new MiproDebug(this));
+
+    new MiproMatrix(this);
     new MiproBnzIchRU(this);
     new MiproWaves(this);
+
     // MIDI interfaces
     Midi *midi = new Midi(this);
     _midiInterfaces.append(midi);

@@ -48,5 +48,4 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
     afo->setLength(5);
     afog->addAnimation(afo);
     this->addAnimationGroup(afog);
-
 }
