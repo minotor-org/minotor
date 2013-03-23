@@ -20,7 +20,11 @@ MinoMaster::MinoMaster(Minotor *minotor):
 
 MinoMaster::~MinoMaster()
 {
-
+    if(_program)
+    {
+        disconnect(_program, SIGNAL(updated()), this, SIGNAL(updated()));
+        _itemGroup.removeFromGroup(_program->itemGroup());
+    }
 }
 
 void MinoMaster::setBrightness(qreal value)

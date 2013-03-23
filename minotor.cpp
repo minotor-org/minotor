@@ -68,14 +68,18 @@ Minotor::Minotor(QObject *parent) :
 
 Minotor::~Minotor()
 {
+    delete _master;
+    foreach(MinoProgram *program, programs())
+    {
+        delete program;
+    }
+
     delete _clockSource;
 
     foreach (Midi *midi, _midiInterfaces)
     {
         delete midi;
     }
-
-    delete _master;
 
     delete _ledMatrix;
 }

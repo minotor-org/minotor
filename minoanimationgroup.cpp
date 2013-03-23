@@ -25,12 +25,9 @@ void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
 
 MinoAnimationGroup::~MinoAnimationGroup()
 {
-    qDebug() << "~MinoAnimationGroup>"
-                << "animations count:" << _animations.count();
-
     foreach (MinoAnimation *animation, _animations)
     {
-        delete(animation);
+        delete animation;
     }
 }
 

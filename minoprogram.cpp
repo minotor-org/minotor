@@ -28,6 +28,11 @@ MinoProgram::MinoProgram(Minotor *minotor) :
 
 MinoProgram::~MinoProgram()
 {
+    foreach(MinoAnimationGroup *group, animationGroups())
+    {
+        delete group;
+    }
+
     delete _image;
 }
 
