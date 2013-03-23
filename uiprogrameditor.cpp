@@ -298,7 +298,7 @@ UiAnimationGroup* UiProgramEditor::findUiAnimationGroup(int groupId)
 
     for (int j=0; j<uiAnimationGroups.count(); j++)
     {
-        int currentGroupId = _program->animationGroups().indexOf(uiAnimationGroups.at(j)->group());
+        int currentGroupId = uiAnimationGroups.at(j)->group()->id();
         if(currentGroupId == groupId)
         {
             uiAnimationGroup = uiAnimationGroups.at(j);
@@ -344,13 +344,14 @@ void UiProgramEditor::insertAnimation(UiAnimation *uiAnimation, int destGroupId,
 
 void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId)
 {
-    const int destGroupId = _program->animationGroups().indexOf(destGroup->group());
+    const int destGroupId = destGroup->group()->id();
+/*
     qDebug() << "UiProgramEditor>"
              << " srcGroupId:" << srcGroupId
              << " srcAnimationId:" << srcAnimationId
              << " destGroupId:" << destGroupId
              << " destAnimationId:" << destAnimationId;
-
+*/
     if (destGroupId == srcGroupId)
     {
         destGroup->moveAnimation(srcAnimationId, destAnimationId);

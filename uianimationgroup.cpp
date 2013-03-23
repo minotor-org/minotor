@@ -136,7 +136,7 @@ void UiAnimationGroup::_moveAnimation(int programId, int groupId)
     if(programId == _group->program()->id())
     {
         // Same program between src and dest
-        if(groupId == _group->program()->animationGroups().indexOf(_group))
+        if(groupId == _group->id())
         {
             // and same groupid
         }

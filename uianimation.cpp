@@ -127,7 +127,7 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
     QByteArray itemData;
     QDataStream dataStream(&itemData, QIODevice::WriteOnly);
 
-    int groupId = _animation->program()->animationGroups().indexOf(_animation->group());
+    const int groupId = _animation->group()->id();
     if(groupId!=-1)
     {
         int animationId = _animation->program()->animationGroups().at(groupId)->animations().indexOf(_animation);
@@ -166,7 +166,5 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
 
 void UiAnimation::changeAnimationGroup(int programId, int groupId)
 {
-    qDebug() << "UiAnimation::changeAnimationGroup(" << programId << "," << groupId << ")"
-             << "sender" << sender();
     emit animationMoved(programId, groupId);
 }

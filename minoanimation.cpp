@@ -61,7 +61,7 @@ void MinoAnimation::setGroup(MinoAnimationGroup *group)
         setParent(group);
         if(_group) {
            _program = _group->program();
-           emit groupChanged(_program->id(), _program->animationGroups().indexOf(_group));
+           emit groupChanged(_program->id(), _group->id());
         } else {
             _program = NULL;
             graphicItem()->setVisible(false);
