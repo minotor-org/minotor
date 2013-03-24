@@ -10,6 +10,7 @@
 #include "minoproperty.h"
 #include "minoitemizedproperty.h"
 #include "minotextproperty.h"
+#include "minopersistentobject.h"
 
 class MinoProgram;
 
@@ -36,11 +37,13 @@ private:
 
 class MinoAnimationGroup;
 
-class MinoAnimation : public QObject
+class MinoAnimation : public MinoPersistentObject
 {
     Q_OBJECT
     friend class MinoAnimationGroup;
 
+    Q_PROPERTY(QString frequency READ frequency WRITE setFrequency STORED true)
+    Q_PROPERTY(qreal color READ color WRITE setColor STORED true)
 public:
     explicit MinoAnimation(MinoAnimationGroup *group);
 
@@ -57,7 +60,14 @@ public:
     MinoProgram* program() const { return _program; }
     MinoAnimationGroup* group() const { return _group; }
     void setGroup(MinoAnimationGroup *group);
+
+    // MinoProperties
+    // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
+    void setColor(qreal hue) { _color.setValue(hue); }
+    qreal color() { return _color.value(); }
+
     void setFrequency(QString frequency) { _beatFactor.setCurrentItem(frequency); }
+    QString frequency() { return _beatFactor.currentItem()->name(); }
 
 public slots:
     void setEnabled(const bool enabled);

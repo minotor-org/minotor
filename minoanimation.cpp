@@ -5,7 +5,7 @@
 #include "minoanimationgroup.h"
 
 MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
-    QObject(group),
+    MinoPersistentObject(group),
     _group(group),
     _enabled(true)
 {
@@ -16,6 +16,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
 
     _color.setObjectName("Color");
     _color.setAttributes(MinoProperty::Important);
+    _color.setParent(this);
     _mplMain.append(&_color);
 
     _beatFactor.setObjectName("Freq.");
@@ -29,6 +30,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _beatFactor.setCurrentItem("1");
     _beatFactor.setType(MinoProperty::Steps);
     _beatFactor.setAttributes(MinoProperty::Important);
+	_beatFactor.setParent(this);
     _mplMain.append(&_beatFactor);
 
     _propertyGrouped.append(&_mplMain);

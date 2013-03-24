@@ -13,6 +13,7 @@
 #include <QDoubleSpinBox>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QMetaProperty>
 
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
@@ -374,4 +375,44 @@ void MainWindow::beatToggledReceived(bool active)
 void MainWindow::on_actionExternal_master_view_toggled(bool on)
 {
     _externalMasterView->setVisible(on);
+}
+
+void MainWindow::on_pbSave_clicked()
+{
+    QList<MinoPersistentObject*> persistentObjects =_minotor->findChildren<MinoPersistentObject*>();
+    for(int i=0; i<persistentObjects.count(); i++)
+    {
+        QObject *object = dynamic_cast<QObject*>(persistentObjects.at(i));
+        if(object)
+        {
+            qDebug() << QString(" ").repeated(2) << object;
+            for(int j=0; j<object->metaObject()->propertyCount(); j++)
+            {
+                QMetaProperty omp = object->metaObject()->property(j);
+                qDebug() << QString(" ").repeated(3)
+                         << omp.typeName()
+                         << omp.name()
+                         << omp.read(object)
+                         << omp.isStored();
+            }
+        }
+    }
+    /*
+    MinoAnimation *animation = _minotor->programs().at(0)->animationGroups().at(0)->animations().at(0);
+
+    qDebug() << QString(" ").repeated(0) << animation;
+    for(int i=0; i<animation->metaObject()->propertyCount(); i++)
+    {
+        QMetaProperty amp = animation->metaObject()->property(i);
+        qDebug() << QString(" ").repeated(1)
+                 << amp.typeName()
+                 << amp.name()
+                 << amp.read(animation)
+                 << amp.isStored();
+
+        foreach(QObject *object, animation->children())
+        {
+        }
+    }
+    */
 }

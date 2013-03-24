@@ -54,6 +54,8 @@ private slots:
 
     void on_actionExternal_master_view_toggled(bool on);
 
+    void on_pbSave_clicked();
+
 private:
     // UI
     // == Main window ==

@@ -57,7 +57,8 @@ SOURCES += main.cpp\
     externalmasterview.cpp \
     uiknob.cpp \
     uimasteranimationgroup.cpp \
-    minavibration.cpp
+    minavibration.cpp \
+    minopersistentobject.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -105,7 +106,8 @@ HEADERS  += mainwindow.h \
     externalmasterview.h \
     uiknob.h \
     uimasteranimationgroup.h \
-    minavibration.h
+    minavibration.h \
+    minopersistentobject.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
