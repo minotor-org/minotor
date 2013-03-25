@@ -28,9 +28,6 @@ public:
     ~MainWindow();
 
 private slots:
-    // Action from MIDI menu
-    void midiCaptureTrigged();
-
     // Action from MIDI learn button (toolbar)
     void tbMidiLearnToggled(bool checked);
 
@@ -60,8 +57,6 @@ private:
     // UI
     // == Main window ==
     Ui::MainWindow *ui;
-    QAction *_actionMidiCapture;
-    QMenu _menu;
 
     // Master
     UiMaster *_uiMaster;

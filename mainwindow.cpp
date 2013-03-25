@@ -35,9 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->gvGlobal->setScene(_minotor->scene());
 
-    _actionMidiCapture = new QAction("Assign MIDI control", this);
-    connect(_actionMidiCapture, SIGNAL(triggered()), this, SLOT(midiCaptureTrigged()));
-
     ui->dwDebug->hide();
 
     // Configuration dialog box
@@ -227,9 +224,6 @@ MainWindow::MainWindow(QWidget *parent) :
     UiProgramBank *uiProgramBank = new UiProgramBank(_minotor, ui->centralWidget);
     lCentralWidget->addWidget(uiProgramBank);
 
-    // Default MIDI menu
-    _menu.addAction(_actionMidiCapture);
-
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
     _tAnimationToolBar = new QToolBar("Animations",this);
     this->addToolBar(Qt::BottomToolBarArea,_tAnimationToolBar);
@@ -272,7 +266,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete _actionMidiCapture;
     delete _configDialog;
     delete ui;
 }
@@ -285,23 +278,6 @@ void MainWindow::on_action_Configuration_triggered()
 void MainWindow::on_action_MinotorWiki_triggered()
 {
     QDesktopServices::openUrl(QUrl("https://bitbucket.org/neomilium/minotor/wiki/Home"));
-}
-
-void MainWindow::midiCaptureTrigged()
-{
-    qDebug() << "here:" << QObject::sender()->metaObject()->className();
-
-    if (QString(QObject::sender()->metaObject()->className()) == QString("QAction"))
-    {
-        QAction *action = ((QAction*)QObject::sender());
-        qDebug() << "there:" << action->parent()->metaObject()->className();
-        UiKnob * knob = dynamic_cast<UiKnob*>(action->parent());
-        if (knob)
-        {
-            qDebug() << "midiCapture trigged for:" << knob->property()->objectName();
-            _minotor->midiMapping()->assignCapturedControlTo(knob->property());
-        }
-    }
 }
 
 void MainWindow::on_sPpqn_valueChanged(int value)
