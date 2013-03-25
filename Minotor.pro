@@ -59,7 +59,6 @@ SOURCES += main.cpp\
     uimasteranimationgroup.cpp \
     minavibration.cpp \
     minopersistentobject.cpp \
-<<<<<<< HEAD
     midicontrolableobject.cpp \
     midicontrolablereal.cpp \
     minopropertyreal.cpp \

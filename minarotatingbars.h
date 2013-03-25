@@ -23,8 +23,8 @@ private:
     MinoPropertyList _mplLine2;
     MinoPropertyList _mplLine3;
     MinoItemizedProperty _generatorCurve;
-    MinoProperty _width;
-    MinoProperty _length;
+    MinoPropertyReal _width;
+    MinoPropertyReal _length;
     int _maxPixels;
     QRectF _drawingZone;
 };

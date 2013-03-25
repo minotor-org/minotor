@@ -16,7 +16,6 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _generatorCurve.addItem("OutInCubic", 2);
     _generatorCurve.addItem("OutInBack", 3);
     _generatorCurve.setCurrentItem("Linear");
-    _generatorCurve.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorCurve);
 
     _generatorAccel.setObjectName("Accel.");
@@ -25,7 +24,6 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _generatorAccel.addItem("InOutBounce", 2);
     _generatorAccel.addItem("InOutQuart", 3);
     _generatorAccel.setCurrentItem("Linear");
-    _generatorAccel.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorAccel);
 
     _propertyGrouped.append(&_mplLine2);

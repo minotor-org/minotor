@@ -24,7 +24,6 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _generatorCurve.addItem("InOutBounce", 2);
     _generatorCurve.addItem("InOutQuart", 3);
     _generatorCurve.setCurrentItem("Linear");
-    _generatorCurve.setType(MinoProperty::Items);
     _mplLine3.append(&_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);
