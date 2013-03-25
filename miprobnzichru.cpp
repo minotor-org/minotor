@@ -7,7 +7,7 @@ MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
     this->setObjectName("Text");
     MinoAnimationGroup *atBadg = new MinoAnimationGroup(this);
     MinaText *atBad = new MinaText(atBadg);
-    atBad->setColorH(0.08);
+    atBad->setColor(0.08);
     atBad->setBeatFactor("1/4");
     atBad->setDuration("1/2");
     atBad->setGeneratorStyle("P:F T:R");
@@ -20,7 +20,7 @@ MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
     atU->setBeatFactor("1/4");
     atU->setDuration("1");
     atU->setGeneratorStyle("P:F T:R");
-    atU->setColorH(0.02);
+    atU->setColor(0.02);
     atU->setText("U");
     atUg->addAnimation(atU);
     this->addAnimationGroup(atUg);
@@ -30,7 +30,7 @@ MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
     atX->setBeatFactor("1/4");
     atX->setDuration("1");
     atX->setGeneratorStyle("P:F T:R");
-    atX->setColorH(0.2);
+    atX->setColor(0.2);
     atX->setText("X");
     atXg->addAnimation(atX);
     this->addAnimationGroup(atXg);
@@ -40,7 +40,7 @@ MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
     atR->setBeatFactor("1/4");
     atR->setDuration("1");
     atR->setGeneratorStyle("P:F T:R");
-    atR->setColorH(0.14);
+    atR->setColor(0.14);
     atR->setText("R");
     atRg->addAnimation(atR);
     this->addAnimationGroup(atRg);

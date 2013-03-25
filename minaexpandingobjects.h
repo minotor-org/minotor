@@ -14,7 +14,6 @@ public:
         return MinoAnimationDescription("Expanding objects", "Beat-synced expanding objects", QPixmap(":/images/expandingobjects.png"), MinaExpandingObjects::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
-    void setColorH(qreal hue) { _color.setValue(hue); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 

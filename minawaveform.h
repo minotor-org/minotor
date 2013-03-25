@@ -14,7 +14,7 @@ public:
         return MinoAnimationDescription("Waveform", "Beat-synced waves", QPixmap(":/images/waveform.png"), MinaWaveform::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
-    void setColorH(qreal hue) { _color.setValue(hue); }
+    
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:

@@ -13,7 +13,6 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setColorH(qreal hue) { _color.setValue(hue); }
     void setDensity(const unsigned int density) { _generatorDensity.setCurrentItem(QString::number(density)); }
     void setDuration(QString duration) { _beatDuration.setCurrentItem(duration);}
 

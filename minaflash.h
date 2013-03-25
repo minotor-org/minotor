@@ -17,7 +17,6 @@ public:
         return MinoAnimationDescription("Flash", "Beat-sync flash", QPixmap(":/images/flash.png"), MinaFlash::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
-    void setColorH(qreal hue) { _color.setValue(hue); }
 
     QGraphicsItem *graphicItem() { return _rectItem; }
 

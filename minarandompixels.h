@@ -15,7 +15,6 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setColorH(qreal hue) { _color.setValue(hue); }
     void setDensity(qreal density) { _density.setValue(density); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 

@@ -14,7 +14,7 @@ public:
         return MinoAnimationDescription("Bars from sides", "Beat-synced random borders bars", QPixmap(":/images/barsfromsides.png"), MinaBarsFromSides::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
-    void setColorH(qreal hue) { _color.setValue(hue); }
+
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 private:

@@ -16,7 +16,6 @@ public:
         return MinoAnimationDescription("plasma", "Plasma", QPixmap(":/images/plasma.png"), MinaPlasma::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
-    void setColorH(qreal hue) { _color.setValue(hue); }
 
     QGraphicsItem *graphicItem() { return &_itemGroup; }
 
