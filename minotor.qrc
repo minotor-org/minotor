@@ -32,5 +32,6 @@
         <file>pictos/close.png</file>
         <file>pictos/delayed.png</file>
         <file>images/vibration.png</file>
+        <file>images/rotatingbars.png</file>
     </qresource>
 </RCC>

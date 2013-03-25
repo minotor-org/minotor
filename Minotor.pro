@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     midicontrolablereal.cpp \
     minopropertyreal.cpp \
     minomidicontrolableproperty.cpp \
-    midicontrolableproperty.cpp
+    midicontrolableproperty.cpp \
+    minarotatingbars.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -117,7 +118,8 @@ HEADERS  += mainwindow.h \
     midicontrolablereal.h \
     minopropertyreal.h \
     minomidicontrolableproperty.h \
-    midicontrolableproperty.h
+    midicontrolableproperty.h \
+    minarotatingbars.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
