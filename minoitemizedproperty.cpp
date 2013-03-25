@@ -67,7 +67,7 @@ void MinoItemizedProperty::setCurrentItem(const QString name)
     {
         if (_items.at(i)->name() == name)
         {
-            //MinoProperty::setValue((qreal)i/(qreal)_items.count());
+            _midiValue = ((qreal)i/(qreal)_items.count())*128.0;
             if(i != _currentItemId) {
                 emit itemChanged(name);
                 _currentItemId = i;

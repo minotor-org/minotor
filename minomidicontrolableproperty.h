@@ -31,9 +31,9 @@ public:
 protected:
     virtual void setValueFromMidi(quint8 value) = 0;
     MidiControlableProperty *_midiControlableProperty;
+    quint8 _midiValue;
 
 private:
-    quint8 _midiValue;
     qreal _step;
 
     // Directly called by MidiControlableProperty

@@ -192,7 +192,7 @@ void UiKnob::_setValue(qreal value)
 
 void UiKnob::setValueFromMidi(quint8 value)
 {
-    _value = (qreal)(value/127*(_maxValue-_minValue))+_minValue;
+    _value = ((qreal)value/127.0*(_maxValue-_minValue))+_minValue;
     update();
 }
 

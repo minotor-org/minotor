@@ -17,6 +17,7 @@ protected:
     void setValueFromMidi(quint8 value);
 
 private:
+    void _setValue(qreal value);
     qreal _value;
 
 signals:
