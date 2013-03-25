@@ -59,12 +59,14 @@ SOURCES += main.cpp\
     uimasteranimationgroup.cpp \
     minavibration.cpp \
     minopersistentobject.cpp \
+<<<<<<< HEAD
     midicontrolableobject.cpp \
     midicontrolablereal.cpp \
     minopropertyreal.cpp \
     minomidicontrolableproperty.cpp \
     midicontrolableproperty.cpp \
-    minarotatingbars.cpp
+    minarotatingbars.cpp \
+    minacurve.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -119,7 +121,8 @@ HEADERS  += mainwindow.h \
     minopropertyreal.h \
     minomidicontrolableproperty.h \
     midicontrolableproperty.h \
-    minarotatingbars.h
+    minarotatingbars.h \    
+    minacurve.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

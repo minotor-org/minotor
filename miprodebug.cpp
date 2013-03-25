@@ -1,14 +1,14 @@
 #include "miprodebug.h"
 
-#include "minarotatingbars.h"
+#include "minacurve.h"
 
 MiproDebug::MiproDebug(Minotor *minotor) :
     MinoProgram(minotor)
 {
     this->setObjectName("Debug");
     MinoAnimationGroup *asg = new MinoAnimationGroup(this);
-    MinaRotatingBars *arb = new MinaRotatingBars(asg);
-    arb->setColor(0.32);
-    asg->addAnimation(arb);
+    MinaCurve *ac = new MinaCurve(asg);
+    ac->setColor(0.32);
+    asg->addAnimation(ac);
     this->addAnimationGroup(asg);
 }
