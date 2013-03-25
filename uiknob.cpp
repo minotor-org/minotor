@@ -6,9 +6,9 @@
 
 #include <qmath.h>
 
-#include "minoproperty.h"
+#include "minomidicontrolableproperty.h"
 
-UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
+UiKnob::UiKnob(MinoMidiControlableProperty *property, QWidget *parent):
     QWidget(parent),
     _indicatorColor(255,255,255),
     _indicatorBackgroundColor(0,0,0),
@@ -23,10 +23,10 @@ UiKnob::UiKnob(MinoProperty *property, QWidget *parent) :
 {
     this->setFocusPolicy(Qt::NoFocus);
 
-    connect(_property, SIGNAL(valueChanged(qreal)), this, SLOT(setValueFromProperty(qreal)));
+    connect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
     this->setMinimum(0);
     this->setMaximum(127);
-    this->setValueFromProperty(_property->value());
+    this->setValueFromMidi(_property->midiValue());
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
@@ -63,7 +63,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
 
     switch (_property->type())
     {
-    case MinoProperty::Linear:
+    case MinoMidiControlableProperty::Linear:
     {
         color = _indicatorColor;
         pen.setWidth(2);
@@ -78,7 +78,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         painter.drawArc(square, startAngle+(spanAngle*normF), spanAngle*invF);
     }
         break;
-    case MinoProperty::Steps:
+    case MinoMidiControlableProperty::Steps:
     {
         color = _indicatorColor;
         QPen indicatorPen(color);
@@ -103,7 +103,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         }
     }
         break;
-    case MinoProperty::Items:
+    case MinoMidiControlableProperty::Items:
     {
         color = _indicatorColor;
         QPen indicatorPen(color);
@@ -185,12 +185,14 @@ qreal UiKnob::valueFromPoint(const QPoint &p)
 void UiKnob::_setValue(qreal value)
 {
     _value = value;
-    _property->setValue(factor());
+    disconnect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    _property->setMidiValue(value);
+    connect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
 }
 
-void UiKnob::setValueFromProperty(qreal value)
+void UiKnob::setValueFromMidi(quint8 value)
 {
-    _value = (qreal)(value*(_maxValue-_minValue))+_minValue;
+    _value = (qreal)(value/127*(_maxValue-_minValue))+_minValue;
     update();
 }
 
@@ -250,12 +252,11 @@ void UiKnob::wheelEvent(QWheelEvent * event)
     else
     {
         qreal value = _value;
-        value += (qreal)event->delta()/60.0;
+        value += (0.1*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
         value = qBound(_minValue,value,_maxValue);
         _setValue(value);
     }
     update();
-    qDebug() << "UiKnob::wheelEvent> delta" << event->delta() << "value" << _value;
 }
 
 QSize UiKnob::minimumSizeHint() const

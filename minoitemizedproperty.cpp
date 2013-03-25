@@ -1,10 +1,12 @@
 #include "minoitemizedproperty.h"
 
+#include <QDebug>
+
 MinoItemizedProperty::MinoItemizedProperty():
-    MinoProperty(),
-    _currentItemId(-1),
-    _type(MinoProperty::Steps)
+    MinoMidiControlableProperty(),
+    _currentItemId(-1)
 {
+    setType(MinoMidiControlableProperty::Items);
 }
 
 MinoItemizedProperty::~MinoItemizedProperty()
@@ -30,12 +32,9 @@ MinoItemizedPropertyItem* MinoItemizedProperty::currentItem()
 
 void MinoItemizedProperty::setValue(qreal value)
 {
-    MinoProperty::setValue(value);
-
     if(_items.count())
     {
-        // Note: Reduce _value (factor) 0.01 is needed to not reach _items.count() and keep linear segmentation
-        int id = (qreal)(_items.count()) * (_value-0.01);
+        int id = (qreal)(_items.count() * value);
         if (id != _currentItemId)
         {
             _currentItemId = id;
@@ -46,7 +45,11 @@ void MinoItemizedProperty::setValue(qreal value)
     {
         _currentItemId = -1;
     }
+}
 
+void MinoItemizedProperty::setValueFromMidi(quint8 value)
+{
+    setValue((qreal)value/128);
 }
 
 qreal MinoItemizedProperty::step()
@@ -64,7 +67,7 @@ void MinoItemizedProperty::setCurrentItem(const QString name)
     {
         if (_items.at(i)->name() == name)
         {
-            MinoProperty::setValue((qreal)i/(qreal)_items.count());
+            //MinoProperty::setValue((qreal)i/(qreal)_items.count());
             if(i != _currentItemId) {
                 emit itemChanged(name);
                 _currentItemId = i;
@@ -72,4 +75,12 @@ void MinoItemizedProperty::setCurrentItem(const QString name)
             break;
         }
     }
+}
+
+void MinoItemizedProperty::setLinear(bool linear)
+{
+     if(linear)
+         setType(MinoMidiControlableProperty::Steps);
+     else
+         setType(MinoMidiControlableProperty::Items);
 }

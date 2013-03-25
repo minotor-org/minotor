@@ -16,6 +16,7 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
+    _beatDuration.setLinear();
     _mplLine2.append(&_beatDuration);
 
 
@@ -29,10 +30,10 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDensity.addItem("7", 7);
     _generatorDensity.addItem("8", 8);
     _generatorDensity.setCurrentItem("1");
+    _generatorDensity.setLinear();
     _mplLine2.append(&_generatorDensity);
 
     _propertyGrouped.append(&_mplLine2);
-
 
     //Second line of properties
     _generatorDirection.setObjectName("Direction");
@@ -41,7 +42,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDirection.addItem("Up", 2);
     _generatorDirection.addItem("Down", 3);
     _generatorDirection.setCurrentItem("Down");
-    _generatorDirection.setType(MinoProperty::Items);
     _mplLine3.append(&_generatorDirection);
 
     _generatorLength.setObjectName("Length");
@@ -57,6 +57,7 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorLength.addItem("10", 10);
     _generatorLength.addItem("11", 11);
     _generatorLength.addItem("12", 12);
+    _generatorLength.setLinear();
     _generatorLength.setCurrentItem("8");
 
     _mplLine3.append(&_generatorLength);

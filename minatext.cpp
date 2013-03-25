@@ -16,6 +16,7 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
     _beatDuration.setCurrentItem("1");
+    _beatDuration.setLinear();
     _mplLine2.append(&_beatDuration);
 
     _text.setObjectName("Text");
@@ -28,7 +29,6 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
-    _generatorStyle.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorStyle);
 
     _propertyGrouped.append(&_mplLine2);

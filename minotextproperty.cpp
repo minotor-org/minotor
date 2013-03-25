@@ -1,7 +1,7 @@
 #include "minotextproperty.h"
 
-MinoTextProperty::MinoTextProperty() :
-    MinoProperty()
+MinoTextProperty::MinoTextProperty(QObject *parent) :
+    MinoProperty(parent)
 {
 
 }

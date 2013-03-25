@@ -148,37 +148,41 @@ void UiMasterAnimationGroup::updateGroup()
         {
             foreach (MinoProperty *property, *list)
             {
-                connect(property, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
-                if(property->attributes().testFlag(MinoProperty::Important))
+                MinoMidiControlableProperty *midiControlableProperty = dynamic_cast<MinoMidiControlableProperty*>(property);
+                if(midiControlableProperty)
                 {
-                    if (cpt>0)
+                    connect(midiControlableProperty, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
+                    if(midiControlableProperty->isPreferred())
                     {
-                        QFrame *fSeparator = new QFrame(_wImportantParameters);
-                        fSeparator->setObjectName("line");
-                        fSeparator->setFrameShape(QFrame::HLine);
-                        fSeparator->setFrameShadow(QFrame::Sunken);
-                        fSeparator->setLineWidth(1);
-                        _lImportantParameters->addWidget(fSeparator);
-                    }
-                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
-                    uiAnimationProperty->setObjectName("animationproperty");
-                    _lImportantParameters->addWidget(uiAnimationProperty);
-                    cpt++;
-                } else if (property->attributes().testFlag(MinoProperty::MidiControled))
-                {
-                    if (cpt>0)
+                        if (cpt>0)
+                        {
+                            QFrame *fSeparator = new QFrame(_wImportantParameters);
+                            fSeparator->setObjectName("line");
+                            fSeparator->setFrameShape(QFrame::HLine);
+                            fSeparator->setFrameShadow(QFrame::Sunken);
+                            fSeparator->setLineWidth(1);
+                            _lImportantParameters->addWidget(fSeparator);
+                        }
+                        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
+                        uiAnimationProperty->setObjectName("animationproperty");
+                        _lImportantParameters->addWidget(uiAnimationProperty);
+                        cpt++;
+                    } else if (midiControlableProperty->isMidiControlled())
                     {
-                        QFrame *fSeparator = new QFrame(_wMidiParameters);
-                        fSeparator->setObjectName("line");
-                        fSeparator->setFrameShape(QFrame::HLine);
-                        fSeparator->setFrameShadow(QFrame::Sunken);
-                        fSeparator->setLineWidth(1);
-                        _lMidiParameters->addWidget(fSeparator);
+                        if (cpt>0)
+                        {
+                            QFrame *fSeparator = new QFrame(_wMidiParameters);
+                            fSeparator->setObjectName("line");
+                            fSeparator->setFrameShape(QFrame::HLine);
+                            fSeparator->setFrameShadow(QFrame::Sunken);
+                            fSeparator->setLineWidth(1);
+                            _lMidiParameters->addWidget(fSeparator);
+                        }
+                        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
+                        uiAnimationProperty->setObjectName("animationproperty");
+                        _lMidiParameters->addWidget(uiAnimationProperty);
+                        cpt++;
                     }
-                    UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
-                    uiAnimationProperty->setObjectName("animationproperty");
-                    _lMidiParameters->addWidget(uiAnimationProperty);
-                    cpt++;
                 }
             }
         }

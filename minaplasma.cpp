@@ -18,6 +18,7 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorSteps.addItem("12", 12);
     _generatorSteps.addItem("14", 14);
     _generatorSteps.setCurrentItem("4");
+    _generatorSteps.setLinear();
     _mplLine2 .append(&_generatorSteps);
 
     _generatorCurve.setObjectName("Curve");
@@ -26,7 +27,6 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorCurve.addItem("InOutBounce", 2);
     _generatorCurve.addItem("InOutQuart", 3);
     _generatorCurve.setCurrentItem("Linear");
-    _generatorCurve.setType(MinoProperty::Items);
     _mplLine2 .append(&_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);

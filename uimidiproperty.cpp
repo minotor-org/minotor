@@ -12,7 +12,7 @@
 
 #include "uiknob.h"
 
-UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
+UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent),
     _midiLearnMode(false),
     _property(property)
@@ -52,7 +52,7 @@ UiMidiProperty::UiMidiProperty(MinoProperty *property, QWidget *parent, bool edi
             QPushButton *pbOnMaster = new QPushButton(wTop);
             pbOnMaster->setObjectName("tiny");
             pbOnMaster->setCheckable(true);
-            pbOnMaster->setChecked(_property->attributes().testFlag(MinoProperty::Important));
+            pbOnMaster->setChecked(_property->isPreferred());
             pbOnMaster->setFixedSize(6,6);
             lTop->addWidget(pbOnMaster);
             connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
@@ -162,14 +162,7 @@ void UiMidiProperty::enterEvent(QEvent *event)
 
 void UiMidiProperty::togglePropertyToMaster(bool on)
 {
-    if (on)
-    {
-        _property->setAttributes(_property->attributes() | MinoProperty::Important);
-    }
-    else
-    {
-        _property->setAttributes(_property->attributes() & ~MinoProperty::Attributes(MinoProperty::Important));
-    }
+    _property->setPreferred(on);
 }
 
 QSize UiMidiProperty::minimumSizeHint() const

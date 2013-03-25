@@ -58,7 +58,12 @@ SOURCES += main.cpp\
     uiknob.cpp \
     uimasteranimationgroup.cpp \
     minavibration.cpp \
-    minopersistentobject.cpp
+    minopersistentobject.cpp \
+    midicontrolableobject.cpp \
+    midicontrolablereal.cpp \
+    minopropertyreal.cpp \
+    minomidicontrolableproperty.cpp \
+    midicontrolableproperty.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -107,7 +112,12 @@ HEADERS  += mainwindow.h \
     uiknob.h \
     uimasteranimationgroup.h \
     minavibration.h \
-    minopersistentobject.h
+    minopersistentobject.h \
+    midicontrolableobject.h \
+    midicontrolablereal.h \
+    minopropertyreal.h \
+    minomidicontrolableproperty.h \
+    midicontrolableproperty.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

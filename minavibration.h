@@ -27,7 +27,7 @@ private:
     QGraphicsItemGroup _itemGroup;
 
 protected:
-    MinoProperty _segments;
+    MinoPropertyReal _segments;
     MinoPropertyList _mplLine2;
 };
 

@@ -19,7 +19,7 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _beatDuration.addItem("4", 96);
     _beatDuration.addItem("8", 192);
     _beatDuration.addItem("16", 384);
-    _beatDuration.setType(MinoProperty::Steps);
+    _beatDuration.setLinear();
     _beatDuration.setCurrentItem("1");
     _mplLine2.append(&_beatDuration);
 
@@ -30,7 +30,6 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _generatorStyle.addItem("P:R=T:R", 3);
     _generatorStyle.addItem("P:R T:R", 4);
     _generatorStyle.setCurrentItem("P:R T:F");
-    _generatorStyle.setType(MinoProperty::Items);
     _mplLine2.append(&_generatorStyle);
 
     _propertyGrouped.append(&_mplLine2);
@@ -41,7 +40,6 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _generatorShape.addItem("Circle", 2);
     _generatorShape.addItem("Square", 3);
     _generatorShape.setCurrentItem("Ellipse");
-    _generatorShape.setType(MinoProperty::Items);
     _mplLine3.append(&_generatorShape);
     _propertyGrouped.append(&_mplLine3);
 

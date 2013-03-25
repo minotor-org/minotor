@@ -3,13 +3,13 @@
 
 #include <QWidget>
 
-#include "minoproperty.h"
+#include "minomidicontrolableproperty.h"
 
 class UiMidiProperty : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMidiProperty(MinoProperty *property, QWidget *parent, bool editorMode = false);
+    explicit UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode = false);
     void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
 protected:
     void paintEvent(QPaintEvent *pe);
@@ -18,7 +18,7 @@ protected:
 
     bool _midiLearnMode;
 
-    MinoProperty *_property;
+    MinoMidiControlableProperty *_property;
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;

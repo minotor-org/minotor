@@ -32,6 +32,8 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     }
     else
     {
-        lProperty->addWidget(new UiMidiProperty(property, this, editorMode));
+        MinoMidiControlableProperty *midiProperty = dynamic_cast<MinoMidiControlableProperty*>(property);
+        if (midiProperty)
+            lProperty->addWidget(new UiMidiProperty(midiProperty, this, editorMode));
     }
 }

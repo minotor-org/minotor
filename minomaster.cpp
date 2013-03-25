@@ -12,7 +12,8 @@ MinoMaster::MinoMaster(Minotor *minotor):
 {
     minotor->scene()->addItem(&_itemGroup);
 
-    MinoProperty *mpBrightness = new MinoProperty(1.0);
+    MinoPropertyReal *mpBrightness = new MinoPropertyReal();
+    mpBrightness->setValue(1.0);
     mpBrightness->setObjectName("Brightness");
     connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
     _properties.append(mpBrightness);

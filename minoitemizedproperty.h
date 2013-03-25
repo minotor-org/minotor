@@ -1,7 +1,7 @@
 #ifndef MINOITEMIZEDPROPERTY_H
 #define MINOITEMIZEDPROPERTY_H
 
-#include "minoproperty.h"
+#include "minomidicontrolableproperty.h"
 
 class MinoItemizedPropertyItem
 {
@@ -19,34 +19,34 @@ private:
     qreal _real;
 };
 
-class MinoItemizedProperty : public MinoProperty
+class MinoItemizedProperty : public MinoMidiControlableProperty
 {
     Q_OBJECT
 public:
     explicit MinoItemizedProperty();
     ~MinoItemizedProperty();
 
-    // value
+    // Value
     void setValue(qreal value);
+    void setValueFromMidi(quint8 value);
 
-    // step
+    // Step
     qreal step();
 
-    // items
+    // Items
     void addItem(const QString name, const qreal real);
     MinoItemizedPropertyItem* currentItem();
     void setCurrentItem(const QString name);
 
-    // Type
-    MinoProperty::Type type() { return _type; }
-    void setType(MinoProperty::Type type) { _type = type; }
+    // Type: Linear or Items (default)
+    void setLinear(bool linear = true);
+
 signals:
     void itemChanged(QString name);
 
 private:
     QList<MinoItemizedPropertyItem*> _items;
     int _currentItemId;
-    MinoProperty::Type _type;
 };
 
 #endif // MINOITEMIZEDPROPERTY_H

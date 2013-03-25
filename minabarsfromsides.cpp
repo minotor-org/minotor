@@ -13,7 +13,6 @@ MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
     _colorType.addItem("plain", 0);
     _colorType.addItem("grad.", 1);
     _colorType.setCurrentItem("plain");
-    _colorType.setType(MinoProperty::Items);
     _mplLine2.append(&_colorType);
 
     _propertyGrouped.append(&_mplLine2);

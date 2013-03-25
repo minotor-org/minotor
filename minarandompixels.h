@@ -23,7 +23,7 @@ signals:
 public slots:
 
 private:
-    MinoProperty _density;
+    MinoPropertyReal _density;
     MinoPropertyList _mplLine2;
     QGraphicsItemGroup _itemGroup;
 };

@@ -50,8 +50,12 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     tTitle->setObjectName("title");
     tTitle->setText(QString("Prg ") + QString::number(program->id()));
 
-    UiMidiProperty *mpBeat = new UiMidiProperty(_program->properties().at(0), this);
-    lTitle->addWidget(mpBeat);
+    MinoMidiControlableProperty *mpBeat = dynamic_cast<MinoMidiControlableProperty*>(_program->properties().at(0));
+    if (mpBeat)
+    {
+        UiMidiProperty *umpBeat = new UiMidiProperty(mpBeat, this);
+        lTitle->addWidget(umpBeat);
+    }
     lTitle->addStretch();
 
     UiProgramEditor * editor = new UiProgramEditor(program, _wBackground);

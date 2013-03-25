@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "midicontrol.h"
-#include "minoproperty.h"
+#include "minomidicontrolableproperty.h"
 
 class MidiMapping : public QObject
 {
@@ -12,8 +12,8 @@ class MidiMapping : public QObject
 public:
     explicit MidiMapping(QObject *parent = 0);
     
-    void assignCapturedControlTo(MinoProperty *property);
-    MidiControl* getMidiControlFor(MinoProperty *property);
+    void assignCapturedControlTo(MinoMidiControlableProperty *property);
+    MidiControl* getMidiControlFor(MinoMidiControlableProperty *property);
 
     MidiControlList midiControls() const { return _midiControls; }
 
@@ -21,7 +21,7 @@ protected:
     MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate = true);
 
     bool _controlCaptureMode;
-    MinoProperty* _currentControlCaptureMinoProperty;
+    MidiControlableProperty* _currentControlCaptureMinoProperty;
     MidiControlList _midiControls;
 signals:
     

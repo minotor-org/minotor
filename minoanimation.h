@@ -7,9 +7,9 @@
 #include <QGraphicsItemGroup>
 #include <QPointF>
 
-#include "minoproperty.h"
 #include "minoitemizedproperty.h"
 #include "minotextproperty.h"
+#include "minopropertyreal.h"
 #include "minopersistentobject.h"
 
 class MinoProgram;
@@ -86,7 +86,7 @@ protected:
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
     MinoItemizedProperty _beatFactor;
-    MinoProperty _color;
+    MinoPropertyReal _color;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 

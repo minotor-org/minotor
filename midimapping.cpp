@@ -10,11 +10,11 @@ MidiMapping::MidiMapping(QObject *parent) :
 
 }
 
-void MidiMapping::assignCapturedControlTo(MinoProperty *property)
+void MidiMapping::assignCapturedControlTo(MinoMidiControlableProperty *property)
 {
     if(property)
     {
-        _currentControlCaptureMinoProperty = property;
+        _currentControlCaptureMinoProperty = property->_midiControlableProperty;
         _controlCaptureMode = true;
     }
     else
