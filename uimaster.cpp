@@ -100,8 +100,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget *wTools = new QWidget(wMasterView);
     lMasterView->addWidget(wTools);
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
-    MinoPropertyReal *mpBrightness = dynamic_cast<MinoPropertyReal*>(_master->properties().at(0));
 
+    MinoPropertyReal *mpBrightness = dynamic_cast<MinoPropertyReal*>(_master->properties().at(0));
     if (mpBrightness)
     {
         UiMidiProperty *dBrightness = new UiMidiProperty(mpBrightness, wTools);

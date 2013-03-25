@@ -14,7 +14,7 @@ public:
     void setValue(qreal value);
 
 protected:
-    void setValueFromMidi(quint8 value) { _value = (qreal)value/127; }
+    void setValueFromMidi(quint8 value);
 
 private:
     qreal _value;

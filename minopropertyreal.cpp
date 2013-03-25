@@ -13,3 +13,8 @@ void MinoPropertyReal::setValue(qreal value)
         emit valueChanged(_value);
     }
 }
+
+void MinoPropertyReal::setValueFromMidi(quint8 value)
+{
+     setValue((qreal)value/127);
+}
