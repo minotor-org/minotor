@@ -71,7 +71,6 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     _pbEnable->setCheckable(true);
     connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lTools->addWidget(_pbEnable);
-    connect(_pbEnable, SIGNAL(toggled(bool)), pbDelayedEnable, SLOT(setChecked(bool)));
 
     lTools->addStretch();
 
@@ -197,7 +196,10 @@ UiMasterAnimationGroup::~UiMasterAnimationGroup()
 
 void UiMasterAnimationGroup::enable(const bool on)
 {
+    _pbEnable->blockSignals(true);
     _pbEnable->setChecked(on);
+    _pbEnable->blockSignals(false);
+
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);

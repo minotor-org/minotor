@@ -61,7 +61,6 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     _pbEnable->setCheckable(true);
     connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lTools->addWidget(_pbEnable);
-    connect(_pbEnable, SIGNAL(toggled(bool)), pbDelayedEnable, SLOT(setChecked(bool)));
 
     lTools->addStretch();
 
