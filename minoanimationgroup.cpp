@@ -72,13 +72,21 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
 
 void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
 {
-    _animations.move(oldIndex, newIndex);
-    for (int z=0;z<_animations.count();z++)
+    //Position -1 is used to place the item at the end of the list
+    if (newIndex == -1)
     {
-        _animations.at(z)->graphicItem()->setZValue(z);
+        newIndex = this->animations().count()-1;
     }
-    // Lets others know something is changed
-    emit updated();
+    if (oldIndex != newIndex)
+    {
+        _animations.move(oldIndex, newIndex);
+        for (int z=0;z<_animations.count();z++)
+        {
+            _animations.at(z)->graphicItem()->setZValue(z);
+        }
+        // Lets others know something is changed
+        emit updated();
+    }
 }
 
 MinoAnimation* MinoAnimationGroup::takeAnimationAt(int index)
