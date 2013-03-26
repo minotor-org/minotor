@@ -27,6 +27,7 @@
 #include "miprowaves.h"
 #include "miprobnzichru.h"
 #include "mipromatrix.h"
+#include "miprosecondlives.h"
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
@@ -40,6 +41,7 @@ Minotor::Minotor(QObject *parent) :
     //   BTW, MiproDebug can be tweaked depending on current topic..
     _master->setProgram(new MiproDebug(this));
 
+    new MiproSecondLives(this);
     new MiproMatrix(this);
     new MiproBnzIchRU(this);
     new MiproWaves(this);
