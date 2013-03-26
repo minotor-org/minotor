@@ -18,6 +18,7 @@ public:
     void setDuration(const unsigned int duration) { _beatDuration.setCurrentItem(QString::number(duration)); }
     void setDensity(const unsigned int density) { _generatorDensity.setCurrentItem(QString::number(density)); }
     void setLength(const unsigned int length) { _generatorLength.setCurrentItem(QString::number(length)); }
+    void setDirection(QString direction) { _generatorDirection.setCurrentItem(direction); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
     

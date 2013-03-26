@@ -17,6 +17,9 @@ public:
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
+    void setDuration(QString duration) { _beatDuration.setCurrentItem(duration); }
+    QString duration() { return _beatDuration.currentItem()->name(); }
+
 signals:
     
 public slots:
