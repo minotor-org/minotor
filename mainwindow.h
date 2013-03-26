@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QAction>
-#include <QMenu>
 
 #include "configdialog.h"
 #include "externalmasterview.h"

@@ -9,7 +9,8 @@ class MinoPropertyReal : public MinoMidiControlableProperty
     Q_OBJECT
 public:
     explicit MinoPropertyReal(QObject *parent = 0);
-    
+
+    // value (0.0 - 1.0)
     qreal value() { return _value; }
     void setValue(qreal value);
 

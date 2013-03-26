@@ -10,16 +10,16 @@ public:
     explicit MidiControlableReal(QObject *parent = 0);
 
     // value (0.0 - 1.0)
-    virtual qreal value() { return _value; }
-    virtual void setValue(qreal value);
-
+    qreal value() { return _value; }
+    void setValue(qreal value);
 
 protected:
-    void updateValueFromMidi(int value) { setValue((qreal)value/127); }
+    void setValueFromMidi(quint8 value);
 
 private:
+    void _setValue(qreal value);
     qreal _value;
-    
+
 signals:
     void valueChanged(qreal);
 

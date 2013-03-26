@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     midiinterface.cpp \
     uimidiinterface.cpp \
     minotrigger.cpp \
-    minocontrol.cpp
+    minocontrol.cpp \
+    minopropertycolor.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -131,7 +132,8 @@ HEADERS  += mainwindow.h \
     midiinterface.h \
     uimidiinterface.h \
     minotrigger.h \
-    minocontrol.h
+    minocontrol.h \
+    minopropertycolor.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
