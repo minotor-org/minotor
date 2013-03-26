@@ -29,11 +29,13 @@ void UiProgramView::paintEvent(QPaintEvent *event)
 
     painter.drawImage(rect(), *rendering, rendering->rect());
 
-    qreal stepX = (qreal)width() / rendering->width();
-    qreal stepY = (qreal)height() / rendering->height();
+    const qreal stepX = (qreal)width() / rendering->width();
+    const qreal stepY = (qreal)height() / rendering->height();
+
+    const qreal minRatio = qMin(stepX, stepY);
 
     QPen pen;
-    pen.setWidth(1);
+    pen.setWidthF(minRatio*0.25);
     pen.setColor(Qt::black);
     painter.setPen(pen);
     const int nbLines = (rendering->width()-1) + (rendering->height()-1);
