@@ -106,22 +106,25 @@ void _midiCallback(double deltatime, std::vector< unsigned char > *message, void
 
 bool Midi::openPort(const unsigned int portIndex)
 {
-    _portIndex = portIndex;
-    try {
-        _midiIn->openPort(portIndex);
-        // Set our callback function.  This should be done immediately after
-        // opening the port to avoid having incoming messages written to the
-        // queue.
-        _midiIn->setCallback( &_midiCallback, this );
+    if(_midiIn)
+    {
+        _portIndex = portIndex;
+        try {
+            _midiIn->openPort(portIndex);
+            // Set our callback function.  This should be done immediately after
+            // opening the port to avoid having incoming messages written to the
+            // queue.
+            _midiIn->setCallback( &_midiCallback, this );
 
-        // Don't ignore sysex, timing, or active sensing messages.
-        _midiIn->ignoreTypes( false, false, false );
-         _connected = true;
-        qDebug() << "MIDI connected to: " << this->portName();
-        emit(connected());
-    } catch ( RtError &error ) {
-        error.printMessage();
-        _connected = false;
+            // Don't ignore sysex, timing, or active sensing messages.
+            _midiIn->ignoreTypes( false, false, false );
+            _connected = true;
+            qDebug() << "MIDI connected to: " << this->portName();
+            emit(connected());
+        } catch ( RtError &error ) {
+            error.printMessage();
+            _connected = false;
+        }
     }
     return _connected;
 }
