@@ -15,6 +15,10 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
+    void setWidth(const qreal width) { _width.setValue(width); }
+    void setLength(const qreal length) { _length.setValue(length); }
+    void setCurve(const QString curve) { _generatorCurve.setCurrentItem(curve); }
+
     QGraphicsItem *graphicItem() { return &_itemGroup; }
 
 private:
