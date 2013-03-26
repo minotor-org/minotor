@@ -17,6 +17,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _color.setObjectName("Color");
     _color.setPreferred();
     _color.setParent(this);
+    _color.setValue(qrandF());
     _mplMain.append(&_color);
 
     _beatFactor.setObjectName("Freq.");
