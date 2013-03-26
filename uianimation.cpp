@@ -3,7 +3,6 @@
 #include <QLayout>
 #include <QSizePolicy>
 #include <QStyle>
-#include <QMenu>
 #include <QCheckBox>
 #include <QToolButton>
 #include <QMouseEvent>
