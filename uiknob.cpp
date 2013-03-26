@@ -158,7 +158,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
 
 qreal UiKnob::factor() const
 {
-    return ((_value-_minValue)/_maxValue);
+    return ((_value-_minValue)/(_maxValue-_minValue));
 }
 
 #define Q_PI 3.14957
