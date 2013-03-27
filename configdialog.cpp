@@ -16,8 +16,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Hack to refresh list at startup
+    dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->addStretch(1);
 
+    // Hack to refresh list at startup
     this->on_tabWidget_currentChanged(0);
     this->on_tabWidget_currentChanged(1);
     this->on_tabWidget_currentChanged(2);
@@ -167,21 +168,25 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     case 0: //Midi
     {
         Midi *midi = Minotor::minotor()->midi();
-        QVBoxLayout *lMidiInterfaces = new QVBoxLayout(ui->wMidiInterfaces);
-
+        foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
+        {
+            delete(uiInterface);
+        }
+        foreach (QFrame *separator, ui->wMidiInterfaces->findChildren<QFrame*>())
+        {
+            delete(separator);
+        }
         foreach (MidiInterface *interface, midi->interfaces())
         {
             UiMidiInterface *uiInterface = new UiMidiInterface(interface,this);
-            lMidiInterfaces->addWidget(uiInterface);
+            dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,uiInterface);
             QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
             fSeparator->setObjectName("interfaceline");
             fSeparator->setFrameShape(QFrame::HLine);
             fSeparator->setFrameShadow(QFrame::Sunken);
             fSeparator->setLineWidth(1);
-            lMidiInterfaces->addWidget(fSeparator);
+            dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,fSeparator);
         }
-
-        lMidiInterfaces->addStretch(1);
     }
     case 1: // MIDI mapping
     {
