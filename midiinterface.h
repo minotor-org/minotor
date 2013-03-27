@@ -84,10 +84,9 @@ signals:
 
 public slots:
     void setAcceptClock(bool on);
-    void setAcceptProgramChange(bool on) { _acceptProgramChange = on; }
-    void setAcceptControlChange(bool on) { _acceptControlChange = on; }
-    void setAcceptNoteChange(bool on) { _acceptNoteChange = on; }
-
+    void setAcceptProgramChange(bool on);
+    void setAcceptControlChange(bool on);
+    void setAcceptNoteChange(bool on);
 };
 
 #endif // MIDIINTERFACE_H

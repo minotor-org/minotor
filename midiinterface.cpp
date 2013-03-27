@@ -190,4 +190,35 @@ void MidiInterface::setAcceptClock(bool on)
         // Don't ignore sysex, timing, or active sensing messages.
         _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
     }
+    if (!_connected)
+    {
+        open();
+    }
+}
+
+void MidiInterface::setAcceptProgramChange(bool on)
+{
+    _acceptProgramChange = on;
+    if (!_connected)
+    {
+        open();
+    }
+}
+
+void MidiInterface::setAcceptControlChange(bool on)
+{
+    _acceptControlChange = on;
+    if (!_connected)
+    {
+        open();
+    }
+}
+
+void MidiInterface::setAcceptNoteChange(bool on)
+{
+    _acceptNoteChange = on;
+    if (!_connected)
+    {
+        open();
+    }
 }

@@ -8,6 +8,16 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QHBoxLayout *lMaster = new QHBoxLayout(this);
     this->setLayout(lMaster);
 
+    //connection state
+    QPushButton *_pbConnection = new QPushButton("",this);
+    _pbConnection->setObjectName("tiny");
+    _pbConnection->setCheckable(true);
+    _pbConnection->setChecked(interface->isConnected());
+    _pbConnection->setEnabled(false);
+    _pbConnection->setFixedSize(9,9);
+    connect(interface,SIGNAL(connected(bool)),_pbConnection,SLOT(setChecked(bool)));
+    this->layout()->addWidget(_pbConnection);
+
     //Name
     _txtName = new QLabel(this);
     _txtName->setObjectName("interfacename");
