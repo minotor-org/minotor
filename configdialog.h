@@ -28,6 +28,8 @@ private slots:
 
     void configDialogFinished(int result);
 
+    void on_pbSaveAs_clicked();
+
 private:
     Ui::ConfigDialog *ui;
 
@@ -39,6 +41,10 @@ private:
     void updateMidiTab();
     void updateMidiMappingTab();
     void updateSerialTab();
+
+    void loadMidiMappingFiles();
+    void loadMidiMappingFile(QString file);
+    void saveMidiMappingFile(QString file);
 };
 
 #endif // CONFIGDIALOG_H

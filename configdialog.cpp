@@ -5,6 +5,10 @@
 
 #include <QDebug>
 #include <QMetaProperty>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QSettings>
+#include <QDir>
 
 #include "minotor.h"
 #include "uimidiinterface.h"
@@ -96,9 +100,7 @@ void ConfigDialog::setupMidi(QSettings &settings)
                 // "name" key has already been used
                 if((omp.name() != QString("name")) && (omp.name() != QString("objectName")))
                 {
-                    bool ok = omp.write(object, settings.value(omp.name()));
-                    qDebug() << Q_FUNC_INFO
-                             << QString("object property: %1 loaded: %2").arg(omp.name()).arg(QVariant(ok).toString());
+                    omp.write(object, settings.value(omp.name()));
                 }
             }
         }
@@ -211,11 +213,71 @@ void ConfigDialog::updateMidiTab()
     }
 }
 
+void ConfigDialog::loadMidiMappingFiles()
+{
+    ui->cbMidiMapping->clear();
+    ui->cbMidiMapping->addItem("Generic midi");
+
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QDir dataDir(dataPath);
+    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    {
+        loadMidiMappingFile(file.absoluteFilePath());
+    }
+}
+
+void ConfigDialog::loadMidiMappingFile(QString file)
+{
+    ui->cbMidiMapping->addItem(file);
+    QSettings mapping(file, QSettings::IniFormat);
+    if(QSettings::NoError == mapping.status())
+    {
+        int size = mapping.beginReadArray("midi_controls");
+        qDebug() << Q_FUNC_INFO
+                 << "file" << file
+                 << "midi controls size:" << size;
+        for(int i = 0; i < size; ++i)
+        {
+            mapping.setArrayIndex(i);
+            const int row = ui->tableMidiMapping->rowCount();
+            addMidiControl(row, -1, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), 255);
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "unable to parse file:" << file;
+    }
+    mapping.endArray();
+}
+
+void ConfigDialog::saveMidiMappingFile(QString file)
+{
+    QSettings mapping(file, QSettings::IniFormat);
+
+    QList<MidiControl*> midiControls = Minotor::minotor()->midiMapping()->findChildren<MidiControl*>();
+    mapping.beginWriteArray("midi_controls");
+    for (int i = 0; i < midiControls.count(); ++i) {
+        MidiControl *mc = midiControls.at(i);
+        mapping.setArrayIndex(i);
+        QObject *object = static_cast<QObject*>(mc);
+        for(int j=0; j<object->metaObject()->propertyCount(); j++)
+        {
+            QMetaProperty omp = object->metaObject()->property(j);
+            // Dont store "objectName"
+            if(omp.name() != QString("objectName"))
+            {
+                mapping.setValue(omp.name(), omp.read(object));
+            }
+        }
+    }
+    mapping.endArray();
+}
+
 void ConfigDialog::updateMidiMappingTab()
 {
     qDebug() << Q_FUNC_INFO;
-    connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
-    const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
+
     ui->tableMidiMapping->clear();
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
@@ -223,11 +285,14 @@ void ConfigDialog::updateMidiMappingTab()
     ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
 
     int row = 0;
+    connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
+    const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
     foreach(MidiControl *midiControl, midiControls)
     {
         addMidiControl(row, midiControl->interface(), midiControl->channel(), midiControl->control(), midiControl->value());
         row++;
     }
+    loadMidiMappingFiles();
 }
 
 void ConfigDialog::updateSerialTab()
@@ -320,4 +385,14 @@ void ConfigDialog::configDialogFinished(int result)
 {
     qDebug() << "ConfigDialog: result" << result;
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+}
+
+void ConfigDialog::on_pbSaveAs_clicked()
+{
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath, tr("MinoMidiMapping (*.ini)"));
+    if(!fileName.isEmpty())
+    {
+        saveMidiMappingFile(fileName);
+    }
 }

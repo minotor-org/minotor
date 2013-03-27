@@ -6,6 +6,9 @@
 class MidiControl : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(quint8 interface READ interface STORED true)
+    Q_PROPERTY(quint8 channel READ channel STORED true)
+    Q_PROPERTY(quint8 control READ control STORED true)
 public:
     explicit MidiControl(int interface, quint8 channel, quint8 control, QObject *parent = 0);
     void setValue(quint8 value);
@@ -15,10 +18,10 @@ public:
     quint8 value() const { return _value; }
 
 protected:
-    quint8 _value;
     int _interface;
     quint8 _channel;
     quint8 _control;
+    quint8 _value;
 
 signals:
     void valueChanged(quint8 value);
