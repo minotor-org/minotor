@@ -5,6 +5,7 @@
 #include <QLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QDebug>
 
 #include "minotor.h"
 
@@ -15,6 +16,7 @@
 UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent),
     _midiLearnMode(false),
+    _midiControlled(false),
     _property(property)
 {
     QVBoxLayout *lProperty = new QVBoxLayout(this);
@@ -105,12 +107,12 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
 void UiMidiProperty::paintEvent(QPaintEvent *pe)
 {
     (void)pe;
-    static bool midiControlled = _property->isMidiControlled();
     if(_midiLearnMode)
     {
-        if(midiControlled != _property->isMidiControlled())
+        if(_midiControlled != _property->isMidiControlled())
         {
-            // Tricky way to update full widget region (instead of UiDial only)
+            _midiControlled = _property->isMidiControlled();
+            // Tricky way to update full widget region (instead of UiKnob only)
             update();
         }
 
@@ -135,6 +137,10 @@ void UiMidiProperty::paintEvent(QPaintEvent *pe)
 
         painter.setBrush(QBrush(color));
         painter.drawRect(this->rect());
+    }
+    else
+    {
+        _midiControlled = _property->isMidiControlled();
     }
 }
 
@@ -171,4 +177,10 @@ QSize UiMidiProperty::minimumSizeHint() const
 QSize UiMidiProperty::sizeHint() const
 {
     return QSize(50, 50);
+}
+
+void UiMidiProperty::setMidiLearnMode(bool on)
+{
+    _midiLearnMode = on;
+    update();
 }

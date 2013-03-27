@@ -295,7 +295,6 @@ void MainWindow::tbMidiLearnToggled(bool checked)
     foreach(UiMidiProperty *midiProperty, midiProperties)
     {
         midiProperty->setMidiLearnMode(checked);
-        midiProperty->update();
     }
 }
 

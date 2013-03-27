@@ -2,7 +2,8 @@
 
 MidiControlableObject::MidiControlableObject(QObject *parent) :
     MinoPersistentObject(parent),
-    _midiControl(NULL)
+    _midiControl(NULL),
+    _attributes(0)
 {
 }
 

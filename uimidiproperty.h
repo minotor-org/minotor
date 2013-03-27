@@ -10,13 +10,15 @@ class UiMidiProperty : public QWidget
     Q_OBJECT
 public:
     explicit UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode = false);
-    void setMidiLearnMode(bool on = true) { _midiLearnMode = on; }
+    void setMidiLearnMode(bool on = true);
+
 protected:
     void paintEvent(QPaintEvent *pe);
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
 
     bool _midiLearnMode;
+    bool _midiControlled;
 
     MinoMidiControlableProperty *_property;
 
