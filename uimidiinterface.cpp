@@ -5,7 +5,8 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QWidget(parent)
 {
     //Item 1
-    this->setLayout(new QHBoxLayout());
+    QHBoxLayout *lMaster = new QHBoxLayout(this);
+    this->setLayout(lMaster);
 
     //Name
     _txtName = new QLabel(this);
