@@ -74,9 +74,6 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
         {
             midiInterface->setId(group.toInt());
 
-            connect(midiInterface, SIGNAL(connected(bool)), ui->cbMidiPort_1, SLOT(setDisabled(bool)));
-            connect(midiInterface, SIGNAL(connected(bool)), ui->pbMidiConnect_1, SLOT(setChecked(bool)));
-
             QObject *object = static_cast<QObject*>(midiInterface);
             for(int j=0; j<object->metaObject()->propertyCount(); j++)
             {
@@ -191,17 +188,6 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     }
     case 1: // MIDI mapping
     {
-        int currentItem = -1;
-        const QStringList midiAvailablePorts = Minotor::minotor()->midi()->getPorts();
-        const QString midiPort = ui->cbMidiPort_1->itemText(ui->cbMidiPort_1->currentIndex());
-        if(midiAvailablePorts.contains(midiPort))
-        {
-            currentItem = midiAvailablePorts.indexOf(midiPort);
-        }
-        ui->cbMidiPort_1->clear();
-        ui->cbMidiPort_1->addItems(midiAvailablePorts);
-        ui->cbMidiPort_1->setCurrentIndex(currentItem);
-
         // MIDI Mapping
         connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
         const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
@@ -314,28 +300,4 @@ void ConfigDialog::configDialogFinished(int result)
 {
     qDebug() << "ConfigDialog: result" << result;
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
-}
-
-void ConfigDialog::on_pbMidiConnect_1_clicked(bool checked)
-{
-    QString portName = ui->cbMidiPort_1->currentText();
-    MidiInterface *midiInterface = Minotor::minotor()->midi()->interface(portName);
-    if(midiInterface)
-    {
-        if (checked)
-        {
-            if(!midiInterface->open())
-            {
-                qDebug() << Q_FUNC_INFO
-                         << "Unable to open MIDI port:" << portName;
-            }
-        } else {
-            midiInterface->close();
-        }
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Could not find midi interface:" << portName;
-    }
 }
