@@ -21,7 +21,7 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     //Name
     _txtName = new QLabel(this);
     _txtName->setObjectName("interfacename");
-    _txtName->setText(interface->portName());
+    _txtName->setText(interface->portName() + QString("    ID: ") + QString::number(interface->id()));
     this->layout()->addWidget(_txtName);
     dynamic_cast<QHBoxLayout*>(this->layout())->addStretch(1);
     //Mapping : fake data

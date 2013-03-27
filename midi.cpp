@@ -43,6 +43,13 @@ QStringList Midi::getPorts()
     return ports;
 }
 
+MidiInterface* Midi::addMidiInterface(QString portName)
+{
+    MidiInterface * mi = new MidiInterface(portName, this);
+    addMidiInterface(mi);
+    return mi;
+}
+
 MidiInterfaces Midi::interfaces()
 {
     return findChildren<MidiInterface*>();
@@ -63,7 +70,6 @@ MidiInterface* Midi::interface(QString portName)
 
 void Midi::addMidiInterface(MidiInterface *interface)
 {
-    interface->_id = interfaces().count();
     interfaces().append(interface);
     connect(interface, SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SIGNAL(controlChanged(int,quint8,quint8,quint8)));
     connect(interface, SIGNAL(programChanged(int,quint8,quint8)), this, SIGNAL(programChanged(int,quint8,quint8)));
@@ -72,4 +78,30 @@ void Midi::addMidiInterface(MidiInterface *interface)
     qDebug() << Q_FUNC_INFO
              << "Midi interface added:" << interface->objectName();
     */
+}
+
+int Midi::grabMidiInterfaceId()
+{
+    bool freeIdFound = false;
+    int id = 0;
+    while(!freeIdFound)
+    {
+        bool idAlreadyExist = false;
+        foreach(MidiInterface *mi, interfaces())
+        {
+            if(mi->id() == id)
+            {
+                idAlreadyExist = true;
+                break;
+            }
+        }
+
+        if(!idAlreadyExist)
+        {
+            freeIdFound = true;
+            break;
+        }
+        id++;
+    }
+    return id;
 }

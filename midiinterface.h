@@ -11,7 +11,6 @@ class MidiInterface : public QObject
 {
     Q_OBJECT
 
-    friend class Midi;
 
     Q_PROPERTY(QString name READ portName)
     Q_PROPERTY(bool accept_clock READ acceptClock WRITE setAcceptClock)
@@ -19,7 +18,7 @@ class MidiInterface : public QObject
     Q_PROPERTY(bool accept_control READ acceptControlChange WRITE setAcceptControlChange)
     Q_PROPERTY(bool accept_note READ acceptNoteChange WRITE setAcceptNoteChange)
 public:
-    explicit MidiInterface(QString portName, QObject *parent);
+    explicit MidiInterface(QString portName, Midi *parent);
     ~MidiInterface();
 
     // List ports
@@ -31,7 +30,7 @@ public:
     bool open(QString portName);
 
     // Close open MIDI connection (if one exists).
-    void close();
+    bool close();
 
     // Test if MIDI is open
     bool isConnected();
@@ -41,6 +40,7 @@ public:
 
     // ID
     int id() { return _id; }
+    void setId(int id) { _id = id; }
 
     // Message filters
     bool acceptClock() { return _acceptClock; }
@@ -55,6 +55,7 @@ public:
     // Warning: Should not be used by user...
     void midiCallback( double deltatime, std::vector< unsigned char > *message);
 private:
+    Midi *_midi;
     RtMidiIn *_rtMidiIn;
     int _id;
     unsigned int _portIndex;

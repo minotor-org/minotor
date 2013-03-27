@@ -65,8 +65,15 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
         }
         const QString midiPort = _settings.value("name").toString();
         MidiInterface *midiInterface = midi->interface(midiPort);
+        if(!midiInterface)
+        {
+            // Midi interface is not detected, lets create it!
+            midiInterface = midi->addMidiInterface(midiPort);
+        }
         if(midiInterface)
         {
+            midiInterface->setId(group.toInt());
+
             connect(midiInterface, SIGNAL(connected(bool)), ui->cbMidiPort_1, SLOT(setDisabled(bool)));
             connect(midiInterface, SIGNAL(connected(bool)), ui->pbMidiConnect_1, SLOT(setChecked(bool)));
 
@@ -74,8 +81,8 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
             for(int j=0; j<object->metaObject()->propertyCount(); j++)
             {
                 QMetaProperty omp = object->metaObject()->property(j);
-                // "name" is already used
-                if(omp.name() != QString("name"))
+                // "name" key has already been used
+                if((omp.name() != QString("name")) && (omp.name() != QString("objectNname")))
                 {
                     bool ok = omp.write(object, _settings.value(omp.name()));
                     qDebug() << Q_FUNC_INFO
@@ -86,6 +93,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
             midiInterface->open();
             qDebug() << Q_FUNC_INFO
                      << "Midi interface:" << midiInterface
+                     << "clock" << midiInterface->acceptClock()
+                     << "control" << midiInterface->acceptControlChange()
+                     << "note" << midiInterface->acceptNoteChange()
+                     << "program" << midiInterface->acceptProgramChange()
                      << "connected:" << midiInterface->isConnected();
         }
         else
@@ -127,7 +138,6 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
     if(!found)
     {
         addMidiControl(row, interface, channel, control, value);
-
         row++;
     }
 }

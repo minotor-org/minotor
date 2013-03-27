@@ -12,6 +12,8 @@ typedef QList<MidiInterface*> MidiInterfaces;
 class Midi : public QObject
 {
     Q_OBJECT
+
+    friend class MidiInterface;
 public:
     explicit Midi(QObject *parent = 0);
     ~Midi();
@@ -22,8 +24,10 @@ public:
     // Interfaces
     MidiInterfaces interfaces();
     MidiInterface* interface(QString portName);
+    MidiInterface* addMidiInterface(QString portName);
 
 private:
+    int grabMidiInterfaceId();
     void addMidiInterface(MidiInterface *interface);
 
     RtMidiIn *_midiIn;

@@ -5,10 +5,11 @@
 
 #include "midi.h"
 
-MidiInterface::MidiInterface(QString portName, QObject *parent) :
+MidiInterface::MidiInterface(QString portName, Midi *parent) :
     QObject(parent),
+    _midi(parent),
     _rtMidiIn(NULL),
-    _id(0),
+    _id(-1),
     _portIndex(0),
     _connected(false),
     _acceptClock(false),
@@ -145,7 +146,8 @@ bool MidiInterface::open(const unsigned int portIndex)
 
                 // Don't ignore sysex, timing, or active sensing messages.
                 _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
-
+                if(_id == -1)
+                    setId(_midi->grabMidiInterfaceId());
                 _connected = true;
                 qDebug() << "MIDI connected to: " << this->portName();
                 emit(connected());
@@ -158,13 +160,17 @@ bool MidiInterface::open(const unsigned int portIndex)
     return _connected;
 }
 
-void MidiInterface::close()
+bool MidiInterface::close()
 {
-    _rtMidiIn->closePort();
-    _rtMidiIn->cancelCallback();
-    _connected = false;
-    qDebug() << "MIDI disconnected.";
-    emit(connected(false));
+    if(_rtMidiIn)
+    {
+        _rtMidiIn->closePort();
+        _rtMidiIn->cancelCallback();
+        _connected = false;
+        qDebug() << "MIDI disconnected.";
+        emit(connected(false));
+    }
+    return !_connected;
 }
 
 bool MidiInterface::isConnected()
@@ -190,35 +196,23 @@ void MidiInterface::setAcceptClock(bool on)
         // Don't ignore sysex, timing, or active sensing messages.
         _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
     }
-    if (!_connected)
-    {
-        open();
-    }
+    isUsed() ? open() : close();
 }
 
 void MidiInterface::setAcceptProgramChange(bool on)
 {
     _acceptProgramChange = on;
-    if (!_connected)
-    {
-        open();
-    }
+    isUsed() ? open() : close();
 }
 
 void MidiInterface::setAcceptControlChange(bool on)
 {
     _acceptControlChange = on;
-    if (!_connected)
-    {
-        open();
-    }
+    isUsed() ? open() : close();
 }
 
 void MidiInterface::setAcceptNoteChange(bool on)
 {
     _acceptNoteChange = on;
-    if (!_connected)
-    {
-        open();
-    }
+    isUsed() ? open() : close();
 }
