@@ -140,6 +140,10 @@ QFrame#groupline {
     background-color:#333333;
 }
 
+QFrame#interfaceline {
+    background-color:#454545;
+}
+
 QFrame#line {
     background-color:#2c2c2c;
 }
@@ -179,6 +183,10 @@ QLabel#dialinfo {
 
 QLabel#image {
     border: 1px solid #1C1C1C;
+}
+
+QLabel#interfacename {
+    font:bold;
 }
 
 QLabel#title {
@@ -351,7 +359,7 @@ QTabBar::tab {
     padding-right: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
-    min-height:60px;
+    min-height:110px;
     margin-bottom: 3px;
 }
 

@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     minarotatingbars.cpp \
     minacurve.cpp \
     miprosecondlives.cpp \
-    midiinterface.cpp
+    midiinterface.cpp \
+    uimidiinterface.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -125,7 +126,9 @@ HEADERS  += mainwindow.h \
     minarotatingbars.h \    
     minacurve.h \
     miprosecondlives.h \
-    midiinterface.h
+    midiinterface.h \
+    uimidiinterface.h
+
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

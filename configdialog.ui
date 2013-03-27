@@ -24,9 +24,38 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
+       <property name="elideMode">
+        <enum>Qt::ElideMiddle</enum>
+       </property>
+       <property name="usesScrollButtons">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Midi interfaces</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QWidget" name="widget_7" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Please configure your midi interfaces</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="wMidiInterfaces" native="true"/>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="tabMidi">
         <attribute name="title">
-         <string notr="true">MIDI</string>
+         <string notr="true">Midi mapping</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
@@ -35,7 +64,7 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Configure midi for remote sync and control</string>
+               <string>Configure midi mapping for remote control of Minotor</string>
               </property>
              </widget>
             </item>

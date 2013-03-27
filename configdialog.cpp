@@ -7,6 +7,7 @@
 #include <QSettings>
 
 #include "minotor.h"
+#include "uimidiinterface.h"
 
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,8 +16,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     ui->setupUi(this);
 
     // Hack to refresh list at startup
-    this->on_tabWidget_currentChanged(1);
+
     this->on_tabWidget_currentChanged(0);
+    this->on_tabWidget_currentChanged(1);
+    this->on_tabWidget_currentChanged(2);
 
     QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
@@ -146,7 +149,32 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
 
     switch(index)
     {
-    case 0: // MIDI tab
+    case 0: //Midi
+    {
+        QVBoxLayout *lMidiInterfaces = new QVBoxLayout(ui->wMidiInterfaces);
+
+        lMidiInterfaces->addWidget(new UiMidiInterface(this));
+
+        QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
+        fSeparator->setObjectName("interfaceline");
+        fSeparator->setFrameShape(QFrame::HLine);
+        fSeparator->setFrameShadow(QFrame::Sunken);
+        fSeparator->setLineWidth(1);
+        lMidiInterfaces->addWidget(fSeparator);
+
+        lMidiInterfaces->addWidget(new UiMidiInterface(this));
+
+        QFrame *fSeparator2 = new QFrame(ui->wMidiInterfaces);
+        fSeparator2->setObjectName("interfaceline");
+        fSeparator2->setFrameShape(QFrame::HLine);
+        fSeparator2->setFrameShadow(QFrame::Sunken);
+        fSeparator2->setLineWidth(1);
+        lMidiInterfaces->addWidget(fSeparator2);
+
+
+        lMidiInterfaces->addStretch(1);
+    }
+    case 1: // MIDI mapping
     {
         int currentItem = -1;
         const QStringList midiAvailablePorts = Minotor::minotor()->midi()->getPorts();
@@ -176,7 +204,7 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
 
     }
         break;
-    case 1: // Serial tab
+    case 2: // Serial tab
         // Port enumeration
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
 //        qDebug() << "List of ports:";
