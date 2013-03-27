@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QSettings>
 
 namespace Ui {
 class ConfigDialog;
@@ -31,6 +32,10 @@ private:
     Ui::ConfigDialog *ui;
 
     void addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value);
+
+    void setupLedMatrix(QSettings &settings);
+    void setupMidi(QSettings &settings);
+
     void updateMidiTab();
     void updateMidiMappingTab();
     void updateSerialTab();

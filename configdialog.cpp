@@ -5,7 +5,6 @@
 
 #include <QDebug>
 #include <QMetaProperty>
-#include <QSettings>
 
 #include "minotor.h"
 #include "uimidiinterface.h"
@@ -17,16 +16,28 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     ui->setupUi(this);
 
     dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->addStretch(1);
-
-    QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
-
-    connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
-    connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
-
     connect(this, SIGNAL(finished(int)), this, SLOT(configDialogFinished(int)));
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
+
+    setupLedMatrix(settings);
+    setupMidi(settings);
+
+    // Hack to refresh list at startup
+    this->on_tabWidget_currentChanged(0);
+    updateMidiMappingTab();
+    this->on_tabWidget_currentChanged(2);
+}
+
+void ConfigDialog::setupLedMatrix(QSettings &settings)
+{
+    LedMatrix *matrix = Minotor::minotor()->ledMatrix();
+    connect(matrix, SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
+    connect(matrix, SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
+
     // TODO: Search in port list
-    Minotor::minotor()->ledMatrix()->openPortByName(_settings.value("serial/interface").toString());
-    if (Minotor::minotor()->ledMatrix()->isConnected())
+    matrix->openPortByName(settings.value("serial/interface").toString());
+    if (matrix->isConnected())
     {
         // Port enumeration
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -40,30 +51,33 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
         }
 
         int currentItem = -1;
-        if(portnames.contains(Minotor::minotor()->ledMatrix()->portName()))
+        if(portnames.contains(matrix->portName()))
         {
-            currentItem = portnames.indexOf(Minotor::minotor()->ledMatrix()->portName());
+            currentItem = portnames.indexOf(matrix->portName());
         }
         ui->cbSerialPort->setCurrentIndex(currentItem);
     }
+}
 
+void ConfigDialog::setupMidi(QSettings &settings)
+{
     // MIDI
-    _settings.beginGroup("midi");
+    settings.beginGroup("midi");
     Midi *midi = Minotor::minotor()->midi();
 
-    _settings.beginGroup("interface");
-    foreach(QString group, _settings.childGroups())
+    settings.beginGroup("interface");
+    foreach(QString group, settings.childGroups())
     {
         // Use id as group in settings (ie: midi/interface/0)
-        _settings.beginGroup(group);
+        settings.beginGroup(group);
 
-        if(!_settings.contains("name"))
+        if(!settings.contains("name"))
         {
             qDebug() << Q_FUNC_INFO
                      << "Error while loading: midi interface name";
             break;
         }
-        const QString midiPort = _settings.value("name").toString();
+        const QString midiPort = settings.value("name").toString();
         MidiInterface *midiInterface = midi->interface(midiPort);
         if(!midiInterface)
         {
@@ -81,7 +95,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
                 // "name" key has already been used
                 if((omp.name() != QString("name")) && (omp.name() != QString("objectName")))
                 {
-                    bool ok = omp.write(object, _settings.value(omp.name()));
+                    bool ok = omp.write(object, settings.value(omp.name()));
                     qDebug() << Q_FUNC_INFO
                              << QString("object property: %1 loaded: %2").arg(omp.name()).arg(QVariant(ok).toString());
                 }
@@ -92,15 +106,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
             qDebug() << Q_FUNC_INFO
                      << "No midi interface found with portName:" << midiPort;
         }
-        _settings.endGroup(); // group id
+        settings.endGroup(); // group id
     }
-    _settings.endGroup(); // "interface" group
-    _settings.endGroup(); // "midi" group
-
-    // Hack to refresh list at startup
-    this->on_tabWidget_currentChanged(0);
-    updateMidiMappingTab();
-    this->on_tabWidget_currentChanged(2);
+    settings.endGroup(); // "interface" group
+    settings.endGroup(); // "midi" group
 }
 
 ConfigDialog::~ConfigDialog()
@@ -257,13 +266,13 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
-        QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
-        _settings.setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
+        settings.setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
 
-        _settings.beginGroup("midi");
-        _settings.beginGroup("interface");
+        settings.beginGroup("midi");
+        settings.beginGroup("interface");
         // Remove all interfaces
-        _settings.remove("");
+        settings.remove("");
         MidiInterfaces midiInterfaces = Minotor::minotor()->midi()->interfaces();
         int id = 0;
         for(int i=0; i<midiInterfaces.count(); i++)
@@ -271,7 +280,7 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
             MidiInterface *midiInterface = midiInterfaces.at(i);
             if(midiInterface->isUsed())
             {
-                _settings.beginGroup(QString::number(id));
+                settings.beginGroup(QString::number(id));
                 QObject *object = static_cast<QObject*>(midiInterface);
                 for(int j=0; j<object->metaObject()->propertyCount(); j++)
                 {
@@ -279,16 +288,16 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
                     // Dont store "objectName"
                     if(omp.name() != QString("objectName"))
                     {
-                        _settings.setValue(omp.name(), omp.read(object));
+                        settings.setValue(omp.name(), omp.read(object));
                     }
                 }
-                _settings.endGroup();
+                settings.endGroup();
                 id++;
             }
         }
-        _settings.endGroup(); // interface
-        _settings.endGroup(); // midi
-        _settings.sync();
+        settings.endGroup(); // interface
+        settings.endGroup(); // midi
+        settings.sync();
     }
 }
 
