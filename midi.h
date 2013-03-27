@@ -34,8 +34,19 @@ private:
     MidiInterfaces _interfaces;
 
 signals:
+    // Transport
+    void clockReceived();
+    void startReceived();
+    void stopReceived();
+    void continueReceived();
+
+    // Control
     void controlChanged(int interface, quint8 channel, quint8 control, quint8 value);
+
+    // Program
     void programChanged(int interface, quint8 channel, quint8 program);
+
+    // Note
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 public slots:

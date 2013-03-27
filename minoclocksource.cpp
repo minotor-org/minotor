@@ -82,7 +82,7 @@ void MinoClockSource::uiSync()
     _gppqn = 0;
 }
 
-void MinoClockSource::setMidiClockInterface(MidiInterface *midi)
+void MinoClockSource::setMidiClockSource(Midi *midi)
 {
     // Connections to Midi manager
     connect(midi,SIGNAL(clockReceived()),this,SLOT(midiClock()));

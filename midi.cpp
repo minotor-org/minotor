@@ -71,13 +71,13 @@ MidiInterface* Midi::interface(QString portName)
 void Midi::addMidiInterface(MidiInterface *interface)
 {
     interfaces().append(interface);
+    connect(interface, SIGNAL(clockReceived()), this, SIGNAL(clockReceived()));
+    connect(interface, SIGNAL(startReceived()), this, SIGNAL(startReceived()));
+    connect(interface, SIGNAL(stopReceived()), this, SIGNAL(stopReceived()));
+    connect(interface, SIGNAL(continueReceived()), this, SIGNAL(continueReceived()));
     connect(interface, SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SIGNAL(controlChanged(int,quint8,quint8,quint8)));
     connect(interface, SIGNAL(programChanged(int,quint8,quint8)), this, SIGNAL(programChanged(int,quint8,quint8)));
     connect(interface, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)));
-    /*
-    qDebug() << Q_FUNC_INFO
-             << "Midi interface added:" << interface->objectName();
-    */
 }
 
 int Midi::grabMidiInterfaceId()

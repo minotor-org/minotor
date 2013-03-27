@@ -31,7 +31,7 @@ MidiControl* MidiMapping::addMidiControl(int interface, quint8 channel, quint8 c
     if (findMidiControl(interface, channel, control, false))
     {
         qDebug() << Q_FUNC_INFO
-                 << "Mega big error \o/";
+                 << "Mega big error \\o/";
     }
     MidiControl *midiControl = new MidiControl(interface, channel, control, this);
     _midiControls.append(midiControl);

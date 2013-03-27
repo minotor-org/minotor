@@ -56,7 +56,7 @@ Minotor::Minotor(QObject *parent) :
 
     // Clock source
     _clockSource = new MinoClockSource(this);
-    // FIXME _clockSource->setMidiClockInterface(midi);
+    _clockSource->setMidiClockSource(_midi);
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
 
     // Register animations
