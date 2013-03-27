@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
     // Apply the loaded stylesheet
     QString style( styleFile.readAll() );
     a.setStyleSheet( style );
-
+    // a.setOrganizationName(); ???
+    a.setApplicationName("Minotor");
     MainWindow w;
 
     w.show();
