@@ -4,7 +4,9 @@ MinoPropertyColor::MinoPropertyColor(QObject *parent) :
     MinoProperty(parent)
 {
     _mcrHue = new MidiControlableReal(this);
+    _mcrHue->setObjectName("Hue");
     _mcrLightness = new MidiControlableReal(this);
+    _mcrLightness->setObjectName("Light");
 }
 
 void MinoPropertyColor::setColor(QColor color)
