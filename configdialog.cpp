@@ -166,26 +166,20 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     {
     case 0: //Midi
     {
+        Midi *midi = Minotor::minotor()->midi();
         QVBoxLayout *lMidiInterfaces = new QVBoxLayout(ui->wMidiInterfaces);
 
-        lMidiInterfaces->addWidget(new UiMidiInterface(this));
-
-        QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
-        fSeparator->setObjectName("interfaceline");
-        fSeparator->setFrameShape(QFrame::HLine);
-        fSeparator->setFrameShadow(QFrame::Sunken);
-        fSeparator->setLineWidth(1);
-        lMidiInterfaces->addWidget(fSeparator);
-
-        lMidiInterfaces->addWidget(new UiMidiInterface(this));
-
-        QFrame *fSeparator2 = new QFrame(ui->wMidiInterfaces);
-        fSeparator2->setObjectName("interfaceline");
-        fSeparator2->setFrameShape(QFrame::HLine);
-        fSeparator2->setFrameShadow(QFrame::Sunken);
-        fSeparator2->setLineWidth(1);
-        lMidiInterfaces->addWidget(fSeparator2);
-
+        foreach (MidiInterface *interface, midi->interfaces())
+        {
+            UiMidiInterface *uiInterface = new UiMidiInterface(interface,this);
+            lMidiInterfaces->addWidget(uiInterface);
+            QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
+            fSeparator->setObjectName("interfaceline");
+            fSeparator->setFrameShape(QFrame::HLine);
+            fSeparator->setFrameShadow(QFrame::Sunken);
+            fSeparator->setLineWidth(1);
+            lMidiInterfaces->addWidget(fSeparator);
+        }
 
         lMidiInterfaces->addStretch(1);
     }

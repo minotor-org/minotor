@@ -1,46 +1,47 @@
 #include "uimidiinterface.h"
 #include <QLayout>
-#include <QLabel>
-#include <QComboBox>
-#include <QPushButton>
 
-UiMidiInterface::UiMidiInterface(QWidget *parent) :
+UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QWidget(parent)
 {
     //Item 1
     this->setLayout(new QHBoxLayout());
 
     //Name
-    QLabel *txtName = new QLabel(this);
-    txtName->setObjectName("interfacename");
-    txtName->setText("Korg nanoKontrol");
-    this->layout()->addWidget(txtName);
+    _txtName = new QLabel(this);
+    _txtName->setObjectName("interfacename");
+    _txtName->setText(interface->portName());
+    this->layout()->addWidget(_txtName);
     dynamic_cast<QHBoxLayout*>(this->layout())->addStretch(1);
-    //Mapping
-    QComboBox *cbMapping = new QComboBox(this);
-    cbMapping->addItem("no mapping");
-    cbMapping->addItem("Akai LPD8");
-    cbMapping->addItem("Korg nanoKontrol");
-    this->layout()->addWidget(cbMapping);
+    //Mapping : fake data
+    _cbMapping = new QComboBox(this);
+    _cbMapping->addItem("no mapping");
+    _cbMapping->addItem("Akai LPD8");
+    _cbMapping->addItem("Korg nanoKontrol");
+    this->layout()->addWidget(_cbMapping);
     //BeatSync
-    QPushButton *pbSync = new QPushButton("Sync",this);
-    pbSync->setCheckable(true);
-    pbSync->setChecked(false);
-    this->layout()->addWidget(pbSync);
+    _pbSync = new QPushButton("Sync",this);
+    _pbSync->setCheckable(true);
+    _pbSync->setChecked(interface->acceptClock());
+    connect(_pbSync,SIGNAL(toggled(bool)),interface,SLOT(setAcceptClock(bool)));
+    this->layout()->addWidget(_pbSync);
     //Notes
-    QPushButton *pbNotes = new QPushButton("Notes",this);
-    pbNotes->setCheckable(true);
-    pbNotes->setChecked(false);
-    this->layout()->addWidget(pbNotes);
+    _pbNotes = new QPushButton("Notes",this);
+    _pbNotes->setCheckable(true);
+    _pbNotes->setChecked(interface->acceptNoteChange());
+    connect(_pbNotes,SIGNAL(toggled(bool)),interface,SLOT(setAcceptNoteChange(bool)));
+    this->layout()->addWidget(_pbNotes);
     //ControlChange
-    QPushButton *pbControlChange = new QPushButton("Ctrl Change",this);
-    pbControlChange->setCheckable(true);
-    pbControlChange->setChecked(true);
-    this->layout()->addWidget(pbControlChange);
+    _pbControlChange = new QPushButton("Ctrl Change",this);
+    _pbControlChange->setCheckable(true);
+    _pbControlChange->setChecked(interface->acceptControlChange());
+    connect(_pbControlChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptControlChange(bool)));
+    this->layout()->addWidget(_pbControlChange);
     //ProgramChange
-    QPushButton *pbProgramChange = new QPushButton("Prg Change",this);
-    pbProgramChange->setCheckable(true);
-    pbProgramChange->setChecked(false);
-    this->layout()->addWidget(pbProgramChange);
+    _pbProgramChange = new QPushButton("Prg Change",this);
+    _pbProgramChange->setCheckable(true);
+    _pbProgramChange->setChecked(interface->acceptProgramChange());
+    connect(_pbProgramChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptProgramChange(bool)));
+    this->layout()->addWidget(_pbProgramChange);
 
 }
