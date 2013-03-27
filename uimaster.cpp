@@ -73,8 +73,9 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     leftArea->setMaximumSize(120,320);
 
     //master control
-    UiMasterControl *uiMasterControl = new UiMasterControl(_master, wContent);
-    lContent->addWidget(uiMasterControl);
+    _uiMasterControl = new UiMasterControl(_master, wContent);
+    connect(_master->program(),SIGNAL(animationMoved(int,int,int,int,int,int)),_uiMasterControl,SLOT(animationMoved(int,int,int,int,int,int)));
+    lContent->addWidget(_uiMasterControl);
 
     //master view
     QWidget *wMasterView = new QWidget(wContent);
@@ -114,5 +115,8 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
 
 void UiMaster::updateProgram()
 {
+    disconnect(_uiMasterControl);
     _uiMasterMonitor->setProgram(_master->program());
+    connect(_master->program(),SIGNAL(animationMoved(int,int,int,int,int,int)),_uiMasterControl,SLOT(animationMoved(int,int,int,int,int,int)));
 }
+

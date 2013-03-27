@@ -117,6 +117,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     lGroupParameters->addStretch(1);
 
     // Connect UI with its group
+    connect(_group,SIGNAL(animationAdded()), this,SLOT(updateGroup()));
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
@@ -135,6 +136,7 @@ void UiMasterAnimationGroup::updateGroup()
     int cpt = 0;
     foreach (UiAnimationProperty *uiAnimationProperty, this->findChildren<UiAnimationProperty*>())
     {
+        disconnect(uiAnimationProperty);
         delete(uiAnimationProperty);
     }
     foreach (QFrame *frame, _wGroupParameters->findChildren<QFrame*>())
@@ -153,33 +155,35 @@ void UiMasterAnimationGroup::updateGroup()
                     connect(midiControlableProperty, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
                     if(midiControlableProperty->isPreferred())
                     {
-                        if (cpt>0)
-                        {
-                            QFrame *fSeparator = new QFrame(_wImportantParameters);
-                            fSeparator->setObjectName("line");
-                            fSeparator->setFrameShape(QFrame::HLine);
-                            fSeparator->setFrameShadow(QFrame::Sunken);
-                            fSeparator->setLineWidth(1);
-                            _lImportantParameters->addWidget(fSeparator);
-                        }
                         UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
                         uiAnimationProperty->setObjectName("animationproperty");
+                        connect(animation,SIGNAL(destroyed()),uiAnimationProperty,SLOT(deleteLater()));
                         _lImportantParameters->addWidget(uiAnimationProperty);
+
+                        QFrame *fSeparator = new QFrame(_wImportantParameters);
+                        fSeparator->setObjectName("line");
+                        fSeparator->setFrameShape(QFrame::HLine);
+                        fSeparator->setFrameShadow(QFrame::Sunken);
+                        fSeparator->setLineWidth(1);
+                        connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
+                        _lImportantParameters->addWidget(fSeparator);
+
                         cpt++;
                     } else if (midiControlableProperty->isMidiControlled())
                     {
-                        if (cpt>0)
-                        {
-                            QFrame *fSeparator = new QFrame(_wMidiParameters);
-                            fSeparator->setObjectName("line");
-                            fSeparator->setFrameShape(QFrame::HLine);
-                            fSeparator->setFrameShadow(QFrame::Sunken);
-                            fSeparator->setLineWidth(1);
-                            _lMidiParameters->addWidget(fSeparator);
-                        }
                         UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
                         uiAnimationProperty->setObjectName("animationproperty");
+                        connect(animation,SIGNAL(destroyed()),uiAnimationProperty,SLOT(deleteLater()));
                         _lMidiParameters->addWidget(uiAnimationProperty);
+
+                        QFrame *fSeparator = new QFrame(_wMidiParameters);
+                        fSeparator->setObjectName("line");
+                        fSeparator->setFrameShape(QFrame::HLine);
+                        fSeparator->setFrameShadow(QFrame::Sunken);
+                        fSeparator->setLineWidth(1);
+                        connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
+                        _lMidiParameters->addWidget(fSeparator);
+
                         cpt++;
                     }
                 }

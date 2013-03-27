@@ -66,8 +66,7 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
         _animations.at(z)->graphicItem()->setZValue(z);
     }
     animation->setGroup(this);
-
-    emit updated();
+    emit(animationAdded());
 }
 
 void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
@@ -84,8 +83,6 @@ void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
         {
             _animations.at(z)->graphicItem()->setZValue(z);
         }
-        // Lets others know something is changed
-        emit updated();
     }
 }
 
@@ -132,8 +129,6 @@ void MinoAnimationGroup::destroyAnimation(QObject *animation)
     if (_animations.count() == 0)
     {
         this->deleteLater();
-    } else {
-        emit updated();
     }
 }
 

@@ -80,3 +80,15 @@ UiMasterControl::~UiMasterControl()
 
 }
 
+
+void UiMasterControl::animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId)
+{
+    foreach (UiMasterAnimationGroup *group, this->findChildren<UiMasterAnimationGroup*>())
+    {
+        if (srcGroupId == group->group()->id() || destGroupId == group->group()->id())
+        {
+            group->updateGroup();
+            qDebug() << "update group" << group->group()->id();
+        }
+    }
+}

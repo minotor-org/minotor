@@ -24,7 +24,7 @@ signals:
 public slots:
     void updateProgram();
 private slots:
-
+    void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId);
 
 private:
     MinoMaster *_master;

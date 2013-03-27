@@ -47,9 +47,10 @@ signals:
     
 public slots:
     void enable(bool on);
+    void updateGroup();
 
 private slots:
-    void updateGroup();
+
 };
 
 #endif // UIMASTERANIMATIONGROUP_H

@@ -96,6 +96,9 @@ signals:
     // Signal emitted when animations have been changed (ie. create, delete, moved)
     void updated();
 
+    //Signal emitted when animation has been moved
+    void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationpId, int destProgramId, int destGroupId , int destAnimationpId);
+
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
     void setUpdated();

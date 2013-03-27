@@ -154,7 +154,6 @@ void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
     group->itemGroup()->setParentItem(&_itemGroup);
     group->itemGroup()->setGroup(&_itemGroup);
     group->itemGroup()->setPos(0,0);
-    connect(group, SIGNAL(updated()), this, SIGNAL(updated()));
     emit updated();
 }
 
@@ -170,4 +169,5 @@ void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId
         destGroup->insertAnimation(animation, destAnimationId);
         qDebug() << "MinoProgram> animation inserted";
     }
+    emit animationMoved(this->id(), srcGroup->id() , srcAnimationId, this->id(), destGroup->id() , destAnimationId);
 }

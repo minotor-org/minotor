@@ -47,13 +47,10 @@ private:
 private slots:
     void destroyAnimation(QObject *animation);
 
-
 signals:
-    // Signal emitted when animations have been changed (ie. create, delete, moved)
-    void updated();
-
     // Signal emitted when group is enabled
     void enabledChanged(bool on);
+    void animationAdded();
 public slots:
     void setDelayedEnabled(const bool enabled);
     void setEnabled(bool on);

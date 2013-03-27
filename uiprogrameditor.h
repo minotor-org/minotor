@@ -36,7 +36,7 @@ signals:
 public slots:
     void setExpanded(bool expanded);
 private slots:
-
+    void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId);
 
 private:
     MinoProgram *_program;

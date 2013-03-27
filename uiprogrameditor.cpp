@@ -17,6 +17,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     _program(program),
     _expanded(true)
 {
+    connect(program, SIGNAL(animationMoved(int,int,int,int,int,int)),this,SLOT(animationMoved(int,int,int,int,int,int)));
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     QWidget *wContainer = new QWidget(this);
@@ -320,12 +321,9 @@ UiAnimation* UiProgramEditor::takeAnimationAt(int groupId, int animationId)
         qDebug() << "group have" << uiAnimations.count() << "items";
         for (int j=0; j<uiAnimations.count(); j++)
         {
-            qDebug() << "animations:" << uiAnimations.at(j)->animation()->group()->animations();
-            const int aId = uiAnimations.at(j)->animation()->group()->animations().indexOf(uiAnimations.at(j)->animation());
-            qDebug() << "current id:" << aId << "animation id" << animationId;
-            if(aId == animationId)
+            if(j == animationId)
             {
-                ret = uiAnimationGroup->takeAt(aId);
+                ret = uiAnimationGroup->takeAt(j);
                 break;
             }
         }
@@ -344,21 +342,20 @@ void UiProgramEditor::insertAnimation(UiAnimation *uiAnimation, int destGroupId,
 
 void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId)
 {
-    const int destGroupId = destGroup->group()->id();
-/*
-    qDebug() << "UiProgramEditor>"
-             << " srcGroupId:" << srcGroupId
-             << " srcAnimationId:" << srcAnimationId
-             << " destGroupId:" << destGroupId
-             << " destAnimationId:" << destAnimationId;
-*/
-    if (destGroupId == srcGroupId)
-    {
-        destGroup->moveAnimation(srcAnimationId, destAnimationId);
-    } else {
-        UiAnimation *uiAnimation = takeAnimationAt(srcGroupId, srcAnimationId);
-        qDebug() << "uiAnimation: " << uiAnimation;
-        insertAnimation(uiAnimation, destGroupId, destAnimationId);
-    }
     _program->moveAnimation(_program->animationGroups().at(srcGroupId), srcAnimationId, destGroup->group(), destAnimationId);
+}
+
+void UiProgramEditor::animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId)
+{
+    if (srcProgramId == destProgramId && srcProgramId == _program->id())
+    {
+        if (destGroupId == srcGroupId)
+        {
+            UiAnimationGroup *destGroup = findUiAnimationGroup(destGroupId);
+            destGroup->moveAnimation(srcAnimationId, destAnimationId);
+        } else {
+            UiAnimation *uiAnimation = takeAnimationAt(srcGroupId, srcAnimationId);
+            insertAnimation(uiAnimation, destGroupId, destAnimationId);
+        }
+    }
 }
