@@ -188,6 +188,20 @@ QString MidiInterface::portName()
     return objectName();
 }
 
+void MidiInterface::autoconnect()
+{
+    if(isUsed())
+    {
+        if(!_connected)
+            open();
+    }
+    else
+    {
+        if(_connected)
+            close();
+    }
+}
+
 void MidiInterface::setAcceptClock(bool on)
 {
     _acceptClock = on;
@@ -196,23 +210,23 @@ void MidiInterface::setAcceptClock(bool on)
         // Don't ignore sysex, timing, or active sensing messages.
         _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
     }
-    isUsed() ? open() : close();
+    autoconnect();
 }
 
 void MidiInterface::setAcceptProgramChange(bool on)
 {
     _acceptProgramChange = on;
-    isUsed() ? open() : close();
+    autoconnect();
 }
 
 void MidiInterface::setAcceptControlChange(bool on)
 {
     _acceptControlChange = on;
-    isUsed() ? open() : close();
+    autoconnect();
 }
 
 void MidiInterface::setAcceptNoteChange(bool on)
 {
     _acceptNoteChange = on;
-    isUsed() ? open() : close();
+    autoconnect();
 }

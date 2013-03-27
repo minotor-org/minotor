@@ -73,6 +73,9 @@ private:
     // Open port by index (index is relative to current port list's index)
     bool open(const unsigned int index);
 
+    // Auto-(dis)connect function: ensure (dis)connection is made denpenging on isUsed()
+    void autoconnect();
+
 signals:
     void connected(bool connected = true);
     void clockReceived();
