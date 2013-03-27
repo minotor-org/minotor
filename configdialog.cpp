@@ -18,11 +18,6 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
 
     dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->addStretch(1);
 
-    // Hack to refresh list at startup
-    this->on_tabWidget_currentChanged(0);
-    this->on_tabWidget_currentChanged(1);
-    this->on_tabWidget_currentChanged(2);
-
     QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
     connect(Minotor::minotor()->ledMatrix(), SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
@@ -102,6 +97,11 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     }
     _settings.endGroup(); // "interface" group
     _settings.endGroup(); // "midi" group
+
+    // Hack to refresh list at startup
+    this->on_tabWidget_currentChanged(0);
+    this->on_tabWidget_currentChanged(1);
+    this->on_tabWidget_currentChanged(2);
 }
 
 ConfigDialog::~ConfigDialog()
