@@ -26,6 +26,20 @@ void MidiMapping::assignCapturedControlTo(MinoMidiControlableProperty *property)
     }
 }
 
+MidiControl* MidiMapping::addMidiControl(int interface, quint8 channel, quint8 control)
+{
+    if (findMidiControl(interface, channel, control, false))
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "Mega big error \o/";
+    }
+    MidiControl *midiControl = new MidiControl(interface, channel, control, this);
+    _midiControls.append(midiControl);
+    qDebug() << Q_FUNC_INFO
+             << "New mapped control:" << interface << channel << control;
+    return midiControl;
+}
+
 MidiControl* MidiMapping::findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate)
 {
     MidiControl *midiControl = NULL;
@@ -43,9 +57,7 @@ MidiControl* MidiMapping::findMidiControl(int interface, quint8 channel, quint8 
     // Requested MidiControl is not found
     if(autocreate)
     {
-        midiControl = new MidiControl(interface, channel, control, this);
-        _midiControls.append(midiControl);
-        qDebug() << "New mapped control:" << interface << channel << control;
+        midiControl = addMidiControl(interface, channel, control);
     }
     return midiControl;
 }

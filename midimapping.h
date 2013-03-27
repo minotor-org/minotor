@@ -19,12 +19,14 @@ public:
 
     MidiControlList midiControls() const { return _midiControls; }
 
-protected:
-    MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate = true);
+    MidiControl* addMidiControl(int interface, quint8 channel, quint8 control);
+    MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate);
 
+protected:
     bool _controlCaptureMode;
     MidiControlableProperty* _currentControlCaptureMinoProperty;
     MidiControlList _midiControls;
+
 signals:
     
 private slots:

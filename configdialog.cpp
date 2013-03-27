@@ -99,7 +99,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
 
     // Hack to refresh list at startup
     this->on_tabWidget_currentChanged(0);
-    this->on_tabWidget_currentChanged(1);
+    updateMidiMappingTab();
     this->on_tabWidget_currentChanged(2);
 }
 
@@ -125,6 +125,7 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
     }
     if(!found)
     {
+        Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
         addMidiControl(row, interface, channel, control, value);
         row++;
     }
@@ -164,83 +165,92 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     switch(index)
     {
     case 0: //Midi
-    {
-        Midi *midi = Minotor::minotor()->midi();
-        foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
-        {
-            delete(uiInterface);
-        }
-        foreach (QFrame *separator, ui->wMidiInterfaces->findChildren<QFrame*>())
-        {
-            delete(separator);
-        }
-        foreach (MidiInterface *interface, midi->interfaces())
-        {
-            UiMidiInterface *uiInterface = new UiMidiInterface(interface,this);
-            dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,uiInterface);
-            QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
-            fSeparator->setObjectName("interfaceline");
-            fSeparator->setFrameShape(QFrame::HLine);
-            fSeparator->setFrameShadow(QFrame::Sunken);
-            fSeparator->setLineWidth(1);
-            dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,fSeparator);
-        }
-    }
+        updateMidiTab();
+        break;
     case 1: // MIDI mapping
+        updateMidiMappingTab();
+        break;
+    case 2: // Serial
+        updateSerialTab();
+        break;
+    }
+}
+
+void ConfigDialog::updateMidiTab()
+{
+    qDebug() << Q_FUNC_INFO;
+    Midi *midi = Minotor::minotor()->midi();
+    foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
     {
-        // MIDI Mapping
-        connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
-        const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
-        ui->tableMidiMapping->clear();
-        ui->tableMidiMapping->setColumnCount(4);
-        //Set Header Label Texts
-        ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
-
-        int row = 0;
-        foreach(MidiControl *midiControl, midiControls)
-        {
-            addMidiControl(row, midiControl->interface(), midiControl->channel(), midiControl->control(), midiControl->value());
-            row++;
-        }
-
+        delete(uiInterface);
     }
-        break;
-    case 2: // Serial tab
-        // Port enumeration
-        QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-//        qDebug() << "List of ports:";
-        QStringList portnames;
-
-        foreach (QextPortInfo info, ports) {
-            if (1 || info.physName.startsWith("/dev/ttyACM"))
-            {
-//                qDebug() << "port name:"       << info.portName;
-//                qDebug() << "friendly name:"   << info.friendName;
-//                qDebug() << "physical name:"   << info.physName;
-//                qDebug() << "enumerator name:" << info.enumName;
-//                qDebug() << "vendor ID:"       << info.vendorID;
-//                qDebug() << "product ID:"      << info.productID;
-
-//                qDebug() << "===================================";
-                portnames.append(info.physName);
-            }
-        }
-//        qDebug() << portnames;
-
-        int currentItem = -1;
-//        qDebug() << ui->cbSerialPort->currentIndex() << ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex());
-        if(portnames.contains(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex())))
-        {
-            currentItem = portnames.indexOf(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
-        }
-
-        // Clear combobox
-        ui->cbSerialPort->clear();
-        ui->cbSerialPort->addItems(portnames);
-//        qDebug() << currentItem;
-        ui->cbSerialPort->setCurrentIndex(currentItem);
-        break;
+    foreach (QFrame *separator, ui->wMidiInterfaces->findChildren<QFrame*>())
+    {
+        delete(separator);
     }
+    foreach (MidiInterface *interface, midi->interfaces())
+    {
+        UiMidiInterface *uiInterface = new UiMidiInterface(interface,this);
+        dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,uiInterface);
+        QFrame *fSeparator = new QFrame(ui->wMidiInterfaces);
+        fSeparator->setObjectName("interfaceline");
+        fSeparator->setFrameShape(QFrame::HLine);
+        fSeparator->setFrameShadow(QFrame::Sunken);
+        fSeparator->setLineWidth(1);
+        dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,fSeparator);
+    }
+}
+
+void ConfigDialog::updateMidiMappingTab()
+{
+    qDebug() << Q_FUNC_INFO;
+    connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
+    const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
+    ui->tableMidiMapping->clear();
+    ui->tableMidiMapping->setColumnCount(4);
+    ui->tableMidiMapping->setRowCount(0);
+    //Set Header Label Texts
+    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
+
+    int row = 0;
+    foreach(MidiControl *midiControl, midiControls)
+    {
+        addMidiControl(row, midiControl->interface(), midiControl->channel(), midiControl->control(), midiControl->value());
+        row++;
+    }
+}
+
+void ConfigDialog::updateSerialTab()
+{
+    qDebug() << Q_FUNC_INFO;
+    // Port enumeration
+    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
+    QStringList portnames;
+
+    foreach (QextPortInfo info, ports) {
+        if (1 || info.physName.startsWith("/dev/ttyACM"))
+        {
+            //                qDebug() << "port name:"       << info.portName;
+            //                qDebug() << "friendly name:"   << info.friendName;
+            //                qDebug() << "physical name:"   << info.physName;
+            //                qDebug() << "enumerator name:" << info.enumName;
+            //                qDebug() << "vendor ID:"       << info.vendorID;
+            //                qDebug() << "product ID:"      << info.productID;
+            //                qDebug() << "===================================";
+            portnames.append(info.physName);
+        }
+    }
+
+    int currentItem = -1;
+    if(portnames.contains(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex())))
+    {
+        currentItem = portnames.indexOf(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
+    }
+
+    // Clear combobox
+    ui->cbSerialPort->clear();
+    ui->cbSerialPort->addItems(portnames);
+    ui->cbSerialPort->setCurrentIndex(currentItem);
 }
 
 void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)

@@ -31,7 +31,9 @@ private:
     Ui::ConfigDialog *ui;
 
     void addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value);
-
+    void updateMidiTab();
+    void updateMidiMappingTab();
+    void updateSerialTab();
 };
 
 #endif // CONFIGDIALOG_H
