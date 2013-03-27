@@ -56,12 +56,13 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
     _itemGroup.addToGroup(animation->graphicItem());
 
     // Re-parent animation to our itemGroup
+    animation->graphicItem()->setVisible(this->_enabled);
     animation->graphicItem()->setParentItem(&_itemGroup);
     animation->graphicItem()->setGroup(&_itemGroup);
     animation->graphicItem()->setPos(0,0);
 
     // Reorder Z values
-    for(int z; z<_animations.count(); z++)
+    for(int z=0; z<_animations.count(); z++)
     {
         _animations.at(z)->graphicItem()->setZValue(z);
     }
