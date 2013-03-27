@@ -40,12 +40,12 @@ Minotor::Minotor(QObject *parent) :
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
     _master->setProgram(new MiproDebug(this));
-
+/*
     new MiproSecondLives(this);
     new MiproMatrix(this);
     new MiproBnzIchRU(this);
     new MiproWaves(this);
-
+*/
     // MIDI interfaces
     _midi = new Midi(this);
     connect(_midi, SIGNAL(programChanged(int,quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(int,quint8,quint8)));
