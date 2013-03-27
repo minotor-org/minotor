@@ -24,9 +24,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     setupMidi(settings);
 
     // Hack to refresh list at startup
-    this->on_tabWidget_currentChanged(0);
+    updateMidiTab();
     updateMidiMappingTab();
-    this->on_tabWidget_currentChanged(2);
+    updateSerialTab();
+    disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
 void ConfigDialog::setupLedMatrix(QSettings &settings)
