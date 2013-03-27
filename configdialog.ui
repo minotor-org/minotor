@@ -46,14 +46,14 @@
           <widget class="QWidget" name="widget" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QLabel" name="lMidi">
+             <widget class="QLabel" name="lMidi_1">
               <property name="text">
-               <string>Midi Port</string>
+               <string>Midi Port #1</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cbMidiPort">
+             <widget class="QComboBox" name="cbMidiPort_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -63,7 +63,43 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pbMidiConnect">
+             <widget class="QPushButton" name="pbMidiConnect_1">
+              <property name="text">
+               <string>Connect</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="default">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_7" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="lMidi_2">
+              <property name="text">
+               <string>Midi Port #2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="cbMidiPort_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pbMidiConnect_2">
               <property name="text">
                <string>Connect</string>
               </property>

@@ -47,18 +47,16 @@ Minotor::Minotor(QObject *parent) :
     new MiproWaves(this);
 
     // MIDI interfaces
-    Midi *midi = new Midi(this);
-    _midiInterfaces.append(midi);
-    connect(midi, SIGNAL(controlChanged(quint8,quint8,quint8)), this,SLOT(handleMidiInterfaceControlChange(quint8,quint8,quint8)));
-    connect(midi, SIGNAL(programChanged(quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(quint8,quint8)));
-    connect(midi, SIGNAL(noteChanged(quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(quint8,quint8,bool,quint8)));
+    _midi = new Midi(this);
+    connect(_midi, SIGNAL(programChanged(int,quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(int,quint8,quint8)));
+    connect(_midi, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(int,quint8,quint8,bool,quint8)));
 
-    // Link Minotor to MidiMapping
-    connect(this, SIGNAL(controlChanged(int,quint8,quint8,quint8)), &_midiMapping, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+    // MIDI Mapping
+    _midiMapping = new MidiMapping(this);
 
     // Clock source
     _clockSource = new MinoClockSource(this);
-    _clockSource->setMidiClockInterface(midi);
+    // FIXME _clockSource->setMidiClockInterface(midi);
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
 
     // Register animations
@@ -87,10 +85,7 @@ Minotor::~Minotor()
 
     delete _clockSource;
 
-    foreach (Midi *midi, _midiInterfaces)
-    {
-        delete midi;
-    }
+    delete _midi;
 
     delete _ledMatrix;
 }
@@ -125,20 +120,9 @@ void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, 
     }
 }
 
-void Minotor::handleMidiInterfaceControlChange(quint8 program, quint8 control, quint8 value)
+void Minotor::handleMidiInterfaceProgramChange(int interface, quint8 channel, quint8 program)
 {
-    Midi *midiInterface = static_cast<Midi*>(QObject::sender());
-    if (_midiInterfaces.contains(midiInterface))
-    {
-        const int midiInterfaceId = _midiInterfaces.indexOf(midiInterface);
-        emit(controlChanged(midiInterfaceId, program, control, value));
-    } else {
-        qDebug() << "Unknow sender";
-    }
-}
-
-void Minotor::handleMidiInterfaceProgramChange(quint8 channel, quint8 program)
-{
+    (void)interface;
     (void)channel;
     if(program < _programs.count())
     {

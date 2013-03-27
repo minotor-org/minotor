@@ -37,7 +37,8 @@ signals:
     void attributesChanged();
 
 public slots:
-    
+    void midiControlValueChange(quint8);
+
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(MidiControlableObject::Attributes)

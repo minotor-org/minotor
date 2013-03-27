@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "midi.h"
+#include "midiinterface.h"
 
 #include <QTimer>
 #include <QTime>
@@ -13,7 +13,7 @@ class MinoClockSource : public QObject
     Q_OBJECT
 public:
     explicit MinoClockSource(QObject *parent = 0);
-    void setMidiClockInterface(Midi *midi);
+    void setMidiClockInterface(MidiInterface *midi);
     qreal bpm() const { return (60000.0 / _bpmPeriodMs); }
 signals:
     // Signal emitting a pre-computed pulse-per-quarter-note and quarter-note id (less code in receiver-classes, ie. MinoAnimations)

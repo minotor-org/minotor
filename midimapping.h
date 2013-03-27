@@ -6,11 +6,13 @@
 #include "midicontrol.h"
 #include "minomidicontrolableproperty.h"
 
+class Minotor;
+
 class MidiMapping : public QObject
 {
     Q_OBJECT
 public:
-    explicit MidiMapping(QObject *parent = 0);
+    explicit MidiMapping(Minotor *minotor = 0);
     
     void assignCapturedControlTo(MinoMidiControlableProperty *property);
     MidiControl* getMidiControlFor(MinoMidiControlableProperty *property);
@@ -25,7 +27,7 @@ protected:
     MidiControlList _midiControls;
 signals:
     
-public slots:
+private slots:
     void midiControlChanged(int interface, quint8 channel, quint8 control, quint8 value);
 };
 

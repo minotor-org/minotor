@@ -48,17 +48,41 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     }
 
     // MIDI
-    connect(Minotor::minotor()->midi(), SIGNAL(connected(bool)), ui->cbMidiPort, SLOT(setDisabled(bool)));
-    connect(Minotor::minotor()->midi(), SIGNAL(connected(bool)), ui->pbMidiConnect, SLOT(setChecked(bool)));
+    _settings.beginGroup("midi");
+    Midi *midi = Minotor::minotor()->midi();
 
-    const QString midiPort = _settings.value("midi/interface").toString();
-    if (Minotor::minotor()->midi()->getPorts().contains(midiPort))
+    _settings.beginGroup("interface");
+    foreach(QString group, _settings.childGroups())
     {
-        if(Minotor::minotor()->midi()->openPort(Minotor::minotor()->midi()->getPorts().indexOf(midiPort)))
+        // Use id as group in settings (ie: midi/interface/0)
+        _settings.beginGroup(group);
+
+        if(!_settings.contains("name"))
         {
-            ui->cbMidiPort->setCurrentIndex(Minotor::minotor()->midi()->getPorts().indexOf(midiPort));
+            qDebug() << Q_FUNC_INFO
+                     << "Error while loading: midi interface name";
+            break;
         }
+        const QString midiPort = _settings.value("name").toString();
+        MidiInterface *midiInterface = midi->interface(midiPort);
+        if(midiInterface)
+        {
+            connect(midiInterface, SIGNAL(connected(bool)), ui->cbMidiPort_1, SLOT(setDisabled(bool)));
+            connect(midiInterface, SIGNAL(connected(bool)), ui->pbMidiConnect_1, SLOT(setChecked(bool)));
+            midiInterface->open();
+            qDebug() << Q_FUNC_INFO
+                     << "Midi interface:" << midiInterface
+                     << "connected:" << midiInterface->isConnected();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "No midi interface found with portName:" << midiPort;
+        }
+        _settings.endGroup(); // group id
     }
+    _settings.endGroup(); // "interface" group
+    _settings.endGroup(); // "midi" group
 }
 
 ConfigDialog::~ConfigDialog()
@@ -118,26 +142,27 @@ void ConfigDialog::addMidiControl(const int row, const int interface, const quin
 
 void ConfigDialog::on_tabWidget_currentChanged(int index)
 {
-    disconnect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+    disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 
     switch(index)
     {
     case 0: // MIDI tab
     {
         int currentItem = -1;
-        if(Minotor::minotor()->midi()->getPorts().contains(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex())))
+        const QStringList midiAvailablePorts = Minotor::minotor()->midi()->getPorts();
+        const QString midiPort = ui->cbMidiPort_1->itemText(ui->cbMidiPort_1->currentIndex());
+        if(midiAvailablePorts.contains(midiPort))
         {
-            currentItem = Minotor::minotor()->midi()->getPorts().indexOf(ui->cbMidiPort->itemText(ui->cbMidiPort->currentIndex()));
+            currentItem = midiAvailablePorts.indexOf(midiPort);
         }
-        ui->cbMidiPort->clear();
-        ui->cbMidiPort->addItems(Minotor::minotor()->midi()->getPorts());
-        ui->cbMidiPort->setCurrentIndex(currentItem);
+        ui->cbMidiPort_1->clear();
+        ui->cbMidiPort_1->addItems(midiAvailablePorts);
+        ui->cbMidiPort_1->setCurrentIndex(currentItem);
 
-        connect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
-
+        // MIDI Mapping
+        connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
         const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
         ui->tableMidiMapping->clear();
-
         ui->tableMidiMapping->setColumnCount(4);
         //Set Header Label Texts
         ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
@@ -195,7 +220,23 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
     {
         QSettings _settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
         _settings.setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
-        _settings.setValue("midi/interface", Minotor::minotor()->midi()->portName());
+
+        _settings.beginGroup("midi");
+        _settings.beginGroup("interface");
+        MidiInterfaces midiInterfaces = Minotor::minotor()->midi()->interfaces();
+        int id = 0;
+        for(int i=0; i<midiInterfaces.count(); i++)
+        {
+            if(midiInterfaces.at(i)->isConnected())
+            {
+                _settings.beginGroup(QString::number(id));
+                _settings.setValue("name", midiInterfaces.at(i)->portName());
+                _settings.endGroup();
+                id++;
+            }
+        }
+        _settings.endGroup(); // interface
+        _settings.endGroup(); // midi
         _settings.sync();
     }
 }
@@ -214,21 +255,32 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
     }
 }
 
-void ConfigDialog::on_pbMidiConnect_clicked(bool checked)
-{
-    if (checked)
-    {
-        if(!Minotor::minotor()->midi()->openPort(ui->cbMidiPort->currentIndex()))
-        {
-            qDebug() << "Unable to open MIDI port";
-        }
-    } else {
-        Minotor::minotor()->midi()->closePort();
-    }
-}
-
 void ConfigDialog::configDialogFinished(int result)
 {
     qDebug() << "ConfigDialog: result" << result;
-    disconnect(Minotor::minotor(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+    disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+}
+
+void ConfigDialog::on_pbMidiConnect_1_clicked(bool checked)
+{
+    QString portName = ui->cbMidiPort_1->currentText();
+    MidiInterface *midiInterface = Minotor::minotor()->midi()->interface(portName);
+    if(midiInterface)
+    {
+        if (checked)
+        {
+            if(!midiInterface->open())
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "Unable to open MIDI port:" << portName;
+            }
+        } else {
+            midiInterface->close();
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "Could not find midi interface:" << portName;
+    }
 }

@@ -25,7 +25,7 @@ private slots:
 
     void on_pbSerialConnect_clicked(bool checked);
 
-    void on_pbMidiConnect_clicked(bool checked);
+    void on_pbMidiConnect_1_clicked(bool checked);
 
     void configDialogFinished(int result);
 

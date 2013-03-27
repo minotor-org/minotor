@@ -29,7 +29,7 @@ signals:
 
 public slots:
     void setBrightness(qreal value);
-    void noteChanged(quint8 channel, quint8 note, bool on, quint8 value);
+    void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 };
 

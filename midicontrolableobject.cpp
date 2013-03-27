@@ -27,3 +27,8 @@ void MidiControlableObject::setAttributes(MidiControlableObject::Attributes attr
         emit attributesChanged();
     }
 }
+
+void MidiControlableObject::midiControlValueChange(quint8 value)
+{
+    setValueFromMidi(value);
+}

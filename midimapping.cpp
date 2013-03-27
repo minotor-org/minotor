@@ -1,13 +1,16 @@
 #include "midimapping.h"
 
+#include "minotor.h"
+
 #include <QDebug>
 
-MidiMapping::MidiMapping(QObject *parent) :
-    QObject(parent),
+MidiMapping::MidiMapping(Minotor *minotor) :
+    QObject(minotor),
     _controlCaptureMode(false),
     _currentControlCaptureMinoProperty(NULL)
 {
-
+    // Link Minotor to MidiMapping
+    connect(minotor->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
 void MidiMapping::assignCapturedControlTo(MinoMidiControlableProperty *property)

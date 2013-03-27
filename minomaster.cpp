@@ -58,8 +58,9 @@ void MinoMaster::setProgram(MinoProgram *program)
 #define KORG_NOTE_MIN   9
 #define KORG_NOTE_MAX   24
 
-void MinoMaster::noteChanged(quint8 channel, quint8 note, bool on, quint8 value)
+void MinoMaster::noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
+    (void)interface;
     if(_program)
     {
         qDebug() << "note changed" << channel << note << on << value;

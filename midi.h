@@ -6,6 +6,9 @@
 
 #include "RtMidi.h"
 
+class MidiInterface;
+typedef QList<MidiInterface*> MidiInterfaces;
+
 class Midi : public QObject
 {
     Q_OBJECT
@@ -16,39 +19,23 @@ public:
     // List ports
     QStringList getPorts();
 
-    // Open port by index (index is relative to current port list's index)
-    bool openPort(const unsigned int index);
-    // Close open MIDI connection (if one exists).
-    void closePort();
+    // Interfaces
+    MidiInterfaces interfaces();
+    MidiInterface* interface(QString portName);
 
-    // Test if MIDI is open
-    bool isOpen();
-
-    // Retreive current connected port name
-    QString portName();
-
-    // Warning: Should not be used by user...
-    void midiCallback( double deltatime, std::vector< unsigned char > *message);
 private:
+    void addMidiInterface(MidiInterface *interface);
+
     RtMidiIn *_midiIn;
-    unsigned int _portIndex;
-    bool _connected;
+    MidiInterfaces _interfaces;
 
 signals:
-    void connected(bool connected = true);
-
-    void clockReceived();
-    void startReceived();
-    void stopReceived();
-    void continueReceived();
-    void programChanged(quint8 channel, quint8 program);
-    void controlChanged(quint8 channel, quint8 number, quint8 value);
-    void noteChanged(quint8 channel, quint8 note, bool on, quint8 value);
+    void controlChanged(int interface, quint8 channel, quint8 control, quint8 value);
+    void programChanged(int interface, quint8 channel, quint8 program);
+    void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 public slots:
     
 };
-
-typedef QList<Midi*> MidiInterfaceList;
 
 #endif // MIDI_H
