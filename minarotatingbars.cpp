@@ -37,9 +37,6 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _drawingZone = QRectF(0,0,_maxPixels,_maxPixels);
     _drawingZone.moveCenter(_boundingRect.center());
 
-    qreal rectWidth = 4;
-    qreal rectLength = int((_maxPixels/2)-4);
-
     //Left rect
     _items[0] = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
     _itemGroup.addToGroup(_items[0]);
