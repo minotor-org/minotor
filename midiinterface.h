@@ -12,6 +12,12 @@ class MidiInterface : public QObject
     Q_OBJECT
 
     friend class Midi;
+
+    Q_PROPERTY(QString name READ portName)
+    Q_PROPERTY(bool accept_clock READ acceptClock WRITE setAcceptClock)
+    Q_PROPERTY(bool accept_program READ acceptProgramChange WRITE setAcceptProgramChange)
+    Q_PROPERTY(bool accept_control READ acceptControlChange WRITE setAcceptControlChange)
+    Q_PROPERTY(bool accept_note READ acceptNoteChange WRITE setAcceptNoteChange)
 public:
     explicit MidiInterface(QString portName, QObject *parent);
     ~MidiInterface();
@@ -41,6 +47,9 @@ public:
     bool acceptProgramChange() { return _acceptProgramChange; }
     bool acceptControlChange() { return _acceptControlChange; }
     bool acceptNoteChange() { return _acceptNoteChange; }
+
+    // Used (when at least one message type is accepted)
+    bool isUsed() { return (_acceptClock || _acceptProgramChange || _acceptControlChange || _acceptNoteChange); }
 
     // RtMidi callback
     // Warning: Should not be used by user...

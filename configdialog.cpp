@@ -3,7 +3,8 @@
 
 #include "qextserialenumerator.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
+#include <QMetaProperty>
 #include <QSettings>
 
 #include "minotor.h"
@@ -72,6 +73,20 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
         {
             connect(midiInterface, SIGNAL(connected(bool)), ui->cbMidiPort_1, SLOT(setDisabled(bool)));
             connect(midiInterface, SIGNAL(connected(bool)), ui->pbMidiConnect_1, SLOT(setChecked(bool)));
+
+            QObject *object = static_cast<QObject*>(midiInterface);
+            for(int j=0; j<object->metaObject()->propertyCount(); j++)
+            {
+                QMetaProperty omp = object->metaObject()->property(j);
+                // "name" is already used
+                if(omp.name() != QString("name"))
+                {
+                    bool ok = omp.write(object, _settings.value(omp.name()));
+                    qDebug() << Q_FUNC_INFO
+                             << QString("object property: %1 loaded: %2").arg(omp.name()).arg(QVariant(ok).toString());
+                }
+            }
+
             midiInterface->open();
             qDebug() << Q_FUNC_INFO
                      << "Midi interface:" << midiInterface
@@ -251,14 +266,26 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 
         _settings.beginGroup("midi");
         _settings.beginGroup("interface");
+        // Remove all interfaces
+        _settings.remove("");
         MidiInterfaces midiInterfaces = Minotor::minotor()->midi()->interfaces();
         int id = 0;
         for(int i=0; i<midiInterfaces.count(); i++)
         {
-            if(midiInterfaces.at(i)->isConnected())
+            MidiInterface *midiInterface = midiInterfaces.at(i);
+            if(midiInterface->isUsed())
             {
                 _settings.beginGroup(QString::number(id));
-                _settings.setValue("name", midiInterfaces.at(i)->portName());
+                QObject *object = static_cast<QObject*>(midiInterface);
+                for(int j=0; j<object->metaObject()->propertyCount(); j++)
+                {
+                    QMetaProperty omp = object->metaObject()->property(j);
+                    // Dont store "objectName"
+                    if(omp.name() != QString("objectName"))
+                    {
+                        _settings.setValue(omp.name(), omp.read(object));
+                    }
+                }
                 _settings.endGroup();
                 id++;
             }
