@@ -82,7 +82,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
             {
                 QMetaProperty omp = object->metaObject()->property(j);
                 // "name" key has already been used
-                if((omp.name() != QString("name")) && (omp.name() != QString("objectNname")))
+                if((omp.name() != QString("name")) && (omp.name() != QString("objectName")))
                 {
                     bool ok = omp.write(object, _settings.value(omp.name()));
                     qDebug() << Q_FUNC_INFO
