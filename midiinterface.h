@@ -38,16 +38,9 @@ public:
 
     // Message filters
     bool acceptClock() { return _acceptClock; }
-    void setAcceptClock(bool on);
-
     bool acceptProgramChange() { return _acceptProgramChange; }
-    void setAcceptProgramChange(bool on);
-
     bool acceptControlChange() { return _acceptControlChange; }
-    void setAcceptControlChange(bool on) { _acceptControlChange = on; }
-
     bool acceptNoteChange() { return _acceptNoteChange; }
-    void setAcceptNoteChange(bool on) { _acceptNoteChange = on; }
 
     // RtMidi callback
     // Warning: Should not be used by user...
@@ -81,7 +74,11 @@ signals:
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 public slots:
-    
+    void setAcceptClock(bool on);
+    void setAcceptProgramChange(bool on) { _acceptProgramChange = on; }
+    void setAcceptControlChange(bool on) { _acceptControlChange = on; }
+    void setAcceptNoteChange(bool on) { _acceptNoteChange = on; }
+
 };
 
 #endif // MIDIINTERFACE_H
