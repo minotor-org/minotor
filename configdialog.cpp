@@ -89,15 +89,6 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
                              << QString("object property: %1 loaded: %2").arg(omp.name()).arg(QVariant(ok).toString());
                 }
             }
-
-            midiInterface->open();
-            qDebug() << Q_FUNC_INFO
-                     << "Midi interface:" << midiInterface
-                     << "clock" << midiInterface->acceptClock()
-                     << "control" << midiInterface->acceptControlChange()
-                     << "note" << midiInterface->acceptNoteChange()
-                     << "program" << midiInterface->acceptProgramChange()
-                     << "connected:" << midiInterface->isConnected();
         }
         else
         {
