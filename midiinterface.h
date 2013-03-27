@@ -36,6 +36,19 @@ public:
     // ID
     int id() { return _id; }
 
+    // Message filters
+    bool acceptClock() { return _acceptClock; }
+    void setAcceptClock(bool on);
+
+    bool acceptProgramChange() { return _acceptProgramChange; }
+    void setAcceptProgramChange(bool on);
+
+    bool acceptControlChange() { return _acceptControlChange; }
+    void setAcceptControlChange(bool on) { _acceptControlChange = on; }
+
+    bool acceptNoteChange() { return _acceptNoteChange; }
+    void setAcceptNoteChange(bool on) { _acceptNoteChange = on; }
+
     // RtMidi callback
     // Warning: Should not be used by user...
     void midiCallback( double deltatime, std::vector< unsigned char > *message);
@@ -45,6 +58,11 @@ private:
     unsigned int _portIndex;
     QString _portName;
     bool _connected;
+
+    bool _acceptClock;
+    bool _acceptProgramChange;
+    bool _acceptControlChange;
+    bool _acceptNoteChange;
 
     // Special accessor: we use objectName to store portName
     void setPortName(QString portName);

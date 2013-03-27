@@ -10,10 +10,15 @@ MidiInterface::MidiInterface(QString portName, QObject *parent) :
     _rtMidiIn(NULL),
     _id(0),
     _portIndex(0),
-    _connected(false)
+    _connected(false),
+    _acceptClock(false),
+    _acceptProgramChange(false),
+    _acceptControlChange(false),
+    _acceptNoteChange(false)
 {
     setObjectName(portName);
-    try {
+    try
+    {
         //Midi management
         _rtMidiIn = new RtMidiIn();
     } catch ( RtError &error ) {
@@ -57,18 +62,20 @@ void MidiInterface::midiCallback(double deltatime, std::vector< unsigned char > 
 
     switch(command) {
     case MIDI_CVM_NOTE_OFF:
-        /* qDebug() << "Note OFF:" << quint8 (message->at(1)); */
-        emit noteChanged(_id, quint8 (channel), quint8 (message->at(1)), false, quint8(message->at(2)));
+        if(_acceptNoteChange)
+            emit noteChanged(_id, quint8 (channel), quint8 (message->at(1)), false, quint8(message->at(2)));
         break;
     case MIDI_CVM_NOTE_ON:
-        /* qDebug() << "Note ON:" << quint8 (message->at(1)); */
-        emit noteChanged(_id, quint8 (channel), quint8 (message->at(1)), true, quint8(message->at(2)));
+        if(_acceptNoteChange)
+            emit noteChanged(_id, quint8 (channel), quint8 (message->at(1)), true, quint8(message->at(2)));
         break;
     case MIDI_CVM_CONTROL_CHANGE:
-        emit controlChanged(_id, quint8 (channel), quint8 (message->at(1)), quint8(message->at(2)));
+        if(_acceptControlChange)
+            emit controlChanged(_id, quint8 (channel), quint8 (message->at(1)), quint8(message->at(2)));
         break;
     case MIDI_CVM_PROGRAM_CHANGE:
-        emit programChanged(_id, quint8 (channel), quint8 (message->at(1)));
+        if(_acceptProgramChange)
+            emit programChanged(_id, quint8 (channel), quint8 (message->at(1)));
         break;
     case MIDI_SRTM_CLOCK: emit clockReceived(); break;
     case MIDI_SRTM_STOP: emit stopReceived(); break;
@@ -118,9 +125,6 @@ bool MidiInterface::open(QString portName)
 
 bool MidiInterface::open(const unsigned int portIndex)
 {
-    qDebug() << Q_FUNC_INFO
-             << "portIndex" << portIndex;
-
     if(_rtMidiIn)
     {
         if(_connected)
@@ -140,7 +144,8 @@ bool MidiInterface::open(const unsigned int portIndex)
                 _rtMidiIn->setCallback( &_midiCallback, this );
 
                 // Don't ignore sysex, timing, or active sensing messages.
-                _rtMidiIn->ignoreTypes( false, false, false );
+                _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
+
                 _connected = true;
                 qDebug() << "MIDI connected to: " << this->portName();
                 emit(connected());
@@ -177,3 +182,12 @@ QString MidiInterface::portName()
     return objectName();
 }
 
+void MidiInterface::setAcceptClock(bool on)
+{
+    _acceptClock = on;
+    if(_rtMidiIn)
+    {
+        // Don't ignore sysex, timing, or active sensing messages.
+        _rtMidiIn->ignoreTypes( false, !_acceptClock, true );
+    }
+}
