@@ -2,9 +2,11 @@
 #define MIDIMAPPING_H
 
 #include <QObject>
+#include <QHash>
 
 #include "midicontrol.h"
 #include "minomidicontrolableproperty.h"
+#include "minotrigger.h"
 
 class Minotor;
 
@@ -22,15 +24,37 @@ public:
     MidiControl* addMidiControl(int interface, quint8 channel, quint8 control);
     MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate);
 
+    MinoTrigger* findMinoTriggerFromNote(int interface, quint8 channel, quint8 note);
+    MinoTrigger* findMinoTriggerFromControl(int interface, quint8 channel, quint8 control);
+
+    void mapNoteToRole(int interface, quint8 channel, quint8 note, QString role);
+    void mapControlToRole(int interface, quint8 channel, quint8 control, QString role);
+
+    static void registerTrigger(QString role, const QObject *receiver, const char *method, bool toogle = false);
+
 protected:
     bool _controlCaptureMode;
     MidiControlableProperty* _currentControlCaptureMinoProperty;
     MidiControlList _midiControls;
 
+    // Notes -> MinoTrigger* association
+    QHash<QString, MinoTrigger*> _hashMinoTriggerNotes;
+
+    // Controls -> MinoTrigger* association
+    QHash<QString, MinoTrigger*> _hashMinoTriggerControls;
+
+private:
+    static QHash<QString, MinoTrigger*>& minoTriggers()
+    {
+        static QHash<QString, MinoTrigger*> triggers;
+        return triggers;
+    }
+
 signals:
     
 private slots:
     void midiControlChanged(int interface, quint8 channel, quint8 control, quint8 value);
+    void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 };
 
 #endif // MIDIMAPPING_H

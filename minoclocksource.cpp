@@ -1,4 +1,5 @@
 #include "minoclocksource.h"
+#include "midimapping.h"
 
 #include <QDebug>
 
@@ -18,6 +19,11 @@ MinoClockSource::MinoClockSource(QObject *parent) :
 
     // Set default BPM to 124
     setBPM(124);
+
+    MidiMapping::registerTrigger("TRANSPORT_PLAY", this, SLOT(uiStart()));
+    MidiMapping::registerTrigger("TRANSPORT_STOP", this, SLOT(uiStop()));
+    MidiMapping::registerTrigger("TRANSPORT_SYNC", this, SLOT(uiSync()));
+    MidiMapping::registerTrigger("TRANSPORT_TAP", this, SLOT(uiTapOn()));
 }
 
 void MinoClockSource::internalTimerTimeout()

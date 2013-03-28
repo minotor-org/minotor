@@ -49,7 +49,6 @@ Minotor::Minotor(QObject *parent) :
     // MIDI interfaces
     _midi = new Midi(this);
     connect(_midi, SIGNAL(programChanged(int,quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(int,quint8,quint8)));
-    connect(_midi, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), _master, SLOT(noteChanged(int,quint8,quint8,bool,quint8)));
 
     // MIDI Mapping
     _midiMapping = new MidiMapping(this);
@@ -58,6 +57,20 @@ Minotor::Minotor(QObject *parent) :
     _clockSource = new MinoClockSource(this);
     _clockSource->setMidiClockSource(_midi);
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
+
+    // Register HARDCODED triggers notes
+    _midiMapping->mapNoteToRole(1,0,35,"MASTER_00x00");
+    // LPD8
+    _midiMapping->mapNoteToRole(1,0,36,"TRANSPORT_PLAY");
+    _midiMapping->mapNoteToRole(1,0,37,"TRANSPORT_STOP");
+    _midiMapping->mapNoteToRole(1,0,38,"TRANSPORT_SYNC");
+    _midiMapping->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
+
+    // Korg nanoKontrol
+    _midiMapping->mapControlToRole(2,0,45,"TRANSPORT_PLAY");
+    _midiMapping->mapControlToRole(2,0,46,"TRANSPORT_STOP");
+    _midiMapping->mapControlToRole(2,0,49,"TRANSPORT_SYNC");
+    _midiMapping->mapControlToRole(2,0,44,"TRANSPORT_TAP");
 
     // Register animations
     MinoAnimationFactory::registerClass<MinaFlash>();
