@@ -66,6 +66,26 @@ Minotor::Minotor(QObject *parent) :
     _midiMapping->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
 
     // Korg nanoKontrol
+    _midiMapping->mapControlToRole(2,0,14,"MASTER_CONTROLS_0_0");
+    _midiMapping->mapControlToRole(2,0,15,"MASTER_CONTROLS_1_0");
+    _midiMapping->mapControlToRole(2,0,16,"MASTER_CONTROLS_2_0");
+    _midiMapping->mapControlToRole(2,0,17,"MASTER_CONTROLS_3_0");
+    _midiMapping->mapControlToRole(2,0,18,"MASTER_CONTROLS_4_0");
+    _midiMapping->mapControlToRole(2,0,19,"MASTER_CONTROLS_5_0");
+    _midiMapping->mapControlToRole(2,0,20,"MASTER_CONTROLS_6_0");
+    _midiMapping->mapControlToRole(2,0,21,"MASTER_CONTROLS_7_0");
+    _midiMapping->mapControlToRole(2,0,22,"MASTER_CONTROLS_8_0");
+
+    _midiMapping->mapControlToRole(2,0,2,"MASTER_CONTROLS_0_1");
+    _midiMapping->mapControlToRole(2,0,3,"MASTER_CONTROLS_1_1");
+    _midiMapping->mapControlToRole(2,0,4,"MASTER_CONTROLS_2_1");
+    _midiMapping->mapControlToRole(2,0,5,"MASTER_CONTROLS_3_1");
+    _midiMapping->mapControlToRole(2,0,6,"MASTER_CONTROLS_4_1");
+    _midiMapping->mapControlToRole(2,0,8,"MASTER_CONTROLS_5_1");
+    _midiMapping->mapControlToRole(2,0,9,"MASTER_CONTROLS_6_1");
+    _midiMapping->mapControlToRole(2,0,12,"MASTER_CONTROLS_7_1");
+    _midiMapping->mapControlToRole(2,0,13,"MASTER_CONTROLS_8_1");
+
     _midiMapping->mapControlToRole(2,0,33,"MASTER_ANIMATION_0");
     _midiMapping->mapControlToRole(2,0,34,"MASTER_ANIMATION_1");
     _midiMapping->mapControlToRole(2,0,35,"MASTER_ANIMATION_2");

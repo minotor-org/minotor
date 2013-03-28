@@ -7,6 +7,7 @@
 #include "midicontrol.h"
 #include "minomidicontrolableproperty.h"
 #include "minotrigger.h"
+#include "minocontrol.h"
 
 class Minotor;
 
@@ -26,11 +27,13 @@ public:
 
     MinoTrigger* findMinoTriggerFromNote(int interface, quint8 channel, quint8 note);
     MinoTrigger* findMinoTriggerFromControl(int interface, quint8 channel, quint8 control);
+    MinoControl* findMinoControl(int interface, quint8 channel, quint8 control);
 
     void mapNoteToRole(int interface, quint8 channel, quint8 note, QString role);
     void mapControlToRole(int interface, quint8 channel, quint8 control, QString role);
 
     static bool registerTrigger(QString role, const QObject *receiver = NULL, const char *method = NULL, bool toogle = false, bool overwrite = false);
+    static bool registerControl(QString role, const QObject *receiver = NULL, const char *method = NULL, bool overwrite = false);
 
 protected:
     bool _controlCaptureMode;
@@ -43,11 +46,20 @@ protected:
     // Controls -> MinoTrigger* association
     QHash<QString, MinoTrigger*> _hashMinoTriggerControls;
 
+    // Controls -> MinoControl* association
+    QHash<QString, MinoControl*> _hashMinoControls;
+
 private:
     static QHash<QString, MinoTrigger*>& minoTriggers()
     {
         static QHash<QString, MinoTrigger*> triggers;
         return triggers;
+    }
+
+    static QHash<QString, MinoControl*>& minoControls()
+    {
+        static QHash<QString, MinoControl*> controls;
+        return controls;
     }
 
 signals:

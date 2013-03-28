@@ -107,7 +107,6 @@ MainWindow::MainWindow(QWidget *parent) :
     pbSync->setMaximumSize(28,28);
     connect(pbSync,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiSync()));
 
-
     QWidget *wTempoButtons = new QWidget(wBackground);
     lBackground->addWidget(wTempoButtons);
     QHBoxLayout *lTempoButtons = new QHBoxLayout(wTempoButtons);

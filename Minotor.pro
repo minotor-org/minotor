@@ -69,7 +69,8 @@ SOURCES += main.cpp\
     miprosecondlives.cpp \
     midiinterface.cpp \
     uimidiinterface.cpp \
-    minotrigger.cpp
+    minotrigger.cpp \
+    minocontrol.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -129,7 +130,8 @@ HEADERS  += mainwindow.h \
     miprosecondlives.h \
     midiinterface.h \
     uimidiinterface.h \
-    minotrigger.h
+    minotrigger.h \
+    minocontrol.h
 
 
 FORMS    += mainwindow.ui \

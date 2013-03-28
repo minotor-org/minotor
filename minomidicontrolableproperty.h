@@ -29,15 +29,13 @@ public:
     virtual void setStep(qreal step) { _step = step; }
 
 protected:
-    virtual void setValueFromMidi(quint8 value) = 0;
     MidiControlableProperty *_midiControlableProperty;
     quint8 _midiValue;
+    virtual void setValueFromMidi(quint8 value) = 0;
 
 private:
     qreal _step;
 
-    // Directly called by MidiControlableProperty
-    void _setValueFromMidi(quint8 value);
     MinoMidiControlableProperty::Type _type;
 
 signals:
@@ -45,7 +43,9 @@ signals:
     void attributesChanged();
     
 public slots:
-    
+    // Directly called by MidiControlableProperty
+    void _setValueFromMidi(quint8 value);
+
 };
 
 #endif // MINOMIDICONTROLABLEPROPERTY_H
