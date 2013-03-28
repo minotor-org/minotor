@@ -106,6 +106,7 @@ UiAnimationGroup::~UiAnimationGroup()
 
 void UiAnimationGroup::mousePressEvent(QMouseEvent *event)
 {
+    event->accept();
     QPixmap pixmap;
     pixmap = QPixmap::grabWidget(this);
 

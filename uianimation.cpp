@@ -120,6 +120,7 @@ void UiAnimation::setExpanded(bool expanded)
 
 void UiAnimation::mousePressEvent(QMouseEvent *event)
 {
+    event->accept();
     QPixmap pixmap;
     pixmap = QPixmap::grabWidget(this);
 
