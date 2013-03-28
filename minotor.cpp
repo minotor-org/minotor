@@ -75,6 +75,17 @@ Minotor::Minotor(QObject *parent) :
     _midiMapping->mapControlToRole(2,0,39,"MASTER_ANIMATION_6");
     _midiMapping->mapControlToRole(2,0,40,"MASTER_ANIMATION_7");
     _midiMapping->mapControlToRole(2,0,41,"MASTER_ANIMATION_8");
+
+    _midiMapping->mapControlToRole(2,0,23,"MASTER_ANIMATION_SHIFT_0");
+    _midiMapping->mapControlToRole(2,0,24,"MASTER_ANIMATION_SHIFT_1");
+    _midiMapping->mapControlToRole(2,0,25,"MASTER_ANIMATION_SHIFT_2");
+    _midiMapping->mapControlToRole(2,0,26,"MASTER_ANIMATION_SHIFT_3");
+    _midiMapping->mapControlToRole(2,0,27,"MASTER_ANIMATION_SHIFT_4");
+    _midiMapping->mapControlToRole(2,0,28,"MASTER_ANIMATION_SHIFT_5");
+    _midiMapping->mapControlToRole(2,0,29,"MASTER_ANIMATION_SHIFT_6");
+    _midiMapping->mapControlToRole(2,0,30,"MASTER_ANIMATION_SHIFT_7");
+    _midiMapping->mapControlToRole(2,0,31,"MASTER_ANIMATION_SHIFT_8");
+
     _midiMapping->mapControlToRole(2,0,45,"TRANSPORT_PLAY");
     _midiMapping->mapControlToRole(2,0,46,"TRANSPORT_STOP");
     _midiMapping->mapControlToRole(2,0,49,"TRANSPORT_SYNC");

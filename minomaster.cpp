@@ -22,6 +22,8 @@ MinoMaster::MinoMaster(Minotor *minotor):
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
         MidiMapping::registerTrigger(role);
+        role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
+        MidiMapping::registerTrigger(role);
     }
 }
 
@@ -59,6 +61,8 @@ void MinoMaster::setProgram(MinoProgram *program)
             {
                 QString role = QString("MASTER_ANIMATION_%1").arg(i);
                 MidiMapping::registerTrigger(role, program->animationGroups().at(i), SLOT(setEnabled(bool)), true, true);
+                role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
+                MidiMapping::registerTrigger(role, program->animationGroups().at(i), SLOT(toogle()), false, true);
             }
         }
         _program = program;

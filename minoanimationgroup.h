@@ -54,6 +54,7 @@ signals:
 public slots:
     void setDelayedEnabled(const bool enabled);
     void setEnabled(bool on);
+    void toogle() { _setEnabled(!_enabled); }
 };
 
 typedef QList<MinoAnimationGroup*> MinoAnimationGroupList;
