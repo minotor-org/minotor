@@ -14,7 +14,7 @@
    <string>Minotor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="minotor.qrc">
+   <iconset>
     <normaloff>:/pictos/icone.png</normaloff>:/pictos/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget"/>
@@ -46,8 +46,8 @@
     <addaction name="actionExternal_master_view"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuOutput"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QDockWidget" name="dwDebug">
    <property name="windowTitle">
@@ -184,6 +184,9 @@
    </property>
    <property name="text">
     <string>External master view</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>

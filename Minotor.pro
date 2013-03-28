@@ -136,7 +136,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     configdialog.ui \
-    mainwindowng.ui \
     externalmasterview.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
