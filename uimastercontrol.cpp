@@ -92,3 +92,45 @@ void UiMasterControl::animationMoved(int srcProgramId, int srcGroupId , int srcA
         }
     }
 }
+
+void UiMasterControl::animationGroupMoved(int srcProgramId, int srcGroupId, int destGroupId)
+{
+    if (srcProgramId == _master->program()->id())
+    {
+        UiMasterAnimationGroup *uiMasterGroup = takeAnimationGroupAt(destGroupId);
+        insertAnimationGroup(uiMasterGroup, destGroupId);
+    }
+}
+
+UiMasterAnimationGroup* UiMasterControl::takeAnimationGroupAt(int groupId)
+{
+    UiMasterAnimationGroup *ret = NULL;
+    QList<UiMasterAnimationGroup*> uiMasterAnimationGroup = this->findChildren<UiMasterAnimationGroup*>();
+    if(groupId == -1)
+    {
+        groupId=uiMasterAnimationGroup.count()-1;
+    }
+    if(uiMasterAnimationGroup.count()>0)
+    {
+        qDebug() << "program has" << uiMasterAnimationGroup.count() << "items";
+        for (int j=0; j<uiMasterAnimationGroup.count(); j++)
+        {
+            if(uiMasterAnimationGroup.at(j)->group()->id() == groupId)
+            {
+                ret = uiMasterAnimationGroup.takeAt(j);
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+void UiMasterControl::insertAnimationGroup(UiMasterAnimationGroup *uiMasterAnimationGroup, int destGroupId)
+{
+    if (destGroupId == -1)
+    {
+        //Place is at the end of the list (-1 beacause there is a spacer at the end)
+        destGroupId =  _wContent->layout()->count()-2;
+    }
+    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(destGroupId, uiMasterAnimationGroup);
+}

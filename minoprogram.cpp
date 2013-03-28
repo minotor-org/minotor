@@ -171,3 +171,61 @@ void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId
     }
     emit animationMoved(this->id(), srcGroup->id() , srcAnimationId, this->id(), destGroup->id() , destAnimationId);
 }
+
+MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
+{
+    MinoAnimationGroup *animationGroup = _animationGroups.takeAt(index);
+    disconnect(animationGroup);
+    if (_animationGroups.count() == 0)
+    {
+        this->deleteLater();
+    }
+    return animationGroup;
+}
+
+void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int index)
+{
+    // Add group to program's list
+    if(index<0)
+        index = _animationGroups.size();
+    _animationGroups.insert(index, animationGroup);
+
+    // Will remove animation group from list when destroyed
+    connect(animationGroup, SIGNAL(destroyed(QObject*)), this, SLOT(destroyGroup(QObject*)));
+
+    //Reorder Z values
+    for(int z=0; z<_animationGroups.count(); z++)
+    {
+        _animationGroups.at(z)->itemGroup()->setZValue(z);
+    }
+}
+
+
+void MinoProgram::moveAnimationGroup(int srcGroupId, int destGroupId)
+{
+    int i=0;
+    foreach (MinoAnimationGroup *grp, this->animationGroups())
+    {
+        qDebug() << i <<  grp;
+                    i++;
+    }
+    if(srcGroupId!=destGroupId)
+    {
+        MinoAnimationGroup *animationGroup = this->takeAnimationGroupAt(srcGroupId);
+        qDebug() << "MinoProgram> src group" << srcGroupId << " destGroup " << destGroupId;
+        this->insertAnimationGroup(animationGroup, destGroupId);
+        qDebug() << "MinoProgram> group inserted";
+    }
+    i=0;
+    foreach (MinoAnimationGroup *grp, this->animationGroups())
+    {
+        qDebug() << i <<  grp;
+                    i++;
+    }
+    //Reorder Z values
+    for(int z=0; z<_animationGroups.count(); z++)
+    {
+        _animationGroups.at(z)->itemGroup()->setZValue(z);
+    }
+    emit animationGroupMoved(this->id(), srcGroupId , destGroupId);
+}

@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QLayout>
+#include <QMouseEvent>
 
 #include "minoanimationgroup.h"
 #include "minoanimation.h"
@@ -38,6 +39,7 @@ public slots:
     
 protected slots:
     void _moveAnimation(int programId, int groupId);
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // UIANIMATIONGROUP_H

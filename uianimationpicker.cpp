@@ -58,7 +58,7 @@ void UiAnimationPicker::mousePressEvent(QMouseEvent *event)
      dataStream << child->description()->className() << QPoint(event->pos() - child->pos());
 
      QMimeData *mimeData = new QMimeData;
-     mimeData->setData("application/x-dndanimationdescrition", itemData);
+     mimeData->setData("application/x-dndanimationdescription", itemData);
 
      QDrag *drag = new QDrag(this);
      drag->setMimeData(mimeData);

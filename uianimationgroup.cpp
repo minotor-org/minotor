@@ -5,6 +5,7 @@
 #include <QStyle>
 #include <QDebug>
 #include <QPushButton>
+#include <QDrag>
 
 UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
@@ -101,6 +102,49 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
 
 UiAnimationGroup::~UiAnimationGroup()
 {
+}
+
+void UiAnimationGroup::mousePressEvent(QMouseEvent *event)
+{
+    QPixmap pixmap;
+    pixmap = QPixmap::grabWidget(this);
+
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+
+    int groupId = this->group()->id();
+    if(groupId!=-1)
+    {
+        dataStream
+                << QString("UiAnimationGroup")
+                << QPoint(event->pos() - this->pos())
+                << this->group()->program()->id()
+                << groupId;
+
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setData("application/x-dndanimationgroup", itemData);
+
+        QDrag *drag = new QDrag(this);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(pixmap);
+        drag->setHotSpot(event->pos());
+
+        this->setEnabled(false);
+        this->setProperty("dragged", true);
+        this->style()->unpolish(this);
+        this->style()->polish(this);
+
+        if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
+        {
+            this->close();
+        } else {
+            this->show();
+            this->setEnabled(true);
+            this->setProperty("dragged", false);
+            this->style()->unpolish(this);
+            this->style()->polish(this);
+        }
+    }
 }
 
 void UiAnimationGroup::addAnimation(MinoAnimation *animation, int index)

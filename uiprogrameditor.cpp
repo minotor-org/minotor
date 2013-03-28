@@ -18,6 +18,7 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     _expanded(true)
 {
     connect(program, SIGNAL(animationMoved(int,int,int,int,int,int)),this,SLOT(animationMoved(int,int,int,int,int,int)));
+    connect(program, SIGNAL(animationGroupMoved(int,int,int)),this, SLOT(animationGroupMoved(int,int,int)));
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     QWidget *wContainer = new QWidget(this);
@@ -73,39 +74,56 @@ UiProgramEditor::~UiProgramEditor()
 }
 
 void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)
- {
-     if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
-         if (event->source() == this) {
-             event->setDropAction(Qt::MoveAction);
-             event->accept();
-         } else {
-             event->acceptProposedAction();
-         }
-     } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
-         qDebug() << "dragEnterEvent" << event->source()->metaObject()->className() << event->source()->objectName();
-         QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
-         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+{
+    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
+        qDebug() << "dragEnterEvent" << event->source()->metaObject()->className() << event->source()->objectName();
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
-         QString className;
-         QPoint offset;
-         int srcId;
-         int programId;
-         dataStream
-                 >> className
-                 >> offset
-                 >> programId
-                 >> srcId;
-         qDebug() << "dragEnterEvent" << className << srcId << "(program id:" << programId << ")";
+        QString className;
+        QPoint offset;
+        int srcId;
+        int programId;
+        dataStream
+                >> className
+                >> offset
+                >> programId
+                >> srcId;
+        qDebug() << "dragEnterEvent" << className << srcId << "(program id:" << programId << ")";
 
-         event->accept();
-     } else {
-         event->ignore();
-     }
- }
+        event->accept();
+    } else if (event->mimeData()->hasFormat("application/x-dndanimationgroup")) {
+        qDebug() << "dragEnterEvent" << event->source()->metaObject()->className() << event->source()->objectName();
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimationgroup");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QString className;
+        QPoint offset;
+        int srcId;
+        int programId;
+        dataStream
+                >> className
+                >> offset
+                >> programId
+                >> srcId;
+        qDebug() << "dragEnterEvent" << className << srcId << "(program id:" << programId << ")";
+
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
 
 void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
+    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -136,6 +154,28 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
             //event->acceptProposedAction();
             event->ignore();
         }
+    } else if (event->mimeData()->hasFormat("application/x-dndanimationgroup")) {
+        //qDebug() << "dragMoveEvent" << event->source()->metaObject()->className() << event->source()->objectName();
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimationgroup");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QString className;
+        QPoint offset;
+        int srcProgramId;
+        int srcGroupId;
+
+        dataStream
+                >> className
+                >> offset
+                >> srcProgramId
+                >> srcGroupId;
+        if (srcProgramId == _program->id()) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            //event->acceptProposedAction();
+            event->ignore();
+        }
     } else {
         event->ignore();
     }
@@ -143,8 +183,8 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
 
 void UiProgramEditor::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dndanimationdescrition")) {
-        QByteArray itemData = event->mimeData()->data("application/x-dndanimationdescrition");
+    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimationdescription");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
         QString className;
@@ -193,10 +233,10 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
             MinoAnimationGroup *group = new MinoAnimationGroup(_program);
             MinoAnimation *animation = group->addAnimation(className);
             _program->addAnimationGroup(group);
-			if(animation)
+            if(animation)
             {
-				this->addAnimationGroup(group);
-			}
+                this->addAnimationGroup(group);
+            }
         }
 
         if (event->source() == this) {
@@ -275,7 +315,76 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
             event->acceptProposedAction();
         }
 
-    } else {
+    } else if (event->mimeData()->hasFormat("application/x-dndanimationgroup")) {
+
+
+
+        QByteArray itemData = event->mimeData()->data("application/x-dndanimationgroup");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QString className;
+        QPoint offset;
+        int srcProgramId;
+        int srcGroupId;
+        dataStream
+                >> className
+                >> offset
+                >> srcProgramId
+                >> srcGroupId;
+
+        qDebug() << "UiProgramEditor>"
+                 << " className:" << className
+                 << " srcProgramId:" << srcProgramId
+                 << " srcGroupId:" << srcGroupId;
+
+        bool destGroupFound = false;
+        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
+        for (int i=0;i<uiGroups.count();i++)
+        {
+            UiAnimationGroup *uiGroup = uiGroups.at(i);
+            if (uiGroup->geometry().contains(event->pos()))
+            {
+                const int destGroupId = uiGroup->group()->program()->animationGroups().indexOf(uiGroup->group());
+                if (destGroupId != -1)
+                {
+                    destGroupFound = true;
+                    //move group to dest pos
+                    moveAnimationGroup(srcGroupId, destGroupId);
+                }
+                break;
+            }
+        }
+        if (!destGroupFound)
+        {
+            //move group at the end
+            moveAnimationGroup(srcGroupId, -1);
+        }
+        /*
+        if(!destGroupFound)
+        {
+            MinoAnimationGroup *group = new MinoAnimationGroup(_program);
+            _program->addAnimationGroup(group);
+            UiAnimationGroup *uiGroup = addAnimationGroup(group);
+            moveAnimation(srcGroupId, srcAnimationId, uiGroup, -1);
+        }
+        */
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+
+
+
+
+
+
+
+
+
+    }
+    else {
         event->ignore();
     }
 }
@@ -318,12 +427,35 @@ UiAnimation* UiProgramEditor::takeAnimationAt(int groupId, int animationId)
     if(uiAnimationGroup)
     {
         QList<UiAnimation*> uiAnimations = uiAnimationGroup->findChildren<UiAnimation*>();
-        qDebug() << "group have" << uiAnimations.count() << "items";
+        qDebug() << "group has" << uiAnimations.count() << "items";
         for (int j=0; j<uiAnimations.count(); j++)
         {
             if(j == animationId)
             {
                 ret = uiAnimationGroup->takeAt(j);
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+UiAnimationGroup* UiProgramEditor::takeAnimationGroupAt(int groupId)
+{
+    UiAnimationGroup *ret = NULL;
+    QList<UiAnimationGroup*> uiAnimationGroups = this->findChildren<UiAnimationGroup*>();
+    if(groupId == -1)
+    {
+        groupId=uiAnimationGroups.count()-1;
+    }
+    if(uiAnimationGroups.count()>0)
+    {
+        qDebug() << "program has" << uiAnimationGroups.count() << "items";
+        for (int j=0; j<uiAnimationGroups.count(); j++)
+        {
+            if(uiAnimationGroups.at(j)->group()->id() == groupId)
+            {
+                ret = uiAnimationGroups.takeAt(j);
                 break;
             }
         }
@@ -340,9 +472,25 @@ void UiProgramEditor::insertAnimation(UiAnimation *uiAnimation, int destGroupId,
     }
 }
 
+void UiProgramEditor::insertAnimationGroup(UiAnimationGroup *uiAnimationGroup, int destGroupId)
+{
+    if (destGroupId == -1)
+    {
+        //Place is at the end of the list (-1 beacause there is a spacer at the end)
+        destGroupId =  _lContent->count()-2;
+    }
+    qDebug() << Q_FUNC_INFO << "index:" << destGroupId << "grp:" << uiAnimationGroup->group();
+    _lContent->insertWidget(destGroupId, uiAnimationGroup);
+}
+
 void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId)
 {
     _program->moveAnimation(_program->animationGroups().at(srcGroupId), srcAnimationId, destGroup->group(), destAnimationId);
+}
+
+void UiProgramEditor::moveAnimationGroup(int srcGroupId, int destGroupId)
+{
+    _program->moveAnimationGroup(srcGroupId, destGroupId);
 }
 
 void UiProgramEditor::animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId)
@@ -356,6 +504,20 @@ void UiProgramEditor::animationMoved(int srcProgramId, int srcGroupId , int srcA
         } else {
             UiAnimation *uiAnimation = takeAnimationAt(srcGroupId, srcAnimationId);
             insertAnimation(uiAnimation, destGroupId, destAnimationId);
+        }
+    }
+}
+
+void UiProgramEditor::animationGroupMoved(int srcProgramId, int srcGroupId, int destGroupId)
+{
+    if (srcProgramId == _program->id())
+    {
+        if (destGroupId != srcGroupId)
+        {
+            //We take group uiGroup with destId because src MinoAnimationGroup has already been moved to destId in program
+            UiAnimationGroup *uiAnimationGroup = takeAnimationGroupAt(destGroupId);
+            qDebug() << Q_FUNC_INFO << uiAnimationGroup->group() << destGroupId;
+            insertAnimationGroup(uiAnimationGroup, destGroupId);
         }
     }
 }

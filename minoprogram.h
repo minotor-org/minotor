@@ -43,6 +43,8 @@ public:
     // Animation Group
     void addAnimationGroup(MinoAnimationGroup *group);
     void moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId);
+    void insertAnimationGroup(MinoAnimationGroup *animationGroup, int index);
+    void moveAnimationGroup(int srcGroupId, int destGroupId);
 
     Minotor *minotor();
 
@@ -84,6 +86,7 @@ protected:
     MinoAnimationGroupList _animationGroupsToDisable;
 
     QGraphicsItemGroup _itemGroup;
+    MinoAnimationGroup* takeAnimationGroupAt(int index);
 
 signals:
 
@@ -98,6 +101,9 @@ signals:
 
     //Signal emitted when animation has been moved
     void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationpId, int destProgramId, int destGroupId , int destAnimationpId);
+
+    //Signal emitted when animation group has been moved
+    void animationGroupMoved(int srcProgramId, int srcGroupId , int destGroupId);
 
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);

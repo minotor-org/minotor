@@ -75,6 +75,7 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     //master control
     _uiMasterControl = new UiMasterControl(_master, wContent);
     connect(_master->program(),SIGNAL(animationMoved(int,int,int,int,int,int)),_uiMasterControl,SLOT(animationMoved(int,int,int,int,int,int)));
+    connect(_master->program(),SIGNAL(animationGroupMoved(int,int,int)),_uiMasterControl,SLOT(animationGroupMoved(int,int,int)));
     lContent->addWidget(_uiMasterControl);
 
     //master view
@@ -118,5 +119,6 @@ void UiMaster::updateProgram()
     disconnect(_uiMasterControl);
     _uiMasterMonitor->setProgram(_master->program());
     connect(_master->program(),SIGNAL(animationMoved(int,int,int,int,int,int)),_uiMasterControl,SLOT(animationMoved(int,int,int,int,int,int)));
+    connect(_master->program(),SIGNAL(animationGroupMoved(int,int,int)),_uiMasterControl,SLOT(animationGroupMoved(int,int,int)));
 }
 
