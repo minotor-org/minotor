@@ -155,23 +155,41 @@ void MidiMapping::mapControlToRole(int interface, quint8 channel, quint8 control
     }
 }
 
-void MidiMapping::registerTrigger(QString role, const QObject *receiver, const char *method, bool toogle)
+bool MidiMapping::registerTrigger(QString role, const QObject *receiver, const char *method, bool toogle, bool overwrite)
 {
-    if(minoTriggers().value(role, NULL))
+    MinoTrigger *trigger = minoTriggers().value(role, NULL);
+    if(!overwrite)
     {
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is already registered!";
+        if(trigger)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "role:" << role << "is already registered!";
+            return false;
+        }
     }
     else
     {
-        MinoTrigger *trigger = new MinoTrigger(role);
+        if(trigger)
+        {
+            trigger->disconnect();
+        }
+    }
+    if(!trigger)
+    {
+        trigger = new MinoTrigger(role);
+        minoTriggers().insert(role, trigger);
+        qDebug() << Q_FUNC_INFO
+                 << "role:" << role << "is now registered.";
+    }
+    if(receiver && method)
+    {
         if(toogle)
             connect(trigger, SIGNAL(toogled(bool)), receiver, method);
         else
             connect(trigger, SIGNAL(triggered()), receiver, method);
 
-        minoTriggers().insert(role, trigger);
         qDebug() << Q_FUNC_INFO
                  << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
     }
+    return true;
 }

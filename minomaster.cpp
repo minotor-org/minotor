@@ -17,6 +17,12 @@ MinoMaster::MinoMaster(Minotor *minotor):
     mpBrightness->setObjectName("Brightness");
     connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
     _properties.append(mpBrightness);
+
+    for (int i=0; i<100; i++)
+    {
+        QString role = QString("MASTER_ANIMATION_%1").arg(i);
+        MidiMapping::registerTrigger(role);
+    }
 }
 
 MinoMaster::~MinoMaster()
@@ -48,44 +54,14 @@ void MinoMaster::setProgram(MinoProgram *program)
             connect(program, SIGNAL(updated()), this, SIGNAL(updated()));
             _itemGroup.addToGroup(program->itemGroup());
 	        program->setOnAir(true);
+
+            for(int i=0; i<program->animationGroups().count(); ++i)
+            {
+                QString role = QString("MASTER_ANIMATION_%1").arg(i);
+                MidiMapping::registerTrigger(role, program->animationGroups().at(i), SLOT(setEnabled(bool)), true, true);
+            }
         }
         _program = program;
         emit programChanged();
-    }
-}
-
-#define KORG_NOTE_SHIFT 24
-#define KORG_NOTE_MIN   9
-#define KORG_NOTE_MAX   24
-
-void MinoMaster::noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value)
-{
-    (void)interface;
-    if(_program)
-    {
-        qDebug() << "note changed" << channel << note << on << value;
-        switch(note)
-        {
-        case KORG_NOTE_SHIFT:
-            _shifted = on;
-            break;
-        default:
-        {
-            const int noteMin = KORG_NOTE_MIN;
-            const int noteMax = qMin(KORG_NOTE_MAX, noteMin + _program->animationGroups().count() - 1);
-            if ((note >= noteMin) && (note <= noteMax))
-            {
-                const int i = note-noteMin;
-                qDebug() << "setEnabled" << on << i;
-                if(_shifted)
-                {
-                    if (on)
-                        _program->animationGroups().at(i)->setDelayedEnabled(!_program->animationGroups().at(i)->enabled());
-                }else{
-                    _program->animationGroups().at(i)->setEnabled(on);
-                }
-            }
-        }
-        }
     }
 }

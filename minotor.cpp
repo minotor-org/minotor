@@ -59,7 +59,6 @@ Minotor::Minotor(QObject *parent) :
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
 
     // Register HARDCODED triggers notes
-    _midiMapping->mapNoteToRole(1,0,35,"MASTER_00x00");
     // LPD8
     _midiMapping->mapNoteToRole(1,0,36,"TRANSPORT_PLAY");
     _midiMapping->mapNoteToRole(1,0,37,"TRANSPORT_STOP");
@@ -67,6 +66,15 @@ Minotor::Minotor(QObject *parent) :
     _midiMapping->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
 
     // Korg nanoKontrol
+    _midiMapping->mapControlToRole(2,0,33,"MASTER_ANIMATION_0");
+    _midiMapping->mapControlToRole(2,0,34,"MASTER_ANIMATION_1");
+    _midiMapping->mapControlToRole(2,0,35,"MASTER_ANIMATION_2");
+    _midiMapping->mapControlToRole(2,0,36,"MASTER_ANIMATION_3");
+    _midiMapping->mapControlToRole(2,0,37,"MASTER_ANIMATION_4");
+    _midiMapping->mapControlToRole(2,0,38,"MASTER_ANIMATION_5");
+    _midiMapping->mapControlToRole(2,0,39,"MASTER_ANIMATION_6");
+    _midiMapping->mapControlToRole(2,0,40,"MASTER_ANIMATION_7");
+    _midiMapping->mapControlToRole(2,0,41,"MASTER_ANIMATION_8");
     _midiMapping->mapControlToRole(2,0,45,"TRANSPORT_PLAY");
     _midiMapping->mapControlToRole(2,0,46,"TRANSPORT_STOP");
     _midiMapping->mapControlToRole(2,0,49,"TRANSPORT_SYNC");

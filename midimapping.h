@@ -30,7 +30,7 @@ public:
     void mapNoteToRole(int interface, quint8 channel, quint8 note, QString role);
     void mapControlToRole(int interface, quint8 channel, quint8 control, QString role);
 
-    static void registerTrigger(QString role, const QObject *receiver, const char *method, bool toogle = false);
+    static bool registerTrigger(QString role, const QObject *receiver = NULL, const char *method = NULL, bool toogle = false, bool overwrite = false);
 
 protected:
     bool _controlCaptureMode;
