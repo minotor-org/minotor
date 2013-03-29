@@ -76,7 +76,7 @@ private:
 
     // Properties
     MinoPropertyList _properties;
-    MinoItemizedProperty _beatFactor;
+    MidiControllableList *_beatFactor;
 
     bool _onAir;
 

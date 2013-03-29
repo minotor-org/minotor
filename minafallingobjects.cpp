@@ -7,60 +7,62 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
 
     //First line of properties
-    _beatDuration.setObjectName("Duration");
-    _beatDuration.addItem("1/4", 6);
-    _beatDuration.addItem("1/2", 12);
-    _beatDuration.addItem("1", 24);
-    _beatDuration.addItem("2", 48);
-    _beatDuration.addItem("4", 96);
-    _beatDuration.addItem("8", 192);
-    _beatDuration.addItem("16", 384);
-    _beatDuration.setCurrentItem("1");
-    _beatDuration.setLinear();
-    _mplLine2.append(&_beatDuration);
+    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration->setObjectName("Duration");
+    _beatDuration->addItem("1/4", 6);
+    _beatDuration->addItem("1/2", 12);
+    _beatDuration->addItem("1", 24);
+    _beatDuration->addItem("2", 48);
+    _beatDuration->addItem("4", 96);
+    _beatDuration->addItem("8", 192);
+    _beatDuration->addItem("16", 384);
+    _beatDuration->setCurrentItem("1");
+    _beatDuration->setLinear();
+    _mplLine2.append(_beatDuration);
 
-
-    _generatorDensity.setObjectName("Density");
-    _generatorDensity.addItem("1", 1);
-    _generatorDensity.addItem("2", 2);
-    _generatorDensity.addItem("3", 3);
-    _generatorDensity.addItem("4", 4);
-    _generatorDensity.addItem("5", 5);
-    _generatorDensity.addItem("6", 6);
-    _generatorDensity.addItem("7", 7);
-    _generatorDensity.addItem("8", 8);
-    _generatorDensity.setCurrentItem("1");
-    _generatorDensity.setLinear();
-    _mplLine2.append(&_generatorDensity);
+    _generatorDensity = new MinoItemizedProperty(this);
+    _generatorDensity->setObjectName("Density");
+    _generatorDensity->addItem("1", 1);
+    _generatorDensity->addItem("2", 2);
+    _generatorDensity->addItem("3", 3);
+    _generatorDensity->addItem("4", 4);
+    _generatorDensity->addItem("5", 5);
+    _generatorDensity->addItem("6", 6);
+    _generatorDensity->addItem("7", 7);
+    _generatorDensity->addItem("8", 8);
+    _generatorDensity->setCurrentItem("1");
+    _generatorDensity->setLinear();
+    _mplLine2.append(_generatorDensity);
 
     _propertyGrouped.append(&_mplLine2);
 
     //Second line of properties
-    _generatorDirection.setObjectName("Direction");
-    _generatorDirection.addItem("Right", 0);
-    _generatorDirection.addItem("Left", 1);
-    _generatorDirection.addItem("Up", 2);
-    _generatorDirection.addItem("Down", 3);
-    _generatorDirection.setCurrentItem("Down");
-    _mplLine3.append(&_generatorDirection);
+    _generatorDirection = new MinoItemizedProperty(this);
+    _generatorDirection->setObjectName("Direction");
+    _generatorDirection->addItem("Right", 0);
+    _generatorDirection->addItem("Left", 1);
+    _generatorDirection->addItem("Up", 2);
+    _generatorDirection->addItem("Down", 3);
+    _generatorDirection->setCurrentItem("Down");
+    _mplLine3.append(_generatorDirection);
 
-    _generatorLength.setObjectName("Length");
-    _generatorLength.addItem("1", 1);
-    _generatorLength.addItem("2", 2);
-    _generatorLength.addItem("3", 3);
-    _generatorLength.addItem("4", 4);
-    _generatorLength.addItem("5", 5);
-    _generatorLength.addItem("6", 6);
-    _generatorLength.addItem("7", 7);
-    _generatorLength.addItem("8", 8);
-    _generatorLength.addItem("9", 9);
-    _generatorLength.addItem("10", 10);
-    _generatorLength.addItem("11", 11);
-    _generatorLength.addItem("12", 12);
-    _generatorLength.setLinear();
-    _generatorLength.setCurrentItem("8");
-
-    _mplLine3.append(&_generatorLength);
+    _generatorLength = new MinoItemizedProperty(this);
+    _generatorLength->setObjectName("Length");
+    _generatorLength->addItem("1", 1);
+    _generatorLength->addItem("2", 2);
+    _generatorLength->addItem("3", 3);
+    _generatorLength->addItem("4", 4);
+    _generatorLength->addItem("5", 5);
+    _generatorLength->addItem("6", 6);
+    _generatorLength->addItem("7", 7);
+    _generatorLength->addItem("8", 8);
+    _generatorLength->addItem("9", 9);
+    _generatorLength->addItem("10", 10);
+    _generatorLength->addItem("11", 11);
+    _generatorLength->addItem("12", 12);
+    _generatorLength->setLinear();
+    _generatorLength->setCurrentItem("8");
+    _mplLine3.append(_generatorLength);
 
     _propertyGrouped.append(&_mplLine3);
 
@@ -72,13 +74,13 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     (void)ppqn;
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
-    const unsigned int b = _beatFactor.currentItem()->real();
-    const unsigned int direction = _generatorDirection.currentItem()->real();
-    const unsigned int length = _generatorLength.currentItem()->real();
-    const unsigned int density = _generatorDensity.currentItem()->real();
-    const unsigned int duration = _beatDuration.currentItem()->real();
+    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int direction = _generatorDirection->currentItem()->real();
+    const unsigned int length = _generatorLength->currentItem()->real();
+    const unsigned int density = _generatorDensity->currentItem()->real();
+    const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
     if ((gppqn%b)==0)
     {

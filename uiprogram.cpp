@@ -12,7 +12,7 @@
 
 #include "uiprogramview.h"
 #include "uiprogrameditor.h"
-#include "uimidiproperty.h"
+#include "uimidicontrollableparameter.h"
 #include "uianimation.h"
 
 UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
@@ -50,10 +50,10 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     tTitle->setObjectName("title");
     tTitle->setText(QString("Prg ") + QString::number(program->id()));
 
-    MinoMidiControlableProperty *mpBeat = dynamic_cast<MinoMidiControlableProperty*>(_program->properties().at(0));
+    MidiControllableParameter *mpBeat = _program->findChild<MidiControllableParameter*>();
     if (mpBeat)
     {
-        UiMidiProperty *umpBeat = new UiMidiProperty(mpBeat, this);
+        UiMidiControllableParameter *umpBeat = new UiMidiControllableParameter(mpBeat, this);
         lTitle->addWidget(umpBeat);
     }
     lTitle->addStretch();

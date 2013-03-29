@@ -5,26 +5,27 @@
 MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     MinoAnimation(group)
 {
-
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _generatorCurve.setObjectName("Curve");
-    _generatorCurve.addItem("Linear", 0);
-    _generatorCurve.addItem("InOutQuart", 1);
-    _generatorCurve.addItem("OutInCubic", 2);
-    _generatorCurve.addItem("OutInBack", 3);
-    _generatorCurve.setCurrentItem("Linear");
-    _mplLine2.append(&_generatorCurve);
+    _generatorCurve = new MinoItemizedProperty(this);
+    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->addItem("Linear", 0);
+    _generatorCurve->addItem("InOutQuart", 1);
+    _generatorCurve->addItem("OutInCubic", 2);
+    _generatorCurve->addItem("OutInBack", 3);
+    _generatorCurve->setCurrentItem("Linear");
+    _mplLine2.append(_generatorCurve);
 
-    _generatorAccel.setObjectName("Accel.");
-    _generatorAccel.addItem("Linear", 0);
-    _generatorAccel.addItem("OutInBack", 1);
-    _generatorAccel.addItem("InOutBounce", 2);
-    _generatorAccel.addItem("InOutQuart", 3);
-    _generatorAccel.setCurrentItem("Linear");
-    _mplLine2.append(&_generatorAccel);
+    _generatorAccel = new MinoItemizedProperty(this);
+    _generatorAccel->setObjectName("Accel.");
+    _generatorAccel->addItem("Linear", 0);
+    _generatorAccel->addItem("OutInBack", 1);
+    _generatorAccel->addItem("InOutBounce", 2);
+    _generatorAccel->addItem("InOutQuart", 3);
+    _generatorAccel->setCurrentItem("Linear");
+    _mplLine2.append(_generatorAccel);
 
     _propertyGrouped.append(&_mplLine2);
 
@@ -55,11 +56,11 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     computeAnimaBeatProperty(gppqn);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     QEasingCurve easing;
     //Drawing curve
-    switch ((int)_generatorCurve.currentItem()->real())
+    switch ((int)_generatorCurve->currentItem()->real())
     {
     case 0 :
     {
@@ -84,7 +85,7 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     }
 
     //Animation curve
-    switch ((int)_generatorAccel.currentItem()->real())
+    switch ((int)_generatorAccel->currentItem()->real())
     {
     case 0 :
     {

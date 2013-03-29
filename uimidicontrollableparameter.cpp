@@ -1,4 +1,4 @@
-#include "uimidiproperty.h"
+#include "uimidicontrollableparameter.h"
 
 #include <QPainter>
 #include <QColor>
@@ -13,11 +13,11 @@
 
 #include "uiknob.h"
 
-UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode) :
+UiMidiControllableParameter::UiMidiControllableParameter(MidiControllableParameter *parameter, QWidget *parent, bool editorMode) :
     QWidget(parent),
     _midiLearnMode(false),
     _midiControlled(false),
-    _property(property)
+    _parameter(parameter)
 {
     QVBoxLayout *lProperty = new QVBoxLayout(this);
     lProperty->setSpacing(0);
@@ -33,8 +33,8 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
     lTop->setMargin(0);
     lTop->setContentsMargins(2,0,2,0);
 
-    MinoItemizedProperty* itemizedProperty = dynamic_cast<MinoItemizedProperty*>(property);
-    if(itemizedProperty)
+    MidiControllableList* mcl = dynamic_cast<MidiControllableList*>(parameter);
+    if(mcl)
     {
         if(editorMode)
         {
@@ -44,17 +44,17 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
             lTop->addWidget(wLeft);
             lTop->addStretch();
 
-            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
+            QLabel *tItemName = new QLabel(mcl->currentItem()->name(), wTop);
             tItemName->setObjectName("dialinfo");
             tItemName->setAlignment(Qt::AlignHCenter);
-            connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
+            connect(mcl, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
             lTop->addWidget(tItemName);
             lTop->addStretch();
 
             QPushButton *pbOnMaster = new QPushButton(wTop);
             pbOnMaster->setObjectName("tiny");
             pbOnMaster->setCheckable(true);
-            pbOnMaster->setChecked(_property->isPreferred());
+            pbOnMaster->setChecked(mcl->isPreferred());
             pbOnMaster->setFixedSize(6,6);
             lTop->addWidget(pbOnMaster);
             connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
@@ -62,10 +62,10 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
         else
         {
             lTop->addStretch();
-            QLabel *tItemName = new QLabel(itemizedProperty->currentItem()->name(), wTop);
+            QLabel *tItemName = new QLabel(mcl->currentItem()->name(), wTop);
             tItemName->setObjectName("dialinfo");
             tItemName->setAlignment(Qt::AlignHCenter);
-            connect(itemizedProperty, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
+            connect(mcl, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
             lTop->addWidget(tItemName);
             lTop->addStretch();
         }
@@ -78,7 +78,7 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
             QPushButton *pbOnMaster = new QPushButton(wTop);
             pbOnMaster->setObjectName("tiny");
             pbOnMaster->setCheckable(true);
-            pbOnMaster->setChecked(_property->isPreferred());
+            pbOnMaster->setChecked(parameter->isPreferred());
             pbOnMaster->setFixedSize(6,6);
             lTop->addWidget(pbOnMaster);
             connect(pbOnMaster,SIGNAL(toggled(bool)), this, SLOT(togglePropertyToMaster(bool)));
@@ -92,11 +92,11 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
     lDial->setMargin(0);
     lDial->setContentsMargins(0,0,0,0);
     lDial->addStretch();
-    UiKnob* knob = new UiKnob(property, wDial);
+    UiKnob* knob = new UiKnob(parameter, wDial);
     lDial->addWidget(knob);
     lDial->addStretch();
 
-    QLabel *t = new QLabel(QString(property->objectName()), this);
+    QLabel *t = new QLabel(QString(parameter->objectName()), this);
     t->setObjectName("dialinfo");
     t->setAlignment(Qt::AlignHCenter);
     lProperty->addWidget(t);
@@ -104,14 +104,14 @@ UiMidiProperty::UiMidiProperty(MinoMidiControlableProperty *property, QWidget *p
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 }
 
-void UiMidiProperty::paintEvent(QPaintEvent *pe)
+void UiMidiControllableParameter::paintEvent(QPaintEvent *pe)
 {
     (void)pe;
     if(_midiLearnMode)
     {
-        if(_midiControlled != _property->isMidiControlled())
+        if(_midiControlled != _parameter->isMidiControlled())
         {
-            _midiControlled = _property->isMidiControlled();
+            _midiControlled = _parameter->isMidiControlled();
             // Tricky way to update full widget region (instead of UiKnob only)
             update();
         }
@@ -130,7 +130,7 @@ void UiMidiProperty::paintEvent(QPaintEvent *pe)
             color.setBlue(0);
         }
 
-        if (_property->isMidiControlled())
+        if (_parameter->isMidiControlled())
         {
             color.setBlue(255);
         }
@@ -140,11 +140,11 @@ void UiMidiProperty::paintEvent(QPaintEvent *pe)
     }
     else
     {
-        _midiControlled = _property->isMidiControlled();
+        _midiControlled = _parameter->isMidiControlled();
     }
 }
 
-void UiMidiProperty::leaveEvent(QEvent *event)
+void UiMidiControllableParameter::leaveEvent(QEvent *event)
 {
     (void)event;
     if (_midiLearnMode)
@@ -154,32 +154,32 @@ void UiMidiProperty::leaveEvent(QEvent *event)
     }
 }
 
-void UiMidiProperty::enterEvent(QEvent *event)
+void UiMidiControllableParameter::enterEvent(QEvent *event)
 {
     (void)event;
     if (_midiLearnMode)
     {
-        Minotor::minotor()->midiMapping()->assignCapturedControlTo(_property);
+        Minotor::minotor()->midiMapping()->assignCapturedControlTo(_parameter);
         update();
     }
 }
 
-void UiMidiProperty::togglePropertyToMaster(bool on)
+void UiMidiControllableParameter::togglePropertyToMaster(bool on)
 {
-    _property->setPreferred(on);
+    _parameter->setPreferred(on);
 }
 
-QSize UiMidiProperty::minimumSizeHint() const
-{
-    return QSize(50, 50);
-}
-
-QSize UiMidiProperty::sizeHint() const
+QSize UiMidiControllableParameter::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-void UiMidiProperty::setMidiLearnMode(bool on)
+QSize UiMidiControllableParameter::sizeHint() const
+{
+    return QSize(50, 50);
+}
+
+void UiMidiControllableParameter::setMidiLearnMode(bool on)
 {
     _midiLearnMode = on;
     update();

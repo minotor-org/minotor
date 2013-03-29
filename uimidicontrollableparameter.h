@@ -1,15 +1,14 @@
-#ifndef UIMIDIPROPERTY_H
-#define UIMIDIPROPERTY_H
+#ifndef UIMIDIPARAMETER_H
+#define UIMIDIPARAMETER_H
 
 #include <QWidget>
+#include "midicontrollableparameter.h"
 
-#include "minomidicontrolableproperty.h"
-
-class UiMidiProperty : public QWidget
+class UiMidiControllableParameter : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMidiProperty(MinoMidiControlableProperty *property, QWidget *parent, bool editorMode = false);
+    explicit UiMidiControllableParameter(MidiControllableParameter *parameter, QWidget *parent, bool editorMode = false);
     void setMidiLearnMode(bool on = true);
 
 protected:
@@ -20,11 +19,13 @@ protected:
     bool _midiLearnMode;
     bool _midiControlled;
 
-    MinoMidiControlableProperty *_property;
+    MidiControllableParameter *parameter;
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
+private:
+    MidiControllableParameter *_parameter;
 signals:
     
 public slots:
@@ -33,4 +34,4 @@ private slots:
     void togglePropertyToMaster(bool on);
 };
 
-#endif // UIMIDIPROPERTY_H
+#endif // UIMIDIPARAMETER

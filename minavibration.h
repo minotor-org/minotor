@@ -16,7 +16,7 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
     
-    void setSegments(qreal value) { _segments.setValue(value); }
+    void setSegments(qreal value) { _segments->setValue(value); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
@@ -27,7 +27,7 @@ private:
     QGraphicsItemGroup _itemGroup;
 
 protected:
-    MinoPropertyReal _segments;
+    MinoPropertyReal *_segments;
     MinoPropertyList _mplLine2;
 };
 

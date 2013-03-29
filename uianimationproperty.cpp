@@ -7,6 +7,7 @@
 #include "minotor.h"
 
 #include "minotextproperty.h"
+#include "uimidicontrollableparameter.h"
 
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent)
@@ -20,17 +21,17 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     lProperty->setMargin(0);
     lProperty->setContentsMargins(0,0,0,0);
 
-    MinoMidiControlableProperty *midiControlableProperty = dynamic_cast<MinoMidiControlableProperty*>(property);
     MinoTextProperty* textProperty = dynamic_cast<MinoTextProperty*>(property);
-
 
     qDebug() << Q_FUNC_INFO
              << "property" << property;
-    if (midiControlableProperty)
+
+    foreach(MidiControllableParameter *param, property->findChildren<MidiControllableParameter*>())
     {
-        lProperty->addWidget(new UiMidiProperty(midiControlableProperty, this, editorMode));
+        lProperty->addWidget(new UiMidiControllableParameter(param, this, editorMode));
     }
-    else if (textProperty)
+
+    if (textProperty)
     {
         QLineEdit *teText = new QLineEdit(this);
         teText->setObjectName("textedit");
@@ -38,13 +39,5 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         teText->setText(textProperty->textValue());
         connect(teText, SIGNAL(textChanged(QString)), textProperty, SLOT(setTextValue(QString)));
         lProperty->addWidget(teText);
-    }
-    else
-    {
-        foreach(MidiControlableProperty *mcp, property->findChildren<MidiControlableProperty*>())
-        {
-            qDebug() << Q_FUNC_INFO
-                     << mcp;
-        }
     }
 }

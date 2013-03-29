@@ -6,9 +6,10 @@
 
 #include <qmath.h>
 
-#include "minomidicontrolableproperty.h"
+#include "midicontrollableparameter.h"
+#include "midicontrollablelist.h"
 
-UiKnob::UiKnob(MinoMidiControlableProperty *property, QWidget *parent):
+UiKnob::UiKnob(MidiControllableParameter *parameter, QWidget *parent):
     QWidget(parent),
     _indicatorColor(255,255,255),
     _indicatorBackgroundColor(0,0,0),
@@ -19,14 +20,14 @@ UiKnob::UiKnob(MinoMidiControlableProperty *property, QWidget *parent):
     _minValue(0),
     _maxValue(360),
     _value(0),
-    _property(property)
+    _parameter(parameter)
 {
     this->setFocusPolicy(Qt::NoFocus);
 
-    connect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    connect(parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
     this->setMinimum(0);
     this->setMaximum(127);
-    this->setValueFromMidi(_property->midiValue());
+    this->setValueFromMidi(_parameter->valueFromMidi());
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
@@ -61,9 +62,8 @@ void UiKnob::paintEvent(QPaintEvent *pe)
     const qreal startAngle = 220.0*16.0;
     const qreal spanAngle = -260.0*16.0;
 
-    switch (_property->type())
-    {
-    case MinoMidiControlableProperty::Linear:
+    MidiControllableList *list = dynamic_cast<MidiControllableList*>(_parameter);
+    if(!list)
     {
         color = _indicatorColor;
         pen.setWidth(2);
@@ -77,61 +77,64 @@ void UiKnob::paintEvent(QPaintEvent *pe)
         painter.setPen(pen);
         painter.drawArc(square, startAngle+(spanAngle*normF), spanAngle*invF);
     }
-        break;
-    case MinoMidiControlableProperty::Steps:
+    else
     {
-        color = _indicatorColor;
-        QPen indicatorPen(color);
-        indicatorPen.setWidth(2);
-        painter.setPen(indicatorPen);
-        color = _indicatorBackgroundColor;
-        QPen indicatorBackgroundPen(color);
-        indicatorBackgroundPen.setWidth(2);
-
-        const qreal step = _property->step();
-        const qreal outBoundedFactor = qMin(normF, 0.999999);
-        int pos = (qreal)(outBoundedFactor/step);
-        const int count = qRound(1.0/step);
-
-        for(int i=0; i<count; i++)
+        switch(list->type())
         {
-            if(i>pos)
-            {
-                painter.setPen(indicatorBackgroundPen);
-            }
-            painter.drawArc(square, startAngle+(spanAngle*i*step)-160,spanAngle*step+320);
-        }
-    }
-        break;
-    case MinoMidiControlableProperty::Items:
-    {
-        color = _indicatorColor;
-        QPen indicatorPen(color);
-        indicatorPen.setWidth(2);
-        painter.setPen(indicatorPen);
-        color = _indicatorBackgroundColor;
-        QPen indicatorBackgroundPen(color);
-        indicatorBackgroundPen.setWidth(2);
-
-        const qreal step = _property->step();
-        const qreal outBoundedFactor = qMin(normF, 0.999999);
-        int pos = (qreal)(outBoundedFactor/step);
-        const int count = qRound(1.0/step);
-
-        for(int i=0; i<count; i++)
+        case MidiControllableList::Steps:
         {
-            if(i != pos)
+            color = _indicatorColor;
+            QPen indicatorPen(color);
+            indicatorPen.setWidth(2);
+            painter.setPen(indicatorPen);
+            color = _indicatorBackgroundColor;
+            QPen indicatorBackgroundPen(color);
+            indicatorBackgroundPen.setWidth(2);
+
+            const qreal step = 128.0/(qreal)list->itemsCount();
+            int pos = (qreal)(_value/step);
+            const qreal stepFactor = step / 127.0;
+            const int count = list->itemsCount();
+            for(int i=0; i<count; i++)
             {
-                painter.setPen(indicatorBackgroundPen);
+                if(i>pos)
+                {
+                    painter.setPen(indicatorBackgroundPen);
+                }
+                painter.drawArc(square, startAngle+(spanAngle*i*stepFactor)-160,spanAngle*stepFactor+320);
             }
-            else
-            {
-                painter.setPen(indicatorPen);
-            }
-            painter.drawArc(square, startAngle+(spanAngle*i*step)-160,spanAngle*step+320);
         }
-    }
-        break;
+            break;
+        case MidiControllableList::Items:
+        {
+            color = _indicatorColor;
+            QPen indicatorPen(color);
+            indicatorPen.setWidth(2);
+            painter.setPen(indicatorPen);
+            color = _indicatorBackgroundColor;
+            QPen indicatorBackgroundPen(color);
+            indicatorBackgroundPen.setWidth(2);
+
+            const qreal step = 128.0/(qreal)list->itemsCount();
+            int pos = (qreal)(_value/step);
+            const qreal stepFactor = step / 127.0;
+            const int count = list->itemsCount();
+
+            for(int i=0; i<count; i++)
+            {
+                if(i != pos)
+                {
+                    painter.setPen(indicatorBackgroundPen);
+                }
+                else
+                {
+                    painter.setPen(indicatorPen);
+                }
+                painter.drawArc(square, startAngle+(spanAngle*i*stepFactor)-160,spanAngle*stepFactor+320);
+            }
+        }
+            break;
+        }
     }
 
     color = _buttonBorderColor;
@@ -185,9 +188,9 @@ qreal UiKnob::valueFromPoint(const QPoint &p)
 void UiKnob::_setValue(qreal value)
 {
     _value = value;
-    disconnect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
-    _property->setMidiValue(value);
-    connect(_property, SIGNAL(midiValueChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    disconnect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    _parameter->setValueFromMidi(value);
+    connect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
 }
 
 void UiKnob::setValueFromMidi(quint8 value)
@@ -242,17 +245,19 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
 
 void UiKnob::wheelEvent(QWheelEvent * event)
 {
-    if (_property->step() != 0.0)
+    MidiControllableList *mcl = dynamic_cast<MidiControllableList*>(_parameter);
+    if(mcl)
     {
         qreal value = _value;
-        value += (_property->step()*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
+        const qreal stepFactor = (128.0/mcl->itemsCount())/127;
+        value += (stepFactor*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
         value = qBound(_minValue,value,_maxValue);
         _setValue(value);
     }
     else
     {
         qreal value = _value;
-        value += (0.1*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
+        value += (0.05*((qreal)event->delta()/120.0))*(_maxValue-_minValue);
         value = qBound(_minValue,value,_maxValue);
         _setValue(value);
     }

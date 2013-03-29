@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QPoint>
 
+#include "midicontrollableparameter.h"
+
 class MinoMidiControlableProperty;
 
 class UiKnob : public QWidget
@@ -16,7 +18,7 @@ class UiKnob : public QWidget
     Q_PROPERTY(QColor needle_color READ needleColor WRITE setNeedleColor DESIGNABLE true)
     Q_PROPERTY(QColor reflect_color READ reflectColor WRITE setReflectColor DESIGNABLE true)
 public:
-    explicit UiKnob(MinoMidiControlableProperty *property, QWidget *parent);
+    explicit UiKnob(MidiControllableParameter *parameter, QWidget *parent);
     
     QColor indicatorColor() { return _indicatorColor; }
     void setIndicatorColor(QColor color) { _indicatorColor = color; }
@@ -39,7 +41,7 @@ public:
     void setMinimum(qreal minimum) { _minValue = minimum; }
     void setMaximum(qreal maximum) { _maxValue = maximum; }
     void setValue(qreal value) { _value = value; }
-    MinoMidiControlableProperty *property() { return _property; }
+    MidiControllableParameter *parameter() { return _parameter; }
 
 signals:
     
@@ -76,8 +78,8 @@ protected:
     // Mouse
     QPoint _mouseStartPos;
 
-    // Associated MinoMidiControlableProperty
-    MinoMidiControlableProperty *_property;
+    // Associated MidiControllableParameter
+    MidiControllableParameter *_parameter;
 
     qreal factor() const;
 private:

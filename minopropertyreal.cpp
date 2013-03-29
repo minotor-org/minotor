@@ -1,27 +1,8 @@
 #include "minopropertyreal.h"
 
 MinoPropertyReal::MinoPropertyReal(QObject *parent) :
-    MinoMidiControlableProperty(parent),
-    _value(0)
+    MinoProperty(parent)
 {
-}
-
-void MinoPropertyReal::setValue(qreal value)
-{
-    _midiValue = value*127.0;
-    _setValue(value);
-}
-
-void MinoPropertyReal::setValueFromMidi(quint8 value)
-{
-     _setValue((qreal)value/127.0);
-}
-
-void MinoPropertyReal::_setValue(qreal value)
-{
-    if(_value != value)
-    {
-        _value = value;
-        emit valueChanged(_value);
-    }
+    _mcr = new MidiControllableReal(this);
+    connect(_mcr, SIGNAL(valueChanged(qreal)), this, SIGNAL(valueChanged(qreal)));
 }

@@ -9,10 +9,10 @@ MinaRandomPixels::MinaRandomPixels(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-
-    _density.setObjectName("Density");
-    _density.setValue(0.1);
-    _mplLine2.append(&_density);
+    _density = new MinoPropertyReal(this);
+    _density->setObjectName("Density");
+    _density->setValue(0.1);
+    _mplLine2.append(_density);
 
     _propertyGrouped.append(&_mplLine2);
 
@@ -33,7 +33,7 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
     computeAnimaBeatProperty(gppqn);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0, _beatAnimatedProperty.currentValue().toReal());
+    color.setHsvF(_color->value(), 1.0, 1.0, _beatAnimatedProperty.currentValue().toReal());
 
     QColor transparency;
     transparency.setAlpha(0);
@@ -45,7 +45,7 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
             static_cast<QGraphicsLineItem*>(item)->setPen(QPen(transparency));
         }
 
-        const qreal pixelCount = _density.value()*(_boundingRect.width()*_boundingRect.height());
+        const qreal pixelCount = _density->value()*(_boundingRect.width()*_boundingRect.height());
         for(int i=0; i<pixelCount; i++)
         {
             int x = (qrandF()*_boundingRect.width());

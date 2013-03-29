@@ -15,7 +15,7 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setDensity(qreal density) { _density.setValue(density); }
+    void setDensity(qreal density) { _density->setValue(density); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
@@ -23,7 +23,7 @@ signals:
 public slots:
 
 private:
-    MinoPropertyReal _density;
+    MinoPropertyReal *_density;
     MinoPropertyList _mplLine2;
     QGraphicsItemGroup _itemGroup;
 };

@@ -20,6 +20,7 @@
 #include "uianimationproperty.h"
 #include "uiprogrambank.h"
 #include "uiknob.h"
+#include "uimidicontrollableparameter.h"
 
 #include "minoanimation.h"
 #include "minoproperty.h"
@@ -290,8 +291,8 @@ void MainWindow::on_sPpqn_valueChanged(int value)
 
 void MainWindow::tbMidiLearnToggled(bool checked)
 {
-    QList<UiMidiProperty*> midiProperties = findChildren<UiMidiProperty*>();
-    foreach(UiMidiProperty *midiProperty, midiProperties)
+    QList<UiMidiControllableParameter*> midiProperties = findChildren<UiMidiControllableParameter*>();
+    foreach(UiMidiControllableParameter *midiProperty, midiProperties)
     {
         midiProperty->setMidiLearnMode(checked);
     }

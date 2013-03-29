@@ -9,11 +9,12 @@ MinaWaveform::MinaWaveform(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _colorType.setObjectName("color type");
-    _colorType.addItem("plain", 0);
-    _colorType.addItem("grad.", 1);
-    _colorType.setCurrentItem("plain");
-    _mplLine2.append(&_colorType);
+    _colorType = new MinoItemizedProperty(this);
+    _colorType->setObjectName("color type");
+    _colorType->addItem("plain", 0);
+    _colorType->addItem("grad.", 1);
+    _colorType->setCurrentItem("plain");
+    _mplLine2.append(_colorType);
 
     _propertyGrouped.append(&_mplLine2);
 }
@@ -28,11 +29,11 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
 
     // Colors
     QColor color, colorMin, colorMax;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     QLinearGradient grad(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
 
-    if (_colorType.currentItem()->real() == 0.0)
+    if (_colorType->currentItem()->real() == 0.0)
     {
         grad.setColorAt(0.0, Qt::transparent) ;
         grad.setColorAt(0.4, color) ;
@@ -41,10 +42,10 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
     else
     {
-        qreal minValue = _color.value()-0.15; if(minValue<0.0) minValue += 1.0;
+        qreal minValue = _color->value()-0.15; if(minValue<0.0) minValue += 1.0;
         colorMin.setHsvF(minValue, 1.0, 1.0);
 
-        qreal maxValue = _color.value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
+        qreal maxValue = _color->value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
         colorMax.setHsvF(maxValue, 1.0, 1.0);
 
         grad.setColorAt(0.0, colorMin) ;

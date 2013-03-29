@@ -25,7 +25,7 @@ signals:
 public slots:
 
 protected:
-    MinoItemizedProperty _colorType;
+    MinoItemizedProperty *_colorType;
     MinoPropertyList _mplLine2;
 };
 

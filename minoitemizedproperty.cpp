@@ -2,85 +2,35 @@
 
 #include <QDebug>
 
-MinoItemizedProperty::MinoItemizedProperty():
-    MinoMidiControlableProperty(),
-    _currentItemId(-1)
+MinoItemizedProperty::MinoItemizedProperty(QObject *parent):
+    MinoProperty(parent)
 {
-    setType(MinoMidiControlableProperty::Items);
-}
-
-MinoItemizedProperty::~MinoItemizedProperty()
-{
-    foreach(MinoItemizedPropertyItem* item, _items)
-        delete item;
+    _mcl = new MidiControllableList(this);
+    connect(_mcl, SIGNAL(itemChanged(QString)), this, SIGNAL(itemChanged(QString)));
+    connect(_mcl, SIGNAL(itemIdChanged(int)), this, SIGNAL(itemIdChanged(int)));
 }
 
 void MinoItemizedProperty::addItem(const QString name, const qreal real)
 {
-    _items.append(new MinoItemizedPropertyItem(name, real));
+    _mcl->addItem(name, real);
 }
 
-MinoItemizedPropertyItem* MinoItemizedProperty::currentItem()
+MidiControllableListItem *MinoItemizedProperty::currentItem()
 {
-    if(_currentItemId > -1)
-    {
-        return _items.at(_currentItemId);
-        //qDebug() << "value" << (qreal)value << "step" << step << "factor" << tempoList.at(step);
-    }
-    return NULL;
+    return _mcl->currentItem();
 }
 
-void MinoItemizedProperty::setValue(qreal value)
+void MinoItemizedProperty::setCurrentItemIndex(int index)
 {
-    if(_items.count())
-    {
-        int id = (qreal)(_items.count() * value);
-        if (id != _currentItemId)
-        {
-            _currentItemId = id;
-            emit itemChanged(_items.at(_currentItemId)->name());
-        }
-    }
-    else
-    {
-        _currentItemId = -1;
-    }
-}
-
-void MinoItemizedProperty::setValueFromMidi(quint8 value)
-{
-    setValue((qreal)value/128);
-}
-
-qreal MinoItemizedProperty::step()
-{
-    if(_items.count())
-    {
-        return (qreal) 1.0 / _items.count();
-    }
-    return 0.0;
+    _mcl->setCurrentItemIndex(index);
 }
 
 void MinoItemizedProperty::setCurrentItem(const QString name)
 {
-    for(int i=0; i<_items.count(); i++)
-    {
-        if (_items.at(i)->name() == name)
-        {
-            _midiValue = ((qreal)i/(qreal)_items.count())*128.0;
-            if(i != _currentItemId) {
-                emit itemChanged(name);
-                _currentItemId = i;
-            }
-            break;
-        }
-    }
+    _mcl->setCurrentItem(name);
 }
 
 void MinoItemizedProperty::setLinear(bool linear)
 {
-     if(linear)
-         setType(MinoMidiControlableProperty::Steps);
-     else
-         setType(MinoMidiControlableProperty::Items);
+    _mcl->setLinear(linear);
 }

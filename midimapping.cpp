@@ -7,18 +7,18 @@
 MidiMapping::MidiMapping(Minotor *minotor) :
     QObject(minotor),
     _controlCaptureMode(false),
-    _currentControlCaptureMinoProperty(NULL)
+    _currentControlCaptureParameter(NULL)
 {
     // Link Minotor to MidiMapping
     connect(minotor->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
     connect(minotor->midi(), SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SLOT(noteChanged(int,quint8,quint8,bool,quint8)));
 }
 
-void MidiMapping::assignCapturedControlTo(MinoMidiControlableProperty *property)
+void MidiMapping::assignCapturedControlTo(MidiControllableParameter *parameter)
 {
-    if(property)
+    if(parameter)
     {
-        _currentControlCaptureMinoProperty = property->_midiControlableProperty;
+        _currentControlCaptureParameter = parameter;
         _controlCaptureMode = true;
     }
     else
@@ -76,8 +76,9 @@ void MidiMapping::midiControlChanged(int interface, quint8 channel, quint8 contr
         if(_controlCaptureMode)
         {
             _controlCaptureMode = false;
-            _currentControlCaptureMinoProperty->setMidiControl(midiControl);
-            _currentControlCaptureMinoProperty = NULL;
+            // FIXME
+            // _currentControlCaptureMinoProperty->setMidiControl(midiControl);
+            _currentControlCaptureParameter = NULL;
         }
     }
     MinoTrigger *minoTrigger = findMinoTriggerFromControl(interface, channel, control);

@@ -10,21 +10,24 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _width.setObjectName("Width");
-    _width.setValue(0.1);
-    _mplLine2.append(&_width);
+    _width = new MinoPropertyReal(this);
+    _width->setObjectName("Width");
+    _width->setValue(0.1);
+    _mplLine2.append(_width);
 
-    _length.setObjectName("Length");
-    _length.setValue(0.6);
-    _mplLine2.append(&_length);
+    _length = new MinoPropertyReal(this);
+    _length->setObjectName("Length");
+    _length->setValue(0.6);
+    _mplLine2.append(_length);
 
-    _generatorCurve.setObjectName("Curve");
-    _generatorCurve.addItem("Linear", 0);
-    _generatorCurve.addItem("OutInBack", 1);
-    _generatorCurve.addItem("InOutBounce", 2);
-    _generatorCurve.addItem("InOutQuart", 3);
-    _generatorCurve.setCurrentItem("Linear");
-    _mplLine3.append(&_generatorCurve);
+    _generatorCurve = new MinoItemizedProperty(this);
+    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->addItem("Linear", 0);
+    _generatorCurve->addItem("OutInBack", 1);
+    _generatorCurve->addItem("InOutBounce", 2);
+    _generatorCurve->addItem("InOutQuart", 3);
+    _generatorCurve->setCurrentItem("Linear");
+    _mplLine3.append(_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);
     _propertyGrouped.append(&_mplLine3);
@@ -75,10 +78,10 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     qreal centerY = _drawingZone.adjusted(0,0,1,1).center().y();
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
-    qreal rectWidth = (_maxPixels/2)*_width.value();
-    qreal rectLength = (_maxPixels/2)*_length.value();
+    qreal rectWidth = (_maxPixels/2)*_width->value();
+    qreal rectLength = (_maxPixels/2)*_length->value();
 
     //Left rect
     QRectF rect0Coords = QRectF(_drawingZone.x(),_drawingZone.y()+((_drawingZone.height()/2.0)-(rectWidth/2.0)),rectLength,rectWidth);
@@ -100,7 +103,7 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     _items[3]->setBrush(QBrush(color));
     _items[3]->setRect(rect3Coords);
 
-    switch ((int)_generatorCurve.currentItem()->real())
+    switch ((int)_generatorCurve->currentItem()->real())
     {
         case 0 :
         {

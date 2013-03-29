@@ -9,11 +9,12 @@ MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _colorType.setObjectName("color type");
-    _colorType.addItem("plain", 0);
-    _colorType.addItem("grad.", 1);
-    _colorType.setCurrentItem("plain");
-    _mplLine2.append(&_colorType);
+    _colorType = new MinoItemizedProperty(this);
+    _colorType->setObjectName("color type");
+    _colorType->addItem("plain", 0);
+    _colorType->addItem("grad.", 1);
+    _colorType->setCurrentItem("plain");
+    _mplLine2.append(_colorType);
 
     _propertyGrouped.append(&_mplLine2);
 
@@ -29,12 +30,12 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
 
     // Colors
     QColor color, colorMin, colorMax;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     QLinearGradient gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
     QLinearGradient gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
 
-    if (_colorType.currentItem()->real() == 0.0)
+    if (_colorType->currentItem()->real() == 0.0)
     {
         gradH.setColorAt(0.0, color) ;
         gradH.setColorAt(0.5, Qt::transparent) ;
@@ -46,10 +47,10 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     }
     else
     {
-        qreal minValue = _color.value()-0.15; if(minValue<0.0) minValue += 1.0;
+        qreal minValue = _color->value()-0.15; if(minValue<0.0) minValue += 1.0;
         colorMin.setHsvF(minValue, 1.0, 1.0);
 
-        qreal maxValue = _color.value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
+        qreal maxValue = _color->value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
         colorMax.setHsvF(maxValue, 1.0, 1.0);
 
         gradH.setColorAt(0.0, colorMax) ;
@@ -71,7 +72,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
        delete item;
     }
-    if ((int)(gppqn/_beatFactor.currentItem()->real())%2)
+    if ((int)(gppqn/_beatFactor->currentItem()->real())%2)
     {
         for (int i=0;i< _boundingRect.height();i++)
         {

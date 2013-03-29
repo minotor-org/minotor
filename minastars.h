@@ -13,8 +13,8 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setDensity(const unsigned int density) { _generatorDensity.setCurrentItem(QString::number(density)); }
-    void setDuration(QString duration) { _beatDuration.setCurrentItem(duration);}
+    void setDensity(const unsigned int density) { _generatorDensity->setCurrentItem(QString::number(density)); }
+    void setDuration(QString duration) { _beatDuration->setCurrentItem(duration);}
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
@@ -23,8 +23,8 @@ signals:
 public slots:
 
 private:
-    MinoItemizedProperty _beatDuration;
-    MinoItemizedProperty _generatorDensity;
+    MinoItemizedProperty *_beatDuration;
+    MinoItemizedProperty *_generatorDensity;
     MinoPropertyList _mplDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;

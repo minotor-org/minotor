@@ -2,24 +2,23 @@
 #define MINOPROPERTYREAL_H
 
 #include "minoproperty.h"
-#include "minomidicontrolableproperty.h"
+#include "midicontrollablereal.h"
 
-class MinoPropertyReal : public MinoMidiControlableProperty
+class MinoPropertyReal : public MinoProperty
 {
     Q_OBJECT
 public:
-    explicit MinoPropertyReal(QObject *parent = 0);
+    explicit MinoPropertyReal(QObject *parent);
 
     // value (0.0 - 1.0)
-    qreal value() { return _value; }
-    void setValue(qreal value);
+    qreal value() { return _mcr->value(); }
+    void setValue(qreal value) { return _mcr->setValue(value); }
+    void setPreferred(bool on = true) { _mcr->setPreferred(on); }
 
-protected:
-    void setValueFromMidi(quint8 value);
+protected slots:
 
 private:
-    void _setValue(qreal value);
-    qreal _value;
+    MidiControllableReal *_mcr;
 
 signals:
     void valueChanged(qreal);

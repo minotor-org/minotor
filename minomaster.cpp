@@ -12,7 +12,7 @@ MinoMaster::MinoMaster(Minotor *minotor):
 {
     minotor->scene()->addItem(&_itemGroup);
 
-    MinoPropertyReal *mpBrightness = new MinoPropertyReal();
+    MinoPropertyReal *mpBrightness = new MinoPropertyReal(this);
     mpBrightness->setValue(1.0);
     mpBrightness->setObjectName("Brightness");
     connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
@@ -81,7 +81,7 @@ void MinoMaster::setProgram(MinoProgram *program)
                 int id = 0;
                 foreach(MinoAnimation *animation, group->animations())
                 {
-                    QList<MinoMidiControlableProperty*> mcp = animation->findChildren<MinoMidiControlableProperty*>();
+                    QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
                     for(int j=0; j<mcp.count(); ++j)
                     {
                         qDebug() << mcp.at(j) << mcp.at(j)->isPreferred();

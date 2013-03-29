@@ -25,7 +25,7 @@ private:
     QGraphicsItemGroup _itemGroup;
 
 protected:
-    MinoItemizedProperty _colorType;
+    MinoItemizedProperty *_colorType;
     MinoPropertyList _mplLine2;
 };
 

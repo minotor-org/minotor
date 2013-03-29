@@ -13,9 +13,10 @@ MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     blur->setBlurRadius(1.1);
     _itemGroup.setGraphicsEffect(blur);
 
-    _segments.setObjectName("segment");
-    _segments.setValue(0.3);
-    _mplLine2.append(&_segments);
+    _segments = new MinoPropertyReal(this);
+    _segments->setObjectName("segment");
+    _segments->setValue(0.3);
+    _mplLine2.append(_segments);
 
     _propertyGrouped.append(&_mplLine2);
 }
@@ -30,7 +31,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
 
     // Colors
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     const qreal middle = (qreal)_boundingRect.height()/2;
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
@@ -46,7 +47,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
 
         //line up
         qreal randY = middle + ((qrandF() * _beatAnimatedProperty.currentValue().toReal())*0.9);
-        qreal randX = currentX + qrandF()* qreal(_boundingRect.width()/(1+(_segments.value()*maxSegments)));
+        qreal randX = currentX + qrandF()* qreal(_boundingRect.width()/(1+(_segments->value()*maxSegments)));
 
         _itemGroup.addToGroup(_scene->addLine(currentX, currentY, randX, randY, QPen(color)));
 
@@ -55,7 +56,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
 
         //line down
         randY = middle - (qrandF() * _beatAnimatedProperty.currentValue().toReal())*0.9;
-        randX = currentX + (int)(qrandF()* qreal(_boundingRect.width()/(1+(_segments.value()*maxSegments))));
+        randX = currentX + (int)(qrandF()* qreal(_boundingRect.width()/(1+(_segments->value()*maxSegments))));
 
         _itemGroup.addToGroup(_scene->addLine(currentX, currentY, randX, randY, QPen(color)));
 

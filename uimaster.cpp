@@ -12,7 +12,7 @@
 #include "minotor.h"
 
 #include "uiprogramview.h"
-#include "uimidiproperty.h"
+#include "uimidicontrollableparameter.h"
 
 #include "minotor.h"
 
@@ -103,10 +103,10 @@ UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     lMasterView->addWidget(wTools);
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
 
-    MinoPropertyReal *mpBrightness = dynamic_cast<MinoPropertyReal*>(_master->properties().at(0));
+    MidiControllableReal *mpBrightness = _master->findChild<MidiControllableReal*>();
     if (mpBrightness)
     {
-        UiMidiProperty *dBrightness = new UiMidiProperty(mpBrightness, wTools);
+        UiMidiControllableParameter *dBrightness = new UiMidiControllableParameter(mpBrightness, wTools);
         lTools->addWidget(dBrightness);
     }
     lTools->addStretch();

@@ -5,9 +5,10 @@
 #include <QHash>
 
 #include "midicontrol.h"
-#include "minomidicontrolableproperty.h"
 #include "minotrigger.h"
 #include "minocontrol.h"
+
+#include "midicontrollableparameter.h"
 
 class Minotor;
 
@@ -17,8 +18,8 @@ class MidiMapping : public QObject
 public:
     explicit MidiMapping(Minotor *minotor = 0);
     
-    void assignCapturedControlTo(MinoMidiControlableProperty *property);
-    MidiControl* getMidiControlFor(MinoMidiControlableProperty *property);
+    void assignCapturedControlTo(MidiControllableParameter *parameter);
+    MidiControl* getMidiControlFor(MidiControllableParameter *parameter);
 
     MidiControlList midiControls() const { return _midiControls; }
 
@@ -37,7 +38,7 @@ public:
 
 protected:
     bool _controlCaptureMode;
-    MidiControlableProperty* _currentControlCaptureMinoProperty;
+    MidiControllableParameter * _currentControlCaptureParameter;
     MidiControlList _midiControls;
 
     // Notes -> MinoTrigger* association

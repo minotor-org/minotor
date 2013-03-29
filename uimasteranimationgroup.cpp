@@ -1,7 +1,7 @@
 #include "uimasteranimationgroup.h"
 
 #include "uianimation.h"
-#include "uianimationproperty.h"
+#include "uimidicontrollableparameter.h"
 
 #include "minoprogram.h"
 
@@ -134,10 +134,10 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 void UiMasterAnimationGroup::updateGroup()
 {
     int cpt = 0;
-    foreach (UiAnimationProperty *uiAnimationProperty, this->findChildren<UiAnimationProperty*>())
+    foreach (UiMidiControllableParameter *uiParameter, this->findChildren<UiMidiControllableParameter*>())
     {
-        disconnect(uiAnimationProperty);
-        delete(uiAnimationProperty);
+        disconnect(uiParameter);
+        delete(uiParameter);
     }
     foreach (QFrame *frame, _wGroupParameters->findChildren<QFrame*>())
     {
@@ -145,47 +145,44 @@ void UiMasterAnimationGroup::updateGroup()
     }
     foreach (MinoAnimation *animation, _group->animations())
     {
-        foreach (MinoPropertyList *list, animation->propertyGrouped())
+        QList<MidiControllableParameter*> mcps = animation->findChildren<MidiControllableParameter*>();
+        foreach (MidiControllableParameter *mcp, mcps)
         {
-            foreach (MinoProperty *property, *list)
+            if(mcp)
             {
-                MinoMidiControlableProperty *midiControlableProperty = dynamic_cast<MinoMidiControlableProperty*>(property);
-                if(midiControlableProperty)
+                connect(mcp, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
+                if(mcp->isPreferred())
                 {
-                    connect(midiControlableProperty, SIGNAL(attributesChanged()), this, SLOT(updateGroup()),Qt::UniqueConnection);
-                    if(midiControlableProperty->isPreferred())
-                    {
-                        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wImportantParameters);
-                        uiAnimationProperty->setObjectName("animationproperty");
-                        connect(animation,SIGNAL(destroyed()),uiAnimationProperty,SLOT(deleteLater()));
-                        _lImportantParameters->addWidget(uiAnimationProperty);
+                    UiMidiControllableParameter *uiParameter = new UiMidiControllableParameter(mcp, _wImportantParameters);
+                    uiParameter->setObjectName("animationproperty");
+                    connect(animation,SIGNAL(destroyed()),uiParameter,SLOT(deleteLater()));
+                    _lImportantParameters->addWidget(uiParameter);
 
-                        QFrame *fSeparator = new QFrame(_wImportantParameters);
-                        fSeparator->setObjectName("line");
-                        fSeparator->setFrameShape(QFrame::HLine);
-                        fSeparator->setFrameShadow(QFrame::Sunken);
-                        fSeparator->setLineWidth(1);
-                        connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
-                        _lImportantParameters->addWidget(fSeparator);
+                    QFrame *fSeparator = new QFrame(_wImportantParameters);
+                    fSeparator->setObjectName("line");
+                    fSeparator->setFrameShape(QFrame::HLine);
+                    fSeparator->setFrameShadow(QFrame::Sunken);
+                    fSeparator->setLineWidth(1);
+                    connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
+                    _lImportantParameters->addWidget(fSeparator);
 
-                        cpt++;
-                    } else if (midiControlableProperty->isMidiControlled())
-                    {
-                        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wMidiParameters);
-                        uiAnimationProperty->setObjectName("animationproperty");
-                        connect(animation,SIGNAL(destroyed()),uiAnimationProperty,SLOT(deleteLater()));
-                        _lMidiParameters->addWidget(uiAnimationProperty);
+                    cpt++;
+                } else if (mcp->isMidiControlled())
+                {
+                    UiMidiControllableParameter *uiParameter = new UiMidiControllableParameter(mcp, _wMidiParameters);
+                    uiParameter->setObjectName("animationproperty");
+                    connect(animation,SIGNAL(destroyed()),uiParameter,SLOT(deleteLater()));
+                    _lMidiParameters->addWidget(uiParameter);
 
-                        QFrame *fSeparator = new QFrame(_wMidiParameters);
-                        fSeparator->setObjectName("line");
-                        fSeparator->setFrameShape(QFrame::HLine);
-                        fSeparator->setFrameShadow(QFrame::Sunken);
-                        fSeparator->setLineWidth(1);
-                        connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
-                        _lMidiParameters->addWidget(fSeparator);
+                    QFrame *fSeparator = new QFrame(_wMidiParameters);
+                    fSeparator->setObjectName("line");
+                    fSeparator->setFrameShape(QFrame::HLine);
+                    fSeparator->setFrameShadow(QFrame::Sunken);
+                    fSeparator->setLineWidth(1);
+                    connect(animation,SIGNAL(destroyed()),fSeparator,SLOT(deleteLater()));
+                    _lMidiParameters->addWidget(fSeparator);
 
-                        cpt++;
-                    }
+                    cpt++;
                 }
             }
         }

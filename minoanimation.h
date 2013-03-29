@@ -63,11 +63,11 @@ public:
 
     // MinoProperties
     // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
-    void setColor(qreal hue) { _color.setValue(hue); }
-    qreal color() { return _color.value(); }
+    void setColor(qreal hue) { _color->setValue(hue); }
+    qreal color() { return _color->value(); }
 
-    void setFrequency(QString frequency) { _beatFactor.setCurrentItem(frequency); }
-    QString frequency() { return _beatFactor.currentItem()->name(); }
+    void setFrequency(QString frequency) { _beatFactor->setCurrentItem(frequency); }
+    QString frequency() { return _beatFactor->currentItem()->name(); }
 
 public slots:
     void setEnabled(const bool enabled);
@@ -85,8 +85,8 @@ protected:
     MinoPropertyList _mplMain;
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
-    MinoItemizedProperty _beatFactor;
-    MinoPropertyReal _color;
+    MinoItemizedProperty *_beatFactor;
+    MinoPropertyReal *_color;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 

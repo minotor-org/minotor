@@ -44,7 +44,7 @@ SOURCES += main.cpp\
     uiprogramview.cpp \
     miprowaves.cpp \
     minadebug.cpp \
-    uimidiproperty.cpp \
+    uimidicontrollableparameter.cpp \
     minatext.cpp \
     minotextproperty.cpp \
     minafallingobjects.cpp \
@@ -59,11 +59,7 @@ SOURCES += main.cpp\
     uimasteranimationgroup.cpp \
     minavibration.cpp \
     minopersistentobject.cpp \
-    midicontrolableobject.cpp \
-    midicontrolablereal.cpp \
     minopropertyreal.cpp \
-    minomidicontrolableproperty.cpp \
-    midicontrolableproperty.cpp \
     minarotatingbars.cpp \
     minacurve.cpp \
     miprosecondlives.cpp \
@@ -71,7 +67,10 @@ SOURCES += main.cpp\
     uimidiinterface.cpp \
     minotrigger.cpp \
     minocontrol.cpp \
-    minopropertycolor.cpp
+    minopropertycolor.cpp \
+    midicontrollableparameter.cpp \
+    midicontrollablereal.cpp \
+    midicontrollablelist.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -106,7 +105,7 @@ HEADERS  += mainwindow.h \
     uiprogram.h \
     miprowaves.h \
     minadebug.h \
-    uimidiproperty.h \
+    uimidicontrollableparameter.h \
     minatext.h \
     minotextproperty.h \
     minafallingobjects.h \
@@ -121,11 +120,7 @@ HEADERS  += mainwindow.h \
     uimasteranimationgroup.h \
     minavibration.h \
     minopersistentobject.h \
-    midicontrolableobject.h \
-    midicontrolablereal.h \
     minopropertyreal.h \
-    minomidicontrolableproperty.h \
-    midicontrolableproperty.h \
     minarotatingbars.h \    
     minacurve.h \
     miprosecondlives.h \
@@ -133,7 +128,10 @@ HEADERS  += mainwindow.h \
     uimidiinterface.h \
     minotrigger.h \
     minocontrol.h \
-    minopropertycolor.h
+    minopropertycolor.h \
+    midicontrollableparameter.h \
+    midicontrollablereal.h \
+    midicontrollablelist.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

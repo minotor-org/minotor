@@ -14,39 +14,41 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _scene = _program->minotor()->scene();
     _boundingRect = _program->minotor()->displayRect();
 
-    _color.setObjectName("Color");
-    _color.setPreferred();
-    _color.setParent(this);
-    _color.setValue(qrandF());
-    _mplMain.append(&_color);
+    _color = new MinoPropertyReal(this);
+    _color->setObjectName("Color");
+    _color->setPreferred();
+    _color->setParent(this);
+    _color->setValue(qrandF());
+    _mplMain.append(_color);
 
-    _beatFactor.setObjectName("Freq.");
-    _beatFactor.addItem("16", 384);
-    _beatFactor.addItem("8", 192);
-    _beatFactor.addItem("4", 96);
-    _beatFactor.addItem("2", 48);
-    _beatFactor.addItem("1", 24);
-    _beatFactor.addItem("1/2", 12);
-    _beatFactor.addItem("1/4", 6);
-    _beatFactor.setCurrentItem("1");
-    _beatFactor.setLinear();
-    _beatFactor.setPreferred();
-	_beatFactor.setParent(this);
-    _mplMain.append(&_beatFactor);
+    _beatFactor = new MinoItemizedProperty(this);
+    _beatFactor->setObjectName("Freq.");
+    _beatFactor->addItem("16", 384);
+    _beatFactor->addItem("8", 192);
+    _beatFactor->addItem("4", 96);
+    _beatFactor->addItem("2", 48);
+    _beatFactor->addItem("1", 24);
+    _beatFactor->addItem("1/2", 12);
+    _beatFactor->addItem("1/4", 6);
+    _beatFactor->setCurrentItem("1");
+    _beatFactor->setLinear();
+    _beatFactor->setPreferred();
+    _beatFactor->setParent(this);
+    _mplMain.append(_beatFactor);
 
     _propertyGrouped.append(&_mplMain);
 }
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 {
-    const unsigned int ppqnMax = _beatFactor.currentItem()->real();
+    const unsigned int ppqnMax = _beatFactor->currentItem()->real();
     const qreal lppqn = gppqn % ppqnMax;
     const qreal durationFactor = lppqn / ppqnMax;
     _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
 
     /*
     qDebug() << "computeAnimaBeatProperty"
-             << "beatFactor" << ratioToBeatFactor(_beatFactor.value())
+             << "beatFactor" << ratioToBeatFactor(_beatFactor->value())
              << "durationFactor" << durationFactor;
     */
 }

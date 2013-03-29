@@ -1,52 +1,31 @@
 #ifndef MINOITEMIZEDPROPERTY_H
 #define MINOITEMIZEDPROPERTY_H
 
-#include "minomidicontrolableproperty.h"
+#include "minoproperty.h"
+#include "midicontrollablelist.h"
 
-class MinoItemizedPropertyItem
-{
-public:
-    explicit MinoItemizedPropertyItem(const QString name, const qreal real):
-        _name(name),
-        _real(real)
-    {}
-
-    QString name() { return _name; }
-    qreal real() { return _real; }
-
-private:
-    QString _name;
-    qreal _real;
-};
-
-class MinoItemizedProperty : public MinoMidiControlableProperty
+class MinoItemizedProperty : public MinoProperty
 {
     Q_OBJECT
 public:
-    explicit MinoItemizedProperty();
-    ~MinoItemizedProperty();
-
-    // Value
-    void setValue(qreal value);
-    void setValueFromMidi(quint8 value);
-
-    // Step
-    qreal step();
+    explicit MinoItemizedProperty(QObject *parent);
 
     // Items
     void addItem(const QString name, const qreal real);
-    MinoItemizedPropertyItem* currentItem();
+    MidiControllableListItem* currentItem();
     void setCurrentItem(const QString name);
+    void setCurrentItemIndex(int index);
+    void setPreferred(bool on = true) { _mcl->setPreferred(on); }
 
     // Type: Linear or Items (default)
     void setLinear(bool linear = true);
 
 signals:
     void itemChanged(QString name);
+    void itemIdChanged(int id);
 
 private:
-    QList<MinoItemizedPropertyItem*> _items;
-    int _currentItemId;
+    MidiControllableList *_mcl;
 };
 
 #endif // MINOITEMIZEDPROPERTY_H

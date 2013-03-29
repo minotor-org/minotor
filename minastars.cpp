@@ -7,30 +7,32 @@ MinaStars::MinaStars(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(2.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InQuart);
 
-    _beatDuration.setObjectName("Duration");
-    _beatDuration.addItem("1/4", 6);
-    _beatDuration.addItem("1/2", 12);
-    _beatDuration.addItem("1", 24);
-    _beatDuration.addItem("2", 48);
-    _beatDuration.addItem("4", 96);
-    _beatDuration.addItem("8", 192);
-    _beatDuration.addItem("16", 384);
-    _beatDuration.setCurrentItem("1");
-    _beatDuration.setLinear();
-    _mplDensity.append(&_beatDuration);
+    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration->setObjectName("Duration");
+    _beatDuration->addItem("1/4", 6);
+    _beatDuration->addItem("1/2", 12);
+    _beatDuration->addItem("1", 24);
+    _beatDuration->addItem("2", 48);
+    _beatDuration->addItem("4", 96);
+    _beatDuration->addItem("8", 192);
+    _beatDuration->addItem("16", 384);
+    _beatDuration->setCurrentItem("1");
+    _beatDuration->setLinear();
+    _mplDensity.append(_beatDuration);
 
-    _generatorDensity.setObjectName("Density");
-    _generatorDensity.addItem("1", 1);
-    _generatorDensity.addItem("2", 2);
-    _generatorDensity.addItem("3", 3);
-    _generatorDensity.addItem("4", 4);
-    _generatorDensity.addItem("5", 5);
-    _generatorDensity.addItem("6", 6);
-    _generatorDensity.addItem("7", 7);
-    _generatorDensity.addItem("8", 8);
-    _generatorDensity.setCurrentItem("1");
-    _generatorDensity.setLinear();
-    _mplDensity.append(&_generatorDensity);
+    _generatorDensity = new MinoItemizedProperty(this);
+    _generatorDensity->setObjectName("Density");
+    _generatorDensity->addItem("1", 1);
+    _generatorDensity->addItem("2", 2);
+    _generatorDensity->addItem("3", 3);
+    _generatorDensity->addItem("4", 4);
+    _generatorDensity->addItem("5", 5);
+    _generatorDensity->addItem("6", 6);
+    _generatorDensity->addItem("7", 7);
+    _generatorDensity->addItem("8", 8);
+    _generatorDensity->setCurrentItem("1");
+    _generatorDensity->setLinear();
+    _mplDensity.append(_generatorDensity);
 
     _propertyGrouped.append(&_mplDensity);
 }
@@ -41,11 +43,11 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)ppqn;
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
-    const unsigned int b = _beatFactor.currentItem()->real();
-    const unsigned int density = _generatorDensity.currentItem()->real();
-    const unsigned int duration = _beatDuration.currentItem()->real();
+    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int density = _generatorDensity->currentItem()->real();
+    const unsigned int duration = _beatDuration->currentItem()->real();
 
     QGraphicsItem *item = NULL;
     if ((gppqn%b)==0)

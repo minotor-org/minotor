@@ -30,7 +30,7 @@ void MinaFlash::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     computeAnimaBeatProperty(gppqn);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     _rectItem->setBrush(QBrush(color));
     _rectItem->setOpacity(_beatAnimatedProperty.currentValue().toFloat());

@@ -9,30 +9,32 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
 
-    _generatorSteps.setObjectName("Steps");
-    _generatorSteps.addItem("2", 2);
-    _generatorSteps.addItem("4", 4);
-    _generatorSteps.addItem("6", 6);
-    _generatorSteps.addItem("8", 8);
-    _generatorSteps.addItem("10", 10);
-    _generatorSteps.addItem("12", 12);
-    _generatorSteps.addItem("14", 14);
-    _generatorSteps.setCurrentItem("4");
-    _generatorSteps.setLinear();
-    _mplLine2 .append(&_generatorSteps);
+    _generatorSteps = new MinoItemizedProperty(this);
+    _generatorSteps->setObjectName("Steps");
+    _generatorSteps->addItem("2", 2);
+    _generatorSteps->addItem("4", 4);
+    _generatorSteps->addItem("6", 6);
+    _generatorSteps->addItem("8", 8);
+    _generatorSteps->addItem("10", 10);
+    _generatorSteps->addItem("12", 12);
+    _generatorSteps->addItem("14", 14);
+    _generatorSteps->setCurrentItem("4");
+    _generatorSteps->setLinear();
+    _mplLine2 .append(_generatorSteps);
 
-    _generatorCurve.setObjectName("Curve");
-    _generatorCurve.addItem("Linear", 0);
-    _generatorCurve.addItem("OutInBack", 1);
-    _generatorCurve.addItem("InOutBounce", 2);
-    _generatorCurve.addItem("InOutQuart", 3);
-    _generatorCurve.setCurrentItem("Linear");
-    _mplLine2 .append(&_generatorCurve);
+    _generatorCurve = new MinoItemizedProperty(this);
+    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->addItem("Linear", 0);
+    _generatorCurve->addItem("OutInBack", 1);
+    _generatorCurve->addItem("InOutBounce", 2);
+    _generatorCurve->addItem("InOutQuart", 3);
+    _generatorCurve->setCurrentItem("Linear");
+    _mplLine2 .append(_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     //background
     _rectBackground = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
@@ -70,22 +72,22 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     computeAnimaBeatProperty(gppqn);
 
     QColor color1;
-    color1.setHsvF(_color.value(), 1.0, 1.0);
+    color1.setHsvF(_color->value(), 1.0, 1.0);
 
     QColor color2;
-    qreal minValue1 = _color.value()-0.2; if(minValue1<0.0) minValue1 += 1.0;
+    qreal minValue1 = _color->value()-0.2; if(minValue1<0.0) minValue1 += 1.0;
     color2.setHsvF(minValue1, 1.0, 1.0);
 
     QColor color3;
-    qreal maxValue1 = _color.value()+0.2; if(maxValue1>1.0) maxValue1 -= 1.0;
+    qreal maxValue1 = _color->value()+0.2; if(maxValue1>1.0) maxValue1 -= 1.0;
     color3.setHsvF(maxValue1, 1.0, 1.0);
 
     QColor color4;
-    qreal minValue2 = _color.value()-0.4; if(minValue2<0.0) minValue2 += 1.0;
+    qreal minValue2 = _color->value()-0.4; if(minValue2<0.0) minValue2 += 1.0;
     color4.setHsvF(minValue2, 1.0, 0.96);
 
     QColor color5;
-    qreal maxValue2 = _color.value()+0.4; if(maxValue2>1.0) maxValue2 -= 1.0;
+    qreal maxValue2 = _color->value()+0.4; if(maxValue2>1.0) maxValue2 -= 1.0;
     color5.setHsvF(maxValue2, 1.0, 0.9);
 
     QGradient grad1;
@@ -107,7 +109,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     grad5 = QRadialGradient(QPointF(_boundingRect.topRight().x()+_boundingRect.width(),_boundingRect.topRight().y()+_boundingRect.height()),_boundingRect.width()*4);
 
 
-    switch ((int)_generatorCurve.currentItem()->real())
+    switch ((int)_generatorCurve->currentItem()->real())
     {
     case 0 :
     {
@@ -131,7 +133,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
         break;
     }
 
-    const unsigned int waves = _generatorSteps.currentItem()->real();
+    const unsigned int waves = _generatorSteps->currentItem()->real();
     const qreal step = 1.0 / ((qreal) waves *2.0);
     const qreal anipos = _beatAnimatedProperty.currentValue().toReal();
     bool toogle = true;
@@ -144,7 +146,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
         {
             //Calculate an alternative color for background gradient
             QColor altColor;
-            qreal maxValue = _color.value()+0.3;
+            qreal maxValue = _color->value()+0.3;
             if(maxValue>1.0) maxValue -= 1.0;
             altColor.setHsvF(maxValue, 1.0, 1.0);
             grad1.setColorAt(at, altColor);

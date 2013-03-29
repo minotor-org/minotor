@@ -14,11 +14,11 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setBeatPeriod(const QString period) { _beatFactor.setCurrentItem(period); }
-    void setDuration(const unsigned int duration) { _beatDuration.setCurrentItem(QString::number(duration)); }
-    void setDensity(const unsigned int density) { _generatorDensity.setCurrentItem(QString::number(density)); }
-    void setLength(const unsigned int length) { _generatorLength.setCurrentItem(QString::number(length)); }
-    void setDirection(QString direction) { _generatorDirection.setCurrentItem(direction); }
+    void setBeatPeriod(const QString period) { _beatFactor->setCurrentItem(period); }
+    void setDuration(const unsigned int duration) { _beatDuration->setCurrentItem(QString::number(duration)); }
+    void setDensity(const unsigned int density) { _generatorDensity->setCurrentItem(QString::number(density)); }
+    void setLength(const unsigned int length) { _generatorLength->setCurrentItem(QString::number(length)); }
+    void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
     
@@ -27,10 +27,10 @@ signals:
 public slots:
 
 protected:
-    MinoItemizedProperty _beatDuration;
-    MinoItemizedProperty _generatorDirection;
-    MinoItemizedProperty _generatorLength;
-    MinoItemizedProperty _generatorDensity;
+    MinoItemizedProperty *_beatDuration;
+    MinoItemizedProperty *_generatorDirection;
+    MinoItemizedProperty *_generatorLength;
+    MinoItemizedProperty *_generatorDensity;
     MinoPropertyList _mplLine2;
     MinoPropertyList _mplLine3;
     QGraphicsItemGroup _itemGroup;

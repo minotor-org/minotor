@@ -2,7 +2,7 @@
 #define MINOPROPERTYCOLOR_H
 
 #include "minoproperty.h"
-#include "midicontrolablereal.h"
+#include "midicontrollablereal.h"
 
 #include <QColor>
 
@@ -16,13 +16,15 @@ public:
     QColor color();
 
 private:
-    MidiControlableReal *_mcrHue;
-    MidiControlableReal *_mcrLightness;
+    MidiControllableReal *_mcrHue;
+    MidiControllableReal *_mcrLightness;
     QColor _color;
 signals:
     
 public slots:
-    
+    void setHue(qreal value);
+    void setLightness(qreal value);
+
 };
 
 #endif // MINOPROPERTYCOLOR_H

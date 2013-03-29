@@ -27,8 +27,8 @@ private:
     QGraphicsRectItem *_rectBottomLeft;
     QGraphicsRectItem *_rectBottomRight;
     MinoPropertyList _mplLine2;
-    MinoItemizedProperty _generatorCurve;
-    MinoItemizedProperty _generatorSteps;
+    MinoItemizedProperty *_generatorCurve;
+    MinoItemizedProperty *_generatorSteps;
 };
 
 #endif // MINOANIMATIONPLASMA_H

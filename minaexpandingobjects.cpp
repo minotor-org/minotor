@@ -10,37 +10,39 @@ MinaExpandingObjects::MinaExpandingObjects(MinoAnimationGroup *group):
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));
 
+    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration->setObjectName("Duration");
+    _beatDuration->addItem("1/4", 6);
+    _beatDuration->addItem("1/2", 12);
+    _beatDuration->addItem("1", 24);
+    _beatDuration->addItem("2", 48);
+    _beatDuration->addItem("4", 96);
+    _beatDuration->addItem("8", 192);
+    _beatDuration->addItem("16", 384);
+    _beatDuration->setLinear();
+    _beatDuration->setCurrentItem("1");
+    _mplLine2.append(_beatDuration);
 
-    _beatDuration.setObjectName("Duration");
-    _beatDuration.addItem("1/4", 6);
-    _beatDuration.addItem("1/2", 12);
-    _beatDuration.addItem("1", 24);
-    _beatDuration.addItem("2", 48);
-    _beatDuration.addItem("4", 96);
-    _beatDuration.addItem("8", 192);
-    _beatDuration.addItem("16", 384);
-    _beatDuration.setLinear();
-    _beatDuration.setCurrentItem("1");
-    _mplLine2.append(&_beatDuration);
-
-    _generatorStyle.setObjectName("Style");
-    _generatorStyle.addItem("P:F T:F", 0);
-    _generatorStyle.addItem("P:R T:F", 1);
-    _generatorStyle.addItem("P:F T:R", 2);
-    _generatorStyle.addItem("P:R=T:R", 3);
-    _generatorStyle.addItem("P:R T:R", 4);
-    _generatorStyle.setCurrentItem("P:R T:F");
-    _mplLine2.append(&_generatorStyle);
+    _generatorStyle = new MinoItemizedProperty(this);
+    _generatorStyle->setObjectName("Style");
+    _generatorStyle->addItem("P:F T:F", 0);
+    _generatorStyle->addItem("P:R T:F", 1);
+    _generatorStyle->addItem("P:F T:R", 2);
+    _generatorStyle->addItem("P:R=T:R", 3);
+    _generatorStyle->addItem("P:R T:R", 4);
+    _generatorStyle->setCurrentItem("P:R T:F");
+    _mplLine2.append(_generatorStyle);
 
     _propertyGrouped.append(&_mplLine2);
 
-    _generatorShape.setObjectName("Shape");
-    _generatorShape.addItem("Ellipse", 0);
-    _generatorShape.addItem("Rect", 1);
-    _generatorShape.addItem("Circle", 2);
-    _generatorShape.addItem("Square", 3);
-    _generatorShape.setCurrentItem("Ellipse");
-    _mplLine3.append(&_generatorShape);
+    _generatorShape = new MinoItemizedProperty(this);
+    _generatorShape->setObjectName("Shape");
+    _generatorShape->addItem("Ellipse", 0);
+    _generatorShape->addItem("Rect", 1);
+    _generatorShape->addItem("Circle", 2);
+    _generatorShape->addItem("Square", 3);
+    _generatorShape->setCurrentItem("Ellipse");
+    _mplLine3.append(_generatorShape);
     _propertyGrouped.append(&_mplLine3);
 
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
@@ -55,12 +57,12 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
     (void)ppqn;
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
-    const unsigned int b = _beatFactor.currentItem()->real();
+    const unsigned int b = _beatFactor->currentItem()->real();
     if ((gppqn%b)==0)
     {
-        const unsigned int shape = _generatorShape.currentItem()->real();
+        const unsigned int shape = _generatorShape->currentItem()->real();
         switch(shape)
         {
         case 0:
@@ -93,7 +95,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
             break;
         }
 
-        const unsigned int style = _generatorStyle.currentItem()->real();
+        const unsigned int style = _generatorStyle->currentItem()->real();
         switch(style)
         {
         case 0:
@@ -125,7 +127,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
             break;
         }
 
-        const unsigned int duration = _beatDuration.currentItem()->real();
+        const unsigned int duration = _beatDuration->currentItem()->real();
         MinoAnimatedItem maItem (uppqn, duration, item);
         _itemGroup.addToGroup(item);
         _animatedItems.append(maItem);

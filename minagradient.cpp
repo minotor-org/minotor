@@ -9,24 +9,26 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
 
-    _generatorStyle.setObjectName("Style");
-    _generatorStyle.addItem("Radial", 0);
-    _generatorStyle.addItem("Conical", 1);
-    _generatorStyle.setCurrentItem("Radial");
-    _mplLine2.append(&_generatorStyle);
+    _generatorStyle = new MinoItemizedProperty(this);
+    _generatorStyle->setObjectName("Style");
+    _generatorStyle->addItem("Radial", 0);
+    _generatorStyle->addItem("Conical", 1);
+    _generatorStyle->setCurrentItem("Radial");
+    _mplLine2.append(_generatorStyle);
 
-    _generatorCurve.setObjectName("Curve");
-    _generatorCurve.addItem("Linear", 0);
-    _generatorCurve.addItem("OutInBack", 1);
-    _generatorCurve.addItem("InOutBounce", 2);
-    _generatorCurve.addItem("InOutQuart", 3);
-    _generatorCurve.setCurrentItem("Linear");
-    _mplLine2 .append(&_generatorCurve);
+    _generatorCurve = new MinoItemizedProperty(this);
+    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->addItem("Linear", 0);
+    _generatorCurve->addItem("OutInBack", 1);
+    _generatorCurve->addItem("InOutBounce", 2);
+    _generatorCurve->addItem("InOutQuart", 3);
+    _generatorCurve->setCurrentItem("Linear");
+    _mplLine2 .append(_generatorCurve);
 
     _propertyGrouped.append(&_mplLine2);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
     _rectItem->setVisible(false);
@@ -45,14 +47,14 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     computeAnimaBeatProperty(gppqn);
 
     QColor color;
-    color.setHsvF(_color.value(), 1.0, 1.0);
+    color.setHsvF(_color->value(), 1.0, 1.0);
 
     // HACK bounding rect center is not really at screen center without that...
     QPointF center = _boundingRect.adjusted(0,0,1,1).center();
 
     QGradient grad;
 
-    switch ((int)_generatorStyle.currentItem()->real())
+    switch ((int)_generatorStyle->currentItem()->real())
     {
     case 0 :
     {
@@ -69,7 +71,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
         break;
     }
 
-    switch ((int)_generatorCurve.currentItem()->real())
+    switch ((int)_generatorCurve->currentItem()->real())
     {
     case 0 :
     {
