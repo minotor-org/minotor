@@ -12,7 +12,12 @@ int main(int argc, char *argv[])
     // Load an application style
     QFile styleFile( "style.css" );
     styleFile.open( QFile::ReadOnly );
-
+    if(!styleFile.isOpen())
+    {
+        // Switching to internal style.css
+        styleFile.setFileName(":/style.css");
+        styleFile.open( QFile::ReadOnly );
+    }
     // Apply the loaded stylesheet
     QString style( styleFile.readAll() );
     a.setStyleSheet( style );
