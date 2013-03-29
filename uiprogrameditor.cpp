@@ -354,7 +354,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                 break;
             }
         }
-        if (!destGroupFound)
+        if (!destGroupFound && (srcGroupId != _program->animationGroups().count()-1))
         {
             //move group at the end
             moveAnimationGroup(srcGroupId, -1);
