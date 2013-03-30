@@ -11,6 +11,7 @@ void MidiControllableReal::setValue(qreal value)
     if(_value != value)
     {
         _value = value;
+        MidiControllableParameter::setValueFromMidi(value*127);
         emit valueChanged(_value);
     }
 }
