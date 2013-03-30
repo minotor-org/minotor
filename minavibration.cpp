@@ -16,7 +16,6 @@ MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     _segments = new MinoPropertyReal(this);
     _segments->setObjectName("segment");
     _segments->setValue(0.3);
-    _mplLine2.append(_segments);
 }
 
 void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

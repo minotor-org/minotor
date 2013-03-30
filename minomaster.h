@@ -15,13 +15,10 @@ public:
     void setProgram(MinoProgram *program);
     MinoProgram *program() { return _program; }
 
-    const MinoPropertyList properties() { return _properties; }
-
 private:
     MinoProgram *_program;
     bool _shifted;
     QGraphicsItemGroup _itemGroup;
-    MinoPropertyList _properties;
 
 signals:
     void programChanged();

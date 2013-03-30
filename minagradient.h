@@ -21,9 +21,9 @@ public:
 
 private:
     QGraphicsRectItem *_rectItem;
-    MinoPropertyList _mplLine2;
     MinoItemizedProperty *_generatorStyle;
     MinoItemizedProperty *_generatorCurve;
+
 };
 
 #endif // MINAGRADIENT_H

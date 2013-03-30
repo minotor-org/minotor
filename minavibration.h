@@ -28,7 +28,7 @@ private:
 
 protected:
     MinoPropertyReal *_segments;
-    MinoPropertyList _mplLine2;
+
 };
 
 

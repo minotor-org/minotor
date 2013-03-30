@@ -2,8 +2,9 @@
 
 MidiControllableList::MidiControllableList(QObject *parent) :
     MidiControllableParameter(parent),
-    _currentItemId(-1),
-    _type(MidiControllableList::Items)
+    _type(MidiControllableList::Items),
+    _currentItemId(-1)
+
 {
 }
 

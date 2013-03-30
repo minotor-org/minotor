@@ -16,7 +16,6 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _generatorCurve->addItem("OutInCubic", 2);
     _generatorCurve->addItem("OutInBack", 3);
     _generatorCurve->setCurrentItem("Linear");
-    _mplLine2.append(_generatorCurve);
 
     _generatorAccel = new MinoItemizedProperty(this);
     _generatorAccel->setObjectName("Accel.");
@@ -25,7 +24,6 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _generatorAccel->addItem("InOutBounce", 2);
     _generatorAccel->addItem("InOutQuart", 3);
     _generatorAccel->setCurrentItem("Linear");
-    _mplLine2.append(_generatorAccel);
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);

@@ -31,7 +31,11 @@ public:
     MinoAnimationGroupList animationGroups() const { return _animationGroups; }
     const QImage *rendering() const { return _image; }
     int id() const { return _id; }
-    const MinoPropertyList properties() { return _properties; }
+
+    // Properties
+    // FIXME: We may use a local property list instead of using findChildren()
+    // MinoPropertyList _properties;
+    // const MinoPropertyList properties() { return _properties; }
 
     // Selection
     bool isSelected() { return true; }
@@ -74,8 +78,6 @@ private:
     // Image ratio
     qreal _heightForWidthRatio;
 
-    // Properties
-    MinoPropertyList _properties;
     MidiControllableList *_beatFactor;
 
     bool _onAir;

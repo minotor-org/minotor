@@ -14,7 +14,6 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _generatorStyle->addItem("Radial", 0);
     _generatorStyle->addItem("Conical", 1);
     _generatorStyle->setCurrentItem("Radial");
-    _mplLine2.append(_generatorStyle);
 
     _generatorCurve = new MinoItemizedProperty(this);
     _generatorCurve->setObjectName("Curve");
@@ -23,7 +22,6 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _generatorCurve->addItem("InOutBounce", 2);
     _generatorCurve->addItem("InOutQuart", 3);
     _generatorCurve->setCurrentItem("Linear");
-    _mplLine2 .append(_generatorCurve);
 
     QColor color;
     color.setHsvF(_color->value(), 1.0, 1.0);

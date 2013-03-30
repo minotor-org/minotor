@@ -80,7 +80,6 @@ protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
 
-    MinoPropertyList _mplMain;
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
     MinoItemizedProperty *_beatFactor;

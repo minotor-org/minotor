@@ -13,12 +13,10 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _width = new MinoPropertyReal(this);
     _width->setObjectName("Width");
     _width->setValue(0.1);
-    _mplLine2.append(_width);
 
     _length = new MinoPropertyReal(this);
     _length->setObjectName("Length");
     _length->setValue(0.6);
-    _mplLine2.append(_length);
 
     _generatorCurve = new MinoItemizedProperty(this);
     _generatorCurve->setObjectName("Curve");
@@ -27,7 +25,6 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _generatorCurve->addItem("InOutBounce", 2);
     _generatorCurve->addItem("InOutQuart", 3);
     _generatorCurve->setCurrentItem("Linear");
-    _mplLine3.append(_generatorCurve);
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);

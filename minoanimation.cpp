@@ -19,7 +19,6 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _color->setPreferred();
     _color->setParent(this);
     _color->setValue(qrandF());
-    _mplMain.append(_color);
 
     _beatFactor = new MinoItemizedProperty(this);
     _beatFactor->setObjectName("Freq.");
@@ -34,7 +33,6 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _beatFactor->setLinear();
     _beatFactor->setPreferred();
     _beatFactor->setParent(this);
-    _mplMain.append(_beatFactor);
 }
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)

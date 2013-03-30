@@ -26,7 +26,7 @@ private:
 
 protected:
     MinoItemizedProperty *_colorType;
-    MinoPropertyList _mplLine2;
+
 };
 
 #endif // MINOANIMATIONWAVEFORM_H

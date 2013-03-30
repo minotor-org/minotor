@@ -24,13 +24,12 @@ public:
 private:
     QGraphicsItemGroup _itemGroup;
     QGraphicsRectItem *_items[4];
-    MinoPropertyList _mplLine2;
-    MinoPropertyList _mplLine3;
     MinoItemizedProperty *_generatorCurve;
     MinoPropertyReal *_width;
     MinoPropertyReal *_length;
     int _maxPixels;
     QRectF _drawingZone;
+
 };
 
 #endif // MINAROTATINGBARS_H

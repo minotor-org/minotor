@@ -18,7 +18,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _beatDuration->addItem("16", 384);
     _beatDuration->setCurrentItem("1");
     _beatDuration->setLinear();
-    _mplLine2.append(_beatDuration);
 
     _generatorDensity = new MinoItemizedProperty(this);
     _generatorDensity->setObjectName("Density");
@@ -32,7 +31,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDensity->addItem("8", 8);
     _generatorDensity->setCurrentItem("1");
     _generatorDensity->setLinear();
-    _mplLine2.append(_generatorDensity);
 
     //Second line of properties
     _generatorDirection = new MinoItemizedProperty(this);
@@ -42,7 +40,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDirection->addItem("Up", 2);
     _generatorDirection->addItem("Down", 3);
     _generatorDirection->setCurrentItem("Down");
-    _mplLine3.append(_generatorDirection);
 
     _generatorLength = new MinoItemizedProperty(this);
     _generatorLength->setObjectName("Length");
@@ -60,7 +57,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorLength->addItem("12", 12);
     _generatorLength->setLinear();
     _generatorLength->setCurrentItem("8");
-    _mplLine3.append(_generatorLength);
 }
 
 void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

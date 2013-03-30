@@ -79,8 +79,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
-    MinoPropertyList mpl = animation->findChildren<MinoProperty*>();
-
+    MinoProperties mpl = animation->findChildren<MinoProperty*>();
     for(int i=0; i<mpl.count(); ++i)
     {
         QHBoxLayout *lPropGroup;

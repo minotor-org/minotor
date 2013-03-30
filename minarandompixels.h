@@ -24,7 +24,6 @@ public slots:
 
 private:
     MinoPropertyReal *_density;
-    MinoPropertyList _mplLine2;
     QGraphicsItemGroup _itemGroup;
 };
 

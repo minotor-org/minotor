@@ -20,7 +20,6 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorSteps->addItem("14", 14);
     _generatorSteps->setCurrentItem("4");
     _generatorSteps->setLinear();
-    _mplLine2 .append(_generatorSteps);
 
     _generatorCurve = new MinoItemizedProperty(this);
     _generatorCurve->setObjectName("Curve");
@@ -29,7 +28,6 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorCurve->addItem("InOutBounce", 2);
     _generatorCurve->addItem("InOutQuart", 3);
     _generatorCurve->setCurrentItem("Linear");
-    _mplLine2 .append(_generatorCurve);
 
     QColor color;
     color.setHsvF(_color->value(), 1.0, 1.0);

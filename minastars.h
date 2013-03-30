@@ -25,7 +25,6 @@ public slots:
 private:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorDensity;
-    MinoPropertyList _mplDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
 

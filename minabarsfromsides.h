@@ -26,7 +26,7 @@ public slots:
 
 protected:
     MinoItemizedProperty *_colorType;
-    MinoPropertyList _mplLine2;
+
 };
 
 #endif // MINOANIMATIONBARSFROMSIDES_H

@@ -22,9 +22,9 @@ public slots:
 private:
     QGraphicsItemGroup _itemGroup;
     QList<QGraphicsLineItem*> _items;
-    MinoPropertyList _mplLine2;
     MinoItemizedProperty *_generatorCurve;
     MinoItemizedProperty *_generatorAccel;
+
 };
 
 
