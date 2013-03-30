@@ -34,8 +34,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDensity->setLinear();
     _mplLine2.append(_generatorDensity);
 
-    _propertyGrouped.append(&_mplLine2);
-
     //Second line of properties
     _generatorDirection = new MinoItemizedProperty(this);
     _generatorDirection->setObjectName("Direction");
@@ -63,9 +61,6 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorLength->setLinear();
     _generatorLength->setCurrentItem("8");
     _mplLine3.append(_generatorLength);
-
-    _propertyGrouped.append(&_mplLine3);
-
 }
 
 void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

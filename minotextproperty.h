@@ -9,7 +9,7 @@ class MinoTextProperty : public MinoProperty
 {
     Q_OBJECT
 public:
-    explicit MinoTextProperty(QObject *parent = 0);
+    explicit MinoTextProperty(QObject *parent);
 
     QString textValue() { return _textValue; }
 

@@ -27,8 +27,6 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _generatorAccel->setCurrentItem("Linear");
     _mplLine2.append(_generatorAccel);
 
-    _propertyGrouped.append(&_mplLine2);
-
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
     for (int i=0;i<_boundingRect.width();i++)

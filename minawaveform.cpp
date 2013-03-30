@@ -15,8 +15,6 @@ MinaWaveform::MinaWaveform(MinoAnimationGroup *group) :
     _colorType->addItem("grad.", 1);
     _colorType->setCurrentItem("plain");
     _mplLine2.append(_colorType);
-
-    _propertyGrouped.append(&_mplLine2);
 }
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

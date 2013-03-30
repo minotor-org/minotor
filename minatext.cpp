@@ -20,8 +20,10 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _beatDuration->setLinear();
     _mplLine2.append(_beatDuration);
 
-    _text.setObjectName("Text");
-    _properties.append(&_text);
+    _text = new MinoTextProperty(this);
+    _text->setObjectName("Text");
+    _properties.append(_text);
+    _mplLine3.append(_text);
 
     _generatorStyle = new MinoItemizedProperty(this);
     _generatorStyle->setObjectName("Style");
@@ -33,13 +35,9 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _generatorStyle->setCurrentItem("P:R T:F");
     _mplLine2.append(_generatorStyle);
 
-    _propertyGrouped.append(&_mplLine2);
-
     _color->setObjectName("Color");
     _properties.append(_color);
 
-    _mplLine3.append(&_text);
-    _propertyGrouped.append(&_mplLine3);
 }
 
 void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -53,7 +51,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     const unsigned int b = _beatFactor->currentItem()->real();
     if ((gppqn%b)==0)
     {
-        QGraphicsTextItem* item = _scene->addText(_text.textValue(),QFont("Arial",12,QFont::Bold,false));
+        QGraphicsTextItem* item = _scene->addText(_text->textValue(),QFont("Arial",12,QFont::Bold,false));
         QRectF tRect = item->boundingRect();
         tRect.adjust(0,0,-1,-1);
         tRect.moveCenter(_boundingRect.center());

@@ -14,8 +14,6 @@ MinaRandomPixels::MinaRandomPixels(MinoAnimationGroup *group) :
     _density->setValue(0.1);
     _mplLine2.append(_density);
 
-    _propertyGrouped.append(&_mplLine2);
-
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {
         for (qreal j=0.0; j<_boundingRect.width();j+=1.0)

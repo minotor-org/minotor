@@ -14,7 +14,7 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
     
-    void setText(QString value) { _text.setTextValue(value); }
+    void setText(QString value) { _text->setTextValue(value); }
     void setDuration(QString duration) { _beatDuration->setCurrentItem(duration); }
     void setBeatFactor(QString beat) { _beatFactor->setCurrentItem(beat); }
     void setGeneratorStyle(QString style) { _generatorStyle->setCurrentItem(style); }
@@ -28,7 +28,7 @@ public slots:
 private:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorStyle;
-    MinoTextProperty _text;
+    MinoTextProperty *_text;
     MinoPropertyList _properties;
     MinoPropertyList _mplLine2;
     MinoPropertyList _mplLine3;

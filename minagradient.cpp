@@ -25,8 +25,6 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _generatorCurve->setCurrentItem("Linear");
     _mplLine2 .append(_generatorCurve);
 
-    _propertyGrouped.append(&_mplLine2);
-
     QColor color;
     color.setHsvF(_color->value(), 1.0, 1.0);
 

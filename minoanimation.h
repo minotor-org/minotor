@@ -49,7 +49,6 @@ public:
 
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;
-    const MinoPropertyGrouped propertyGrouped() { return _propertyGrouped; }
 
     virtual void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
 
@@ -81,7 +80,6 @@ protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
 
-    MinoPropertyGrouped _propertyGrouped;
     MinoPropertyList _mplMain;
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);

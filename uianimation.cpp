@@ -79,32 +79,33 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
-    for (int i=0;i<animation->propertyGrouped().count();i++)
-    {
-        MinoPropertyList *group = animation->propertyGrouped().at(i);
-        if (i>0)
-        {
-            QFrame *fSeparator = new QFrame(_wProperties);
-            fSeparator->setObjectName("line");
-            fSeparator->setFrameShape(QFrame::HLine);
-            fSeparator->setFrameShadow(QFrame::Sunken);
-            fSeparator->setLineWidth(1);
-            lProperties->addWidget(fSeparator);
-        }
-        QWidget *wPropGroup = new QWidget(_wProperties);
-        lProperties->addWidget(wPropGroup);
-        QHBoxLayout *lPropGroup = new QHBoxLayout(wPropGroup);
-        lPropGroup->setSpacing(5);
-        lPropGroup->setMargin(0);
-        lPropGroup->setContentsMargins(0,0,0,0);
+    MinoPropertyList mpl = animation->findChildren<MinoProperty*>();
 
-        for (int i=0;i<group->length();i++)
+    for(int i=0; i<mpl.count(); ++i)
+    {
+        QHBoxLayout *lPropGroup;
+        if((i%2)==0)
         {
-            MinoProperty *property = group->at(i);
-            UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties, true);
-            uiAnimationProperty->setObjectName("animationproperty");
-            lPropGroup->addWidget(uiAnimationProperty);
+            if (i>0)
+            {
+                QFrame *fSeparator = new QFrame(_wProperties);
+                fSeparator->setObjectName("line");
+                fSeparator->setFrameShape(QFrame::HLine);
+                fSeparator->setFrameShadow(QFrame::Sunken);
+                fSeparator->setLineWidth(1);
+                lProperties->addWidget(fSeparator);
+            }
+            QWidget *wPropGroup = new QWidget(_wProperties);
+            lProperties->addWidget(wPropGroup);
+            lPropGroup = new QHBoxLayout(wPropGroup);
+            lPropGroup->setSpacing(5);
+            lPropGroup->setMargin(0);
+            lPropGroup->setContentsMargins(0,0,0,0);
         }
+        MinoProperty *property = mpl.at(i);
+        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties, true);
+        uiAnimationProperty->setObjectName("animationproperty");
+        lPropGroup->addWidget(uiAnimationProperty);
     }
     lContent->addStretch(1);
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));

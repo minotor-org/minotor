@@ -29,9 +29,6 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _generatorCurve->setCurrentItem("Linear");
     _mplLine3.append(_generatorCurve);
 
-    _propertyGrouped.append(&_mplLine2);
-    _propertyGrouped.append(&_mplLine3);
-
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
 

@@ -33,8 +33,6 @@ MinaStars::MinaStars(MinoAnimationGroup *group) :
     _generatorDensity->setCurrentItem("1");
     _generatorDensity->setLinear();
     _mplDensity.append(_generatorDensity);
-
-    _propertyGrouped.append(&_mplDensity);
 }
 
 void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
