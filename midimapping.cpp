@@ -127,14 +127,14 @@ MinoControl* MidiMapping::findMinoControl(int interface, quint8 channel, quint8 
 
 void MidiMapping::noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
-    qDebug() << Q_FUNC_INFO
-             << "note changed:" << interface << channel << note << on << value;
+//    qDebug() << Q_FUNC_INFO
+//             << "note changed:" << interface << channel << note << on << value;
     MinoTrigger *minoTrigger = findMinoTriggerFromNote(interface, channel, note);
     if(minoTrigger)
     {
         minoTrigger->setStatus(on);
-        qDebug() << Q_FUNC_INFO
-                 << "trigger found:" << minoTrigger << minoTrigger->role();
+//        qDebug() << Q_FUNC_INFO
+//                 << "trigger found:" << minoTrigger << minoTrigger->role();
     }
     else
     {
@@ -204,8 +204,8 @@ bool MidiMapping::registerTrigger(QString role, const QObject *receiver, const c
     {
         trigger = new MinoTrigger(role);
         minoTriggers().insert(role, trigger);
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is now registered.";
+//        qDebug() << Q_FUNC_INFO
+//                 << "role:" << role << "is now registered.";
     }
     if(receiver && method)
     {
@@ -214,8 +214,8 @@ bool MidiMapping::registerTrigger(QString role, const QObject *receiver, const c
         else
             connect(trigger, SIGNAL(triggered()), receiver, method);
 
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
+//        qDebug() << Q_FUNC_INFO
+//                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
     }
     return true;
 }
@@ -243,15 +243,14 @@ bool MidiMapping::registerControl(QString role, const QObject *receiver, const c
     {
         minoControl = new MinoControl(role);
         minoControls().insert(role, minoControl);
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is now registered.";
+//        qDebug() << Q_FUNC_INFO
+//                 << "role:" << role << "is now registered.";
     }
     if(receiver && method)
     {
         connect(minoControl, SIGNAL(valueChanged(quint8)), receiver, method);
-
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
+//        qDebug() << Q_FUNC_INFO
+//                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
     }
     return true;
 }

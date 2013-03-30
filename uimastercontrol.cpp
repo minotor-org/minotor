@@ -88,7 +88,8 @@ void UiMasterControl::animationMoved(int srcProgramId, int srcGroupId , int srcA
         if (srcGroupId == group->group()->id() || destGroupId == group->group()->id())
         {
             group->updateGroup();
-            qDebug() << "update group" << group->group()->id();
+            qDebug() << Q_FUNC_INFO
+                     << "update group" << group->group()->id();
         }
     }
 }
@@ -112,7 +113,8 @@ UiMasterAnimationGroup* UiMasterControl::takeAnimationGroupAt(int groupId)
     }
     if(uiMasterAnimationGroup.count()>0)
     {
-        qDebug() << "program has" << uiMasterAnimationGroup.count() << "items";
+        qDebug() << Q_FUNC_INFO
+                 << "program has" << uiMasterAnimationGroup.count() << "items";
         for (int j=0; j<uiMasterAnimationGroup.count(); j++)
         {
             if(uiMasterAnimationGroup.at(j)->group()->id() == groupId)

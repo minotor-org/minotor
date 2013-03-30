@@ -190,7 +190,7 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
 
 void ConfigDialog::updateMidiTab()
 {
-    qDebug() << Q_FUNC_INFO;
+//    qDebug() << Q_FUNC_INFO;
     Midi *midi = Minotor::minotor()->midi();
     foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
     {
@@ -233,9 +233,6 @@ void ConfigDialog::loadMidiMappingFile(QString file)
     if(QSettings::NoError == mapping.status())
     {
         int size = mapping.beginReadArray("midi_controls");
-        qDebug() << Q_FUNC_INFO
-                 << "file" << file
-                 << "midi controls size:" << size;
         for(int i = 0; i < size; ++i)
         {
             mapping.setArrayIndex(i);
@@ -276,8 +273,7 @@ void ConfigDialog::saveMidiMappingFile(QString file)
 
 void ConfigDialog::updateMidiMappingTab()
 {
-    qDebug() << Q_FUNC_INFO;
-
+//    qDebug() << Q_FUNC_INFO;
     ui->tableMidiMapping->clear();
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
@@ -297,7 +293,7 @@ void ConfigDialog::updateMidiMappingTab()
 
 void ConfigDialog::updateSerialTab()
 {
-    qDebug() << Q_FUNC_INFO;
+//    qDebug() << Q_FUNC_INFO;
     // Port enumeration
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     QStringList portnames;

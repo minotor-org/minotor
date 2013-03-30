@@ -84,7 +84,6 @@ void MinoMaster::setProgram(MinoProgram *program)
                     QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
                     for(int j=0; j<mcp.count(); ++j)
                     {
-                        qDebug() << mcp.at(j) << mcp.at(j)->isPreferred();
                         if(mcp.at(j)->isPreferred())
                         {
                             const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);

@@ -177,11 +177,6 @@ qreal UiKnob::valueFromPoint(const QPoint &p)
     qreal deltaForValue = (qreal)((qreal)deltaY/(qreal)maxDistance) * (qreal)(_maxValue-_minValue);
     qreal value = (qreal)_value + deltaForValue;
     value = qBound(_minValue, value, _maxValue);
-    qDebug() << "UiKnob::valueFromPoint>"
-             << "value" << value
-             << "deltaY" << deltaY
-             << "deltaForValue" << deltaForValue
-             << "_value" << _value;
     return value;
 }
 
@@ -220,7 +215,6 @@ void UiKnob::mouseReleaseEvent(QMouseEvent * e)
         e->ignore();
         return;
     }
-    qDebug() << "UiKnob::mouseReleaseEvent()";
     e->accept();
     _setValue(valueFromPoint(e->pos()));
     update();
@@ -233,12 +227,6 @@ void UiKnob::mouseMoveEvent(QMouseEvent * e)
         return;
     }
     e->accept();
-    /*
-    d->doNotEmit = true;
-    setSliderPosition(d->valueFromPoint(e->pos()));
-    d->doNotEmit = false;
-    */
-    qDebug() << "UiKnob::mouseMoveEvent()";
     _setValue(valueFromPoint(e->pos()));
     update();
 }

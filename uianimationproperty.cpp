@@ -23,9 +23,6 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
 
     MinoTextProperty* textProperty = dynamic_cast<MinoTextProperty*>(property);
 
-    qDebug() << Q_FUNC_INFO
-             << "property" << property;
-
     foreach(MidiControllableParameter *param, property->findChildren<MidiControllableParameter*>())
     {
         lProperty->addWidget(new UiMidiControllableParameter(param, this, editorMode));
