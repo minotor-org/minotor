@@ -87,7 +87,7 @@ void MinoMaster::setProgram(MinoProgram *program)
                         if(mcp.at(j)->isPreferred())
                         {
                             const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
-                            MidiMapping::registerControl(role, mcp.at(j), SLOT(_setValueFromMidi(quint8)), true);
+                            MidiMapping::registerControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
                             id++;
                         }
                     }
