@@ -182,10 +182,13 @@ qreal UiKnob::valueFromPoint(const QPoint &p)
 
 void UiKnob::_setValue(qreal value)
 {
-    _value = value;
-    disconnect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
-    _parameter->setValueFromMidi(value);
-    connect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    if(_value != value)
+    {
+        _value = value;
+        disconnect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+        _parameter->setValueFromMidi(value);
+        connect(_parameter, SIGNAL(valueFromMidiChanged(quint8)), this, SLOT(setValueFromMidi(quint8)));
+    }
 }
 
 void UiKnob::setValueFromMidi(quint8 value)
