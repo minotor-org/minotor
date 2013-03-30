@@ -18,4 +18,5 @@ void MidiControllableReal::setValue(qreal value)
 void MidiControllableReal::setValueFromMidi(quint8 value)
 {
      setValue((qreal)value/127.0);
+     MidiControllableParameter::setValueFromMidi(value);
 }

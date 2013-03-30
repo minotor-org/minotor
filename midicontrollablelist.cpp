@@ -37,6 +37,7 @@ void MidiControllableList::setValueFromMidi(quint8 value)
     {
         _currentItemId = -1;
     }
+    MidiControllableParameter::setValueFromMidi(value);
 }
 
 void MidiControllableList::setCurrentItem(const QString name)
@@ -45,7 +46,7 @@ void MidiControllableList::setCurrentItem(const QString name)
     {
         if (_items.at(i)->name() == name)
         {
-            //_midiValue = ((qreal)i/(qreal)_items.count())*128.0;
+            MidiControllableParameter::setValueFromMidi(((qreal)i/(qreal)_items.count())*127.0);
             if(i != _currentItemId) {
                 emit itemChanged(name);
                 _currentItemId = i;
