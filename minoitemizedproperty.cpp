@@ -34,3 +34,9 @@ void MinoItemizedProperty::setLinear(bool linear)
 {
     _mcl->setLinear(linear);
 }
+
+void MinoItemizedProperty::setObjectName(const QString &name)
+{
+    _mcl->setObjectName(name);
+    QObject::setObjectName(name);
+}

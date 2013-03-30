@@ -9,6 +9,7 @@ class MinoItemizedProperty : public MinoProperty
     Q_OBJECT
 public:
     explicit MinoItemizedProperty(QObject *parent);
+    void setObjectName(const QString &name);
 
     // Items
     void addItem(const QString name, const qreal real);

@@ -9,6 +9,7 @@ class MinoPropertyReal : public MinoProperty
     Q_OBJECT
 public:
     explicit MinoPropertyReal(QObject *parent);
+    void setObjectName(const QString &name);
 
     // value (0.0 - 1.0)
     qreal value() { return _mcr->value(); }
