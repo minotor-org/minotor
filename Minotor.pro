@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     minopropertycolor.cpp \
     midicontrollableparameter.cpp \
     midicontrollablereal.cpp \
-    midicontrollablelist.cpp
+    midicontrollablelist.cpp \
+    minopropertyeasingcurve.cpp
 
 HEADERS  += mainwindow.h \
     ledmatrix.h \
@@ -131,7 +132,8 @@ HEADERS  += mainwindow.h \
     minopropertycolor.h \
     midicontrollableparameter.h \
     midicontrollablereal.h \
-    midicontrollablelist.h
+    midicontrollablelist.h \
+    minopropertyeasingcurve.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

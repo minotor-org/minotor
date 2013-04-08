@@ -1,4 +1,5 @@
 #include "minacurve.h"
+
 #include <QDebug>
 #include <QGraphicsBlurEffect>
 
@@ -9,13 +10,8 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _generatorCurve = new MinoItemizedProperty(this);
+    _generatorCurve = new MinoPropertyEasingCurve(this);
     _generatorCurve->setObjectName("Curve");
-    _generatorCurve->addItem("Linear", 0);
-    _generatorCurve->addItem("InOutQuart", 1);
-    _generatorCurve->addItem("OutInCubic", 2);
-    _generatorCurve->addItem("OutInBack", 3);
-    _generatorCurve->setCurrentItem("Linear");
 
     _generatorAccel = new MinoItemizedProperty(this);
     _generatorAccel->setObjectName("Accel.");
@@ -54,31 +50,8 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     QColor color;
     color.setHsvF(_color->value(), 1.0, 1.0);
 
-    QEasingCurve easing;
     //Drawing curve
-    switch ((int)_generatorCurve->currentItem()->real())
-    {
-    case 0 :
-    {
-        easing = QEasingCurve(QEasingCurve::Linear);
-    }
-        break;
-    case 1 :
-    {
-        easing = QEasingCurve(QEasingCurve::InOutQuart);
-        break;
-    }
-    case 2 :
-    {
-        easing = QEasingCurve(QEasingCurve::OutInCubic);
-    }
-        break;
-    case 3 :
-    {
-        easing = QEasingCurve(QEasingCurve::OutInBack);
-    }
-        break;
-    }
+    QEasingCurve easing(_generatorCurve->currentType());
 
     //Animation curve
     switch ((int)_generatorAccel->currentItem()->real())

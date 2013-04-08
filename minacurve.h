@@ -1,6 +1,9 @@
 #ifndef MINACURVE_H
 #define MINACURVE_H
+
 #include "minoanimation.h"
+
+#include "minopropertyeasingcurve.h"
 
 class MinaCurve : public MinoAnimation
 {
@@ -22,7 +25,7 @@ public slots:
 private:
     QGraphicsItemGroup _itemGroup;
     QList<QGraphicsLineItem*> _items;
-    MinoItemizedProperty *_generatorCurve;
+    MinoPropertyEasingCurve *_generatorCurve;
     MinoItemizedProperty *_generatorAccel;
 
 };
