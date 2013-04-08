@@ -150,7 +150,7 @@
      <item row="5" column="0">
       <widget class="QPushButton" name="pbSave">
        <property name="text">
-        <string>Save animation #0</string>
+        <string>Save master program</string>
        </property>
       </widget>
      </item>

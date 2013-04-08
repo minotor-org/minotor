@@ -1,7 +1,8 @@
 #ifndef MINOPROGRAM_H
 #define MINOPROGRAM_H
 
-#include <QObject>
+#include <minopersistentobject.h>
+
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
 #include <QRect>
@@ -11,7 +12,7 @@
 
 class Minotor;
 
-class MinoProgram : public QObject
+class MinoProgram : public MinoPersistentObject
 {
     Q_OBJECT
 

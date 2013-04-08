@@ -3,6 +3,6 @@
 #include <QDebug>
 
 MinoProperty::MinoProperty(QObject *parent) :
-    QObject(parent)
+    MinoPersistentObject(parent)
 {
 }

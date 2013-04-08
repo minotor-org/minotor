@@ -6,7 +6,7 @@
 #include "minoanimationfactory.h"
 
 MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
-    QObject(parent),
+    MinoPersistentObject(parent),
     _enabled(false),
     _program(parent)
 {

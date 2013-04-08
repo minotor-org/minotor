@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
 #include <QPropertyAnimation>
+#include <QSettings>
 
 #include "ledmatrix.h"
 #include "midi.h"
@@ -55,8 +56,12 @@ public:
     void addProgram(MinoProgram *program);
     QList<MinoProgram*> programs() { return _programs; }
 
+    // Persistence
+    void save(MinoPersistentObject* object, QSettings* parser);
+
 signals:
     void beatToggled(bool active);
+
 public slots:
     // Clock handler
     void dispatchClock(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);

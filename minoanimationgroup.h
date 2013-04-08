@@ -1,7 +1,8 @@
 #ifndef MINOANIMATIONGROUP_H
 #define MINOANIMATIONGROUP_H
 
-#include <QObject>
+#include "minopersistentobject.h"
+
 #include <QGraphicsItemGroup>
 #include <QList>
 
@@ -9,7 +10,7 @@
 
 class MinoProgram;
 
-class MinoAnimationGroup : public QObject
+class MinoAnimationGroup : public MinoPersistentObject
 {
     Q_OBJECT
     friend class MinoProgram;

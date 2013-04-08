@@ -64,7 +64,7 @@ Minotor::Minotor(QObject *parent) :
     _midiMapping->mapNoteToRole(1,0,37,"TRANSPORT_STOP");
     _midiMapping->mapNoteToRole(1,0,38,"TRANSPORT_SYNC");
     _midiMapping->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
-/*
+*/
 /*
     // Korg nanoKontrol
     _midiMapping->mapControlToRole(2,0,14,"MASTER_CONTROLS_0_0");
@@ -223,4 +223,49 @@ void Minotor::addProgram(MinoProgram *program)
     // Note: Developer of animations should take care to not collide: its objects should never be larger than one screen-size in all directions (up, down, left, right, diagonals)
     QPointF pos = QPointF(_ledMatrix->size().width()*3, _ledMatrix->size().height() + ((_ledMatrix->size().height()*3) * id));
     program->setDrawingPos(pos);
+}
+
+void Minotor::save(MinoPersistentObject* object, QSettings* parser)
+{
+    if(object)
+    {
+        // Start a group using classname
+        parser->beginGroup(object->metaObject()->className());
+        // Remove all entries in this group
+        parser->remove("");
+        qDebug() << QString(" ").repeated(2) << object;
+
+        // Start an array of properties
+        parser->beginWriteArray("properties");
+        parser->remove("");
+
+        for(int j=0; j<object->metaObject()->propertyCount(); j++)
+        {
+            parser->setArrayIndex(j);
+            QMetaProperty omp = object->metaObject()->property(j);
+            parser->setValue(omp.name(), omp.read(object));
+            qDebug() << QString(" ").repeated(3)
+                     << omp.typeName()
+                     << omp.name()
+                     << omp.read(object)
+                     << omp.isStored();
+        }
+        // End of properties array
+        parser->endArray();
+
+        parser->beginWriteArray("children");
+        parser->remove("");
+        QObjectList ol = object->children();
+        int j = 0;
+        foreach(QObject* o, ol)
+        {
+            if(MinoPersistentObject* mpo = qobject_cast<MinoPersistentObject*>(o))
+            {
+                parser->setArrayIndex(j++);
+                save(mpo, parser);
+            }
+        }
+        parser->endArray();
+        parser->endGroup();
+    }
 }

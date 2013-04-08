@@ -7,7 +7,7 @@
 #include <QDebug>
 
 MinoProgram::MinoProgram(Minotor *minotor) :
-    QObject(minotor),
+    MinoPersistentObject(minotor),
     _image(NULL),
     _onAir(false)
 {

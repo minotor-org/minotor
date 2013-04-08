@@ -42,8 +42,7 @@ class MinoAnimation : public MinoPersistentObject
     Q_OBJECT
     friend class MinoAnimationGroup;
 
-    Q_PROPERTY(QString frequency READ frequency WRITE setFrequency STORED true)
-    Q_PROPERTY(qreal color READ color WRITE setColor STORED true)
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled STORED true)
 public:
     explicit MinoAnimation(MinoAnimationGroup *group);
 

@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QVariant>
 
-#include "midicontrol.h"
+#include "minopersistentobject.h"
 
-class MinoProperty : public QObject
+class MinoProperty : public MinoPersistentObject
 {
     Q_OBJECT
 public:
