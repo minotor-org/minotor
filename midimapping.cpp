@@ -134,14 +134,18 @@ void MidiMapping::noteChanged(int interface, quint8 channel, quint8 note, bool o
     MinoTrigger *minoTrigger = findMinoTriggerFromNote(interface, channel, note);
     if(minoTrigger)
     {
+        // Some MIDI controllers (eg. BCD3000) do not send 'note off' but 'note on' with no velocity (value==0)
+        if(value==0) on = false;
         minoTrigger->setStatus(on);
-//        qDebug() << Q_FUNC_INFO
-//                 << "trigger found:" << minoTrigger << minoTrigger->role();
+        qDebug() << Q_FUNC_INFO
+                 << "trigger found:" << minoTrigger->role()
+                 << "(" << on << ")";
     }
     else
     {
         qDebug() << Q_FUNC_INFO
-                 << "no associated trigger found.";
+                 << "no associated trigger found for note:" << note
+                 << QString("(%1,%2,%3)").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
     }
 }
 
