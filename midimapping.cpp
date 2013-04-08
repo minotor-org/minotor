@@ -127,10 +127,6 @@ MinoControl* MidiMapping::findMinoControl(int interface, quint8 channel, quint8 
 
 void MidiMapping::noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
-    /* "value" is usually used as velocity on MIDI controllers but we don't use it... */
-    (void)value;
-//    qDebug() << Q_FUNC_INFO
-//             << "note changed:" << interface << channel << note << on << value;
     MinoTrigger *minoTrigger = findMinoTriggerFromNote(interface, channel, note);
     if(minoTrigger)
     {
