@@ -40,12 +40,11 @@ Minotor::Minotor(QObject *parent) :
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
     _master->setProgram(new MiproDebug(this));
-/*
     new MiproSecondLives(this);
     new MiproMatrix(this);
     new MiproBnzIchRU(this);
     new MiproWaves(this);
-*/
+
     // MIDI interfaces
     _midi = new Midi(this);
     connect(_midi, SIGNAL(programChanged(int,quint8,quint8)), this, SLOT(handleMidiInterfaceProgramChange(int,quint8,quint8)));
@@ -59,12 +58,14 @@ Minotor::Minotor(QObject *parent) :
     connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
 
     // Register HARDCODED triggers notes
+/*
     // LPD8
     _midiMapping->mapNoteToRole(1,0,36,"TRANSPORT_PLAY");
     _midiMapping->mapNoteToRole(1,0,37,"TRANSPORT_STOP");
     _midiMapping->mapNoteToRole(1,0,38,"TRANSPORT_SYNC");
     _midiMapping->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
-
+/*
+/*
     // Korg nanoKontrol
     _midiMapping->mapControlToRole(2,0,14,"MASTER_CONTROLS_0_0");
     _midiMapping->mapControlToRole(2,0,15,"MASTER_CONTROLS_1_0");
@@ -110,6 +111,29 @@ Minotor::Minotor(QObject *parent) :
     _midiMapping->mapControlToRole(2,0,46,"TRANSPORT_STOP");
     _midiMapping->mapControlToRole(2,0,49,"TRANSPORT_SYNC");
     _midiMapping->mapControlToRole(2,0,44,"TRANSPORT_TAP");
+*/
+
+    // Behringer BCD3000
+    _midiMapping->mapControlToRole(1,0,3,"MASTER_CONTROLS_0_0");
+    _midiMapping->mapControlToRole(1,0,4,"MASTER_CONTROLS_1_0");
+    _midiMapping->mapControlToRole(1,0,5,"MASTER_CONTROLS_2_0");
+    _midiMapping->mapControlToRole(1,0,6,"MASTER_CONTROLS_3_0");
+    _midiMapping->mapControlToRole(1,0,10,"MASTER_CONTROLS_4_0");
+    _midiMapping->mapControlToRole(1,0,7,"MASTER_CONTROLS_5_0");
+    _midiMapping->mapControlToRole(1,0,8,"MASTER_CONTROLS_6_0");
+    _midiMapping->mapControlToRole(1,0,9,"MASTER_CONTROLS_7_0");
+
+    _midiMapping->mapNoteToRole(1,0,12,"MASTER_ANIMATION_SHIFT_0");
+    _midiMapping->mapNoteToRole(1,0,13,"MASTER_ANIMATION_SHIFT_1");
+    _midiMapping->mapNoteToRole(1,0,14,"MASTER_ANIMATION_SHIFT_2");
+    _midiMapping->mapNoteToRole(1,0,4,"MASTER_ANIMATION_SHIFT_3");
+    _midiMapping->mapNoteToRole(1,0,10,"MASTER_ANIMATION_SHIFT_4");
+    _midiMapping->mapNoteToRole(1,0,20,"MASTER_ANIMATION_SHIFT_5");
+    _midiMapping->mapNoteToRole(1,0,21,"MASTER_ANIMATION_SHIFT_6");
+    _midiMapping->mapNoteToRole(1,0,22,"MASTER_ANIMATION_SHIFT_7");
+
+    _midiMapping->mapNoteToRole(1,0,26,"TRANSPORT_PLAY");
+    _midiMapping->mapNoteToRole(1,0,27,"TRANSPORT_TAP");
 
     // Register animations
     MinoAnimationFactory::registerClass<MinaFlash>();
