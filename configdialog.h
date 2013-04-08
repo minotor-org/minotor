@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 #include <QSettings>
+#include <QFileInfo>
 
 namespace Ui {
 class ConfigDialog;
@@ -30,10 +31,14 @@ private slots:
 
     void on_pbSaveAs_clicked();
 
+    void on_cbMidiMapping_currentIndexChanged(int index);
+
+    void on_pushButton_toggled(bool checked);
+
 private:
     Ui::ConfigDialog *ui;
 
-    void addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value);
+    void addMidiControl(const int row, const quint8 channel, const quint8 control, const QString &role, const quint8 value = 255);
 
     void setupLedMatrix(QSettings &settings);
     void setupMidi(QSettings &settings);
@@ -44,6 +49,7 @@ private:
 
     void loadMidiMappingFiles();
     void loadMidiMappingFile(QString file);
+    void addMidiMappingEntry(QFileInfo file);
     void saveMidiMappingFile(QString file);
 };
 

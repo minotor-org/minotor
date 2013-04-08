@@ -138,27 +138,27 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
     if(!found)
     {
         Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
-        addMidiControl(row, interface, channel, control, value);
+        addMidiControl(row, channel, control, "FIXME", value);
         row++;
     }
 }
 
-void ConfigDialog::addMidiControl(const int row, const int interface, const quint8 channel, const quint8 control, const quint8 value)
+void ConfigDialog::addMidiControl(const int row, const quint8 channel, const quint8 control, const QString& role, const quint8 value)
 {
     ui->tableMidiMapping->insertRow(row);
     QTableWidgetItem *item;
     // Interface
-    item = new QTableWidgetItem(QString::number(interface));
+    item = new QTableWidgetItem(QString::number(channel));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 0, item);
     // Channel
-    item = new QTableWidgetItem(QString::number(channel));
+    item = new QTableWidgetItem(QString::number(control));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 1, item);
     // Control
-    item = new QTableWidgetItem(QString::number(control));
+    item = new QTableWidgetItem(role);
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 2, item);
@@ -222,53 +222,99 @@ void ConfigDialog::loadMidiMappingFiles()
     QDir dataDir(dataPath);
     foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
     {
-        loadMidiMappingFile(file.absoluteFilePath());
+        addMidiMappingEntry(file.absoluteFilePath());
+    }
+}
+
+void ConfigDialog::addMidiMappingEntry(QFileInfo file)
+{
+    QSettings mapping(file.absoluteFilePath(), QSettings::IniFormat);
+    if(QSettings::NoError == mapping.status())
+    {
+        mapping.beginGroup("general");
+        QString vendor = mapping.value("vendor", "undefined").toString();
+        QString product = mapping.value("product", QVariant("undefined")).toString();
+        ui->cbMidiMapping->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(file.fileName()), file.absoluteFilePath());
+        mapping.endGroup();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "unable to parse file:" << file.absoluteFilePath();
     }
 }
 
 void ConfigDialog::loadMidiMappingFile(QString file)
 {
-    ui->cbMidiMapping->addItem(file);
+    ui->tableMidiMapping->clearContents();
+    ui->tableMidiMapping->setRowCount(0);
     QSettings mapping(file, QSettings::IniFormat);
     if(QSettings::NoError == mapping.status())
     {
+        // General
+        mapping.beginGroup("general");
+        QString vendor = mapping.value("vendor", QString("undefined")).toString();
+        QString product = mapping.value("product", QString("undefined")).toString();
+        ui->leVendor->setText(vendor);
+        ui->leProduct->setText(product);
+        mapping.endGroup();
+
+        // MIDI Controls
         int size = mapping.beginReadArray("midi_controls");
         for(int i = 0; i < size; ++i)
         {
             mapping.setArrayIndex(i);
             const int row = ui->tableMidiMapping->rowCount();
-            addMidiControl(row, -1, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), 255);
+            addMidiControl(row, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), "FIXME");
         }
+        mapping.endArray();
     }
     else
     {
         qDebug() << Q_FUNC_INFO
                  << "unable to parse file:" << file;
     }
-    mapping.endArray();
 }
 
 void ConfigDialog::saveMidiMappingFile(QString file)
 {
     QSettings mapping(file, QSettings::IniFormat);
 
-    QList<MidiControl*> midiControls = Minotor::minotor()->midiMapping()->findChildren<MidiControl*>();
+    // General
+    mapping.beginGroup("general");
+    if(ui->leVendor->text() == QString(""))
+        ui->leVendor->setText("undefined");
+    mapping.setValue("vendor", ui->leVendor->text());
+    if(ui->leProduct->text() == QString(""))
+        ui->leProduct->setText("undefined");
+    mapping.setValue("product", ui->leProduct->text());
+    mapping.endGroup();
+
+    // MIDI Controls
     mapping.beginWriteArray("midi_controls");
-    for (int i = 0; i < midiControls.count(); ++i) {
-        MidiControl *mc = midiControls.at(i);
+    // Remove all existing midi_controls entries
+    mapping.remove("");
+    for (int i = 0; i < ui->tableMidiMapping->rowCount(); ++i) {
+        // MIDI Controls
         mapping.setArrayIndex(i);
-        QObject *object = static_cast<QObject*>(mc);
-        for(int j=0; j<object->metaObject()->propertyCount(); j++)
-        {
-            QMetaProperty omp = object->metaObject()->property(j);
-            // Dont store "objectName"
-            if(omp.name() != QString("objectName"))
-            {
-                mapping.setValue(omp.name(), omp.read(object));
-            }
-        }
+        mapping.setValue("channel", ui->tableMidiMapping->item(i,0)->text());
+        mapping.setValue("control", ui->tableMidiMapping->item(i,1)->text());
+        mapping.setValue("role", ui->tableMidiMapping->item(i,2)->text());
     }
     mapping.endArray();
+    mapping.sync();
+
+    // Reload files list in combobox
+    loadMidiMappingFiles();
+    // Reselect the current item
+    for(int i=0; i<ui->cbMidiMapping->count(); ++i)
+    {
+        if(ui->cbMidiMapping->itemData(i).toString() == file)
+        {
+            ui->cbMidiMapping->setCurrentIndex(i);
+            break;
+        }
+    }
 }
 
 void ConfigDialog::updateMidiMappingTab()
@@ -278,16 +324,7 @@ void ConfigDialog::updateMidiMappingTab()
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
     //Set Header Label Texts
-    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Interface;Channel;Control;Value").split(";"));
-
-    int row = 0;
-    connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
-    const MidiControlList midiControls = Minotor::minotor()->midiMapping()->midiControls();
-    foreach(MidiControl *midiControl, midiControls)
-    {
-        addMidiControl(row, midiControl->interface(), midiControl->channel(), midiControl->control(), midiControl->value());
-        row++;
-    }
+    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Channel;Control;Role;Value").split(";"));
     loadMidiMappingFiles();
 }
 
@@ -391,4 +428,18 @@ void ConfigDialog::on_pbSaveAs_clicked()
     {
         saveMidiMappingFile(fileName);
     }
+}
+
+void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
+{
+    QVariant filename = ui->cbMidiMapping->itemData(index);
+    loadMidiMappingFile(filename.toString());
+}
+
+void ConfigDialog::on_pushButton_toggled(bool checked)
+{
+    if(checked)
+        connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
+    else
+        disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
