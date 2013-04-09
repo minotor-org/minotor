@@ -43,7 +43,12 @@ void MinoPropertyEasingCurve::addAllEasingCurveTypes()
         QMetaEnum metaEnum = mo.enumerator(id);
         for(int i=0; i<metaEnum.keyCount(); ++i)
         {
-            addEasingCurveType((QEasingCurve::Type)metaEnum.value(i));
+            const QEasingCurve::Type type = (QEasingCurve::Type)metaEnum.value(i);
+            if((type != QEasingCurve::Custom)
+                    && (type != QEasingCurve::NCurveTypes))
+            {
+                addEasingCurveType(type);
+            }
         }
         _mcl->setCurrentItemIndex(0);
     }
