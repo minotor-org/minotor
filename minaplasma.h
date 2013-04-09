@@ -2,7 +2,10 @@
 #define MINOANIMATIONPLASMA_H
 
 #include "minoanimation.h"
+
 #include <QGraphicsRectItem>
+
+#include "minopropertyeasingcurve.h"
 
 class MinaPlasma : public MinoAnimation
 {
@@ -26,7 +29,7 @@ private:
     QGraphicsRectItem *_rectTopRight;
     QGraphicsRectItem *_rectBottomLeft;
     QGraphicsRectItem *_rectBottomRight;
-    MinoItemizedProperty *_generatorCurve;
+    MinoPropertyEasingCurve *_generatorCurve;
     MinoItemizedProperty *_generatorSteps;
 
 };

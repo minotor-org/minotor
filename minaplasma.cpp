@@ -7,7 +7,6 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
 
     _generatorSteps = new MinoItemizedProperty(this);
     _generatorSteps->setObjectName("steps");
@@ -22,14 +21,7 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorSteps->setCurrentItem("4");
     _generatorSteps->setLinear();
 
-    _generatorCurve = new MinoItemizedProperty(this);
-    _generatorCurve->setObjectName("curve");
-    _generatorCurve->setLabel("Curve");
-    _generatorCurve->addItem("Linear", 0);
-    _generatorCurve->addItem("OutInBack", 1);
-    _generatorCurve->addItem("InOutBounce", 2);
-    _generatorCurve->addItem("InOutQuart", 3);
-    _generatorCurve->setCurrentItem("Linear");
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
     QColor color;
     color.setHsvF(_color->value(), 1.0, 1.0);
@@ -106,30 +98,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     //Bottom right
     grad5 = QRadialGradient(QPointF(_boundingRect.topRight().x()+_boundingRect.width(),_boundingRect.topRight().y()+_boundingRect.height()),_boundingRect.width()*4);
 
-
-    switch ((int)_generatorCurve->currentItem()->real())
-    {
-    case 0 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::Linear);
-    }
-        break;
-    case 1 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutInBack);
-    }
-        break;
-    case 2 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
-    }
-        break;
-    case 3 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutQuart);
-    }
-        break;
-    }
+    _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int waves = _generatorSteps->currentItem()->real();
     const qreal step = 1.0 / ((qreal) waves *2.0);

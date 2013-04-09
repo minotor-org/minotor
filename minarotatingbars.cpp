@@ -20,14 +20,7 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _length->setLabel("Length");
     _length->setValue(0.6);
 
-    _generatorCurve = new MinoItemizedProperty(this);
-    _generatorCurve->setObjectName("curve");
-    _generatorCurve->setLabel("Curve");
-    _generatorCurve->addItem("Linear", 0);
-    _generatorCurve->addItem("OutInBack", 1);
-    _generatorCurve->addItem("InOutBounce", 2);
-    _generatorCurve->addItem("InOutQuart", 3);
-    _generatorCurve->setCurrentItem("Linear");
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
@@ -100,29 +93,7 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     _items[3]->setBrush(QBrush(color));
     _items[3]->setRect(rect3Coords);
 
-    switch ((int)_generatorCurve->currentItem()->real())
-    {
-        case 0 :
-        {
-            _beatAnimatedProperty.setEasingCurve(QEasingCurve::Linear);
-        }
-            break;
-        case 1 :
-        {
-            _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutInBack);
-        }
-            break;
-        case 2 :
-        {
-            _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
-        }
-            break;
-        case 3 :
-        {
-            _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutQuart);
-        }
-            break;
-    }
+    _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
 
     _itemGroup.setTransform(QTransform().translate(centerX, centerY).rotate((_beatAnimatedProperty.currentValue().toReal()*90)).translate(-centerX, -centerY));
 }

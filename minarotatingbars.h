@@ -1,6 +1,9 @@
 #ifndef MINAROTATINGBARS_H
 #define MINAROTATINGBARS_H
+
 #include "minoanimation.h"
+
+#include "minopropertyeasingcurve.h"
 
 class MinaRotatingBars : public MinoAnimation
 {
@@ -17,14 +20,14 @@ public:
 
     void setWidth(const qreal width) { _width->setValue(width); }
     void setLength(const qreal length) { _length->setValue(length); }
-    void setCurve(const QString curve) { _generatorCurve->setCurrentItem(curve); }
+    void setEasingCurveType(const QEasingCurve::Type &type) { _generatorCurve->setEasingCurveType(type); }
 
     QGraphicsItem *graphicItem() { return &_itemGroup; }
 
 private:
     QGraphicsItemGroup _itemGroup;
     QGraphicsRectItem *_items[4];
-    MinoItemizedProperty *_generatorCurve;
+    MinoPropertyEasingCurve *_generatorCurve;
     MinoPropertyReal *_width;
     MinoPropertyReal *_length;
     int _maxPixels;

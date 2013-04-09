@@ -2,7 +2,10 @@
 #define MINAGRADIENT_H
 
 #include "minoanimation.h"
+
 #include <QGraphicsRectItem>
+
+#include "minopropertyeasingcurve.h"
 
 class MinaGradient : public MinoAnimation
 {
@@ -22,7 +25,7 @@ public:
 private:
     QGraphicsRectItem *_rectItem;
     MinoItemizedProperty *_generatorStyle;
-    MinoItemizedProperty *_generatorCurve;
+    MinoPropertyEasingCurve *_generatorCurve;
 
 };
 
