@@ -21,7 +21,6 @@ public:
     QEasingCurve::Type easingCurveType();
     void setEasingCurveType(const QEasingCurve::Type& type);
 
-
     // Add
     void addEasingCurveType(const QEasingCurve::Type& type);
 

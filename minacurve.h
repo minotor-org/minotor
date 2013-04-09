@@ -26,7 +26,7 @@ private:
     QGraphicsItemGroup _itemGroup;
     QList<QGraphicsLineItem*> _items;
     MinoPropertyEasingCurve *_generatorCurve;
-    MinoItemizedProperty *_generatorAccel;
+    MinoPropertyEasingCurve *_generatorAccel;
 
 };
 

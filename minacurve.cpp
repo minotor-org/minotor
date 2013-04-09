@@ -10,18 +10,18 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
-    _generatorCurve = new MinoPropertyEasingCurve(this);
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
 
-    _generatorAccel = new MinoItemizedProperty(this);
+    _generatorAccel = new MinoPropertyEasingCurve(this);
     _generatorAccel->setObjectName("acceleration");
     _generatorAccel->setLabel("Accel.");
-    _generatorAccel->addItem("Linear", 0);
-    _generatorAccel->addItem("OutInBack", 1);
-    _generatorAccel->addItem("InOutBounce", 2);
-    _generatorAccel->addItem("InOutQuart", 3);
-    _generatorAccel->setCurrentItem("Linear");
+    _generatorAccel->addEasingCurveType(QEasingCurve::Linear);
+    _generatorAccel->addEasingCurveType(QEasingCurve::OutInBack);
+    _generatorAccel->addEasingCurveType(QEasingCurve::InOutBounce);
+    _generatorAccel->addEasingCurveType(QEasingCurve::InOutQuart);
+    _generatorAccel->setEasingCurveType(QEasingCurve::Linear);
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
@@ -53,32 +53,10 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     color.setHsvF(_color->value(), 1.0, 1.0);
 
     //Drawing curve
-    QEasingCurve easing(_generatorCurve->currentType());
+    QEasingCurve easing(_generatorCurve->easingCurveType());
 
     //Animation curve
-    switch ((int)_generatorAccel->currentItem()->real())
-    {
-    case 0 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::Linear);
-    }
-        break;
-    case 1 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutInBack);
-    }
-        break;
-    case 2 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
-    }
-        break;
-    case 3 :
-    {
-        _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutQuart);
-    }
-        break;
-    }
+    _beatAnimatedProperty.setEasingCurve(_generatorAccel->easingCurveType());
 
     for (int i=0;i<_boundingRect.width();i++)
     {
