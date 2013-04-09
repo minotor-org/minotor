@@ -11,12 +11,13 @@ MinoPropertyEasingCurve::MinoPropertyEasingCurve(QObject *parent, bool autofille
     setObjectName("easingcurve");
     setLabel("Curve");
 
+    connect(_mcl, SIGNAL(itemValueChanged(qreal)), this, SLOT(updateTypeFromValue(qreal)));
+
     if(autofilled)
         addAllEasingCurveTypes();
 
     connect(_mcl, SIGNAL(itemChanged(QString)), this, SIGNAL(itemChanged(QString)));
     connect(_mcl, SIGNAL(itemIdChanged(int)), this, SIGNAL(itemIdChanged(int)));
-    connect(_mcl, SIGNAL(itemValueChanged(qreal)), this, SLOT(updateTypeFromValue(qreal)));
 }
 
 MinoPropertyEasingCurve::~MinoPropertyEasingCurve()
