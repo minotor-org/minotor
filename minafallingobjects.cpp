@@ -8,7 +8,8 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
 
     //First line of properties
     _beatDuration = new MinoItemizedProperty(this);
-    _beatDuration->setObjectName("Duration");
+    _beatDuration->setObjectName("duration");
+    _beatDuration->setLabel("Duration");
     _beatDuration->addItem("1/4", 6);
     _beatDuration->addItem("1/2", 12);
     _beatDuration->addItem("1", 24);
@@ -20,7 +21,8 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _beatDuration->setLinear();
 
     _generatorDensity = new MinoItemizedProperty(this);
-    _generatorDensity->setObjectName("Density");
+    _generatorDensity->setObjectName("density");
+    _generatorDensity->setLabel("Density");
     _generatorDensity->addItem("1", 1);
     _generatorDensity->addItem("2", 2);
     _generatorDensity->addItem("3", 3);
@@ -34,7 +36,8 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
 
     //Second line of properties
     _generatorDirection = new MinoItemizedProperty(this);
-    _generatorDirection->setObjectName("Direction");
+    _generatorDirection->setObjectName("direction");
+    _generatorDirection->setLabel("Direction");
     _generatorDirection->addItem("Right", 0);
     _generatorDirection->addItem("Left", 1);
     _generatorDirection->addItem("Up", 2);
@@ -42,7 +45,8 @@ MinaFallingObjects::MinaFallingObjects(MinoAnimationGroup *group) :
     _generatorDirection->setCurrentItem("Down");
 
     _generatorLength = new MinoItemizedProperty(this);
-    _generatorLength->setObjectName("Length");
+    _generatorLength->setObjectName("length");
+    _generatorLength->setLabel("Length");
     _generatorLength->addItem("1", 1);
     _generatorLength->addItem("2", 2);
     _generatorLength->addItem("3", 3);

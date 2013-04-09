@@ -1,6 +1,9 @@
 #ifndef MINATEXT_H
 #define MINATEXT_H
+
 #include "minoanimation.h"
+
+#include "minopropertytext.h"
 
 class MinaText : public MinoAnimation
 {

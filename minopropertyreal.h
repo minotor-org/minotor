@@ -9,7 +9,9 @@ class MinoPropertyReal : public MinoProperty
     Q_OBJECT
 public:
     explicit MinoPropertyReal(QObject *parent);
-    void setObjectName(const QString &name);
+
+    // Label: Propagate label name to _mcr
+    void setLabel(const QString &label);
 
     // value (0.0 - 1.0)
     qreal value() { return _mcr->value(); }

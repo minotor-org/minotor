@@ -15,6 +15,7 @@ MinaVibration::MinaVibration(MinoAnimationGroup *group) :
 
     _segments = new MinoPropertyReal(this);
     _segments->setObjectName("segment");
+    _segments->setLabel("Segment");
     _segments->setValue(0.3);
 }
 

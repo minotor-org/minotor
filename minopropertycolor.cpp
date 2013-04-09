@@ -5,11 +5,17 @@ MinoPropertyColor::MinoPropertyColor(QObject *parent) :
 {
     _mcrHue = new MidiControllableReal(this);
     connect(_mcrHue, SIGNAL(valueChanged(qreal)), this, SLOT(setHue(qreal)));
-    _mcrHue->setObjectName("Hue");
+    _mcrHue->setObjectName("hue");
+    _mcrHue->setLabel("Hue");
 
     _mcrLightness = new MidiControllableReal(this);
     connect(_mcrLightness, SIGNAL(valueChanged(qreal)), this, SLOT(setLightness(qreal)));
-    _mcrLightness->setObjectName("Light");
+    _mcrLightness->setObjectName("light");
+    _mcrLightness->setLabel("Light");
+
+    // Set default objectName and label
+    setObjectName("color");
+    setLabel("Color");
 }
 
 void MinoPropertyColor::setColor(QColor color)

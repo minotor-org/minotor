@@ -11,10 +11,12 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _generatorCurve = new MinoPropertyEasingCurve(this);
-    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     _generatorAccel = new MinoItemizedProperty(this);
-    _generatorAccel->setObjectName("Accel.");
+    _generatorAccel->setObjectName("acceleration");
+    _generatorAccel->setLabel("Accel.");
     _generatorAccel->addItem("Linear", 0);
     _generatorAccel->addItem("OutInBack", 1);
     _generatorAccel->addItem("InOutBounce", 2);

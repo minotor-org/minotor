@@ -15,14 +15,14 @@ MinoProgram::MinoProgram(Minotor *minotor) :
     _scene->addItem(&_itemGroup);
 
     _beatFactor = new MidiControllableList(this);
-    _beatFactor->setObjectName("Beat");
+    _beatFactor->setObjectName("beat-factor");
+    _beatFactor->setLabel("Beat");
     _beatFactor->addItem("1", 24);
     _beatFactor->addItem("2", 48);
     _beatFactor->addItem("4", 96);
     _beatFactor->addItem("8", 192);
     _beatFactor->addItem("16", 384);
     _beatFactor->setCurrentItem("1");
-    //_properties.append(_beatFactor);
 
     minotor->addProgram(this);
 }

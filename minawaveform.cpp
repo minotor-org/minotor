@@ -10,7 +10,8 @@ MinaWaveform::MinaWaveform(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _colorType = new MinoItemizedProperty(this);
-    _colorType->setObjectName("color type");
+    _colorType->setObjectName("color-type");
+    _colorType->setLabel("Color type");
     _colorType->addItem("plain", 0);
     _colorType->addItem("grad.", 1);
     _colorType->setCurrentItem("plain");

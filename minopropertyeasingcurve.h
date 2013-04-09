@@ -14,7 +14,8 @@ public:
     explicit MinoPropertyEasingCurve(QObject *parent);
     ~MinoPropertyEasingCurve();
 
-    void setObjectName(const QString &name);
+    // Label: Propagate its label to _mcl
+    void setLabel(const QString &name);
 
     // Items
     QEasingCurve::Type currentType();

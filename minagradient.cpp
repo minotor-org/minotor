@@ -10,13 +10,15 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
 
     _generatorStyle = new MinoItemizedProperty(this);
-    _generatorStyle->setObjectName("Style");
+    _generatorStyle->setObjectName("style");
+    _generatorStyle->setLabel("Style");
     _generatorStyle->addItem("Radial", 0);
     _generatorStyle->addItem("Conical", 1);
     _generatorStyle->setCurrentItem("Radial");
 
     _generatorCurve = new MinoItemizedProperty(this);
-    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
     _generatorCurve->addItem("Linear", 0);
     _generatorCurve->addItem("OutInBack", 1);
     _generatorCurve->addItem("InOutBounce", 2);

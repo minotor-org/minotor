@@ -8,7 +8,8 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEndValue(QVariant(0.01));
 
     _beatDuration = new MinoItemizedProperty(this);
-    _beatDuration->setObjectName("Duration");
+    _beatDuration->setObjectName("duration");
+    _beatDuration->setLabel("Duration");
     _beatDuration->addItem("1/4", 6);
     _beatDuration->addItem("1/2", 12);
     _beatDuration->addItem("1", 24);
@@ -20,10 +21,10 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _beatDuration->setLinear();
 
     _text = new MinoPropertyText(this);
-    _text->setObjectName("Text");
 
     _generatorStyle = new MinoItemizedProperty(this);
-    _generatorStyle->setObjectName("Style");
+    _generatorStyle->setObjectName("style");
+    _generatorStyle->setLabel("Style");
     _generatorStyle->addItem("P:F T:F", 0);
     _generatorStyle->addItem("P:R T:F", 1);
     _generatorStyle->addItem("P:F T:R", 2);

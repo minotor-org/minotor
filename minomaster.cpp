@@ -14,7 +14,8 @@ MinoMaster::MinoMaster(Minotor *minotor):
 
     MinoPropertyReal *mpBrightness = new MinoPropertyReal(this);
     mpBrightness->setValue(1.0);
-    mpBrightness->setObjectName("Brightness");
+    mpBrightness->setObjectName("master-brightness");
+    mpBrightness->setLabel("Brightness");
     connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
 
     // FIXME

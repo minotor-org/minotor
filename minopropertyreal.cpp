@@ -9,8 +9,8 @@ MinoPropertyReal::MinoPropertyReal(QObject *parent) :
     connect(_mcr, SIGNAL(valueChanged(qreal)), this, SIGNAL(valueChanged(qreal)));
 }
 
-void MinoPropertyReal::setObjectName(const QString &name)
+void MinoPropertyReal::setLabel(const QString &label)
 {
-    _mcr->setObjectName(name);
-    QObject::setObjectName(name);
+    _mcr->setLabel(label);
+    MinoProperty::setLabel(label);
 }

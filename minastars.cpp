@@ -8,7 +8,8 @@ MinaStars::MinaStars(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InQuart);
 
     _beatDuration = new MinoItemizedProperty(this);
-    _beatDuration->setObjectName("Duration");
+    _beatDuration->setObjectName("duration");
+    _beatDuration->setLabel("Duration");
     _beatDuration->addItem("1/4", 6);
     _beatDuration->addItem("1/2", 12);
     _beatDuration->addItem("1", 24);
@@ -20,7 +21,8 @@ MinaStars::MinaStars(MinoAnimationGroup *group) :
     _beatDuration->setLinear();
 
     _generatorDensity = new MinoItemizedProperty(this);
-    _generatorDensity->setObjectName("Density");
+    _generatorDensity->setObjectName("density");
+    _generatorDensity->setLabel("Density");
     _generatorDensity->addItem("1", 1);
     _generatorDensity->addItem("2", 2);
     _generatorDensity->addItem("3", 3);

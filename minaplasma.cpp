@@ -10,7 +10,8 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
 
     _generatorSteps = new MinoItemizedProperty(this);
-    _generatorSteps->setObjectName("Steps");
+    _generatorSteps->setObjectName("steps");
+    _generatorSteps->setLabel("Steps");
     _generatorSteps->addItem("2", 2);
     _generatorSteps->addItem("4", 4);
     _generatorSteps->addItem("6", 6);
@@ -22,7 +23,8 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
     _generatorSteps->setLinear();
 
     _generatorCurve = new MinoItemizedProperty(this);
-    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
     _generatorCurve->addItem("Linear", 0);
     _generatorCurve->addItem("OutInBack", 1);
     _generatorCurve->addItem("InOutBounce", 2);

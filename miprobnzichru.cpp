@@ -4,7 +4,7 @@
 
 MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
 {
-    this->setObjectName("Text");
+    this->setObjectName("BNZ - Ich R U");
     MinoAnimationGroup *atBadg = new MinoAnimationGroup(this);
     MinaText *atBad = new MinaText(atBadg);
     atBad->setColor(0.08);

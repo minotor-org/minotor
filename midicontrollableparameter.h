@@ -26,6 +26,10 @@ public:
     MidiControllableParameter::Attributes attributes() { return _attributes; }
     void setAttributes(MidiControllableParameter::Attributes attributes);
 
+    // Label
+    void setLabel(const QString& label) { _label = label; }
+    QString label() { return _label; }
+
 public slots:
     virtual void setValueFromMidi(quint8 value);
 
@@ -36,6 +40,7 @@ signals:
 private:
     quint8 _value;
     MidiControllableParameter::Attributes _attributes;
+    QString _label;
 
 public slots:
     

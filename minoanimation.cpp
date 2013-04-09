@@ -15,13 +15,15 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _boundingRect = _program->minotor()->displayRect();
 
     _color = new MinoPropertyReal(this);
-    _color->setObjectName("Color");
+    _color->setObjectName("color");
+    _color->setLabel("Color");
     _color->setPreferred();
     _color->setParent(this);
     _color->setValue(qrandF());
 
     _beatFactor = new MinoItemizedProperty(this);
-    _beatFactor->setObjectName("Freq.");
+    _beatFactor->setObjectName("beat-factor");
+    _beatFactor->setLabel("Freq.");
     _beatFactor->addItem("16", 384);
     _beatFactor->addItem("8", 192);
     _beatFactor->addItem("4", 96);

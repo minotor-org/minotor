@@ -44,8 +44,8 @@ void MinoPropertyEasingCurve::setCurrentType(const QEasingCurve::Type &type)
     _mcl->setCurrentItemIndex((int)type);
 }
 
-void MinoPropertyEasingCurve::setObjectName(const QString &name)
+void MinoPropertyEasingCurve::setLabel(const QString &label)
 {
-    _mcl->setObjectName(name);
-    QObject::setObjectName(name);
+    _mcl->setLabel(label);
+    MinoProperty::setLabel(label);
 }

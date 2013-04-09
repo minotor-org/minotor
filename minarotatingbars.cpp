@@ -11,15 +11,18 @@ MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _width = new MinoPropertyReal(this);
-    _width->setObjectName("Width");
+    _width->setObjectName("width");
+    _width->setLabel("Width");
     _width->setValue(0.1);
 
     _length = new MinoPropertyReal(this);
-    _length->setObjectName("Length");
+    _length->setObjectName("length");
+    _length->setLabel("Length");
     _length->setValue(0.6);
 
     _generatorCurve = new MinoItemizedProperty(this);
-    _generatorCurve->setObjectName("Curve");
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
     _generatorCurve->addItem("Linear", 0);
     _generatorCurve->addItem("OutInBack", 1);
     _generatorCurve->addItem("InOutBounce", 2);

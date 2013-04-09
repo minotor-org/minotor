@@ -10,7 +10,7 @@
 MiproSecondLives::MiproSecondLives(Minotor *minotor) :
     MinoProgram(minotor)
 {
-    this->setObjectName("Debug");
+    this->setObjectName("Vitalic - Second Lives");
     MinoAnimationGroup *agrp = new MinoAnimationGroup(this);
     MinaRandomPixels *arp = new MinaRandomPixels(agrp);
     arp->setColor(0.5);

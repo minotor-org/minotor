@@ -10,7 +10,8 @@ MinaRandomPixels::MinaRandomPixels(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _density = new MinoPropertyReal(this);
-    _density->setObjectName("Density");
+    _density->setObjectName("density");
+    _density->setLabel("Density");
     _density->setValue(0.1);
 
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)

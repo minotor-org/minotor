@@ -96,7 +96,7 @@ UiMidiControllableParameter::UiMidiControllableParameter(MidiControllableParamet
     lDial->addWidget(knob);
     lDial->addStretch();
 
-    QLabel *t = new QLabel(QString(parameter->objectName()), this);
+    QLabel *t = new QLabel(QString(parameter->label()), this);
     t->setObjectName("dialinfo");
     t->setAlignment(Qt::AlignHCenter);
     lProperty->addWidget(t);
