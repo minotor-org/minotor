@@ -8,6 +8,9 @@ MinoPropertyEasingCurve::MinoPropertyEasingCurve(QObject *parent, bool autofille
 {
     _mcl = new MidiControllableList(this);
 
+    setObjectName("easingcurve");
+    setLabel("Curve");
+
     if(autofilled)
         addAllEasingCurveTypes();
 

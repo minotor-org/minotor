@@ -11,12 +11,12 @@ MinaCurve::MinaCurve(MinoAnimationGroup *group) :
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
-    _generatorCurve->setObjectName("curve");
-    _generatorCurve->setLabel("Curve");
 
     _generatorAccel = new MinoPropertyEasingCurve(this);
     _generatorAccel->setObjectName("acceleration");
     _generatorAccel->setLabel("Accel.");
+    // Please note that curve have not been tested with all parameters:
+    // Theses following lines are here to show how to add curve type to selector
     _generatorAccel->addEasingCurveType(QEasingCurve::Linear);
     _generatorAccel->addEasingCurveType(QEasingCurve::OutInBack);
     _generatorAccel->addEasingCurveType(QEasingCurve::InOutBounce);
