@@ -147,17 +147,17 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
 {
     ui->tableMidiMapping->insertRow(row);
     QTableWidgetItem *item;
-    // Interface
+    // Channel
     item = new QTableWidgetItem(QString::number(channel));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 0, item);
-    // Channel
+    // Control
     item = new QTableWidgetItem(QString::number(control));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 1, item);
-    // Control
+    // Role
     item = new QTableWidgetItem(role);
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
