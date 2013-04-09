@@ -256,3 +256,11 @@ bool MidiMapping::registerControl(QString role, const QObject *receiver, const c
     }
     return true;
 }
+
+QStringList MidiMapping::registeredRoles()
+{
+    QStringList sl;
+    sl.append(minoTriggers().keys());
+    sl.append(minoControls().keys());
+    return sl;
+}

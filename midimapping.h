@@ -35,6 +35,7 @@ public:
 
     static bool registerTrigger(QString role, const QObject *receiver = NULL, const char *method = NULL, bool toogle = false, bool overwrite = false);
     static bool registerControl(QString role, const QObject *receiver = NULL, const char *method = NULL, bool overwrite = false);
+    static QStringList registeredRoles();
 
 protected:
     bool _controlCaptureMode;

@@ -158,10 +158,22 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableMidiMapping->setItem(row, 1, item);
     // Role
-    item = new QTableWidgetItem(role);
-    item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-    item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ui->tableMidiMapping->setItem(row, 2, item);
+    QComboBox *cb = new QComboBox();
+    cb->addItem("none");
+    cb->addItems(MidiMapping::registeredRoles());
+    int index;
+    if((index = cb->findText(role)) == -1)
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "role not found:" << role;
+        // Select "none"
+        cb->setCurrentIndex(0);
+    }
+    else
+    {
+        cb->setCurrentIndex(index);
+    }
+    ui->tableMidiMapping->setCellWidget(row, 2, cb);
     // Value
     item = new QTableWidgetItem(QString::number(value));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
@@ -265,7 +277,7 @@ void ConfigDialog::loadMidiMappingFile(QString file)
         {
             mapping.setArrayIndex(i);
             const int row = ui->tableMidiMapping->rowCount();
-            addMidiControl(row, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), "FIXME");
+            addMidiControl(row, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), mapping.value("role").toString());
         }
         mapping.endArray();
     }
@@ -299,7 +311,9 @@ void ConfigDialog::saveMidiMappingFile(QString file)
         mapping.setArrayIndex(i);
         mapping.setValue("channel", ui->tableMidiMapping->item(i,0)->text());
         mapping.setValue("control", ui->tableMidiMapping->item(i,1)->text());
-        mapping.setValue("role", ui->tableMidiMapping->item(i,2)->text());
+        const QComboBox* cb = qobject_cast<QComboBox*>(ui->tableMidiMapping->cellWidget(i,2));
+        if(cb)
+            mapping.setValue("role", cb->currentText());
     }
     mapping.endArray();
     mapping.sync();
