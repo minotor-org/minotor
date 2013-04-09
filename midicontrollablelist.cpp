@@ -4,7 +4,6 @@ MidiControllableList::MidiControllableList(QObject *parent) :
     MidiControllableParameter(parent),
     _type(MidiControllableList::Items),
     _currentItemId(-1)
-
 {
 }
 
@@ -41,6 +40,17 @@ void MidiControllableList::setValueFromMidi(quint8 value)
         _currentItemId = -1;
     }
     MidiControllableParameter::setValueFromMidi(value);
+}
+
+void MidiControllableList::setCurrentItemIndex(int index)
+{
+    if(_currentItemId != index)
+    {
+        _currentItemId = index;
+        emit itemIdChanged(_currentItemId);
+        emit itemChanged(_items.at(_currentItemId)->name());
+        emit itemValueChanged(_items.at(_currentItemId)->real());
+    }
 }
 
 void MidiControllableList::setCurrentItem(const QString& name)
