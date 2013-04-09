@@ -167,18 +167,8 @@
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="widget_3" native="true">
+             <widget class="QWidget" name="wMidiMappingBottom" native="true">
               <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QPushButton" name="pushButton">
-                 <property name="text">
-                  <string>Learn</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item>
                 <spacer name="horizontalSpacer">
                  <property name="orientation">

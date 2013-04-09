@@ -72,5 +72,4 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     _pbProgramChange->setChecked(interface->acceptProgramChange());
     connect(_pbProgramChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptProgramChange(bool)));
     this->layout()->addWidget(_pbProgramChange);
-
 }

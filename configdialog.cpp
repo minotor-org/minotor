@@ -453,6 +453,23 @@ void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
     {
         loadMidiMappingFile(filename.toString());
     }
+    foreach(QPushButton *pb, ui->wMidiMappingBottom->findChildren<QPushButton*>("midi-learn"))
+    {
+        delete pb;
+    }
+
+    Midi *midi = Minotor::minotor()->midi();
+    foreach(MidiInterface *mi, midi->interfaces())
+    {
+        if(mi->isConnected() && mi->isUsed())
+        {
+            QPushButton *pb = new QPushButton(QString("Learn with %1").arg(mi->portName()), ui->wMidiMappingBottom);
+            pb->setObjectName("midi-learn");
+            QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
+            Q_ASSERT(layout);
+            layout->insertWidget(0, pb);
+        }
+    }
 }
 
 void ConfigDialog::on_pushButton_toggled(bool checked)
