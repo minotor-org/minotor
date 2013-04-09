@@ -3,6 +3,8 @@
 
 #include "minoanimation.h"
 
+#include "minopropertyreal.h"
+
 class MinaVibration : public MinoAnimation
 {
     Q_OBJECT

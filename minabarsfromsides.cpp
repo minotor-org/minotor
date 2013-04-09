@@ -27,7 +27,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
 
     // Colors
     QColor color, colorMin, colorMax;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    color = _color->color();
 
     QLinearGradient gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
     QLinearGradient gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
@@ -44,11 +44,11 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     }
     else
     {
-        qreal minValue = _color->value()-0.15; if(minValue<0.0) minValue += 1.0;
-        colorMin.setHsvF(minValue, 1.0, 1.0);
+        qreal minValue = color.hueF()-0.15; if(minValue<0.0) minValue += 1.0;
+        colorMin.setHsvF(minValue, color.saturationF(), color.valueF());
 
-        qreal maxValue = _color->value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
-        colorMax.setHsvF(maxValue, 1.0, 1.0);
+        qreal maxValue = color.hueF()+0.15; if(maxValue>1.0) maxValue -= 1.0;
+        colorMax.setHsvF(maxValue, color.saturationF(), color.valueF());
 
         gradH.setColorAt(0.0, colorMax) ;
         gradH.setColorAt(0.3, color) ;

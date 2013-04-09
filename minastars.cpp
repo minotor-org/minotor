@@ -40,8 +40,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)qn;
     (void)ppqn;
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     const unsigned int b = _beatFactor->currentItem()->real();
     const unsigned int density = _generatorDensity->currentItem()->real();

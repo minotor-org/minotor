@@ -17,8 +17,7 @@ MinaGradient::MinaGradient(MinoAnimationGroup *group):
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     _rectItem = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
     _rectItem->setVisible(false);
@@ -36,8 +35,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     // HACK bounding rect center is not really at screen center without that...
     QPointF center = _boundingRect.adjusted(0,0,1,1).center();

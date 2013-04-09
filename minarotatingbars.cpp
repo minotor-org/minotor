@@ -67,8 +67,7 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     qreal centerX = _drawingZone.adjusted(0,0,1,1).center().x();
     qreal centerY = _drawingZone.adjusted(0,0,1,1).center().y();
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     qreal rectWidth = (_maxPixels/2)*_width->value();
     qreal rectLength = (_maxPixels/2)*_length->value();

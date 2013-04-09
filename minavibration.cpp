@@ -28,8 +28,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
     computeAnimaBeatProperty(gppqn);
 
     // Colors
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     const qreal middle = (qreal)_boundingRect.height()/2;
     foreach(QGraphicsItem* item, _itemGroup.childItems ())

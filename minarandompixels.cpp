@@ -30,8 +30,8 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0, _beatAnimatedProperty.currentValue().toReal());
+    QColor color = _color->color();
+    color.setAlphaF(_beatAnimatedProperty.currentValue().toReal());
 
     QColor transparency;
     transparency.setAlpha(0);

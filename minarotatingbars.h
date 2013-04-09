@@ -3,6 +3,7 @@
 
 #include "minoanimation.h"
 
+#include "minopropertyreal.h"
 #include "minopropertyeasingcurve.h"
 
 class MinaRotatingBars : public MinoAnimation

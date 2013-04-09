@@ -26,8 +26,8 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     computeAnimaBeatProperty(gppqn);
 
     // Colors
-    QColor color, colorMin, colorMax;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
+    QColor colorMin, colorMax;
 
     QLinearGradient grad(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
 
@@ -40,10 +40,10 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
     else
     {
-        qreal minValue = _color->value()-0.15; if(minValue<0.0) minValue += 1.0;
+        qreal minValue = color.hueF()-0.15; if(minValue<0.0) minValue += 1.0;
         colorMin.setHsvF(minValue, 1.0, 1.0);
 
-        qreal maxValue = _color->value()+0.15; if(maxValue>1.0) maxValue -= 1.0;
+        qreal maxValue = color.hueF()+0.15; if(maxValue>1.0) maxValue -= 1.0;
         colorMax.setHsvF(maxValue, 1.0, 1.0);
 
         grad.setColorAt(0.0, colorMin) ;

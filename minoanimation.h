@@ -7,8 +7,8 @@
 #include <QGraphicsItemGroup>
 #include <QPointF>
 
+#include "minopropertycolor.h"
 #include "minoitemizedproperty.h"
-#include "minopropertyreal.h"
 #include "minopersistentobject.h"
 
 class MinoProgram;
@@ -60,8 +60,7 @@ public:
 
     // MinoProperties
     // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
-    void setColor(qreal hue) { _color->setValue(hue); }
-    qreal color() { return _color->value(); }
+    void setColor(const QColor& color) { _color->setColor(color); }
 
     void setFrequency(QString frequency) { _beatFactor->setCurrentItem(frequency); }
     QString frequency() { return _beatFactor->currentItem()->name(); }
@@ -81,7 +80,7 @@ protected:
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
     MinoItemizedProperty *_beatFactor;
-    MinoPropertyReal *_color;
+    MinoPropertyColor *_color;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);
 

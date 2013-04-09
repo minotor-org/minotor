@@ -14,12 +14,10 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     _scene = _program->minotor()->scene();
     _boundingRect = _program->minotor()->displayRect();
 
-    _color = new MinoPropertyReal(this);
-    _color->setObjectName("color");
-    _color->setLabel("Color");
-    _color->setPreferred();
-    _color->setParent(this);
-    _color->setValue(qrandF());
+    _color = new MinoPropertyColor(this);
+    QColor randColor;
+    randColor.setHslF(qrandF(), 1.0, 0.5);
+    _color->setColor(randColor);
 
     _beatFactor = new MinoItemizedProperty(this);
     _beatFactor->setObjectName("beat-factor");

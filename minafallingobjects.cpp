@@ -68,8 +68,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     (void)qn;
     (void)ppqn;
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     const unsigned int b = _beatFactor->currentItem()->real();
     const unsigned int direction = _generatorDirection->currentItem()->real();

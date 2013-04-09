@@ -3,6 +3,8 @@
 
 #include "minoanimation.h"
 
+#include "minopropertyreal.h"
+
 class MinaRandomPixels : public MinoAnimation
 {
     Q_OBJECT

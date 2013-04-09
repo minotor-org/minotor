@@ -23,8 +23,7 @@ MinaPlasma::MinaPlasma(MinoAnimationGroup *group):
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     //background
     _rectBackground = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
@@ -61,24 +60,23 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    QColor color1;
-    color1.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color1 = _color->color();
 
     QColor color2;
-    qreal minValue1 = _color->value()-0.2; if(minValue1<0.0) minValue1 += 1.0;
+    qreal minValue1 = color1.hueF()-0.2; if(minValue1<0.0) minValue1 += 1.0;
     color2.setHsvF(minValue1, 1.0, 1.0);
 
     QColor color3;
-    qreal maxValue1 = _color->value()+0.2; if(maxValue1>1.0) maxValue1 -= 1.0;
-    color3.setHsvF(maxValue1, 1.0, 1.0);
+    qreal maxValue1 = color1.hueF()+0.2; if(maxValue1>1.0) maxValue1 -= 1.0;
+    color3.setHsvF(maxValue1, color1.saturationF(), 1.0);
 
     QColor color4;
-    qreal minValue2 = _color->value()-0.4; if(minValue2<0.0) minValue2 += 1.0;
-    color4.setHsvF(minValue2, 1.0, 0.96);
+    qreal minValue2 = color1.hueF()-0.4; if(minValue2<0.0) minValue2 += 1.0;
+    color4.setHsvF(minValue2, color1.saturationF(), 0.96);
 
     QColor color5;
-    qreal maxValue2 = _color->value()+0.4; if(maxValue2>1.0) maxValue2 -= 1.0;
-    color5.setHsvF(maxValue2, 1.0, 0.9);
+    qreal maxValue2 = color1.hueF()+0.4; if(maxValue2>1.0) maxValue2 -= 1.0;
+    color5.setHsvF(maxValue2, color1.saturationF(), 0.9);
 
     QGradient grad1;
     QGradient grad2;
@@ -113,7 +111,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
         {
             //Calculate an alternative color for background gradient
             QColor altColor;
-            qreal maxValue = _color->value()+0.3;
+            qreal maxValue = color1.hueF()+0.3;
             if(maxValue>1.0) maxValue -= 1.0;
             altColor.setHsvF(maxValue, 1.0, 1.0);
             grad1.setColorAt(at, altColor);

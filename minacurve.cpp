@@ -49,8 +49,7 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)qn;
     computeAnimaBeatProperty(gppqn);
 
-    QColor color;
-    color.setHsvF(_color->value(), 1.0, 1.0);
+    QColor color = _color->color();
 
     //Drawing curve
     QEasingCurve easing(_generatorCurve->easingCurveType());

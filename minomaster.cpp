@@ -2,6 +2,7 @@
 
 #include "minotor.h"
 #include "minoanimationgroup.h"
+#include "minopropertyreal.h"
 
 #include <QDebug>
 

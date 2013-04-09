@@ -14,7 +14,7 @@ MiproDebug::MiproDebug(Minotor *minotor) :
 
     MinoAnimationGroup *asg = new MinoAnimationGroup(this);
     MinaCurve *ac = new MinaCurve(asg);
-    ac->setColor(0.32);
+    ac->setColor(QColor::fromHslF(0.32, 1.0, 0.5));
     asg->addAnimation(ac);
     this->addAnimationGroup(asg);
 }
