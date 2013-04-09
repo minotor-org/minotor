@@ -37,6 +37,7 @@ public:
     MidiControllableListItem* currentItem();
     void setCurrentItem(const QString &name);
     void setCurrentItemIndex(int index) { _currentItemId = index; }
+    int currentItemIndex() { return _currentItemId; }
 
     // Type: Linear or Items (default)
     void setLinear(bool linear = true);

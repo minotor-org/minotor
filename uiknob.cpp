@@ -92,7 +92,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
             indicatorBackgroundPen.setWidth(2);
 
             const qreal step = 128.0/(qreal)list->itemsCount();
-            int pos = (qreal)(_value/step);
+            int pos = list->currentItemIndex();
             const qreal stepFactor = step / 127.0;
             const int count = list->itemsCount();
             for(int i=0; i<count; i++)
@@ -116,7 +116,7 @@ void UiKnob::paintEvent(QPaintEvent *pe)
             indicatorBackgroundPen.setWidth(2);
 
             const qreal step = 128.0/(qreal)list->itemsCount();
-            int pos = (qreal)(_value/step);
+            int pos = list->currentItemIndex();
             const qreal stepFactor = step / 127.0;
             const int count = list->itemsCount();
 
