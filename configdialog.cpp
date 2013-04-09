@@ -407,7 +407,8 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
         Minotor::minotor()->ledMatrix()->openPortByName(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
         if(!Minotor::minotor()->ledMatrix()->isConnected())
         {
-            qDebug() << "Unable to connect to serial port";
+            qDebug() << Q_FUNC_INFO
+                     << "Unable to connect to serial port";
         }
     } else {
         Minotor::minotor()->ledMatrix()->closePort();
@@ -416,7 +417,8 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
 
 void ConfigDialog::configDialogFinished(int result)
 {
-    qDebug() << "ConfigDialog: result" << result;
+    qDebug() << Q_FUNC_INFO
+             << "ConfigDialog: result" << result;
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
@@ -433,7 +435,10 @@ void ConfigDialog::on_pbSaveAs_clicked()
 void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
 {
     QVariant filename = ui->cbMidiMapping->itemData(index);
-    loadMidiMappingFile(filename.toString());
+    if(filename.isValid())
+    {
+        loadMidiMappingFile(filename.toString());
+    }
 }
 
 void ConfigDialog::on_pushButton_toggled(bool checked)
