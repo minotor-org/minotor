@@ -11,15 +11,20 @@ class MinoPropertyEasingCurve : public MinoProperty
 {
     Q_OBJECT
 public:
-    explicit MinoPropertyEasingCurve(QObject *parent);
+    explicit MinoPropertyEasingCurve(QObject *parent, bool autofilled = false);
     ~MinoPropertyEasingCurve();
 
     // Label: Propagate its label to _mcl
     void setLabel(const QString &name);
 
-    // Items
-    QEasingCurve::Type currentType();
-    void setCurrentType(const QEasingCurve::Type &type);
+    // EasingCurveType
+    QEasingCurve::Type easingCurveType();
+    void setEasingCurveType(const QEasingCurve::Type& type);
+
+
+    // Add
+    void addEasingCurveType(const QEasingCurve::Type& type);
+
     void setPreferred(bool on = true) { _mcl->setPreferred(on); }
 
 signals:
@@ -28,7 +33,13 @@ signals:
 
 private:
     MidiControllableList *_mcl;
-    QMetaEnum _metaEnum;
+    QEasingCurve::Type _easingCurveType;
+
+    QString easingCurveTypeToString(const QEasingCurve::Type& type);
+    void addAllEasingCurveTypes();
+
+private slots:
+    void updateTypeFromValue(qreal value);
 
 signals:
     
