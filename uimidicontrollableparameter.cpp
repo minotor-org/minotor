@@ -44,7 +44,10 @@ UiMidiControllableParameter::UiMidiControllableParameter(MidiControllableParamet
             lTop->addWidget(wLeft);
             lTop->addStretch();
 
-            QLabel *tItemName = new QLabel(mcl->currentItem()->name(), wTop);
+            QString itemName = "no item";
+            if(mcl->currentItem())
+                itemName = mcl->currentItem()->name();
+            QLabel *tItemName = new QLabel(itemName, wTop);
             tItemName->setObjectName("dialinfo");
             tItemName->setAlignment(Qt::AlignHCenter);
             connect(mcl, SIGNAL(itemChanged(QString)), tItemName, SLOT(setText(QString)));
