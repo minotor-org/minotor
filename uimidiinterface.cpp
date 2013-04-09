@@ -1,5 +1,10 @@
 #include "uimidiinterface.h"
+
 #include <QLayout>
+#include <QDebug>
+
+#include "configdialog.h"
+#include "midimapping.h"
 
 UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QWidget(parent)
@@ -26,9 +31,22 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     dynamic_cast<QHBoxLayout*>(this->layout())->addStretch(1);
     //Mapping : fake data
     _cbMapping = new QComboBox(this);
-    _cbMapping->addItem("no mapping");
-    _cbMapping->addItem("Akai LPD8");
-    _cbMapping->addItem("Korg nanoKontrol");
+    ConfigDialog* cd = qobject_cast<ConfigDialog*>(parent);
+    cd->loadMidiMappingFiles(_cbMapping);
+    int index;
+    if((index = _cbMapping->findText(interface->mapping())) == -1)
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "mapping not found:" << interface->mapping();
+        // Select "none"
+        _cbMapping->setCurrentIndex(0);
+    }
+    else
+    {
+        _cbMapping->setCurrentIndex(index);
+    }
+    connect(_cbMapping,SIGNAL(currentIndexChanged(QString)),interface,SLOT(setMapping(QString)));
+
     this->layout()->addWidget(_cbMapping);
     //BeatSync
     _pbSync = new QPushButton("Sync",this);

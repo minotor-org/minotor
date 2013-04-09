@@ -17,6 +17,7 @@ class MidiInterface : public QObject
     Q_PROPERTY(bool accept_program READ acceptProgramChange WRITE setAcceptProgramChange)
     Q_PROPERTY(bool accept_control READ acceptControlChange WRITE setAcceptControlChange)
     Q_PROPERTY(bool accept_note READ acceptNoteChange WRITE setAcceptNoteChange)
+    Q_PROPERTY(QString mapping READ mapping WRITE setMapping)
 public:
     explicit MidiInterface(QString portName, Midi *parent);
     ~MidiInterface();
@@ -51,6 +52,9 @@ public:
     // Used (when at least one message type is accepted)
     bool isUsed() { return (_acceptClock || _acceptProgramChange || _acceptControlChange || _acceptNoteChange); }
 
+    // Mapping (Just keep a name (supposed to be unique) of corresponding mapping)
+    QString mapping() { return _mapping; }
+
     // RtMidi callback
     // Warning: Should not be used by user...
     void midiCallback( double deltatime, std::vector< unsigned char > *message);
@@ -61,6 +65,7 @@ private:
     unsigned int _portIndex;
     QString _portName;
     bool _connected;
+    QString _mapping;
 
     bool _acceptClock;
     bool _acceptProgramChange;
@@ -91,6 +96,7 @@ public slots:
     void setAcceptProgramChange(bool on);
     void setAcceptControlChange(bool on);
     void setAcceptNoteChange(bool on);
+    void setMapping(const QString& mapping) { _mapping = mapping; }
 };
 
 #endif // MIDIINTERFACE_H

@@ -225,20 +225,20 @@ void ConfigDialog::updateMidiTab()
     }
 }
 
-void ConfigDialog::loadMidiMappingFiles()
+void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)
 {
-    ui->cbMidiMapping->clear();
-    ui->cbMidiMapping->addItem("Generic midi");
+    cb->clear();
+    cb->addItem("Generic MIDI controller");
 
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
     foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
     {
-        addMidiMappingEntry(file.absoluteFilePath());
+        addMidiMappingEntry(file, cb);
     }
 }
 
-void ConfigDialog::addMidiMappingEntry(QFileInfo file)
+void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
 {
     QSettings mapping(file.absoluteFilePath(), QSettings::IniFormat);
     if(QSettings::NoError == mapping.status())
@@ -246,7 +246,7 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file)
         mapping.beginGroup("general");
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", QVariant("undefined")).toString();
-        ui->cbMidiMapping->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(file.fileName()), file.absoluteFilePath());
+        cb->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(file.fileName()), file.absoluteFilePath());
         mapping.endGroup();
     }
     else
@@ -319,7 +319,7 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     mapping.sync();
 
     // Reload files list in combobox
-    loadMidiMappingFiles();
+    loadMidiMappingFiles(ui->cbMidiMapping);
     // Reselect the current item
     for(int i=0; i<ui->cbMidiMapping->count(); ++i)
     {
@@ -339,7 +339,7 @@ void ConfigDialog::updateMidiMappingTab()
     ui->tableMidiMapping->setRowCount(0);
     //Set Header Label Texts
     ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Channel;Control;Role;Value").split(";"));
-    loadMidiMappingFiles();
+    loadMidiMappingFiles(ui->cbMidiMapping);
 }
 
 void ConfigDialog::updateSerialTab()

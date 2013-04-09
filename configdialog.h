@@ -5,6 +5,9 @@
 #include <QAbstractButton>
 #include <QSettings>
 #include <QFileInfo>
+#include <QString>
+#include <QComboBox>
+
 
 namespace Ui {
 class ConfigDialog;
@@ -18,6 +21,8 @@ public:
     explicit ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
     
+    void loadMidiMappingFiles(QComboBox *cb);
+
 private slots:
     void midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value);
 
@@ -47,9 +52,8 @@ private:
     void updateMidiMappingTab();
     void updateSerialTab();
 
-    void loadMidiMappingFiles();
     void loadMidiMappingFile(QString file);
-    void addMidiMappingEntry(QFileInfo file);
+    void addMidiMappingEntry(QFileInfo file, QComboBox *cb);
     void saveMidiMappingFile(QString file);
 };
 
