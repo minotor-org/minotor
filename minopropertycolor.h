@@ -10,9 +10,9 @@ class MinoPropertyColor : public MinoProperty
 {
     Q_OBJECT
 public:
-    explicit MinoPropertyColor(QObject *parent = 0);
+    explicit MinoPropertyColor(QObject *parent);
     
-    void setColor(QColor color);
+    void setColor(const QColor &color);
     QColor color();
 
 private:

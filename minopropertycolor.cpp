@@ -1,7 +1,10 @@
 #include "minopropertycolor.h"
 
+#include <QDebug>
+
 MinoPropertyColor::MinoPropertyColor(QObject *parent) :
-    MinoProperty(parent)
+    MinoProperty(parent),
+    _color(1.0, 1.0, 1.0)
 {
     _mcrHue = new MidiControllableReal(this);
     connect(_mcrHue, SIGNAL(valueChanged(qreal)), this, SLOT(setHue(qreal)));
@@ -18,7 +21,7 @@ MinoPropertyColor::MinoPropertyColor(QObject *parent) :
     setLabel("Color");
 }
 
-void MinoPropertyColor::setColor(QColor color)
+void MinoPropertyColor::setColor(const QColor& color)
 {
     _mcrHue->setValue(color.hueF());
     _mcrLightness->setValue(color.lightnessF());
@@ -32,10 +35,10 @@ QColor MinoPropertyColor::color()
 
 void MinoPropertyColor::setHue(qreal value)
 {
-    _color.setHslF(value,_color.saturationF(),_color.lightnessF());
+    _color.setHslF(value,1.0,_mcrLightness->value());
 }
 
 void MinoPropertyColor::setLightness(qreal value)
 {
-    _color.setHslF(value,_color.saturationF(),_color.lightnessF());
+    _color.setHslF(_mcrHue->value(),1.0,value);
 }
