@@ -46,7 +46,7 @@ SOURCES += main.cpp\
     minadebug.cpp \
     uimidicontrollableparameter.cpp \
     minatext.cpp \
-    minotextproperty.cpp \
+    minopropertytext.cpp \
     minafallingobjects.cpp \
     minastars.cpp \
     minagradient.cpp \
@@ -108,7 +108,7 @@ HEADERS  += mainwindow.h \
     minadebug.h \
     uimidicontrollableparameter.h \
     minatext.h \
-    minotextproperty.h \
+    minopropertytext.h \
     minafallingobjects.h \
     minastars.h \
     minagradient.h \

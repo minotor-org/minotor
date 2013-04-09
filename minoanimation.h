@@ -8,7 +8,6 @@
 #include <QPointF>
 
 #include "minoitemizedproperty.h"
-#include "minotextproperty.h"
 #include "minopropertyreal.h"
 #include "minopersistentobject.h"
 

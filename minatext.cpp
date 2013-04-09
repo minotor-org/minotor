@@ -19,7 +19,7 @@ MinaText::MinaText(MinoAnimationGroup *group) :
     _beatDuration->setCurrentItem("1");
     _beatDuration->setLinear();
 
-    _text = new MinoTextProperty(this);
+    _text = new MinoPropertyText(this);
     _text->setObjectName("Text");
 
     _generatorStyle = new MinoItemizedProperty(this);
@@ -43,7 +43,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     const unsigned int b = _beatFactor->currentItem()->real();
     if ((gppqn%b)==0)
     {
-        QGraphicsTextItem* item = _scene->addText(_text->textValue(),QFont("Arial",12,QFont::Bold,false));
+        QGraphicsTextItem* item = _scene->addText(_text->text(),QFont("Arial",12,QFont::Bold,false));
         QRectF tRect = item->boundingRect();
         tRect.adjust(0,0,-1,-1);
         tRect.moveCenter(_boundingRect.center());
