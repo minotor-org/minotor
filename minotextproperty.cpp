@@ -3,8 +3,10 @@
 MinoTextProperty::MinoTextProperty(QObject *parent) :
     MinoProperty(parent)
 {
-
+    setObjectName("text");
+    setLabel("Text");
 }
+
 void MinoTextProperty::setTextValue(QString value)
  {
     if(_textValue != value)
