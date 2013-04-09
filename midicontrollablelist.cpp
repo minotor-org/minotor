@@ -31,7 +31,9 @@ void MidiControllableList::setValueFromMidi(quint8 value)
         if (id != _currentItemId)
         {
             _currentItemId = id;
+            emit itemIdChanged(_currentItemId);
             emit itemChanged(_items.at(_currentItemId)->name());
+            emit itemValueChanged(_items.at(_currentItemId)->real());
         }
     }
     else
@@ -41,18 +43,23 @@ void MidiControllableList::setValueFromMidi(quint8 value)
     MidiControllableParameter::setValueFromMidi(value);
 }
 
-void MidiControllableList::setCurrentItem(const QString name)
+void MidiControllableList::setCurrentItem(const QString& name)
 {
-    for(int i=0; i<_items.count(); i++)
+    if((_currentItemId==-1) || _items.at(_currentItemId)->name() != name)
     {
-        if (_items.at(i)->name() == name)
+        for(int i=0; i<_items.count(); i++)
         {
-            MidiControllableParameter::setValueFromMidi(((qreal)i/(qreal)_items.count())*127.0);
-            if(i != _currentItemId) {
-                emit itemChanged(name);
-                _currentItemId = i;
+            if (_items.at(i)->name() == name)
+            {
+                MidiControllableParameter::setValueFromMidi(((qreal)i/(qreal)_items.count())*127.0);
+                if(i != _currentItemId) {
+                    _currentItemId = i;
+                    emit itemIdChanged(_currentItemId);
+                    emit itemChanged(_items.at(_currentItemId)->name());
+                    emit itemValueChanged(_items.at(_currentItemId)->real());
+                }
+                break;
             }
-            break;
         }
     }
 }

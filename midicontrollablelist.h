@@ -35,7 +35,7 @@ public:
     // Items
     void addItem(const QString name, const qreal real);
     MidiControllableListItem* currentItem();
-    void setCurrentItem(const QString name);
+    void setCurrentItem(const QString &name);
     void setCurrentItemIndex(int index) { _currentItemId = index; }
 
     // Type: Linear or Items (default)
@@ -49,6 +49,7 @@ private:
 signals:
     void itemChanged(QString name);
     void itemIdChanged(int id);
+    void itemValueChanged(qreal value);
 
 public slots:
     void setValueFromMidi(quint8 value);
