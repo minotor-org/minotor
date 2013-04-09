@@ -10,7 +10,8 @@
 #include "uimidicontrollableparameter.h"
 
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
-    QWidget(parent)
+    QWidget(parent),
+    _columnCount(0)
 {
     this->setMinimumWidth(45);
     this->setMinimumHeight(45);
@@ -26,6 +27,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     foreach(MidiControllableParameter *param, property->findChildren<MidiControllableParameter*>())
     {
         lProperty->addWidget(new UiMidiControllableParameter(param, this, editorMode));
+        _columnCount++;
     }
 
     if (textProperty)
@@ -36,5 +38,11 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         leText->setText(textProperty->text());
         connect(leText, SIGNAL(textChanged(QString)), textProperty, SLOT(setText(QString)));
         lProperty->addWidget(leText);
+        _columnCount+=2;
     }
+}
+
+int UiAnimationProperty::columnCount () const
+{
+    return _columnCount;
 }

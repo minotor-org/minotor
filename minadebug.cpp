@@ -8,6 +8,8 @@ MinaDebug::MinaDebug(MinoAnimationGroup *group) :
 {
     new MinoPropertyColor(this);
     new MinoPropertyEasingCurve(this);
+    new MinoPropertyColor(this);
+
 }
 
 void MinaDebug::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

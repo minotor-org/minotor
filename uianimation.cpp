@@ -80,30 +80,49 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
     MinoProperties mpl = animation->findChildren<MinoProperty*>();
+    const int maxColumnCount = 2;
+    int columnCount = 0;
+
+    QWidget *wPropGroup = new QWidget(_wProperties);
+    QHBoxLayout *lPropGroup = new QHBoxLayout(wPropGroup);
     for(int i=0; i<mpl.count(); ++i)
     {
-        QHBoxLayout *lPropGroup;
-        if((i%2)==0)
+        MinoProperty *property = mpl.at(i);
+        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties, true);
+        uiAnimationProperty->setObjectName("animationproperty");
+
+        if(i==0)
         {
-            if (i>0)
-            {
-                QFrame *fSeparator = new QFrame(_wProperties);
-                fSeparator->setObjectName("line");
-                fSeparator->setFrameShape(QFrame::HLine);
-                fSeparator->setFrameShadow(QFrame::Sunken);
-                fSeparator->setLineWidth(1);
-                lProperties->addWidget(fSeparator);
-            }
-            QWidget *wPropGroup = new QWidget(_wProperties);
+            // Initialise layout
+            lProperties->addWidget(wPropGroup);
+            lPropGroup->setSpacing(5);
+            lPropGroup->setMargin(0);
+            lPropGroup->setContentsMargins(0,0,0,0);
+        }
+
+        if(columnCount+uiAnimationProperty->columnCount() > maxColumnCount)
+        {
+            // Add a separator
+            QFrame *fSeparator = new QFrame(_wProperties);
+            fSeparator->setObjectName("line");
+            fSeparator->setFrameShape(QFrame::HLine);
+            fSeparator->setFrameShadow(QFrame::Sunken);
+            fSeparator->setLineWidth(1);
+            lProperties->addWidget(fSeparator);
+            // Create a new row
+            wPropGroup = new QWidget(_wProperties);
             lProperties->addWidget(wPropGroup);
             lPropGroup = new QHBoxLayout(wPropGroup);
             lPropGroup->setSpacing(5);
             lPropGroup->setMargin(0);
             lPropGroup->setContentsMargins(0,0,0,0);
+            columnCount = uiAnimationProperty->columnCount();
         }
-        MinoProperty *property = mpl.at(i);
-        UiAnimationProperty *uiAnimationProperty = new UiAnimationProperty(property, _wProperties, true);
-        uiAnimationProperty->setObjectName("animationproperty");
+        else
+        {
+            columnCount += uiAnimationProperty->columnCount();
+        }
+        // Add property there to the right layout
         lPropGroup->addWidget(uiAnimationProperty);
     }
     lContent->addStretch(1);

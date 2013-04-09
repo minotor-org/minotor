@@ -11,7 +11,12 @@ class UiAnimationProperty : public QWidget
 public:
     explicit UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode = false);
 
+    int	columnCount () const;
+
 protected:
+
+private:
+    int _columnCount;
 
 signals:
     
