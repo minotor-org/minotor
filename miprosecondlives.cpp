@@ -109,9 +109,7 @@ MiproSecondLives::MiproSecondLives(Minotor *minotor) :
     arb1->setFrequency("1");
     arb1->setWidth(0.25);
     arb1->setLength(0.65);
-    arb1->setCurve("OutInBack");
+    arb1->setEasingCurveType(QEasingCurve::OutInBack);
     agrb1->addAnimation(arb1);
     this->addAnimationGroup(agrb1);
-
-
 }
