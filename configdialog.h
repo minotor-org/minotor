@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QString>
 #include <QComboBox>
+#include <QSignalMapper>
 
 
 namespace Ui {
@@ -38,10 +39,12 @@ private slots:
 
     void on_cbMidiMapping_currentIndexChanged(int index);
 
-    void on_pushButton_toggled(bool checked);
+    void midiLearnToggled(const QString& portName);
 
 private:
     Ui::ConfigDialog *ui;
+    QSignalMapper *_smMidiMappingLearnMapper;
+    QStringList _slMidiMappingLearnPorts;
 
     void addMidiControl(const int row, const quint8 channel, const quint8 control, const QString &role, const quint8 value = 255);
 

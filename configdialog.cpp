@@ -27,6 +27,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     setupLedMatrix(settings);
     setupMidi(settings);
 
+    _smMidiMappingLearnMapper = new QSignalMapper(this);
+    connect(_smMidiMappingLearnMapper, SIGNAL(mapped(const QString &)),this, SLOT(midiLearnToggled(const QString &)));
+
     // Hack to refresh list at startup
     updateMidiTab();
     updateMidiMappingTab();
@@ -122,24 +125,30 @@ ConfigDialog::~ConfigDialog()
 
 void ConfigDialog::midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value)
 {
-    bool found = false;
-    int row;
-    for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
+    for(int i=0;i<Minotor::minotor()->midi()->interfaces().count();++i)
     {
-        if(interface == ui->tableMidiMapping->item(row, 0)->text().toInt() &&
-                channel == ui->tableMidiMapping->item(row, 1)->text().toInt() &&
-                control == ui->tableMidiMapping->item(row, 2)->text().toInt())
+        MidiInterface *mi = Minotor::minotor()->midi()->interfaces().at(i);
+        if((mi->id() == interface) && _slMidiMappingLearnPorts.contains(mi->portName()))
         {
-            ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
-            found = true;
-            break;
+            bool found = false;
+            int row;
+            for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
+            {
+                if(channel == ui->tableMidiMapping->item(row, 0)->text().toInt()
+                        && control == ui->tableMidiMapping->item(row, 1)->text().toInt())
+                {
+                    ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
+                    found = true;
+                    break;
+                }
+            }
+            if(!found)
+            {
+                //Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
+                addMidiControl(row, channel, control, "none", value);
+                row++;
+            }
         }
-    }
-    if(!found)
-    {
-        Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
-        addMidiControl(row, channel, control, "FIXME", value);
-        row++;
     }
 }
 
@@ -448,33 +457,77 @@ void ConfigDialog::on_pbSaveAs_clicked()
 
 void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
 {
+    // User choose a MIDI mapping from combobox
+
     QVariant filename = ui->cbMidiMapping->itemData(index);
-    if(filename.isValid())
+
+    const bool generic_midi_selected = !filename.isValid();
+    if(!generic_midi_selected)
     {
+        // Load the selected mapping
         loadMidiMappingFile(filename.toString());
     }
+    else
+    {
+        // No vendor nor product while using "Generic MIDI controller"
+        ui->leVendor->setText("");
+        ui->leProduct->setText("");
+    }
+
     foreach(QPushButton *pb, ui->wMidiMappingBottom->findChildren<QPushButton*>("midi-learn"))
     {
+        if(pb->isChecked())
+        {
+            // If active we need to remove it from our list
+            pb->setChecked(false);
+        }
+        // Delete all available midi-learn related buttons
         delete pb;
     }
 
+    // Create buttons for midi-learn
     Midi *midi = Minotor::minotor()->midi();
     foreach(MidiInterface *mi, midi->interfaces())
     {
+        // Draw a pushbutton only when MIDI interface is available (and useful)
         if(mi->isConnected() && mi->isUsed())
         {
-            QPushButton *pb = new QPushButton(QString("Learn with %1").arg(mi->portName()), ui->wMidiMappingBottom);
-            pb->setObjectName("midi-learn");
-            QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
-            Q_ASSERT(layout);
-            layout->insertWidget(0, pb);
+            // If its a generic MIDI or the selected mapping matchs with current MIDI interface
+            if(generic_midi_selected || (mi->mapping() == ui->cbMidiMapping->currentText()))
+            {
+                QPushButton *pb = new QPushButton(QString("Learn with \"%1\"").arg(mi->portName()), ui->wMidiMappingBottom);
+                pb->setObjectName("midi-learn");
+                pb->setCheckable(true);
+                connect(pb,SIGNAL(toggled(bool)),_smMidiMappingLearnMapper,SLOT(map()));
+                _smMidiMappingLearnMapper->setMapping(pb,QString(mi->portName()));
+                QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
+                Q_ASSERT(layout);
+                layout->insertWidget(0, pb);
+            }
         }
     }
 }
 
-void ConfigDialog::on_pushButton_toggled(bool checked)
+void ConfigDialog::midiLearnToggled(const QString &portName)
 {
-    if(checked)
+    /*
+    qDebug() << Q_FUNC_INFO
+             << portName;
+             */
+    // Toggle MIDI interface learning
+    if(_slMidiMappingLearnPorts.contains(portName))
+    {
+        // portName is already in list, means it should be toogled to off
+        _slMidiMappingLearnPorts.removeAt(_slMidiMappingLearnPorts.indexOf(portName));
+    }
+    else
+    {
+        // register portName as listened ports
+        _slMidiMappingLearnPorts.append(portName);
+    }
+
+    // If there is at least one port in list, connect signals from MIDI manager
+    if(_slMidiMappingLearnPorts.count())
         connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
     else
         disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
