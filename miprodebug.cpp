@@ -2,6 +2,8 @@
 
 #include "minacurve.h"
 #include "minadebug.h"
+#include "minaballs.h"
+
 
 MiproDebug::MiproDebug(Minotor *minotor) :
     MinoProgram(minotor)
@@ -17,4 +19,10 @@ MiproDebug::MiproDebug(Minotor *minotor) :
     ac->setColor(QColor::fromHslF(0.32, 1.0, 0.5));
     asg->addAnimation(ac);
     this->addAnimationGroup(asg);
+
+    MinoAnimationGroup *asb = new MinoAnimationGroup(this);
+    MinaBalls *ab = new MinaBalls(asb);
+    ab->setColor(0.32);
+    asb->addAnimation(ab);
+    this->addAnimationGroup(asb);
 }

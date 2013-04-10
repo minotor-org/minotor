@@ -35,5 +35,6 @@
         <file>images/rotatingbars.png</file>
         <file>images/curve.png</file>
         <file>style.css</file>
+        <file>images/balls.png</file>
     </qresource>
 </RCC>

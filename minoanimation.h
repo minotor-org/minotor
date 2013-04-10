@@ -107,10 +107,14 @@ public:
         _graphicsItem(graphicsItem)
     {
     }
+
+    unsigned int startUppqn() const { return _startUppqn; }
+    unsigned int duration() const { return _duration; }
+    QGraphicsItem *graphicsItem() const { return _graphicsItem; }
+
     unsigned int _startUppqn;
     unsigned int _duration;
     QGraphicsItem *_graphicsItem;
-
 } ;
 
 typedef QList<MinoAnimatedItem> MinoAnimatedItems;

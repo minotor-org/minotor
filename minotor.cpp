@@ -21,6 +21,7 @@
 #include "minavibration.h"
 #include "minarotatingbars.h"
 #include "minacurve.h"
+#include "minaballs.h"
 
 // Programs
 #include "miprodebug.h"
@@ -149,6 +150,7 @@ Minotor::Minotor(QObject *parent) :
     MinoAnimationFactory::registerClass<MinaPlasma>();
     MinoAnimationFactory::registerClass<MinaRotatingBars>();
     MinoAnimationFactory::registerClass<MinaCurve>();
+    MinoAnimationFactory::registerClass<MinaBalls>();
 }
 
 Minotor::~Minotor()
