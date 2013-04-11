@@ -73,6 +73,7 @@ SOURCES += main.cpp\
     midicontrollablelist.cpp \
     minopropertyeasingcurve.cpp \
     minaballs.cpp \
+    minaimage.cpp \
     midimapping.cpp
 
 
@@ -138,6 +139,7 @@ HEADERS  += mainwindow.h \
     midicontrollablelist.h \
     minopropertyeasingcurve.h \
     minaballs.h \
+    minaimage.h \
     midimapping.h
 
 FORMS    += mainwindow.ui \
