@@ -72,7 +72,8 @@ SOURCES += main.cpp\
     midicontrollablereal.cpp \
     midicontrollablelist.cpp \
     minopropertyeasingcurve.cpp \
-    minaballs.cpp
+    minaballs.cpp \
+    midimapping.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -136,7 +137,8 @@ HEADERS  += mainwindow.h \
     midicontrollablereal.h \
     midicontrollablelist.h \
     minopropertyeasingcurve.h \
-    minaballs.h
+    minaballs.h \
+    midimapping.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

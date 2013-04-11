@@ -13,6 +13,9 @@
 #include "minotor.h"
 #include "uimidiinterface.h"
 
+#include "midimapper.h"
+#include "midimapping.h"
+
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfigDialog)
@@ -159,6 +162,8 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
 
 void ConfigDialog::addMidiControl(const int row, const quint8 channel, const quint8 control, const QString& role, const quint8 value)
 {
+    qDebug() << Q_FUNC_INFO
+             << "role" << role;
     ui->tableMidiMapping->insertRow(row);
     QTableWidgetItem *item;
     // Channel
@@ -216,7 +221,7 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
 
 void ConfigDialog::updateMidiTab()
 {
-//    qDebug() << Q_FUNC_INFO;
+    //    qDebug() << Q_FUNC_INFO;
     Midi *midi = Minotor::minotor()->midi();
     foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
     {
@@ -270,38 +275,6 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
     }
 }
 
-void ConfigDialog::loadMidiMappingFile(QString file)
-{
-    ui->tableMidiMapping->clearContents();
-    ui->tableMidiMapping->setRowCount(0);
-    QSettings mapping(file, QSettings::IniFormat);
-    if(QSettings::NoError == mapping.status())
-    {
-        // General
-        mapping.beginGroup("general");
-        QString vendor = mapping.value("vendor", QString("undefined")).toString();
-        QString product = mapping.value("product", QString("undefined")).toString();
-        ui->leVendor->setText(vendor);
-        ui->leProduct->setText(product);
-        mapping.endGroup();
-
-        // MIDI Controls
-        int size = mapping.beginReadArray("midi_controls");
-        for(int i = 0; i < size; ++i)
-        {
-            mapping.setArrayIndex(i);
-            const int row = ui->tableMidiMapping->rowCount();
-            addMidiControl(row, mapping.value("channel").toUInt(), mapping.value("control").toUInt(), mapping.value("role").toString());
-        }
-        mapping.endArray();
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "unable to parse file:" << file;
-    }
-}
-
 void ConfigDialog::saveMidiMappingFile(QString file)
 {
     QSettings mapping(file, QSettings::IniFormat);
@@ -347,7 +320,7 @@ void ConfigDialog::saveMidiMappingFile(QString file)
 
 void ConfigDialog::updateMidiMappingTab()
 {
-//    qDebug() << Q_FUNC_INFO;
+    //    qDebug() << Q_FUNC_INFO;
     ui->tableMidiMapping->clear();
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
@@ -358,7 +331,7 @@ void ConfigDialog::updateMidiMappingTab()
 
 void ConfigDialog::updateSerialTab()
 {
-//    qDebug() << Q_FUNC_INFO;
+    //    qDebug() << Q_FUNC_INFO;
     // Port enumeration
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     QStringList portnames;
@@ -463,21 +436,46 @@ void ConfigDialog::on_pbSaveAs_clicked()
 void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
 {
     // User choose a MIDI mapping from combobox
-
     QVariant filename = ui->cbMidiMapping->itemData(index);
+    MidiMapping * mm = NULL;
 
     const bool generic_midi_selected = !filename.isValid();
     if(!generic_midi_selected)
     {
         // Load the selected mapping
-        loadMidiMappingFile(filename.toString());
+        mm = MidiMapping::loadFromFile(filename.toString());
     }
-    else
+    if(!mm)
     {
-        // No vendor nor product while using "Generic MIDI controller"
-        ui->leVendor->setText("");
-        ui->leProduct->setText("");
+        mm = new MidiMapping();
     }
+
+    // Reload MIDI mapping table content
+    ui->tableMidiMapping->clearContents();
+    ui->tableMidiMapping->setRowCount(0);
+    ui->leVendor->setText(mm->vendor());
+    ui->leProduct->setText(mm->product());
+
+    // Add each available assignement (role <-> control)
+    QMapIterator<QString, QVariant> i(mm->map());
+    while (i.hasNext()) {
+        i.next();
+        const int row = ui->tableMidiMapping->rowCount();
+        QRegExp rx("CC(\\d+):(\\d+)");
+        if(rx.indexIn(i.value().toString()) == -1)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "no match for control:" << i.value().toString();
+        }
+        else
+        {
+            QStringList sl = rx.capturedTexts();
+            qDebug() << Q_FUNC_INFO
+                        << "captured texts:" << sl;
+            addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
+        }
+    }
+    delete mm;
 
     foreach(QPushButton *pb, ui->wMidiMappingBottom->findChildren<QPushButton*>("midi-learn"))
     {

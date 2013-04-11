@@ -55,7 +55,6 @@ private:
     void updateMidiMappingTab();
     void updateSerialTab();
 
-    void loadMidiMappingFile(QString file);
     void addMidiMappingEntry(QFileInfo file, QComboBox *cb);
     void saveMidiMappingFile(QString file);
 };
