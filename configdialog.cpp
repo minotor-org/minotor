@@ -128,26 +128,32 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
     for(int i=0;i<Minotor::minotor()->midi()->interfaces().count();++i)
     {
         MidiInterface *mi = Minotor::minotor()->midi()->interfaces().at(i);
-        if((mi->id() == interface) && _slMidiMappingLearnPorts.contains(mi->portName()))
+        if(mi->id() == interface)
         {
-            bool found = false;
-            int row;
-            for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
+            if(_slMidiMappingLearnPorts.contains(mi->portName()))
             {
-                if(channel == ui->tableMidiMapping->item(row, 0)->text().toInt()
-                        && control == ui->tableMidiMapping->item(row, 1)->text().toInt())
+                bool found = false;
+                int row;
+                for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
                 {
-                    ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
-                    found = true;
-                    break;
+                    if(channel == ui->tableMidiMapping->item(row, 0)->text().toInt()
+                            && control == ui->tableMidiMapping->item(row, 1)->text().toInt())
+                    {
+                        ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
+                        ui->tableMidiMapping->selectRow(row);
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found)
+                {
+                    //Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
+                    addMidiControl(row, channel, control, "none", value);
+                    ui->tableMidiMapping->selectRow(row);
+                    row++;
                 }
             }
-            if(!found)
-            {
-                //Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
-                addMidiControl(row, channel, control, "none", value);
-                row++;
-            }
+            break;
         }
     }
 }
