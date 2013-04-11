@@ -7,8 +7,6 @@ MinaFlash::MinaFlash(MinoAnimationGroup *group):
     MinoAnimation(group),
     _rectItem(NULL)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
 
     QColor color;
