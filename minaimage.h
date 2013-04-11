@@ -6,6 +6,9 @@
 #include <QWidget>
 #include <QPainter>
 #include <QImage>
+#include <QImageReader>
+
+#include "minopropertyeasingcurve.h"
 
 class ImageWidget : public QWidget
 {
@@ -13,6 +16,8 @@ class ImageWidget : public QWidget
 
 public:
     ImageWidget(QWidget *parent = 0);
+
+    void setImage(QImage *image);
 
 protected:
     virtual void paintEvent(QPaintEvent *);
@@ -42,6 +47,10 @@ public slots:
 
 private:
     QGraphicsItemGroup _itemGroup;
+    ImageWidget *_imageWidget;
+    QList<QImage*> _imageList;
+    int _imageIndex;
+    MinoPropertyEasingCurve *_generatorCurve;
 
 };
 
