@@ -5,7 +5,7 @@
 
 class MidiControllableParameter : public QObject
 {
-    friend class MidiMapping;
+    friend class MidiMapper;
     Q_OBJECT
 public:
     enum Attribute {

@@ -17,7 +17,7 @@ SOURCES += main.cpp\
     minotor.cpp \
     minoanimation.cpp \
     configdialog.cpp \
-    midimapping.cpp \
+    midimapper.cpp \
     midicontrol.cpp \
     uianimation.cpp \
     minomaster.cpp \
@@ -81,7 +81,7 @@ HEADERS  += mainwindow.h \
     minotor.h \
     minoanimation.h \
     configdialog.h \
-    midimapping.h \
+    midimapper.h \
     midicontrol.h \
     uianimation.h \
     minomaster.h \

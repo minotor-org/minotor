@@ -152,7 +152,7 @@ void UiMidiControllableParameter::leaveEvent(QEvent *event)
     (void)event;
     if (_midiLearnMode)
     {
-        Minotor::minotor()->midiMapping()->assignCapturedControlTo(NULL);
+        Minotor::minotor()->midiMapper()->assignCapturedControlTo(NULL);
         update();
     }
 }
@@ -162,7 +162,7 @@ void UiMidiControllableParameter::enterEvent(QEvent *event)
     (void)event;
     if (_midiLearnMode)
     {
-        Minotor::minotor()->midiMapping()->assignCapturedControlTo(_parameter);
+        Minotor::minotor()->midiMapper()->assignCapturedControlTo(_parameter);
         update();
     }
 }

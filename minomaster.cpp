@@ -3,6 +3,7 @@
 #include "minotor.h"
 #include "minoanimationgroup.h"
 #include "minopropertyreal.h"
+#include "midimapper.h"
 
 #include <QDebug>
 
@@ -23,9 +24,9 @@ MinoMaster::MinoMaster(Minotor *minotor):
     for (int i=0; i<100; i++)
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
-        MidiMapping::registerTrigger(role);
+        MidiMapper::registerTrigger(role);
         role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-        MidiMapping::registerTrigger(role);
+        MidiMapper::registerTrigger(role);
     }
 
     // FIXME
@@ -36,7 +37,7 @@ MinoMaster::MinoMaster(Minotor *minotor):
         for(int y=0; y<sHardMappedArea.height(); ++y)
         {
             const QString role = QString("MASTER_CONTROLS_%1_%2").arg(x).arg(y);
-            MidiMapping::registerControl(role);
+            MidiMapper::registerControl(role);
         }
     }
 }
@@ -75,9 +76,9 @@ void MinoMaster::setProgram(MinoProgram *program)
             {
                 MinoAnimationGroup *group = program->animationGroups().at(i);
                 QString role = QString("MASTER_ANIMATION_%1").arg(i);
-                MidiMapping::registerTrigger(role, group, SLOT(setEnabled(bool)), true, true);
+                MidiMapper::registerTrigger(role, group, SLOT(setEnabled(bool)), true, true);
                 role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-                MidiMapping::registerTrigger(role, group, SLOT(toogle()), false, true);
+                MidiMapper::registerTrigger(role, group, SLOT(toogle()), false, true);
 
                 int id = 0;
                 foreach(MinoAnimation *animation, group->animations())
@@ -88,7 +89,7 @@ void MinoMaster::setProgram(MinoProgram *program)
                         if(mcp.at(j)->isPreferred())
                         {
                             const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
-                            MidiMapping::registerControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
+                            MidiMapper::registerControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
                             id++;
                         }
                     }

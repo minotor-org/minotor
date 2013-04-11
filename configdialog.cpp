@@ -147,7 +147,6 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
                 }
                 if(!found)
                 {
-                    //Minotor::minotor()->midiMapping()->addMidiControl(interface, channel, control);
                     addMidiControl(row, channel, control, "none", value);
                     ui->tableMidiMapping->selectRow(row);
                     row++;
@@ -175,7 +174,7 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
     // Role
     QComboBox *cb = new QComboBox();
     cb->addItem("none");
-    cb->addItems(MidiMapping::registeredRoles());
+    cb->addItems(MidiMapper::registeredRoles());
     int index;
     if((index = cb->findText(role)) == -1)
     {

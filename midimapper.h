@@ -1,5 +1,5 @@
-#ifndef MIDIMAPPING_H
-#define MIDIMAPPING_H
+#ifndef MIDIMAPPER_H
+#define MIDIMAPPER_H
 
 #include <QObject>
 #include <QHash>
@@ -12,11 +12,11 @@
 
 class Minotor;
 
-class MidiMapping : public QObject
+class MidiMapper : public QObject
 {
     Q_OBJECT
 public:
-    explicit MidiMapping(Minotor *minotor = 0);
+    explicit MidiMapper(Minotor *minotor = 0);
     
     void assignCapturedControlTo(MidiControllableParameter *parameter);
     MidiControl* getMidiControlFor(MidiControllableParameter *parameter);
@@ -71,4 +71,4 @@ private slots:
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 };
 
-#endif // MIDIMAPPING_H
+#endif // MIDIMAPPER_H

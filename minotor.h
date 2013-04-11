@@ -10,7 +10,7 @@
 
 #include "ledmatrix.h"
 #include "midi.h"
-#include "midimapping.h"
+#include "midimapper.h"
 
 #include "minomaster.h"
 #include "minoclocksource.h"
@@ -41,7 +41,7 @@ public:
     Midi *midi() { return _midi; }
 
     // MIDI mapping
-    MidiMapping *midiMapping() { return _midiMapping; }
+    MidiMapper *midiMapper() { return _midiMapper; }
 
     // Clock source
     MinoClockSource *clockSource() { return _clockSource; }
@@ -82,8 +82,8 @@ private:
     // Midi interfaces
     Midi *_midi;
 
-    // Midi mapping
-    MidiMapping *_midiMapping;
+    // Midi mapper
+    MidiMapper *_midiMapper;
 
     // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;

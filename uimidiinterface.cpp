@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #include "configdialog.h"
-#include "midimapping.h"
+#include "midimapper.h"
 
 UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QWidget(parent)
