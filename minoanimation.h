@@ -60,7 +60,7 @@ public:
 
     // MinoProperties
     // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
-    void setColor(const QColor& color) { _color->setColor(color); }
+    void setColor(const QColor& color) { if(_color) _color->setColor(color); }
 
     void setFrequency(QString frequency) { _beatFactor->setCurrentItem(frequency); }
     QString frequency() { return _beatFactor->currentItem()->name(); }

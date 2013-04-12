@@ -13,8 +13,6 @@ ImageWidget::ImageWidget(QWidget *parent) :
 
 void ImageWidget::paintEvent(QPaintEvent *)
 {
-    qDebug() << Q_FUNC_INFO;
-
     QPainter painter(this);
     painter.drawImage(QPointF(), _image);
 }
@@ -36,6 +34,10 @@ void ImageWidget::setImage(QImage *image)
 MinaImage::MinaImage(MinoAnimationGroup *parent) :
     MinoAnimation(parent)
 {
+    // Color is not usable in this animation
+    delete _color;
+    _color = NULL;
+
     _imageWidget = new ImageWidget();
     _imageWidget->resize(_boundingRect.size());
 
@@ -68,11 +70,5 @@ void MinaImage::animate(const unsigned int uppqn, const unsigned int gppqn, cons
             _imageIndex = imageIndex;
             _imageWidget->setImage(_imageList.at(_imageIndex));
         }
-        /*
-        qDebug() << Q_FUNC_INFO
-                 << "gppqn" << gppqn
-                 << "pos factor:" << (qreal)pos
-                 << "image index:" << imageIndex;
-                 */
     }
 }
