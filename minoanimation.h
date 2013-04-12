@@ -9,6 +9,7 @@
 
 #include "minopropertycolor.h"
 #include "minoitemizedproperty.h"
+#include "minopropertybeat.h"
 #include "minopersistentobject.h"
 
 class MinoProgram;
@@ -62,8 +63,8 @@ public:
     // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
     void setColor(const QColor& color) { if(_color) _color->setColor(color); }
 
-    void setFrequency(QString frequency) { _beatFactor->setCurrentItem(frequency); }
-    QString frequency() { return _beatFactor->currentItem()->name(); }
+    void setLoopSize(const QString& loopSize) { _beatFactor->setLoopSize(loopSize); }
+    QString loopSize() const { return _beatFactor->loopSize(); }
 
 public slots:
     void setEnabled(const bool enabled);
@@ -79,7 +80,7 @@ protected:
 
     // MinoAnimaBeat ?
     qreal ratioToBeatFactor(qreal value);
-    MinoItemizedProperty *_beatFactor;
+    MinoPropertyBeat *_beatFactor;
     MinoPropertyColor *_color;
     QPropertyAnimation _beatAnimatedProperty;
     void computeAnimaBeatProperty(const unsigned int gppqn);

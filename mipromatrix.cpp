@@ -31,7 +31,7 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
     as->setColor(QColor::fromHslF(0.3, 1.0, 0.5));
     as->setDensity(4);
     as->setDuration("2");
-    as->setFrequency("1/2");
+    as->setLoopSize("1/2");
     asg->addAnimation(as);
     MinaVibration *av = new MinaVibration(asg);
     av->setColor(QColor::fromHslF(0.32, 1.0, 0.5));
@@ -42,7 +42,7 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
     MinoAnimationGroup *afog = new MinoAnimationGroup(this);
     MinaFallingObjects *afo = new MinaFallingObjects(afog);
     afo->setColor(matrixColor);
-    afo->setBeatPeriod("1/2");
+    afo->setLoopSize("1/2");
     afo->setDensity(7);
     afo->setDuration(8);
     afo->setLength(5);

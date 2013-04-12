@@ -19,7 +19,6 @@ public:
     
     void setText(QString value) { _text->setText(value); }
     void setDuration(QString duration) { _beatDuration->setCurrentItem(duration); }
-    void setBeatFactor(QString beat) { _beatFactor->setCurrentItem(beat); }
     void setGeneratorStyle(QString style) { _generatorStyle->setCurrentItem(style); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }

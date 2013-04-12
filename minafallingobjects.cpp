@@ -70,7 +70,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
     QColor color = _color->color();
 
-    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int b = _beatFactor->loopSizeInPpqn();
     const unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int length = _generatorLength->currentItem()->real();
     const unsigned int density = _generatorDensity->currentItem()->real();

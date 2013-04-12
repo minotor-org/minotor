@@ -47,7 +47,7 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
 
      QColor color = _color->color();
 
-    const unsigned int duration = _beatFactor->currentItem()->real();
+    const unsigned int duration = _beatFactor->loopSizeInPpqn();
 
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {

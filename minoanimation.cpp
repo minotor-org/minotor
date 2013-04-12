@@ -19,20 +19,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
     randColor.setHslF(qrandF(), 1.0, 0.5);
     _color->setColor(randColor);
 
-    _beatFactor = new MinoItemizedProperty(this);
-    _beatFactor->setObjectName("beat-factor");
-    _beatFactor->setLabel("Freq.");
-    _beatFactor->addItem("16", 384);
-    _beatFactor->addItem("8", 192);
-    _beatFactor->addItem("4", 96);
-    _beatFactor->addItem("2", 48);
-    _beatFactor->addItem("1", 24);
-    _beatFactor->addItem("1/2", 12);
-    _beatFactor->addItem("1/4", 6);
-    _beatFactor->setCurrentItem("1");
-    _beatFactor->setLinear();
-    _beatFactor->setPreferred();
-    _beatFactor->setParent(this);
+    _beatFactor = new MinoPropertyBeat(this);
 
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
@@ -40,7 +27,7 @@ MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
 
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 {
-    const unsigned int ppqnMax = _beatFactor->currentItem()->real();
+    const unsigned int ppqnMax = _beatFactor->loopSizeInPpqn();
     const qreal lppqn = gppqn % ppqnMax;
     const qreal durationFactor = lppqn / ppqnMax;
     _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);

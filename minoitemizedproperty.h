@@ -17,6 +17,8 @@ public:
     MidiControllableListItem* currentItem();
     void setCurrentItem(const QString name);
     void setCurrentItemIndex(int index);
+
+    // Preferred MIDI control
     void setPreferred(bool on = true) { _mcl->setPreferred(on); }
 
     // Type: Linear or Items (default)

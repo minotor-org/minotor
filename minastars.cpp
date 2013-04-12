@@ -42,7 +42,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
 
     QColor color = _color->color();
 
-    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int b = _beatFactor->loopSizeInPpqn();
     const unsigned int density = _generatorDensity->currentItem()->real();
     const unsigned int duration = _beatDuration->currentItem()->real();
 

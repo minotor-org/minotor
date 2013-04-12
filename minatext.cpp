@@ -40,7 +40,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
 
     QColor color = _color->color();
 
-    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int b = _beatFactor->loopSizeInPpqn();
     if ((gppqn%b)==0)
     {
         QGraphicsTextItem* item = _scene->addText(_text->text(),QFont("Arial",12,QFont::Bold,false));

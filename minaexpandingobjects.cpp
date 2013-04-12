@@ -55,7 +55,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
 
     QColor color = _color->color();
 
-    const unsigned int b = _beatFactor->currentItem()->real();
+    const unsigned int b = _beatFactor->loopSizeInPpqn();
     if ((gppqn%b)==0)
     {
         const unsigned int shape = _generatorShape->currentItem()->real();
