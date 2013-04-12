@@ -41,6 +41,8 @@ public:
     const MinoAnimationDescription description() const { return MinaImage::getDescription(); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
+    void loadFromFile(const QString& filename);
+
 signals:
     
 public slots:

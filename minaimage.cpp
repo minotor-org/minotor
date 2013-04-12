@@ -32,7 +32,8 @@ void ImageWidget::setImage(QImage *image)
 }
 
 MinaImage::MinaImage(MinoAnimationGroup *parent) :
-    MinoAnimation(parent)
+    MinoAnimation(parent),
+    _imageIndex(0)
 {
     // Color is not usable in this animation
     delete _color;
@@ -41,34 +42,51 @@ MinaImage::MinaImage(MinoAnimationGroup *parent) :
     _imageWidget = new ImageWidget();
     _imageWidget->resize(_boundingRect.size());
 
-    QImageReader ir;
-    ir.setFileName("spaceinvader.gif");
-
-    while(ir.canRead())
-        _imageList.append(new QImage(ir.read()));
-
-    if(_imageList.count())
-        _imageWidget->setImage(_imageList.at(0));
+    loadFromFile("spaceinvader.gif");
 
     _itemGroup.addToGroup(_scene->addWidget(_imageWidget));
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
+void MinaImage::loadFromFile(const QString& filename)
+{
+    QImageReader ir;
+    ir.setFileName(filename);
+
+    if(ir.canRead())
+    {
+        foreach(QImage* i, _imageList)
+        {
+            delete i;
+        }
+        _imageList.clear();
+
+        while(ir.canRead())
+            _imageList.append(new QImage(ir.read()));
+
+        if(_imageList.count())
+            _imageWidget->setImage(_imageList.at(0));
+    }
+}
+
 void MinaImage::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    computeAnimaBeatProperty(gppqn);
     if(_imageList.count())
     {
-        _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
-        const qreal pos = _beatAnimatedProperty.currentValue().toReal();
-        int imageIndex = (pos*0.999999999*_imageList.count());
-        if(imageIndex>=_imageList.count())
-            imageIndex = _imageList.count()-1;
-        if(_imageIndex != imageIndex)
+        if(_imageList.count() != 1)
         {
-            _imageIndex = imageIndex;
-            _imageWidget->setImage(_imageList.at(_imageIndex));
+            computeAnimaBeatProperty(gppqn);
+            _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
+            const qreal pos = _beatAnimatedProperty.currentValue().toReal();
+            int imageIndex = (pos*0.999999999*_imageList.count());
+            if(imageIndex>=_imageList.count())
+                imageIndex = _imageList.count()-1;
+            if(_imageIndex != imageIndex)
+            {
+                _imageIndex = imageIndex;
+                _imageWidget->setImage(_imageList.at(_imageIndex));
+            }
         }
     }
 }
