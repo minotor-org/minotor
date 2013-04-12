@@ -69,6 +69,7 @@ void MinoPropertyEasingCurve::setEasingCurveType(const QEasingCurve::Type& type)
     {
         _easingCurveType = type;
         _mcl->setCurrentItem(easingCurveTypeToString(type));
+        emit easingCurveChanged(QEasingCurve(type));
     }
 }
 

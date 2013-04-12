@@ -11,8 +11,10 @@
 
 #include "minopropertytext.h"
 #include "minopropertyfilename.h"
+#include "minopropertyeasingcurve.h"
 
 #include "uimidicontrollableparameter.h"
+#include "uieasingcurve.h"
 
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
     QWidget(parent),
@@ -30,6 +32,14 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     foreach(MidiControllableParameter *param, property->findChildren<MidiControllableParameter*>())
     {
         lProperty->addWidget(new UiMidiControllableParameter(param, this, editorMode));
+        _columnCount++;
+    }
+    if(MinoPropertyEasingCurve *easingCurveProperty = qobject_cast<MinoPropertyEasingCurve*>(property))
+    {
+        UiEasingCurve * ec = new UiEasingCurve(this);
+        ec->setEasingCurve(QEasingCurve(easingCurveProperty->easingCurveType()));
+        connect(easingCurveProperty,SIGNAL(easingCurveChanged(QEasingCurve)),ec,SLOT(setEasingCurve(QEasingCurve)));
+        lProperty->addWidget(ec);
         _columnCount++;
     }
 

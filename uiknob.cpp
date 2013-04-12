@@ -205,7 +205,6 @@ void UiKnob::mousePressEvent(QMouseEvent *e)
         return;
     }
     e->accept();
-    qDebug() << "UiKnob::mousePressEvent()";
     _mouseStartPos = e->pos();
     _setValue(valueFromPoint(e->pos()));
     update();

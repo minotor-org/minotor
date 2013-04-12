@@ -75,7 +75,8 @@ SOURCES += main.cpp\
     minaballs.cpp \
     minaimage.cpp \
     minopropertyfilename.cpp \
-    midimapping.cpp
+    midimapping.cpp \
+    uieasingcurve.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -142,7 +143,8 @@ HEADERS  += mainwindow.h \
     minaballs.h \
     minaimage.h \
     minopropertyfilename.h \
-    midimapping.h
+    midimapping.h \
+    uieasingcurve.h
 
 FORMS    += mainwindow.ui \
     configdialog.ui \

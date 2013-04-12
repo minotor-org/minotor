@@ -29,6 +29,7 @@ public:
 signals:
     void itemChanged(QString name);
     void itemIdChanged(int id);
+    void easingCurveChanged(const QEasingCurve& ec);
 
 private:
     MidiControllableList *_mcl;
@@ -40,10 +41,6 @@ private:
 private slots:
     void updateTypeFromValue(qreal value);
 
-signals:
-    
-public slots:
-    
 };
 
 #endif // MINOPROPERTYEASINGCURVE_H
