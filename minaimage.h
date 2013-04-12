@@ -9,6 +9,7 @@
 #include <QImageReader>
 
 #include "minopropertyeasingcurve.h"
+#include "minopropertyfilename.h"
 
 class ImageWidget : public QWidget
 {
@@ -41,11 +42,10 @@ public:
     const MinoAnimationDescription description() const { return MinaImage::getDescription(); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
-    void loadFromFile(const QString& filename);
-
 signals:
     
 public slots:
+    void loadFromFile(const QString& filename);
 
 private:
     QGraphicsItemGroup _itemGroup;
@@ -53,6 +53,7 @@ private:
     QList<QImage*> _imageList;
     int _imageIndex;
     MinoPropertyEasingCurve *_generatorCurve;
+    MinoPropertyFilename *_imageFilename;
 
 };
 

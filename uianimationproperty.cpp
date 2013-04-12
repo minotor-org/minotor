@@ -3,10 +3,15 @@
 #include <QDebug>
 #include <QLayout>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QLabel>
 
 #include "minotor.h"
 
 #include "minopropertytext.h"
+#include "minopropertyfilename.h"
+
 #include "uimidicontrollableparameter.h"
 
 UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent, bool editorMode) :
@@ -22,15 +27,13 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     lProperty->setMargin(0);
     lProperty->setContentsMargins(0,0,0,0);
 
-    MinoPropertyText* textProperty = dynamic_cast<MinoPropertyText*>(property);
-
     foreach(MidiControllableParameter *param, property->findChildren<MidiControllableParameter*>())
     {
         lProperty->addWidget(new UiMidiControllableParameter(param, this, editorMode));
         _columnCount++;
     }
 
-    if (textProperty)
+    if (MinoPropertyText* textProperty = qobject_cast<MinoPropertyText*>(property))
     {
         QLineEdit *leText = new QLineEdit(this);
         leText->setObjectName("textedit");
@@ -38,6 +41,20 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         leText->setText(textProperty->text());
         connect(leText, SIGNAL(textChanged(QString)), textProperty, SLOT(setText(QString)));
         lProperty->addWidget(leText);
+        _columnCount+=2;
+    }
+    else if (MinoPropertyFilename *filenameProperty = qobject_cast<MinoPropertyFilename*>(property))
+    {
+        QPushButton *pbLoad = new QPushButton(this);
+        pbLoad->setText("L");
+        lProperty->addWidget(pbLoad);
+        QFileDialog *fdLoad = new QFileDialog(this);
+        connect(pbLoad,SIGNAL(clicked()),fdLoad,SLOT(open()));
+        connect(fdLoad,SIGNAL(fileSelected(QString)),filenameProperty,SLOT(setFilename(QString)));
+
+        QLabel *label = new QLabel(this);
+        label->setText(filenameProperty->filename());
+        lProperty->addWidget(label);
         _columnCount+=2;
     }
 }

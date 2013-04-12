@@ -42,11 +42,12 @@ MinaImage::MinaImage(MinoAnimationGroup *parent) :
     _imageWidget = new ImageWidget();
     _imageWidget->resize(_boundingRect.size());
 
-    loadFromFile("spaceinvader.gif");
-
     _itemGroup.addToGroup(_scene->addWidget(_imageWidget));
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _imageFilename = new MinoPropertyFilename(this);
+    connect(_imageFilename, SIGNAL(filenameChanged(QString)), SLOT(loadFromFile(QString)));
+    _imageFilename->setFilename("spaceinvader.gif");
 }
 
 void MinaImage::loadFromFile(const QString& filename)
