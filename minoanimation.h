@@ -112,6 +112,7 @@ public:
     unsigned int startUppqn() const { return _startUppqn; }
     unsigned int duration() const { return _duration; }
     QGraphicsItem *graphicsItem() const { return _graphicsItem; }
+    qreal progressForUppqn(const unsigned int uppqn) const { return (qreal)(uppqn - _startUppqn) / (qreal)_duration; }
 
     unsigned int _startUppqn;
     unsigned int _duration;
