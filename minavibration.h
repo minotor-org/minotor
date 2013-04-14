@@ -4,6 +4,7 @@
 #include "minoanimation.h"
 
 #include "minopropertyreal.h"
+#include "easingcurvedreal.h"
 
 class MinaVibration : public MinoAnimation
 {
@@ -27,6 +28,7 @@ public slots:
 
 private:
     QGraphicsItemGroup _itemGroup;
+    EasingCurvedReal _barLenght;
 
 protected:
     MinoPropertyReal *_segments;

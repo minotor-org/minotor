@@ -5,9 +5,9 @@
 MinaVibration::MinaVibration(MinoAnimationGroup *group) :
     MinoAnimation(group)
 {
-    _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _barLenght.setStartValue((qreal)_boundingRect.height()/2.0);
+    _barLenght.setEndValue(1.0);
+    _barLenght.setEasingCurve(QEasingCurve::OutBounce);
 
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
     blur->setBlurRadius(1.1);
@@ -37,13 +37,13 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
     }
     qreal currentX = -1;
     qreal currentY = middle;
+    const int maxSegments = _boundingRect.width()/2;
+    qreal barLenghtFactor = _barLenght.valueForProgress(_beatFactor->progressForGppqn(gppqn));
 
     while (currentX < _boundingRect.width())
     {
-        int maxSegments = _boundingRect.width()/2;
-
         //line up
-        qreal randY = middle + ((qrandF() * _beatAnimatedProperty.currentValue().toReal())*0.9);
+        qreal randY = middle + (qrandF() * barLenghtFactor * 0.9);
         qreal randX = currentX + qrandF()* qreal(_boundingRect.width()/(1+(_segments->value()*maxSegments)));
 
         _itemGroup.addToGroup(_scene->addLine(currentX, currentY, randX, randY, QPen(color)));
@@ -52,7 +52,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
         currentY = randY;
 
         //line down
-        randY = middle - (qrandF() * _beatAnimatedProperty.currentValue().toReal())*0.9;
+        randY = middle - (qrandF() * barLenghtFactor * 0.9);
         randX = currentX + (int)(qrandF()* qreal(_boundingRect.width()/(1+(_segments->value()*maxSegments))));
 
         _itemGroup.addToGroup(_scene->addLine(currentX, currentY, randX, randY, QPen(color)));

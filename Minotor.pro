@@ -12,6 +12,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    easingcurvedreal.cpp \
     ledmatrix.cpp \
     midi.cpp \
     minotor.cpp \
@@ -81,6 +82,7 @@ SOURCES += main.cpp\
 
 
 HEADERS  += mainwindow.h \
+    easingcurvedreal.h \
     ledmatrix.h \
     midi.h \
     minotor.h \
