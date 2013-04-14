@@ -10,8 +10,9 @@ TARGET = Minotor
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
+SOURCES += \
+    main.cpp\
+    mainwindow.cpp \
     easingcurvedreal.cpp \
     ledmatrix.cpp \
     midi.cpp \
@@ -81,7 +82,8 @@ SOURCES += main.cpp\
     minopropertybeat.cpp
 
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
+    mainwindow.h \
     easingcurvedreal.h \
     ledmatrix.h \
     midi.h \
@@ -150,7 +152,8 @@ HEADERS  += mainwindow.h \
     uieasingcurve.h \
     minopropertybeat.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
+    mainwindow.ui \
     configdialog.ui \
     externalmasterview.ui
 
