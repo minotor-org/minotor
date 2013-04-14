@@ -143,8 +143,8 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
         }
         else
         {
-            const qreal durationFactor = (qreal)(uppqn - item._startUppqn) / item._duration;
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
+            const qreal progress = item.progressForUppqn(uppqn);
+            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
             switch(direction)
             {
             case 0:

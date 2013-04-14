@@ -98,8 +98,8 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
         }
         else
         {
-            const qreal durationFactor = (qreal)(uppqn - item._startUppqn) / item._duration;
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
+            const qreal progress = item.progressForUppqn(uppqn);
+            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
 
             _animatedItems.at(i)._graphicsItem->setScale(_beatAnimatedProperty.currentValue().toReal());
         }

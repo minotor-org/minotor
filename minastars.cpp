@@ -90,8 +90,8 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         }
         else
         {
-            const qreal durationFactor = (qreal)(uppqn - item._startUppqn) / item._duration;
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
+            const qreal progress = item.progressForUppqn(uppqn);
+            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
             item._graphicsItem->setScale(_beatAnimatedProperty.currentValue().toReal());
             item._graphicsItem->setOpacity((_beatAnimatedProperty.currentValue().toReal()/2));
         }

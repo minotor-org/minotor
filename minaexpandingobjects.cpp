@@ -140,10 +140,8 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
         }
         else
         {
-            const qreal durationFactor = (qreal)(uppqn - item._startUppqn) / item._duration;
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
-//            qDebug() << "MinaExpandingObjects: animate item" << i << ": start" << item._startUppqn << "duration:" << item._duration << "end" << (item._startUppqn+item._duration) << "uppqn" << uppqn << "currentpos" << (uppqn-item._startUppqn) << "durationFactor" << durationFactor;
-
+            const qreal progress = item.progressForUppqn(uppqn);
+            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
             _animatedItems.at(i)._graphicsItem->setScale(_beatAnimatedProperty.currentValue().toReal());
         }
     }
