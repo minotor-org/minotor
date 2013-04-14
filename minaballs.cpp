@@ -7,10 +7,6 @@
 MinaBalls::MinaBalls(MinoAnimationGroup *group) :
     MinoAnimation(group)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.0));
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
-    //_beatAnimatedProperty.setEasingCurve(QEasingCurve::InOutBounce);
-
     _borders.append(QLineF(_boundingRect.topLeft(),_boundingRect.topRight()));
     _borders.append(QLineF(_boundingRect.bottomLeft(),_boundingRect.bottomRight()));
     _borders.append(QLineF(_boundingRect.topLeft(),_boundingRect.bottomLeft()));
@@ -110,9 +106,8 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
             item->_destination = destination;
         }
 
-        const qreal durationFactor = (qreal)(uppqn - item->_startUppqn) / item->_duration;
-        _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
-        QPointF pos = item->_path.pointAt(_beatAnimatedProperty.currentValue().toReal());
+        const qreal progress = item->progressForUppqn(uppqn);
+        QPointF pos = item->_path.pointAt(progress);
         item->_graphicsItem->setPos(pos-item->_graphicsItem->boundingRect().center());
    }
 }
