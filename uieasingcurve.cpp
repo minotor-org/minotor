@@ -14,7 +14,7 @@ UiEasingCurve::UiEasingCurve(QWidget *parent) :
 void UiEasingCurve::paintEvent(QPaintEvent *pe)
 {
     (void)pe;
-    QRectF square = this->rect();
+    QRectF square = this->rect().adjusted(2,10,-10,-2);
     if (square.height() > square.width())
     {
         square.setHeight(square.width());
@@ -35,7 +35,7 @@ void UiEasingCurve::paintEvent(QPaintEvent *pe)
     painter.setPen(gridPen);
 
     QPainterPath grid;
-    for (qreal p=0.25;p<1.0;p+=0.25)
+    for (qreal p=0.25;p<=1.0;p+=0.25)
     {
         const QPointF bottom = square.bottomLeft()+QPoint(p*square.width(),0.0);
         const QPointF top = square.topLeft()+QPoint(p*square.width(),0.0);
@@ -64,7 +64,7 @@ void UiEasingCurve::paintEvent(QPaintEvent *pe)
 
     QPainterPath curve;
     bool init = false;
-    for (qreal p=0.0;p<=1.0;p+=0.05)
+    for (qreal p=0.0;p<=1.05;p+=0.05)
     {
         const QPointF point = square.bottomLeft()+QPointF(p*square.width(),-_ec.valueForProgress(p)*square.height());
         if(!init)
