@@ -18,6 +18,8 @@ public:
     QString loopSize() const { return _mcl->currentItem()->name(); }
     qreal loopSizeInPpqn() const { return _mcl->currentItem()->real(); }
 
+    qreal progressForGppqn(const unsigned int gppqn) const;
+
 signals:
     void loopSizeChanged(const QString& loopSize);
 

@@ -21,3 +21,11 @@ MinoPropertyBeat::MinoPropertyBeat(QObject *parent) :
 
     connect(_mcl, SIGNAL(itemChanged(QString)), this, SIGNAL(loopSizeChanged(QString)));
 }
+
+qreal MinoPropertyBeat::progressForGppqn(const unsigned int gppqn) const
+{
+    const unsigned int ppqnMax = loopSizeInPpqn();
+    const qreal lppqn = gppqn % ppqnMax;
+    const qreal durationFactor = lppqn / ppqnMax;
+    return durationFactor;
+}
