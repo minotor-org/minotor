@@ -70,7 +70,6 @@ void MidiMapper::midiControlChanged(int interface, quint8 channel, quint8 contro
     MidiControl *midiControl = findMidiControl(interface, channel, control, _controlCaptureMode);
     if(midiControl)
     {
-        qDebug() << "control" << control << "value" << value;
         midiControl->setValue(value);
 
         if(_controlCaptureMode)

@@ -321,12 +321,14 @@ void MainWindow::on_pbShot_clicked()
     shotname.append(QString::number(id++));
     shotname.append(QString(".png"));
 
-    qDebug() << "shotname:" << shotname;
+    qDebug() << Q_FUNC_INFO
+             << "shotname:" << shotname;
     UiProgramView *masterMonitor = findChild<UiProgramView*>("masterMonitor");
     if(masterMonitor)
     {
         QPixmap p = QPixmap::grabWidget(masterMonitor);
-        qDebug() << "saved:" << p.save(shotname);
+        qDebug() << Q_FUNC_INFO
+                 << "saved:" << p.save(shotname);
     }
 }
 

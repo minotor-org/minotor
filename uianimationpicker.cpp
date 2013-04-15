@@ -40,7 +40,6 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
 
 void UiAnimationPicker::mousePressEvent(QMouseEvent *event)
 {
-//    qDebug() << childAt(event->pos())->metaObject()->className();
      UiAnimationDescription *child = dynamic_cast<UiAnimationDescription*>(childAt(event->pos()));
      if (!child)
          return;

@@ -175,7 +175,7 @@ void UiAnimationGroup::moveAnimation(int srcId, int destId)
 
 void UiAnimationGroup::_moveAnimation(int programId, int groupId)
 {
-    qDebug() << "UiAnimationGroup>"
+    qDebug() << Q_FUNC_INFO
              << "sender:" << sender();
     if(programId == _group->program()->id())
     {
@@ -186,7 +186,8 @@ void UiAnimationGroup::_moveAnimation(int programId, int groupId)
         }
         else
         {
-            qDebug() << "UiAnimationGroup> group is different between src and dest";
+            qDebug() << Q_FUNC_INFO
+                     << "group is different between src and dest";
         }
     }
 }

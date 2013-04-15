@@ -127,14 +127,12 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
         MinoAnimatedItem maItem (uppqn, duration, item);
         _itemGroup.addToGroup(item);
         _animatedItems.append(maItem);
-//        qDebug() << "MinaExpandingObjects: add new item" << (_animatedItems.count()-1) << ": uppqn" << uppqn << "duration:" << duration;
     }
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
         const MinoAnimatedItem item = _animatedItems.at(i);
         if (uppqn > (item._startUppqn+item._duration))
         {
-//            qDebug() << "MinaExpandingObjects: delete item" << i << ": start" << item._startUppqn << "duration:" << item._duration << "end" << (item._startUppqn+item._duration) << "uppqn" << uppqn << "currentpos" << (uppqn-item._startUppqn);
             delete item._graphicsItem;
             _animatedItems.removeAt(i);
         }

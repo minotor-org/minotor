@@ -31,12 +31,6 @@ void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
     const qreal lppqn = gppqn % ppqnMax;
     const qreal durationFactor = lppqn / ppqnMax;
     _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
-
-    /*
-    qDebug() << "computeAnimaBeatProperty"
-             << "beatFactor" << ratioToBeatFactor(_beatFactor->value())
-             << "durationFactor" << durationFactor;
-    */
 }
 
 QPointF MinoAnimation::qrandPointF()

@@ -211,24 +211,17 @@ void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int i
 void MinoProgram::moveAnimationGroup(int srcGroupId, int destGroupId)
 {
     int i=0;
-    foreach (MinoAnimationGroup *grp, this->animationGroups())
-    {
-        qDebug() << i <<  grp;
-                    i++;
-    }
     if(srcGroupId!=destGroupId)
     {
         MinoAnimationGroup *animationGroup = this->takeAnimationGroupAt(srcGroupId);
-        qDebug() << "MinoProgram> src group" << srcGroupId << " destGroup " << destGroupId;
+        qDebug()<< Q_FUNC_INFO
+                << "src group" << srcGroupId << " destGroup " << destGroupId;
         this->insertAnimationGroup(animationGroup, destGroupId);
-        qDebug() << "MinoProgram> group inserted";
+        qDebug()<< Q_FUNC_INFO
+                << "group inserted";
     }
     i=0;
-    foreach (MinoAnimationGroup *grp, this->animationGroups())
-    {
-        qDebug() << i <<  grp;
-                    i++;
-    }
+
     //Reorder Z values
     for(int z=0; z<_animationGroups.count(); z++)
     {
