@@ -25,7 +25,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     this->setMaximumHeight(45);
 
     QHBoxLayout *lProperty = new QHBoxLayout(this);
-    lProperty->setSpacing(0);
+    lProperty->setSpacing(2);
     lProperty->setMargin(0);
     lProperty->setContentsMargins(0,0,0,0);
 
@@ -56,13 +56,17 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     else if (MinoPropertyFilename *filenameProperty = qobject_cast<MinoPropertyFilename*>(property))
     {
         QPushButton *pbLoad = new QPushButton(this);
-        pbLoad->setText("L");
         lProperty->addWidget(pbLoad);
+        pbLoad->setIcon(QIcon(":/pictos/load.png"));
+        pbLoad->setIconSize(QSize(8,8));
+        pbLoad->setMinimumSize(12,12);
+        pbLoad->setMaximumSize(12,12);
         QFileDialog *fdLoad = new QFileDialog(this);
         connect(pbLoad,SIGNAL(clicked()),fdLoad,SLOT(open()));
         connect(fdLoad,SIGNAL(fileSelected(QString)),filenameProperty,SLOT(setFilename(QString)));
 
         QLabel *label = new QLabel(this);
+        label->setObjectName("filename");
         label->setText(filenameProperty->filename());
         lProperty->addWidget(label);
         _columnCount+=2;

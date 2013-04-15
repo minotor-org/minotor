@@ -181,6 +181,12 @@ QLabel#dialinfo {
     font-size:9px;
 }
 
+QLabel#filename {
+    color:#9c9c9c;
+    font-size:9px;
+}
+
+
 QLabel#image {
     border: 1px solid #1C1C1C;
 }
@@ -531,6 +537,12 @@ UiKnob {
     qproperty-button_border_color:#101010;
     qproperty-needle_color:#CFCFCF;
     qproperty-reflect_color:#4E4E4E;
+}
+
+UiEasingCurve {
+    qproperty-axes_color:#4f4f4f;
+    qproperty-grid_color:#4f4f4f;
+    qproperty-curve_color:#e75f00;
 }
 
 UiProgram[expanded=true] > QWidget > QWidget#programbackground {

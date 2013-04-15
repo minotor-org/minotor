@@ -36,5 +36,6 @@
         <file>images/curve.png</file>
         <file>style.css</file>
         <file>images/balls.png</file>
+        <file>pictos/load.png</file>
     </qresource>
 </RCC>

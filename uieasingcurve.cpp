@@ -30,7 +30,7 @@ void UiEasingCurve::paintEvent(QPaintEvent *pe)
 
     // Grid
     QPen gridPen(_gridColor);
-    gridPen.setStyle(Qt::DashDotDotLine);
+    gridPen.setStyle(Qt::DotLine);
     gridPen.setWidth(1);
     painter.setPen(gridPen);
 
