@@ -160,18 +160,23 @@ void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
 
 void MinoProgram::moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId)
 {
-    if(srcGroup==destGroup)
+    if((srcGroup!=destGroup) && (srcAnimationId!=destAnimationId))
     {
-        if(srcAnimationId!=destAnimationId)
-            srcGroup->moveAnimation(srcAnimationId, destAnimationId);
-    } else {
-        MinoAnimation *animation = srcGroup->takeAnimationAt(srcAnimationId);
-        qDebug() << "MinoProgram> animation(" << srcAnimationId << "):" << animation;
-        destGroup->insertAnimation(animation, destAnimationId);
-        animation->setEnabled(destGroup->enabled());
-        qDebug() << "MinoProgram> animation inserted";
+        if(srcGroup==destGroup)
+        {
+            if(srcAnimationId!=destAnimationId)
+                srcGroup->moveAnimation(srcAnimationId, destAnimationId);
+        } else {
+            MinoAnimation *animation = srcGroup->takeAnimationAt(srcAnimationId);
+            qDebug() << Q_FUNC_INFO
+                     << "MinoProgram> animation(" << srcAnimationId << "):" << animation;
+            destGroup->insertAnimation(animation, destAnimationId);
+            animation->setEnabled(destGroup->enabled());
+            qDebug() << Q_FUNC_INFO
+                     << "MinoProgram> animation inserted";
+        }
+        emit animationMoved(this->id(), srcGroup->id() , srcAnimationId, this->id(), destGroup->id() , destAnimationId);
     }
-    emit animationMoved(this->id(), srcGroup->id() , srcAnimationId, this->id(), destGroup->id() , destAnimationId);
 }
 
 MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
