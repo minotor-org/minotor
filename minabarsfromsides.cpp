@@ -5,9 +5,9 @@
 MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
     MinoAnimation(group)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _ecr.setStartValue(1.0);
+    _ecr.setEndValue(0.0);
+    _ecr.setEasingCurve(QEasingCurve::OutBounce);
 
     _colorType = new MinoItemizedProperty(this);
     _colorType->setObjectName("color-type");
@@ -69,11 +69,13 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
        delete item;
     }
+
+    const qreal position = _ecr.valueForProgress(_beatFactor->progressForGppqn(gppqn));
     if ((int)(gppqn/_beatFactor->loopSizeInPpqn())%2)
     {
         for (int i=0;i< _boundingRect.height();i++)
         {
-            qreal lineLength = 0.5 + (qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.width() / 2.0);
+            qreal lineLength = 0.5 + (qrandF() * position * _boundingRect.width() / 2.0);
             _itemGroup.addToGroup(_scene->addLine(_boundingRect.left(), i, _boundingRect.left()+lineLength, i, QPen(QBrush(gradV),1)));
             _itemGroup.addToGroup(_scene->addLine(_boundingRect.width()-lineLength, i, _boundingRect.width(), i, QPen(QBrush(gradV),1)));
         }
@@ -82,7 +84,7 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     {
         for (int i=0;i< _boundingRect.width();i++)
         {
-            qreal lineLength = 0.5 + (qrandF() * _beatAnimatedProperty.currentValue().toReal() * _boundingRect.height() / 2.0);
+            qreal lineLength = 0.5 + (qrandF() * position * _boundingRect.height() / 2.0);
             _itemGroup.addToGroup(_scene->addLine(i, _boundingRect.top(), i, _boundingRect.top()+lineLength, QPen(QBrush(gradH),1)));
             _itemGroup.addToGroup(_scene->addLine(i, (qreal)_boundingRect.height()-lineLength, i, _boundingRect.height(), QPen(QBrush(gradH),1)));
         }

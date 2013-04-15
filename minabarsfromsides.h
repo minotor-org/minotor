@@ -2,6 +2,7 @@
 #define MINOANIMATIONBARSFROMSIDES_H
 
 #include "minoanimation.h"
+#include "easingcurvedreal.h"
 
 class MinaBarsFromSides : public MinoAnimation
 {
@@ -19,6 +20,7 @@ public:
 
 private:
     QGraphicsItemGroup _itemGroup;
+    EasingCurvedReal _ecr;
 
 signals:
 
