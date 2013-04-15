@@ -73,6 +73,10 @@ void MinaImage::loadFromFile(const QString& filename)
 
 void MinaImage::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)uppqn;
+    (void)ppqn;
+    (void)qn;
+
     if(_imageList.count())
     {
         if(_imageList.count() != 1)

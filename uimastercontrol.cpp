@@ -80,9 +80,14 @@ UiMasterControl::~UiMasterControl()
 
 }
 
-
 void UiMasterControl::animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId)
 {
+    //FIXME remove useless variables
+    (void)srcProgramId;
+    (void)srcAnimationId;
+    (void)destProgramId;
+    (void)destAnimationId;
+
     foreach (UiMasterAnimationGroup *group, this->findChildren<UiMasterAnimationGroup*>())
     {
         if (srcGroupId == group->group()->id() || destGroupId == group->group()->id())
@@ -96,6 +101,9 @@ void UiMasterControl::animationMoved(int srcProgramId, int srcGroupId , int srcA
 
 void UiMasterControl::animationGroupMoved(int srcProgramId, int srcGroupId, int destGroupId)
 {
+    //FIXME remove useless variables
+    (void)srcGroupId;
+
     if (srcProgramId == _master->program()->id())
     {
         UiMasterAnimationGroup *uiMasterGroup = takeAnimationGroupAt(destGroupId);

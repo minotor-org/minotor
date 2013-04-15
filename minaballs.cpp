@@ -12,9 +12,6 @@ MinaBalls::MinaBalls(MinoAnimationGroup *group) :
     _borders.append(QLineF(_boundingRect.topLeft(),_boundingRect.bottomLeft()));
     _borders.append(QLineF(_boundingRect.topRight(),_boundingRect.bottomRight()));
 
-    // HACK bounding rect center is not really at screen center without that...
-    QPointF center = _boundingRect.adjusted(0,0,1,1).center();
-
     qreal width = 18.0;
     QRectF ball(0,0,width,width);
     QRadialGradient grad(ball.adjusted(0,0,1,1).center(),ball.width());

@@ -10,4 +10,8 @@ MinaDebug::MinaDebug(MinoAnimationGroup *group) :
 
 void MinaDebug::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
+    (void)uppqn;
+    (void)gppqn;
+    (void)ppqn;
+    (void)qn;
 }
