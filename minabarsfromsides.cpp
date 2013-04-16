@@ -23,8 +23,6 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     (void)ppqn;
     (void)qn;
 
-    computeAnimaBeatProperty(gppqn);
-
     // Colors
     QColor color, colorMin, colorMax;
     color = _color->color();

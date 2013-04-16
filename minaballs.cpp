@@ -36,9 +36,8 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
-     QColor color = _color->color();
+    QColor color = _color->color();
 
     const unsigned int duration = _beatFactor->loopSizeInPpqn();
 
