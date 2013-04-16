@@ -5,9 +5,9 @@
 MinaRandomPixels::MinaRandomPixels(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _ecrAlpha.setStartValue(1.0);
+    _ecrAlpha.setEndValue(0.0);
+    _ecrAlpha.setEasingCurve(QEasingCurve::OutBounce);
 
     _density = new MinoPropertyReal(this);
     _density->setObjectName("density");
@@ -28,10 +28,9 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
 {
     (void)uppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     QColor color = _color->color();
-    color.setAlphaF(_beatAnimatedProperty.currentValue().toReal());
+    color.setAlphaF(_ecrAlpha.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
 
     QColor transparency;
     transparency.setAlpha(0);
