@@ -6,10 +6,6 @@
 MinaCurve::MinaCurve(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
-
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
     _generatorAccel = new MinoPropertyEasingCurve(this);
@@ -47,21 +43,20 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     QColor color = _color->color();
 
     //Drawing curve
-    QEasingCurve easing(_generatorCurve->easingCurveType());
+    QEasingCurve ecDraw(_generatorCurve->easingCurveType());
 
     //Animation curve
-    _beatAnimatedProperty.setEasingCurve(_generatorAccel->easingCurveType());
+    QEasingCurve ecAnimation(_generatorAccel->easingCurveType());
 
     for (int i=0;i<_boundingRect.width();i++)
     {
         qreal pos = (qreal)i/(qreal)_boundingRect.width();
         qreal curvepos;
-        pos += (1.0-_beatAnimatedProperty.currentValue().toReal());
+        pos += ecAnimation.valueForProgress(_beatFactor->progressForGppqn(gppqn));
         if(pos>1.0) pos -= 1.0;
         if(pos<=0.5)
         {
@@ -71,7 +66,7 @@ void MinaCurve::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         {
             curvepos = (0.5-(pos-0.5))*2.0;
         }
-        qreal curvefactor = easing.valueForProgress(curvepos);
+        qreal curvefactor = ecDraw.valueForProgress(curvepos);
         _items[i]->setLine(i,_boundingRect.height()/2,i,(_boundingRect.height()*curvefactor));
         _items[i]->setPen(QPen(color));
     }
