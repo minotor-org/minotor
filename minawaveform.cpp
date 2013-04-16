@@ -5,9 +5,9 @@
 MinaWaveform::MinaWaveform(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _ecrHeight.setStartValue((qreal)_boundingRect.height()/2.0);
+    _ecrHeight.setEndValue(1.0);
+    _ecrHeight.setEasingCurve(QEasingCurve::OutBounce);
 
     _colorType = new MinoItemizedProperty(this);
     _colorType->setObjectName("color-type");
@@ -22,8 +22,6 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-
-    computeAnimaBeatProperty(gppqn);
 
     // Colors
     QColor color = _color->color();
@@ -61,7 +59,7 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
     for (int i=0; i<_boundingRect.width(); i++)
     {
-        qreal randHeight = qrandF() * _beatAnimatedProperty.currentValue().toReal();
+        qreal randHeight = qrandF() * _ecrHeight.valueForProgress(_beatFactor->progressForGppqn(gppqn));
         _itemGroup.addToGroup(_scene->addLine(i, middle-randHeight, i, middle+randHeight, QPen(QBrush(grad),1)));
     }
 }
