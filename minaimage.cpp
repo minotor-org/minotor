@@ -81,9 +81,8 @@ void MinaImage::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     {
         if(_imageList.count() != 1)
         {
-            computeAnimaBeatProperty(gppqn);
-            _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
-            const qreal pos = _beatAnimatedProperty.currentValue().toReal();
+            QEasingCurve ecImageIndex(_generatorCurve->easingCurveType());
+            const qreal pos = ecImageIndex.valueForProgress(_beatFactor->progressForGppqn(gppqn));
             int imageIndex = (pos*0.999999999*_imageList.count());
             if(imageIndex>=_imageList.count())
                 imageIndex = _imageList.count()-1;
