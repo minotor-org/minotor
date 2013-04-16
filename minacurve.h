@@ -9,7 +9,7 @@ class MinaCurve : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaCurve(MinoAnimationGroup *group);
+    explicit MinaCurve(QObject *object);
     ~MinaCurve();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

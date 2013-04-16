@@ -11,7 +11,7 @@ class MinaGradient : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaGradient(MinoAnimationGroup *group);
+    explicit MinaGradient(QObject *object);
     ~MinaGradient();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

@@ -3,8 +3,8 @@
 #include "minopropertycolor.h"
 #include "minopropertyeasingcurve.h"
 
-MinaDebug::MinaDebug(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaDebug::MinaDebug(QObject *object) :
+    MinoAnimation(object)
 {
 }
 

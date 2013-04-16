@@ -3,8 +3,8 @@
 #include <math.h>
 #include <QGraphicsEffect>
 
-MinaRotatingBars::MinaRotatingBars(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaRotatingBars::MinaRotatingBars(QObject *object) :
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));

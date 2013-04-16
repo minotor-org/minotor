@@ -6,7 +6,7 @@ class MinaFallingObjects : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaFallingObjects(MinoAnimationGroup *group);
+    explicit MinaFallingObjects(QObject *object);
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {

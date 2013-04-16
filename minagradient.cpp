@@ -2,8 +2,8 @@
 #include "minoprogram.h"
 #include <QDebug>
 
-MinaGradient::MinaGradient(MinoAnimationGroup *group):
-    MinoAnimation(group)
+MinaGradient::MinaGradient(QObject *object):
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue(QVariant(0.0));
     _beatAnimatedProperty.setEndValue(QVariant(1.0));

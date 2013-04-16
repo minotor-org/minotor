@@ -31,7 +31,7 @@ void ImageWidget::setImage(QImage *image)
                 << _image.size();
 }
 
-MinaImage::MinaImage(MinoAnimationGroup *parent) :
+MinaImage::MinaImage(QObject *parent) :
     MinoAnimation(parent),
     _imageIndex(0)
 {

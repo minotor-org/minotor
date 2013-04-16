@@ -4,16 +4,18 @@
 #include "minoprogram.h"
 #include "minoanimationgroup.h"
 
-MinoAnimation::MinoAnimation(MinoAnimationGroup *group) :
-    MinoPersistentObject(group),
-    _group(group),
+MinoAnimation::MinoAnimation(QObject *parent) :
+    MinoPersistentObject(parent),
+    _group(NULL),
     _enabled(true)
 {
-    connect(this, SIGNAL(destroyed(QObject*)), group, SLOT(destroyAnimation(QObject*)));
-    _program = group->program();
-    _scene = _program->minotor()->scene();
-    _boundingRect = _program->minotor()->displayRect();
+    if(MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent))
+    {
+        setGroup(mag);
+        _scene = _program->minotor()->scene();
+        _boundingRect = _program->minotor()->displayRect();
 
+    }
     _color = new MinoPropertyColor(this);
     QColor randColor;
     randColor.setHslF(qrandF(), 1.0, 0.5);
@@ -42,15 +44,20 @@ void MinoAnimation::setGroup(MinoAnimationGroup *group)
 {
     if(_group != group)
     {
-        _group = group;
+        if(_group)
+        {
+            disconnect(this, SIGNAL(destroyed(QObject*)), _group, SLOT(destroyAnimation(QObject*)));
+        }
         setParent(group);
-        if(_group) {
-           _program = _group->program();
-           emit groupChanged(_program->id(), _group->id());
+        if(group) {
+           _program = group->program();
+           connect(this, SIGNAL(destroyed(QObject*)), group, SLOT(destroyAnimation(QObject*)));
+           emit groupChanged(_program->id(), group->id());
         } else {
             _program = NULL;
             graphicItem()->setVisible(false);
         }
+        _group = group;
     }
 }
 

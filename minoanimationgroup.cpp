@@ -3,7 +3,7 @@
 #include <QDebug>
 
 #include "minoprogram.h"
-#include "minoanimationfactory.h"
+#include "minopersistentobjectfactory.h"
 
 MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
     MinoPersistentObject(parent),
@@ -34,7 +34,7 @@ MinoAnimationGroup::~MinoAnimationGroup()
 MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName, int index)
 {
 
-    MinoAnimation *animation = MinoAnimationFactory::createObject(animationClassName.toAscii(), this);
+    MinoAnimation *animation = qobject_cast<MinoAnimation*>(MinoPersistentObjectFactory::createObject(animationClassName.toAscii(), this));
     if(animation)
     {
         insertAnimation(animation, index);

@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-MinaWaveform::MinaWaveform(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaWaveform::MinaWaveform(QObject *object) :
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue((qreal)_boundingRect.height()/2.0);
     _beatAnimatedProperty.setEndValue(QVariant(1.0));

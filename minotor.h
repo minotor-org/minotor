@@ -15,8 +15,6 @@
 #include "minomaster.h"
 #include "minoclocksource.h"
 
-#include "minoanimationfactory.h"
-
 class MinoAnimation;
 typedef QList<MinoAnimation*> MinoAnimationList;
 

@@ -5,9 +5,10 @@
 #include <QGraphicsView>
 
 #include "minoprogram.h"
-#include "minoanimation.h"
+#include "minopersistentobjectfactory.h"
 
 // Animations
+#include "minoanimation.h"
 #include "minarandompixels.h"
 #include "minaexpandingobjects.h"
 #include "minaflash.h"
@@ -138,21 +139,21 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,27,"TRANSPORT_TAP");
 
     // Register animations
-    MinoAnimationFactory::registerClass<MinaFlash>();
-    MinoAnimationFactory::registerClass<MinaExpandingObjects>();
-    MinoAnimationFactory::registerClass<MinaWaveform>();
-    MinoAnimationFactory::registerClass<MinaVibration>();
-    MinoAnimationFactory::registerClass<MinaBarsFromSides>();
-    MinoAnimationFactory::registerClass<MinaFallingObjects>();
-    MinoAnimationFactory::registerClass<MinaText>();
-    MinoAnimationFactory::registerClass<MinaRandomPixels>();
-    MinoAnimationFactory::registerClass<MinaStars>();
-    MinoAnimationFactory::registerClass<MinaGradient>();
-    MinoAnimationFactory::registerClass<MinaPlasma>();
-    MinoAnimationFactory::registerClass<MinaRotatingBars>();
-    MinoAnimationFactory::registerClass<MinaCurve>();
-    MinoAnimationFactory::registerClass<MinaBalls>();
-    MinoAnimationFactory::registerClass<MinaImage>();
+    MinoPersistentObjectFactory::registerClass<MinaFlash>();
+    MinoPersistentObjectFactory::registerClass<MinaExpandingObjects>();
+    MinoPersistentObjectFactory::registerClass<MinaWaveform>();
+    MinoPersistentObjectFactory::registerClass<MinaVibration>();
+    MinoPersistentObjectFactory::registerClass<MinaBarsFromSides>();
+    MinoPersistentObjectFactory::registerClass<MinaFallingObjects>();
+    MinoPersistentObjectFactory::registerClass<MinaText>();
+    MinoPersistentObjectFactory::registerClass<MinaRandomPixels>();
+    MinoPersistentObjectFactory::registerClass<MinaStars>();
+    MinoPersistentObjectFactory::registerClass<MinaGradient>();
+    MinoPersistentObjectFactory::registerClass<MinaPlasma>();
+    MinoPersistentObjectFactory::registerClass<MinaRotatingBars>();
+    MinoPersistentObjectFactory::registerClass<MinaCurve>();
+    MinoPersistentObjectFactory::registerClass<MinaBalls>();
+    MinoPersistentObjectFactory::registerClass<MinaImage>();
 }
 
 Minotor::~Minotor()

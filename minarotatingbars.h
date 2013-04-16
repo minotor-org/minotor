@@ -10,7 +10,7 @@ class MinaRotatingBars : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaRotatingBars(MinoAnimationGroup *group);
+    explicit MinaRotatingBars(QObject *object);
     ~MinaRotatingBars();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

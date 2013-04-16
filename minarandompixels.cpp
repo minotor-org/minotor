@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-MinaRandomPixels::MinaRandomPixels(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaRandomPixels::MinaRandomPixels(QObject *object) :
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));

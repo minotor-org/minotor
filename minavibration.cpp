@@ -2,8 +2,8 @@
 #include <QDebug>
 #include <QGraphicsBlurEffect>
 
-MinaVibration::MinaVibration(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaVibration::MinaVibration(QObject *object) :
+    MinoAnimation(object)
 {
     _barLenght.setStartValue((qreal)_boundingRect.height()/2.0);
     _barLenght.setEndValue(1.0);

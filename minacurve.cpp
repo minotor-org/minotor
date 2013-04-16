@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <QGraphicsBlurEffect>
 
-MinaCurve::MinaCurve(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaCurve::MinaCurve(QObject *object) :
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.0));

@@ -10,7 +10,7 @@ class MinaVibration : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaVibration(MinoAnimationGroup *group);
+    explicit MinaVibration(QObject *object);
 
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

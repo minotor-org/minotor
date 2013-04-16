@@ -9,7 +9,7 @@ class MinaFlash : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaFlash(MinoAnimationGroup *group);
+    explicit MinaFlash(QObject *object);
     ~MinaFlash();
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

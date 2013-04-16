@@ -25,7 +25,7 @@ SOURCES += \
     minomaster.cpp \
     uimaster.cpp \
     minoclocksource.cpp \
-    minoanimationfactory.cpp \
+    minopersistentobjectfactory.cpp \
     uianimationdescription.cpp \
     uianimationpicker.cpp \
     minabarsfromsides.cpp \
@@ -96,7 +96,7 @@ HEADERS  += \
     minomaster.h \
     uimaster.h \
     minoclocksource.h \
-    minoanimationfactory.h \
+    minopersistentobjectfactory.h \
     uianimationdescription.h \
     uianimationpicker.h \
     minabarsfromsides.h \

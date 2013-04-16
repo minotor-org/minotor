@@ -2,8 +2,8 @@
 #include <QColor>
 #include <QDebug>
 
-MinaBarsFromSides::MinaBarsFromSides(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaBarsFromSides::MinaBarsFromSides(QObject *object) :
+    MinoAnimation(object)
 {
     _ecr.setStartValue(1.0);
     _ecr.setEndValue(0.0);

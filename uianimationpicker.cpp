@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QDebug>
 
-#include "minoanimationfactory.h"
+#include "minopersistentobjectfactory.h"
 
 #include "minoanimation.h"
 #include "uianimationdescription.h"
@@ -27,7 +27,7 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
 
     this->setAttribute(Qt::WA_TranslucentBackground,false);
 
-    QList<MinoAnimationDescription> animations = MinoAnimationFactory::availableAnimations();
+    QList<MinoAnimationDescription> animations = MinoPersistentObjectFactory::availableAnimationModels();
     foreach(MinoAnimationDescription animation, animations)
     {
         UiAnimationDescription *ad = new UiAnimationDescription(animation, wContent);

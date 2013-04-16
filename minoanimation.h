@@ -44,7 +44,7 @@ class MinoAnimation : public MinoPersistentObject
 
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled STORED true)
 public:
-    explicit MinoAnimation(MinoAnimationGroup *group);
+    explicit MinoAnimation(QObject *parent);
 
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;

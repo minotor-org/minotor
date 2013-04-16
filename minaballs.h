@@ -25,7 +25,7 @@ class MinaBalls : public MinoAnimation
 {
     Q_OBJECT
 public:
-    explicit MinaBalls(MinoAnimationGroup *group);
+    explicit MinaBalls(QObject *object);
 
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 

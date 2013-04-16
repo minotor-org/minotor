@@ -3,8 +3,8 @@
 #include <QColor>
 #include <QDebug>
 
-MinaFlash::MinaFlash(MinoAnimationGroup *group):
-    MinoAnimation(group),
+MinaFlash::MinaFlash(QObject *object):
+    MinoAnimation(object),
     _rectItem(NULL)
 {
     _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);

@@ -1,8 +1,8 @@
 #include "minatext.h"
 #include <QLabel>
 
-MinaText::MinaText(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaText::MinaText(QObject *object) :
+    MinoAnimation(object)
 {
     _beatAnimatedProperty.setStartValue(QVariant(1.0));
     _beatAnimatedProperty.setEndValue(QVariant(0.01));

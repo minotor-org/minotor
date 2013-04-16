@@ -4,8 +4,8 @@
 #include <QGraphicsBlurEffect>
 #include <QGraphicsEllipseItem>
 
-MinaBalls::MinaBalls(MinoAnimationGroup *group) :
-    MinoAnimation(group)
+MinaBalls::MinaBalls(QObject *object) :
+    MinoAnimation(object)
 {
     _borders.append(QLineF(_boundingRect.topLeft(),_boundingRect.topRight()));
     _borders.append(QLineF(_boundingRect.bottomLeft(),_boundingRect.bottomRight()));
