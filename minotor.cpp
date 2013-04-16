@@ -155,8 +155,9 @@ Minotor::Minotor(QObject *parent) :
     MinoPersistentObjectFactory::registerAnimationClass<MinaBalls>();
     MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
 
-    // Register other instansiable persistent objects
+    // Register other instantiable persistent objects
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
+    MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
 }
 
 Minotor::~Minotor()

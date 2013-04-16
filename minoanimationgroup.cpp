@@ -5,12 +5,15 @@
 #include "minoprogram.h"
 #include "minopersistentobjectfactory.h"
 
-MinoAnimationGroup::MinoAnimationGroup(MinoProgram *parent) :
+MinoAnimationGroup::MinoAnimationGroup(QObject *parent) :
     MinoPersistentObject(parent),
     _enabled(false),
-    _program(parent)
+    _program(NULL)
 {
-    connect(this, SIGNAL(destroyed(QObject*)), parent, SLOT(destroyGroup(QObject*)));
+    Q_ASSERT(parent);
+    _program = qobject_cast<MinoProgram*>(parent);
+    Q_ASSERT(_program);
+    connect(this, SIGNAL(destroyed(QObject*)), _program, SLOT(destroyGroup(QObject*)));
 }
 
 int MinoAnimationGroup::id ()

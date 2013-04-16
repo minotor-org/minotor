@@ -16,7 +16,7 @@ class MinoAnimationGroup : public MinoPersistentObject
     friend class MinoProgram;
 
 public:
-    explicit MinoAnimationGroup(MinoProgram *parent);
+    explicit MinoAnimationGroup(QObject *parent);
 
     ~MinoAnimationGroup();
 
