@@ -5,9 +5,9 @@
 MinaVibration::MinaVibration(QObject *object) :
     MinoAnimation(object)
 {
-    _barLenght.setStartValue((qreal)_boundingRect.height()/2.0);
-    _barLenght.setEndValue(1.0);
-    _barLenght.setEasingCurve(QEasingCurve::OutBounce);
+    _ecrBarLenght.setStartValue((qreal)_boundingRect.height()/2.0);
+    _ecrBarLenght.setEndValue(1.0);
+    _ecrBarLenght.setEasingCurve(QEasingCurve::OutBounce);
 
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
     blur->setBlurRadius(1.1);
@@ -25,8 +25,6 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
     (void)ppqn;
     (void)qn;
 
-    computeAnimaBeatProperty(gppqn);
-
     // Colors
     QColor color = _color->color();
 
@@ -38,7 +36,7 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
     qreal currentX = -1;
     qreal currentY = middle;
     const int maxSegments = _boundingRect.width()/2;
-    qreal barLenghtFactor = _barLenght.valueForProgress(_beatFactor->progressForGppqn(gppqn));
+    qreal barLenghtFactor = _ecrBarLenght.valueForProgress(_beatFactor->progressForGppqn(gppqn));
 
     while (currentX < _boundingRect.width())
     {

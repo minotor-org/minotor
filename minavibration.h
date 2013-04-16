@@ -28,7 +28,7 @@ public slots:
 
 private:
     QGraphicsItemGroup _itemGroup;
-    EasingCurvedReal _barLenght;
+    EasingCurvedReal _ecrBarLenght;
 
 protected:
     MinoPropertyReal *_segments;
