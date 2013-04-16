@@ -15,6 +15,7 @@ class Minotor;
 class MinoProgram : public MinoPersistentObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString label READ label WRITE setLabel STORED true)
 
     // Minotor can access to protected/private functions
     friend class Minotor;
