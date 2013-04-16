@@ -253,6 +253,9 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
         parser->remove("");
         qDebug() << QString(" ").repeated(2) << object;
 
+        if(!object->objectName().isEmpty())
+            parser->setValue("objectName", object->objectName());
+
         // Start an array of properties
         parser->beginWriteArray("properties");
         parser->remove("");
@@ -261,12 +264,16 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
         {
             parser->setArrayIndex(j);
             QMetaProperty omp = object->metaObject()->property(j);
-            parser->setValue(omp.name(), omp.read(object));
-            qDebug() << QString(" ").repeated(3)
-                     << omp.typeName()
-                     << omp.name()
-                     << omp.read(object)
-                     << omp.isStored();
+            // Skip the already-handled objectName property
+            if(QString(omp.name()) != QString("objectName"))
+            {
+                parser->setValue(omp.name(), omp.read(object));
+                qDebug() << QString(" ").repeated(3)
+                         << omp.typeName()
+                         << omp.name()
+                         << omp.read(object)
+                         << omp.isStored();
+            }
         }
         // End of properties array
         parser->endArray();
@@ -350,21 +357,17 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
             parser->setArrayIndex(i);
             foreach(QString key, parser->childKeys())
             {
-                // Skip objectName property
-                if(key != QString("objectName"))
+                qDebug() << Q_FUNC_INFO
+                         << QString("#%1 key:").arg(i) << key;
+                int index = object->metaObject()->indexOfProperty(key.toAscii());
+                if(index != -1)
                 {
+                    QMetaProperty omp = object->metaObject()->property(index) ;
+                    omp.write(object, parser->value(key));
                     qDebug() << Q_FUNC_INFO
-                             << QString("#%1 key:").arg(i) << key;
-                    int index = object->metaObject()->indexOfProperty(key.toAscii());
-                    if(index != -1)
-                    {
-                        QMetaProperty omp = object->metaObject()->property(index) ;
-                        omp.write(object, parser->value(key));
-                        qDebug() << Q_FUNC_INFO
-                                 << "write property:" << key
-                                 << "with value:" << parser->value(key)
-                                 << "on object:" << object;
-                    }
+                             << "write property:" << key
+                             << "with value:" << parser->value(key)
+                             << "on object:" << object;
                 }
             }
         }
@@ -376,8 +379,8 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
         {
             parser->setArrayIndex(i);
             this->loadObjects(parser, object);
-            parser->endArray();
         }
+        parser->endArray();
     }
     else
     {
