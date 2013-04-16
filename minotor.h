@@ -89,6 +89,12 @@ private:
 
     // Programs
     QList<MinoProgram*> _programs;
+
+    void loadObject(QSettings* parser, const QString &className, QObject *parent);
+    void loadObjects(QSettings *parser, QObject *parent);
+
+    QObject *findParentFor(const QString& className);
+
 };
 
 #endif // MINOTOR_H

@@ -288,87 +288,105 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
     }
 }
 
-void Minotor::load(QSettings* parser)
+QObject *Minotor::findParentFor(const QString& className)
+{
+    QObject *parent = NULL;
+    if(className == QString("MinoProgram"))
+    {
+        parent = this;
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "ERROR: no parent for class:" << className;
+    }
+    return parent;
+}
+
+void Minotor::loadObjects(QSettings *parser, QObject *parent)
 {
     foreach(QString group, parser->childGroups())
     {
         qDebug() << Q_FUNC_INFO
                  << "group" << group;
         parser->beginGroup(group);
-
-        MinoPersistentObject *object = NULL;
-        if(parser->value("objectName").toString().isEmpty())
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "instantiate object from class:" << group;
-            if(group == QString("MinoProgram"))
-            {
-                object = MinoPersistentObjectFactory::createObject(group.toAscii(), this);
-            }
-            else
-            {
-                qDebug() << Q_FUNC_INFO
-                         << "FIXME: no parent for class:" << group;
-            }
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "FIXME: find an object named:" << parser->value("objectName").toString();
-        }
-        if(object)
-        {
-            foreach(QString key, parser->childKeys())
-            {
-                qDebug() << Q_FUNC_INFO
-                         << "key:" << key;
-            }
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "ERROR: no object to fill...";
-        }
+        loadObject(parser, group, parent);
         parser->endGroup();
     }
-/*
-    // Start a group using classname
-    parser->beginGroup(object->metaObject()->className());
-    // Remove all entries in this group
-    parser->remove("");
-    qDebug() << QString(" ").repeated(2) << object;
+}
 
-    // Start an array of properties
-    parser->beginWriteArray("properties");
-    parser->remove("");
-
-    for(int j=0; j<object->metaObject()->propertyCount(); j++)
-    {
-        parser->setArrayIndex(j);
-        QMetaProperty omp = object->metaObject()->property(j);
-        parser->setValue(omp.name(), omp.read(object));
-        qDebug() << QString(" ").repeated(3)
-                 << omp.typeName()
-                 << omp.name()
-                 << omp.read(object)
-                 << omp.isStored();
+void Minotor::loadObject(QSettings *parser, const QString& className, QObject *parent)
+{
+    // Find the right parent
+    if(!parent) {
+        parent = findParentFor(className);
     }
-    // End of properties array
-    parser->endArray();
+    Q_ASSERT(parent);
 
-    parser->beginWriteArray("children");
-    parser->remove("");
-    QObjectList ol = object->children();
-    int j = 0;
-    foreach(QObject* o, ol)
+    // Build or locate the object
+    MinoPersistentObject *object = NULL;
+    const QString objectName = parser->value("objectName").toString();
+    if(objectName.isEmpty())
     {
-        if(MinoPersistentObject* mpo = qobject_cast<MinoPersistentObject*>(o))
+        // no objectName, that means we create the object
+        qDebug() << Q_FUNC_INFO
+                 << "instantiate object from class:" << className;
+        object = MinoPersistentObjectFactory::createObject(className.toAscii(), parent);
+    }
+    else
+    {
+        // objectName is filled, we will locate it from its parent
+        qDebug() << Q_FUNC_INFO
+                 << "find an object named:" << parser->value("objectName").toString();
+        object = parent->findChild<MinoPersistentObject*>(objectName);
+    }
+
+    if(object)
+    {
+        // Restore properties value
+        int size = parser->beginReadArray("properties");
+        for(int i=0; i<size; ++i)
         {
-            parser->setArrayIndex(j++);
-            save(mpo, parser);
+            parser->setArrayIndex(i);
+            foreach(QString key, parser->childKeys())
+            {
+                // Skip objectName property
+                if(key != QString("objectName"))
+                {
+                    qDebug() << Q_FUNC_INFO
+                             << QString("#%1 key:").arg(i) << key;
+                    int index = object->metaObject()->indexOfProperty(key.toAscii());
+                    if(index != -1)
+                    {
+                        QMetaProperty omp = object->metaObject()->property(index) ;
+                        omp.write(object, parser->value(key));
+                        qDebug() << Q_FUNC_INFO
+                                 << "write property:" << key
+                                 << "with value:" << parser->value(key)
+                                 << "on object:" << object;
+                    }
+                }
+            }
+        }
+        parser->endArray();
+
+        // Children
+        size = parser->beginReadArray("children");
+        for(int i=0; i<size; ++i)
+        {
+            parser->setArrayIndex(i);
+            this->loadObjects(parser, object);
+            parser->endArray();
         }
     }
-    parser->endArray();
-    parser->endGroup();
-    */
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "ERROR: no object to fill...";
+    }
+}
+
+void Minotor::load(QSettings* parser)
+{
+    loadObjects(parser, NULL);
 }
