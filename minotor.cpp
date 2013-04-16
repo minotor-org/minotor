@@ -273,3 +273,79 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
         parser->endGroup();
     }
 }
+
+void Minotor::load(QSettings* parser)
+{
+    foreach(QString group, parser->childGroups())
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "group" << group;
+        parser->beginGroup(group);
+
+        MinoPersistentObject *object = NULL;
+        if(parser->value("objectName").toString().isEmpty())
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "FIXME: instantiate object from class:" << group;
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "FIXME: find an object named:" << parser->value("objectName").toString();
+        }
+        if(object)
+        {
+            foreach(QString key, parser->childKeys())
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "key:" << key;
+            }
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "ERROR: no object to fill...";
+        }
+        parser->endGroup();
+    }
+/*
+    // Start a group using classname
+    parser->beginGroup(object->metaObject()->className());
+    // Remove all entries in this group
+    parser->remove("");
+    qDebug() << QString(" ").repeated(2) << object;
+
+    // Start an array of properties
+    parser->beginWriteArray("properties");
+    parser->remove("");
+
+    for(int j=0; j<object->metaObject()->propertyCount(); j++)
+    {
+        parser->setArrayIndex(j);
+        QMetaProperty omp = object->metaObject()->property(j);
+        parser->setValue(omp.name(), omp.read(object));
+        qDebug() << QString(" ").repeated(3)
+                 << omp.typeName()
+                 << omp.name()
+                 << omp.read(object)
+                 << omp.isStored();
+    }
+    // End of properties array
+    parser->endArray();
+
+    parser->beginWriteArray("children");
+    parser->remove("");
+    QObjectList ol = object->children();
+    int j = 0;
+    foreach(QObject* o, ol)
+    {
+        if(MinoPersistentObject* mpo = qobject_cast<MinoPersistentObject*>(o))
+        {
+            parser->setArrayIndex(j++);
+            save(mpo, parser);
+        }
+    }
+    parser->endArray();
+    parser->endGroup();
+    */
+}

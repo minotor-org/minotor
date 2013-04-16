@@ -360,3 +360,10 @@ void MainWindow::on_pbSave_clicked()
     QSettings parser(file, QSettings::IniFormat);
     _minotor->save(_minotor->master()->program(), &parser);
 }
+
+void MainWindow::on_pbLoad_clicked()
+{
+    QString file("program.plop");
+    QSettings parser(file, QSettings::IniFormat);
+    _minotor->load(&parser);
+}

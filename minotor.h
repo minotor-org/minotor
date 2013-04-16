@@ -58,6 +58,7 @@ public:
 
     // Persistence
     void save(MinoPersistentObject* object, QSettings* parser);
+    void load(QSettings* parser);
 
 signals:
     void beatToggled(bool active);

@@ -154,6 +154,13 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="pbLoad">
+       <property name="text">
+        <string>Load from ...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
