@@ -1,13 +1,12 @@
 #include "minagradient.h"
 #include "minoprogram.h"
+
 #include <QDebug>
+#include <QEasingCurve>
 
 MinaGradient::MinaGradient(QObject *object):
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.0));
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
-
     _generatorStyle = new MinoItemizedProperty(this);
     _generatorStyle->setObjectName("style");
     _generatorStyle->setLabel("Style");
@@ -33,7 +32,6 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     QColor color = _color->color();
 
@@ -59,11 +57,11 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
         break;
     }
 
-    _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
+    QEasingCurve ec(_generatorCurve->easingCurveType());
 
     const unsigned int waves = 6;
 	const qreal step = 1.0 / ((qreal) waves *2.0);
-    const qreal anipos = _beatAnimatedProperty.currentValue().toReal();
+    const qreal anipos = ec.valueForProgress(_beatFactor->progressForGppqn(gppqn));
     bool toogle = true;
     for (qreal pos = 0.0; pos <= 1.0; pos+=step)
     {
