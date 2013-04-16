@@ -28,7 +28,7 @@ void MinoPropertyColor::setColor(const QColor& color)
     _color = color;
 }
 
-QColor MinoPropertyColor::color()
+QColor MinoPropertyColor::color() const
 {
     return _color;
 }

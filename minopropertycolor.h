@@ -9,11 +9,13 @@
 class MinoPropertyColor : public MinoProperty
 {
     Q_OBJECT
+    Q_PROPERTY(QColor color READ color WRITE setColor STORED true)
+
 public:
     explicit MinoPropertyColor(QObject *parent);
     
     void setColor(const QColor &color);
-    QColor color();
+    QColor color() const;
 
 private:
     MidiControllableReal *_mcrHue;
