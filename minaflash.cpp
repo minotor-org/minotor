@@ -7,7 +7,7 @@ MinaFlash::MinaFlash(QObject *object):
     MinoAnimation(object),
     _rectItem(NULL)
 {
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _ecrOpacity.setEasingCurve(QEasingCurve::OutBounce);
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);
@@ -25,9 +25,8 @@ void MinaFlash::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     QColor color = _color->color();
     _rectItem->setBrush(QBrush(color));
-    _rectItem->setOpacity(_beatAnimatedProperty.currentValue().toFloat());
+    _rectItem->setOpacity(_ecrOpacity.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
 }

@@ -2,6 +2,7 @@
 #define MINAFLASH_H
 
 #include "minoanimation.h"
+#include "easingcurvedreal.h"
 
 #include <QGraphicsRectItem>
 
@@ -22,6 +23,7 @@ public:
 
 private:
     QGraphicsRectItem *_rectItem;
+    EasingCurvedReal _ecrOpacity;
 
 signals:
     
