@@ -5,6 +5,7 @@
 
 #include "minopropertyreal.h"
 #include "minopropertyeasingcurve.h"
+#include "easingcurvedreal.h"
 
 class MinaRotatingBars : public MinoAnimation
 {
@@ -33,6 +34,7 @@ private:
     MinoPropertyReal *_length;
     int _maxPixels;
     QRectF _drawingZone;
+    EasingCurvedReal _ecrAngle;
 
 };
 

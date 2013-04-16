@@ -6,9 +6,9 @@
 MinaRotatingBars::MinaRotatingBars(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::OutBounce);
+    _ecrAngle.setStartValue(1.0);
+    _ecrAngle.setEndValue(0.0);
+    _ecrAngle.setEasingCurve(QEasingCurve::OutBounce);
 
     _width = new MinoPropertyReal(this);
     _width->setObjectName("width");
@@ -92,7 +92,7 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     _items[3]->setBrush(QBrush(color));
     _items[3]->setRect(rect3Coords);
 
-    _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
+    _ecrAngle.setEasingCurve(_generatorCurve->easingCurveType());
 
-    _itemGroup.setTransform(QTransform().translate(centerX, centerY).rotate((_beatAnimatedProperty.currentValue().toReal()*90)).translate(-centerX, -centerY));
+    _itemGroup.setTransform(QTransform().translate(centerX, centerY).rotate((_ecrAngle.valueForProgress(_beatFactor->progressForGppqn(gppqn))*90.0)).translate(-centerX, -centerY));
 }
