@@ -9,12 +9,12 @@ MinoAnimation::MinoAnimation(QObject *parent) :
     _group(NULL),
     _enabled(true)
 {
+    Q_ASSERT(parent);
     if(MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent))
     {
         setGroup(mag);
         _scene = _program->minotor()->scene();
         _boundingRect = _program->minotor()->displayRect();
-
     }
     _color = new MinoPropertyColor(this);
     QColor randColor;
