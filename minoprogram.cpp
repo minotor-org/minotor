@@ -6,14 +6,12 @@
 #include <QBrush>
 #include <QDebug>
 
-MinoProgram::MinoProgram(Minotor *minotor) :
-    MinoPersistentObject(minotor),
+MinoProgram::MinoProgram(QObject *parent) :
+    MinoPersistentObject(parent),
     _image(NULL),
     _onAir(false)
 {
-    _scene = minotor->scene();
-    _scene->addItem(&_itemGroup);
-
+    // Beat factor used for delayed animation launch
     _beatFactor = new MidiControllableList(this);
     _beatFactor->setObjectName("beat-factor");
     _beatFactor->setLabel("Beat");
@@ -24,7 +22,12 @@ MinoProgram::MinoProgram(Minotor *minotor) :
     _beatFactor->addItem("16", 384);
     _beatFactor->setCurrentItem("1");
 
-    minotor->addProgram(this);
+    if(Minotor * minotor = qobject_cast<Minotor*>(parent))
+    {
+        _scene = minotor->scene();
+        _scene->addItem(&_itemGroup);
+        minotor->addProgram(this);
+    }
 }
 
 MinoProgram::~MinoProgram()
@@ -210,7 +213,6 @@ void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int i
 
 void MinoProgram::moveAnimationGroup(int srcGroupId, int destGroupId)
 {
-    int i=0;
     if(srcGroupId!=destGroupId)
     {
         MinoAnimationGroup *animationGroup = this->takeAnimationGroupAt(srcGroupId);
@@ -220,7 +222,6 @@ void MinoProgram::moveAnimationGroup(int srcGroupId, int destGroupId)
         qDebug()<< Q_FUNC_INFO
                 << "group inserted";
     }
-    i=0;
 
     //Reorder Z values
     for(int z=0; z<_animationGroups.count(); z++)

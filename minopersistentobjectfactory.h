@@ -19,15 +19,13 @@ public:
     template<typename T>
     static void registerClass()
     {
-        const QMetaObject *mo = T::staticMetaObject.superClass();
-        if(mo)
-        {
-            const QString superclass = mo->className();
-            if(superclass == QString("MinoAnimation"))
-            {
-                animationModels().append( T::getDescription() );
-            }
-        }
+        constructors().insert( T::staticMetaObject.className(), &constructorHelper<T> );
+    }
+
+    template<typename T>
+    static void registerAnimationClass()
+    {
+        animationModels().append( T::getDescription() );
         constructors().insert( T::staticMetaObject.className(), &constructorHelper<T> );
     }
 

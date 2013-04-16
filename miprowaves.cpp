@@ -1,10 +1,13 @@
 #include "miprowaves.h"
+
+#include "minotor.h"
+
 #include "minawaveform.h"
 
 MiproWaves::MiproWaves(Minotor *minotor) :
     MinoProgram(minotor)
 {
-    this->setObjectName("Waves");
+    this->setLabel("Waves");
     MinoAnimationGroup *awfg = new MinoAnimationGroup(this);
     MinaWaveform *awf = new MinaWaveform(awfg);
     awf->setColor(QColor::fromHslF(0.1, 1.0, 0.5));

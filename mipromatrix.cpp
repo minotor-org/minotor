@@ -14,7 +14,7 @@ MiproMatrix::MiproMatrix(Minotor *minotor) :
 {
     const QColor matrixColor(QColor::fromHslF(0.32, 1.0, 0.5));
 
-    this->setObjectName("Matrix");
+    this->setLabel("Matrix");
 
     MinoAnimationGroup *afg = new MinoAnimationGroup(this);
     MinaFlash *af = new MinaFlash(afg);

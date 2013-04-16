@@ -139,21 +139,24 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,27,"TRANSPORT_TAP");
 
     // Register animations
-    MinoPersistentObjectFactory::registerClass<MinaFlash>();
-    MinoPersistentObjectFactory::registerClass<MinaExpandingObjects>();
-    MinoPersistentObjectFactory::registerClass<MinaWaveform>();
-    MinoPersistentObjectFactory::registerClass<MinaVibration>();
-    MinoPersistentObjectFactory::registerClass<MinaBarsFromSides>();
-    MinoPersistentObjectFactory::registerClass<MinaFallingObjects>();
-    MinoPersistentObjectFactory::registerClass<MinaText>();
-    MinoPersistentObjectFactory::registerClass<MinaRandomPixels>();
-    MinoPersistentObjectFactory::registerClass<MinaStars>();
-    MinoPersistentObjectFactory::registerClass<MinaGradient>();
-    MinoPersistentObjectFactory::registerClass<MinaPlasma>();
-    MinoPersistentObjectFactory::registerClass<MinaRotatingBars>();
-    MinoPersistentObjectFactory::registerClass<MinaCurve>();
-    MinoPersistentObjectFactory::registerClass<MinaBalls>();
-    MinoPersistentObjectFactory::registerClass<MinaImage>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFlash>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaExpandingObjects>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaWaveform>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaVibration>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaBarsFromSides>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFallingObjects>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaText>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaRandomPixels>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaStars>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaGradient>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaPlasma>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaRotatingBars>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaCurve>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaBalls>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
+
+    // Register other instansiable persistent objects
+    MinoPersistentObjectFactory::registerClass<MinoProgram>();
 }
 
 Minotor::~Minotor()
@@ -234,8 +237,18 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
 {
     if(object)
     {
-        // Start a group using classname
-        parser->beginGroup(object->metaObject()->className());
+        qDebug() << Q_FUNC_INFO
+                 << "object->metaObject()->superClass()->className()" << object->metaObject()->superClass()->className();
+        if(object->metaObject()->superClass() && (QString(object->metaObject()->superClass()->className()) == QString("MinoProgram")))
+        {
+            // HACK to transform hardcoded programs into a simple -and instantiable- MinoProgram
+            parser->beginGroup("MinoProgram");
+        }
+        else
+        {
+            // Start a group using classname
+            parser->beginGroup(object->metaObject()->className());
+        }
         // Remove all entries in this group
         parser->remove("");
         qDebug() << QString(" ").repeated(2) << object;
@@ -287,7 +300,16 @@ void Minotor::load(QSettings* parser)
         if(parser->value("objectName").toString().isEmpty())
         {
             qDebug() << Q_FUNC_INFO
-                     << "FIXME: instantiate object from class:" << group;
+                     << "instantiate object from class:" << group;
+            if(group == QString("MinoProgram"))
+            {
+                object = MinoPersistentObjectFactory::createObject(group.toAscii(), this);
+            }
+            else
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "FIXME: no parent for class:" << group;
+            }
         }
         else
         {

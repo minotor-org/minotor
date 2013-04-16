@@ -21,7 +21,7 @@ class MinoProgram : public MinoPersistentObject
     friend class MinoMaster;
 
 public:
-    explicit MinoProgram(Minotor *minotor);
+    explicit MinoProgram(QObject *parent);
     ~MinoProgram();
 
     void registerAnimationGroupEnableChange(MinoAnimationGroup *group, const bool on);
@@ -52,6 +52,8 @@ public:
     void moveAnimationGroup(int srcGroupId, int destGroupId);
 
     Minotor *minotor();
+    QString label() const { return _label; }
+    void setLabel(const QString& label) { _label = label; }
 
 protected:
     // At end of object creation, Minotor will set ID and drawing rect
@@ -79,9 +81,12 @@ private:
     // Image ratio
     qreal _heightForWidthRatio;
 
+    // TODO: remove me and put me on master only
     MidiControllableList *_beatFactor;
 
     bool _onAir;
+
+    QString _label;
 
 protected:
     MinoAnimationGroupList _animationGroups;

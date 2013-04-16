@@ -1,5 +1,7 @@
 #include "miprodebug.h"
 
+#include "minotor.h"
+
 #include "minadebug.h"
 #include "minaflash.h"
 #include "minaimage.h"
@@ -8,7 +10,7 @@
 MiproDebug::MiproDebug(Minotor *minotor) :
     MinoProgram(minotor)
 {
-    this->setObjectName("Debug");
+    this->setLabel("Debug");
     MinoAnimationGroup *asgd = new MinoAnimationGroup(this);
     MinaFlash *ad = new MinaFlash(asgd);
     ad->setColor(QColor::fromHslF(0.12,0.34,0.56));

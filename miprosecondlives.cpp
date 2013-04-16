@@ -1,5 +1,7 @@
 #include "miprosecondlives.h"
 
+#include "minotor.h"
+
 #include "minarandompixels.h"
 #include "minaexpandingobjects.h"
 #include "minaflash.h"
@@ -10,7 +12,7 @@
 MiproSecondLives::MiproSecondLives(Minotor *minotor) :
     MinoProgram(minotor)
 {
-    this->setObjectName("Vitalic - Second Lives");
+    this->setLabel("Vitalic - Second Lives");
     MinoAnimationGroup *agrp = new MinoAnimationGroup(this);
     MinaRandomPixels *arp = new MinaRandomPixels(agrp);
     arp->setColor(QColor::fromHslF(0.5, 1.0, 0.5));
