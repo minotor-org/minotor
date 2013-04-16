@@ -6,7 +6,7 @@ MinoPropertyBeat::MinoPropertyBeat(QObject *parent) :
     MinoProperty(parent)
 {
     _mcl = new MidiControllableList(this);
-    _mcl->setObjectName("loop-size");
+    this->setObjectName("loop-size");
     _mcl->setLabel("Loop");
     _mcl->setLinear();
 
