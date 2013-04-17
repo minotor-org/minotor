@@ -2,6 +2,7 @@
 #define MINOANIMATIONEXPANDINGOBJECTS_H
 
 #include "minoanimation.h"
+#include "easingcurvedreal.h"
 
 class MinaExpandingObjects : public MinoAnimation
 {
@@ -30,7 +31,7 @@ private:
     MinoItemizedProperty *_generatorShape;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
-
+    EasingCurvedReal _ecrScale;
 };
 
 #endif // MINOANIMATIONEXPANDINGOBJECTS_H
