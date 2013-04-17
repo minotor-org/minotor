@@ -3,8 +3,8 @@
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.0));
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
+    _ecrPosition.setStartValue(0.0);
+    _ecrPosition.setEndValue(1.0);
 
     //First line of properties
     _beatDuration = new MinoItemizedProperty(this);
@@ -144,31 +144,30 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
         else
         {
             const qreal progress = item.progressForUppqn(uppqn);
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
             switch(direction)
             {
             case 0:
             {
                 //left to right
-                _animatedItems.at(i)._graphicsItem->setPos((_beatAnimatedProperty.currentValue().toReal()*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
+                _animatedItems.at(i)._graphicsItem->setPos((_ecrPosition.valueForProgress(progress)*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
             }
                 break;
             case 1:
             {
                 //right to left
-                _animatedItems.at(i)._graphicsItem->setPos(((1-_beatAnimatedProperty.currentValue().toReal())*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
+                _animatedItems.at(i)._graphicsItem->setPos(((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
                 break;
             }
             case 2:
             {
                 //bottom to top
-                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((1-_beatAnimatedProperty.currentValue().toReal())*((qreal)_boundingRect.height()+(length*2))-length));
+                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length*2))-length));
                 break;
             }
             case 3:
             {
                 //top to bottom
-                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((_beatAnimatedProperty.currentValue().toReal())*((qreal)_boundingRect.height()+(length*2))-length));
+                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length*2))-length));
                 break;
             }
             }

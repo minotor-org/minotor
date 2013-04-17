@@ -1,6 +1,8 @@
 #ifndef MINAFALLINGOBJECTS_H
 #define MINAFALLINGOBJECTS_H
+
 #include "minoanimation.h"
+#include "easingcurvedreal.h"
 
 class MinaFallingObjects : public MinoAnimation
 {
@@ -32,6 +34,6 @@ protected:
     MinoItemizedProperty *_generatorDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
-
+    EasingCurvedReal _ecrPosition;
 };
 #endif // MINAFALLINGOBJECTS_H
