@@ -3,9 +3,9 @@
 MinaStars::MinaStars(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.0));
-    _beatAnimatedProperty.setEndValue(QVariant(2.0));
-    _beatAnimatedProperty.setEasingCurve(QEasingCurve::InQuart);
+    _ecrPosition.setStartValue(0.0);
+    _ecrPosition.setEndValue(2.0);
+    _ecrPosition.setEasingCurve(QEasingCurve::InQuart);
 
     _beatDuration = new MinoItemizedProperty(this);
     _beatDuration->setObjectName("duration");
@@ -91,9 +91,8 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         else
         {
             const qreal progress = item.progressForUppqn(uppqn);
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
-            item._graphicsItem->setScale(_beatAnimatedProperty.currentValue().toReal());
-            item._graphicsItem->setOpacity((_beatAnimatedProperty.currentValue().toReal()/2));
+            item._graphicsItem->setScale(_ecrPosition.valueForProgress(progress));
+            item._graphicsItem->setOpacity((_ecrPosition.valueForProgress(progress)/2));
         }
     }
 }

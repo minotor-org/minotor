@@ -1,6 +1,8 @@
 #ifndef MINASTARS_H
 #define MINASTARS_H
+
 #include "minoanimation.h"
+#include "easingcurvedreal.h"
 
 class MinaStars : public MinoAnimation
 {
@@ -27,7 +29,7 @@ private:
     MinoItemizedProperty *_generatorDensity;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
-
+    EasingCurvedReal _ecrPosition;
 };
 
 #endif // MINASTARS_H
