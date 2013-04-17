@@ -4,8 +4,8 @@
 MinaText::MinaText(QObject *object) :
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.01));
+    _ecrScale.setStartValue(1.0);
+    _ecrScale.setEndValue(0.01);
 
     _beatDuration = new MinoItemizedProperty(this);
     _beatDuration->setObjectName("duration");
@@ -99,9 +99,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
         else
         {
             const qreal progress = item.progressForUppqn(uppqn);
-            _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * progress);
-
-            _animatedItems.at(i)._graphicsItem->setScale(_beatAnimatedProperty.currentValue().toReal());
+            _animatedItems.at(i)._graphicsItem->setScale(_ecrScale.valueForProgress(progress));
         }
     }
 }
