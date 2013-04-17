@@ -37,5 +37,6 @@
         <file>style.css</file>
         <file>images/balls.png</file>
         <file>pictos/load.png</file>
+        <file>images/flashbars.png</file>
     </qresource>
 </RCC>

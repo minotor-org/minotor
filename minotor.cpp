@@ -24,6 +24,7 @@
 #include "minacurve.h"
 #include "minaballs.h"
 #include "minaimage.h"
+#include "minaflashbars.h"
 
 // Programs
 #include "miprodebug.h"
@@ -154,7 +155,7 @@ Minotor::Minotor(QObject *parent) :
     MinoPersistentObjectFactory::registerAnimationClass<MinaCurve>();
     MinoPersistentObjectFactory::registerAnimationClass<MinaBalls>();
     MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
-
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFlashBars>();
     // Register other instantiable persistent objects
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
     MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
