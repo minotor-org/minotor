@@ -5,8 +5,8 @@
 MinaPlasma::MinaPlasma(QObject *object):
     MinoAnimation(object)
 {
-    _beatAnimatedProperty.setStartValue(QVariant(0.0));
-    _beatAnimatedProperty.setEndValue(QVariant(1.0));
+    _ecrPosition.setStartValue(0.0);
+    _ecrPosition.setEndValue(1.0);
 
     _generatorSteps = new MinoItemizedProperty(this);
     _generatorSteps->setObjectName("steps");
@@ -96,11 +96,12 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     //Bottom right
     grad5 = QRadialGradient(QPointF(_boundingRect.topRight().x()+_boundingRect.width(),_boundingRect.topRight().y()+_boundingRect.height()),_boundingRect.width()*4);
 
-    _beatAnimatedProperty.setEasingCurve(_generatorCurve->easingCurveType());
+    _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int waves = _generatorSteps->currentItem()->real();
     const qreal step = 1.0 / ((qreal) waves *2.0);
-    const qreal anipos = _beatAnimatedProperty.currentValue().toReal();
+
+    const qreal anipos = _ecrPosition.valueForProgress(_beatFactor->progressForGppqn(gppqn));
     bool toogle = true;
     for (qreal pos = 0.0; pos <= 1.0; pos+=step)
     {

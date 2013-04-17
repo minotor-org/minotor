@@ -6,6 +6,7 @@
 #include <QGraphicsRectItem>
 
 #include "minopropertyeasingcurve.h"
+#include "easingcurvedreal.h"
 
 class MinaPlasma : public MinoAnimation
 {
@@ -31,7 +32,7 @@ private:
     QGraphicsRectItem *_rectBottomRight;
     MinoPropertyEasingCurve *_generatorCurve;
     MinoItemizedProperty *_generatorSteps;
-
+    EasingCurvedReal _ecrPosition;
 };
 
 #endif // MINOANIMATIONPLASMA_H
