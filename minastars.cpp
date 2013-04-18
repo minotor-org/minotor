@@ -33,6 +33,8 @@ MinaStars::MinaStars(QObject *object) :
     _generatorDensity->addItem("8", 8);
     _generatorDensity->setCurrentItem("1");
     _generatorDensity->setLinear();
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -41,6 +43,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     (void)ppqn;
 
     QColor color = _color->color();
+    _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
     const unsigned int density = _generatorDensity->currentItem()->real();

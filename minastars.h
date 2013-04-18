@@ -3,6 +3,7 @@
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaStars : public MinoAnimation
 {
@@ -27,6 +28,7 @@ public slots:
 private:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorDensity;
+    MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrPosition;
