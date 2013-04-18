@@ -7,8 +7,8 @@
 MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     MinoAnimation(object)
 {
-    _ecrScale.setStartValue(1.0);
-    _ecrScale.setEndValue(0.01);
+    _ecrScale.setStartValue(0.01);
+    _ecrScale.setEndValue(2.0);
     _ecrScale.setEasingCurve(QEasingCurve::Linear);
 
     _beatDuration = new MinoItemizedProperty(this);
@@ -132,14 +132,15 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
         const MinoAnimatedItem item = _animatedItems.at(i);
-        if (uppqn > (item._startUppqn+item._duration))
+        const qreal progress = item.progressForUppqn(uppqn);
+        if (progress == 1.0)
         {
-            delete item._graphicsItem;
+            _scene->removeItem(item._graphicsItem);
             _animatedItems.removeAt(i);
+            delete item._graphicsItem;
         }
         else
         {
-            const qreal progress = item.progressForUppqn(uppqn);
             _animatedItems.at(i)._graphicsItem->setScale(_ecrScale.valueForProgress(progress));
         }
     }
