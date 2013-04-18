@@ -3,6 +3,7 @@
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaFallingObjects : public MinoAnimation
 {
@@ -32,6 +33,7 @@ protected:
     MinoItemizedProperty *_generatorDirection;
     MinoItemizedProperty *_generatorLength;
     MinoItemizedProperty *_generatorDensity;
+    MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrPosition;

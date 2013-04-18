@@ -61,6 +61,8 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorLength->addItem("12", 12);
     _generatorLength->setLinear();
     _generatorLength->setCurrentItem("8");
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -69,6 +71,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     (void)ppqn;
 
     QColor color = _color->color();
+    _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
     const unsigned int direction = _generatorDirection->currentItem()->real();
