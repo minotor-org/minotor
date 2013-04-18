@@ -43,6 +43,8 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _generatorShape->addItem("Square", 3);
     _generatorShape->setCurrentItem("Ellipse");
 
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
+
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
     blur->setBlurRadius(1.1);
     _itemGroup.setGraphicsEffect(blur);
@@ -55,6 +57,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
     (void)ppqn;
 
     QColor color = _color->color();
+    _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
     if ((gppqn%b)==0)
