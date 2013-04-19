@@ -17,6 +17,8 @@ MinaVibration::MinaVibration(QObject *object) :
     _segments->setObjectName("segment");
     _segments->setLabel("Segment");
     _segments->setValue(0.3);
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -27,6 +29,8 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
 
     // Colors
     QColor color = _color->color();
+
+    _ecrBarLenght.setEasingCurve(_generatorCurve->easingCurveType());
 
     const qreal middle = (qreal)_boundingRect.height()/2;
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
