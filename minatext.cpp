@@ -31,6 +31,8 @@ MinaText::MinaText(QObject *object) :
     _generatorStyle->addItem("P:R=T:R", 3);
     _generatorStyle->addItem("P:R T:R", 4);
     _generatorStyle->setCurrentItem("P:R T:F");
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -39,6 +41,8 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     (void)ppqn;
 
     QColor color = _color->color();
+
+    _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
     if ((gppqn%b)==0)

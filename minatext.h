@@ -5,6 +5,7 @@
 
 #include "minopropertytext.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaText : public MinoAnimation
 {
@@ -32,6 +33,7 @@ private:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorStyle;
     MinoPropertyText *_text;
+    MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrScale;
