@@ -5,6 +5,7 @@
 
 #include "minopropertyreal.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaRandomPixels : public MinoAnimation
 {
@@ -27,6 +28,7 @@ public slots:
 
 private:
     MinoPropertyReal *_density;
+    MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     EasingCurvedReal _ecrAlpha;
 };

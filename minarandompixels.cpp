@@ -14,6 +14,8 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _density->setLabel("Density");
     _density->setValue(0.1);
 
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
+
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {
         for (qreal j=0.0; j<_boundingRect.width();j+=1.0)
@@ -30,6 +32,9 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
     (void)qn;
 
     QColor color = _color->color();
+
+    _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
+
     color.setAlphaF(_ecrAlpha.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
 
     QColor transparency;
