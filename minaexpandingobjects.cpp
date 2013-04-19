@@ -136,7 +136,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
     {
         const MinoAnimatedItem item = _animatedItems.at(i);
         const qreal progress = item.progressForUppqn(uppqn);
-        if (progress == 1.0)
+        if (progress >= 1.0)
         {
             _scene->removeItem(item._graphicsItem);
             _animatedItems.removeAt(i);
