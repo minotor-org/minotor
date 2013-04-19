@@ -2,8 +2,8 @@
 #define MINOANIMATIONWAVEFORM_H
 
 #include "minoanimation.h"
-
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaWaveform : public MinoAnimation
 {
@@ -26,9 +26,11 @@ public slots:
 private:
     QGraphicsItemGroup _itemGroup;
     EasingCurvedReal _ecrHeight;
+    MinoPropertyEasingCurve *_generatorCurve;
 
 protected:
     MinoItemizedProperty *_colorType;
+
 
 };
 

@@ -15,6 +15,8 @@ MinaWaveform::MinaWaveform(QObject *object) :
     _colorType->addItem("plain", 0);
     _colorType->addItem("grad.", 1);
     _colorType->setCurrentItem("plain");
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -28,6 +30,7 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     QColor colorMin, colorMax;
 
     QLinearGradient grad(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
+    _ecrHeight.setEasingCurve(_generatorCurve->easingCurveType());
 
     if (_colorType->currentItem()->real() == 0.0)
     {
@@ -59,7 +62,8 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
     for (int i=0; i<_boundingRect.width(); i++)
     {
-        qreal randHeight = qrandF() * _ecrHeight.valueForProgress(_beatFactor->progressForGppqn(gppqn));
+        const qreal progress = _beatFactor->progressForGppqn(gppqn);
+        qreal randHeight = qrandF() * _ecrHeight.valueForProgress(progress);
         _itemGroup.addToGroup(_scene->addLine(i, middle-randHeight, i, middle+randHeight, QPen(QBrush(grad),1)));
     }
 }
