@@ -3,6 +3,7 @@
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 class MinaBarsFromSides : public MinoAnimation
 {
@@ -21,6 +22,7 @@ public:
 private:
     QGraphicsItemGroup _itemGroup;
     EasingCurvedReal _ecr;
+    MinoPropertyEasingCurve *_generatorCurve;
 
 signals:
 

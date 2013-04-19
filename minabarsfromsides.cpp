@@ -15,6 +15,8 @@ MinaBarsFromSides::MinaBarsFromSides(QObject *object) :
     _colorType->addItem("plain", 0);
     _colorType->addItem("grad.", 1);
     _colorType->setCurrentItem("plain");
+
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -26,6 +28,8 @@ void MinaBarsFromSides::animate(const unsigned int uppqn, const unsigned int gpp
     // Colors
     QColor color, colorMin, colorMax;
     color = _color->color();
+
+    _ecr.setEasingCurve(_generatorCurve->easingCurveType());
 
     QLinearGradient gradH(0.0, 0.0, 0.0, (qreal)_boundingRect.height()) ;
     QLinearGradient gradV(0.0, 0.0, (qreal)_boundingRect.width(), 0.0) ;
