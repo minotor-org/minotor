@@ -3,6 +3,7 @@
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
+#include "minopropertyeasingcurve.h"
 
 #include <QGraphicsRectItem>
 
@@ -24,7 +25,7 @@ public:
 private:
     QGraphicsRectItem *_rectItem;
     EasingCurvedReal _ecrOpacity;
-
+    MinoPropertyEasingCurve *_generatorCurve;
 signals:
     
 public slots:
