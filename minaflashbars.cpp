@@ -14,6 +14,8 @@ MinaFlashBars::MinaFlashBars(QObject *object) :
     _width->setLabel("Width");
     _width->setValue(0.2);
 
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
+
     int posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
     _oldPosY = posY;
     _itemGroup.addToGroup(_scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(_color->color())));
@@ -27,6 +29,9 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
 
     QColor color = _color->color();
+
+    _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
+
     color.setAlphaF(_ecrAlpha.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
 
     QColor transparency;
