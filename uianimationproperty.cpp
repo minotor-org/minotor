@@ -45,12 +45,23 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
 
     if (MinoPropertyText* textProperty = qobject_cast<MinoPropertyText*>(property))
     {
+        QWidget *wText = new QWidget(this);
+        QVBoxLayout *lText = new QVBoxLayout(wText);
+
+        QLabel *label = new QLabel(wText);
+        label->setObjectName("textname");
+        label->setText("text");
+        label->setAlignment(Qt::AlignCenter);
+        lText->addWidget(label);
+
         QLineEdit *leText = new QLineEdit(this);
         leText->setObjectName("textedit");
-        leText->setAlignment(Qt::AlignHCenter);
+        leText->setAlignment(Qt::AlignCenter);
         leText->setText(textProperty->text());
         connect(leText, SIGNAL(textChanged(QString)), textProperty, SLOT(setText(QString)));
-        lProperty->addWidget(leText);
+        lText->addWidget(leText);
+
+        lProperty->addWidget(wText);
         _columnCount+=2;
     }
     else if (MinoPropertyFilename *filenameProperty = qobject_cast<MinoPropertyFilename*>(property))

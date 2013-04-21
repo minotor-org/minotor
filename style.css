@@ -194,6 +194,11 @@ QLabel#interfacename {
     font:bold;
 }
 
+QLabel#textname {
+    color:#9c9c9c;
+    font-size:12px;
+}
+
 QLabel#title {
     font:bold;
     color:#9c9c9c;
