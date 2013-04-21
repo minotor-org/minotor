@@ -19,6 +19,11 @@ UiMidiControllableParameter::UiMidiControllableParameter(MidiControllableParamet
     _midiControlled(false),
     _parameter(parameter)
 {
+    this->setMinimumWidth(50);
+    this->setMinimumHeight(50);
+    this->setMaximumWidth(50);
+    this->setMaximumHeight(50);
+
     QVBoxLayout *lProperty = new QVBoxLayout(this);
     lProperty->setSpacing(0);
     lProperty->setMargin(0);

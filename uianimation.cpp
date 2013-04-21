@@ -20,8 +20,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent),
     _animation(animation)
 {
-    this->setMinimumWidth(115);
-    this->setMaximumWidth(115);
+    this->setMinimumWidth(175);
+    this->setMaximumWidth(175);
 
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
@@ -80,7 +80,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
     MinoProperties mpl = animation->findChildren<MinoProperty*>();
-    const int maxColumnCount = 2;
+    const int maxColumnCount = 3;
     int columnCount = 0;
 
     QWidget *wPropGroup = new QWidget(_wProperties);
@@ -102,6 +102,10 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
         if(columnCount+uiAnimationProperty->columnCount() > maxColumnCount)
         {
+            if (columnCount<maxColumnCount)
+            {
+                lPropGroup->addStretch(1);
+            }
             // Add a separator
             QFrame *fSeparator = new QFrame(_wProperties);
             fSeparator->setObjectName("line");
@@ -125,6 +129,10 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         // Add property there to the right layout
         lPropGroup->addWidget(uiAnimationProperty);
     }
+    //if (columnCount<maxColumnCount)
+   //{
+        lPropGroup->addStretch(1);
+    //}
     lContent->addStretch(1);
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(animation, SIGNAL(groupChanged(int,int)), this, SLOT(changeAnimationGroup(int,int)));

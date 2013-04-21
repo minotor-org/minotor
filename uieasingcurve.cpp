@@ -9,6 +9,10 @@ UiEasingCurve::UiEasingCurve(QWidget *parent) :
     _gridColor(Qt::gray),
     _curveColor(Qt::red)
 {
+    this->setMinimumWidth(50);
+    this->setMinimumHeight(50);
+    this->setMaximumWidth(50);
+    this->setMaximumHeight(50);
 }
 
 void UiEasingCurve::paintEvent(QPaintEvent *pe)
