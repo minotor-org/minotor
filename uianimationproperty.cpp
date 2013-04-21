@@ -68,10 +68,9 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     {
         QPushButton *pbLoad = new QPushButton(this);
         lProperty->addWidget(pbLoad);
-        pbLoad->setIcon(QIcon(":/pictos/load.png"));
-        pbLoad->setIconSize(QSize(8,8));
-        pbLoad->setMinimumSize(12,12);
-        pbLoad->setMaximumSize(12,12);
+        pbLoad->setText("Load");
+        pbLoad->setMinimumSize(50,26);
+        pbLoad->setMaximumSize(50,26);
         QFileDialog *fdLoad = new QFileDialog(this);
         connect(pbLoad,SIGNAL(clicked()),fdLoad,SLOT(open()));
         connect(fdLoad,SIGNAL(fileSelected(QString)),filenameProperty,SLOT(setFilename(QString)));
@@ -80,7 +79,7 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         label->setObjectName("filename");
         label->setText(filenameProperty->filename());
         lProperty->addWidget(label);
-        _columnCount+=2;
+        _columnCount+=3;
     }
 }
 
