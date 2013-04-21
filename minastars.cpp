@@ -20,6 +20,8 @@ MinaStars::MinaStars(QObject *object) :
     _beatDuration->setCurrentItem("1");
     _beatDuration->setLinear();
 
+    _generatorCurve = new MinoPropertyEasingCurve(this, true);
+
     _generatorDensity = new MinoItemizedProperty(this);
     _generatorDensity->setObjectName("density");
     _generatorDensity->setLabel("Density");
@@ -34,7 +36,6 @@ MinaStars::MinaStars(QObject *object) :
     _generatorDensity->setCurrentItem("1");
     _generatorDensity->setLinear();
 
-    _generatorCurve = new MinoPropertyEasingCurve(this, true);
 }
 
 void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
