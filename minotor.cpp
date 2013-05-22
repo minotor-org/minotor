@@ -397,6 +397,11 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
             this->loadObjects(parser, object);
         }
         parser->endArray();
+        // HACK: MinoProgram bank need to be reloaded
+        if (MinoProgramBank *bank = qobject_cast<MinoProgramBank*>(object))
+        {
+            changeProgramBank(bank);
+        }
     }
     else
     {
@@ -412,9 +417,18 @@ void Minotor::load(QSettings* parser)
 
 void Minotor::clearPrograms()
 {
+    MinoProgramBank *programBank = new MinoProgramBank(this);
+    MinoProgram *program = new MinoProgram(programBank);
+    changeProgramBank(programBank);
+}
+
+void Minotor::changeProgramBank(MinoProgramBank *bank)
+{
     _master->setProgram(NULL);
     delete _programBank;
-    _programBank = new MinoProgramBank(this);
-    MinoProgram *program = new MinoProgram(_programBank);
-	_master->setProgram(program);
+    _programBank = bank;
+    Q_ASSERT(bank);
+    Q_ASSERT(bank->programs().count());
+    _master->setProgram(bank->programs().at(0));
+    emit programBankChanged(bank);
 }

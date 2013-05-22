@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMetaProperty>
+#include <QFileDialog>
 
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
@@ -222,8 +223,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lCentralWidget->addWidget(_uiMaster);
 
     // Programs bank
-    UiProgramBank *uiProgramBank = new UiProgramBank(_minotor->programBank(), ui->centralWidget);
-    lCentralWidget->addWidget(uiProgramBank);
+    createUiProgramBank(_minotor->programBank());
+    connect(_minotor, SIGNAL(programBankChanged(QObject*)), this, SLOT(createUiProgramBank(QObject*)));
 
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));
     _tAnimationToolBar = new QToolBar("Animations",this);
@@ -284,6 +285,40 @@ void MainWindow::on_action_MinotorWiki_triggered()
 void MainWindow::on_actionQuit_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    _programBankFileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr("Program (*.ini)"));
+    QSettings parser(_programBankFileName, QSettings::IniFormat);
+    _minotor->load(&parser);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    if (!_programBankFileName.isEmpty())
+    {
+        QFile::remove(_programBankFileName);
+        QSettings parser(_programBankFileName, QSettings::IniFormat);
+        _minotor->save(_minotor->programBank(), &parser);
+    }
+    else
+    {
+        on_actionSaveAs_triggered();
+    }
+}
+
+void MainWindow::on_actionSaveAs_triggered()
+{
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    _programBankFileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.ini)"));
+    if(QFile::exists(_programBankFileName))
+    {
+        QFile::remove(_programBankFileName);
+    }
+    QSettings parser(_programBankFileName, QSettings::IniFormat);
+    _minotor->save(_minotor->programBank(), &parser);
 }
 
 void MainWindow::on_sPpqn_valueChanged(int value)
@@ -377,4 +412,14 @@ void MainWindow::on_pbLoad_clicked()
 void MainWindow::on_actionNew_triggered()
 {
     _minotor->clearPrograms();
+}
+
+void MainWindow::createUiProgramBank(QObject *bank)
+{
+    MinoProgramBank *programBank = qobject_cast<MinoProgramBank*>(bank);
+    Q_ASSERT(programBank);
+    UiProgramBank *uiProgramBank = new UiProgramBank(programBank, ui->centralWidget);
+    QLayout *layout = ui->centralWidget->layout();
+    layout->addWidget(uiProgramBank);
+
 }

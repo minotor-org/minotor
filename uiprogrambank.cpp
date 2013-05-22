@@ -79,6 +79,7 @@ UiProgramBank::UiProgramBank(MinoProgramBank *bank, QWidget *parent) :
         addProgram(program);
     }
     connect(bank, SIGNAL(programAdded(QObject*)), this, SLOT(addProgram(QObject*)));
+    connect(bank, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
 
 void UiProgramBank::addProgram(MinoProgram *program)

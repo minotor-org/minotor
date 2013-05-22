@@ -36,6 +36,14 @@ private slots:
     void on_action_MinotorWiki_triggered();
     // UI: File Quit
     void on_actionQuit_triggered();
+    // UI: Program Bank/Load
+    void on_actionLoad_triggered();
+    // UI: Program Bank/Save
+    void on_actionSave_triggered();
+    // UI: Program Bank/SaveAs
+    void on_actionSaveAs_triggered();
+
+
 
     void tbFullScreenToggled(bool on);
     void tbViewmodeToggled(bool on);
@@ -57,6 +65,8 @@ private slots:
     void on_pbLoad_clicked();
 
     void on_actionNew_triggered();
+
+    void createUiProgramBank(QObject *bank);
 
 private:
     // UI
@@ -80,6 +90,9 @@ private:
 
     // External master view
     ExternalMasterView *_externalMasterView;
+
+    //Current ProgramBankFile
+    QString _programBankFileName;
 };
 
 #endif // MAINWINDOW_H

@@ -56,6 +56,7 @@ public:
 
     //Program Bank
     MinoProgramBank* programBank() { return _programBank; }
+    void changeProgramBank(MinoProgramBank *bank);
     void clearPrograms();
 
     // Debug
@@ -63,6 +64,7 @@ public:
 
 signals:
     void beatToggled(bool active);
+    void programBankChanged(QObject *bank);
 
 public slots:
     // Clock handler
