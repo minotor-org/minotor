@@ -180,11 +180,13 @@ void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, 
 {
     if((ppqn%2) == 0) {
         // Animate master
-        _master->program()->animate(uppqn, gppqn, ppqn, qn);
+        if(_master->program())
+        {
+            _master->program()->animate(uppqn, gppqn, ppqn, qn);
 
-        // Render scene to led matrix
-        _ledMatrix->show(master()->program()->rendering());
-
+            // Render scene to led matrix
+            _ledMatrix->show(master()->program()->rendering());
+        }
         for(int i=0; i<_programs.count(); i++)
         {
             MinoProgram *program = _programs.at(i);
