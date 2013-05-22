@@ -214,8 +214,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                         if (destAnimationId != -1)
                         {
                             destAnimationFound = true;
-                            MinoAnimation *animation = group->addAnimation(className,destAnimationId);
-                            uiGroup->addAnimation(animation,destAnimationId);
+                            group->addAnimation(className,destAnimationId);
                         }
                     }
                 }
@@ -224,8 +223,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                 if(!destAnimationFound)
                 {
                     // Group was found but no target animation under mouse: let's create it at the end of group
-                    MinoAnimation *animation = group->addAnimation(className);
-                    uiGroup->addAnimation(animation, -1);
+                    group->addAnimation(className);
                 }
                 break;
             }
@@ -235,12 +233,8 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         {
             // No group found under mouse: let's create a new group
             MinoAnimationGroup *group = new MinoAnimationGroup(_program);
-            MinoAnimation *animation = group->addAnimation(className);
+            group->addAnimation(className);
             _program->addAnimationGroup(group);
-            if(animation)
-            {
-                this->addAnimationGroup(group);
-            }
         }
 
         if (event->source() == this) {
@@ -290,7 +284,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
                         if (destAnimationId != -1)
                         {
                             destAnimationFound = true;
-                            moveAnimation(srcGroupId, srcAnimationId, uiGroup, destAnimationId);
+                            moveAnimation(srcGroupId, srcAnimationId, uiGroup->group(), destAnimationId);
                         }
                     }
                 }
@@ -298,7 +292,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
 
                 if (!destAnimationFound)
                 {
-                    moveAnimation(srcGroupId, srcAnimationId, uiGroup, -1);
+                    moveAnimation(srcGroupId, srcAnimationId, uiGroup->group(), -1);
                 }
                 break;
             }
@@ -308,8 +302,7 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         {
             MinoAnimationGroup *group = new MinoAnimationGroup(_program);
             _program->addAnimationGroup(group);
-            UiAnimationGroup *uiGroup = addAnimationGroup(group);
-            moveAnimation(srcGroupId, srcAnimationId, uiGroup, -1);
+            moveAnimation(srcGroupId, srcAnimationId, group, -1);
         }
 
         if (event->source() == this) {

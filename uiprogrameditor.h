@@ -31,7 +31,7 @@ protected:
     QBoxLayout *_lContent;
 
     UiAnimationGroup* addAnimationGroup(MinoAnimationGroup *group);
-    void moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId);
+    void moveAnimation(int srcGroupId, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId);
     void moveAnimationGroup(int srcGroupId, int destGroupId);
 
 signals:
