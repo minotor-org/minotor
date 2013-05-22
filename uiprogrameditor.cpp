@@ -55,6 +55,8 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
         addAnimationGroup(group);
     }
 
+    connect (_program, SIGNAL(animationGroupAdded(QObject*)), this, SLOT(addAnimationGroup(QObject*)));
+
     setAcceptDrops(true);
 }
 
@@ -65,6 +67,14 @@ UiAnimationGroup* UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
 
     _lContent->insertWidget(_lContent->count()-1, uiAnimationGroup);
     return uiAnimationGroup;
+}
+
+void UiProgramEditor::addAnimationGroup(QObject *group)
+{
+    qDebug() << Q_FUNC_INFO;
+    MinoAnimationGroup *g = qobject_cast<MinoAnimationGroup*>(group);
+    Q_ASSERT(g);
+    addAnimationGroup(g);
 }
 
 UiProgramEditor::~UiProgramEditor()
@@ -136,8 +146,6 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
             event->acceptProposedAction();
         }
     } else if (event->mimeData()->hasFormat("application/x-dndanimation")) {
-        qDebug()<< Q_FUNC_INFO
-                << event->source()->metaObject()->className() << event->source()->objectName();
         QByteArray itemData = event->mimeData()->data("application/x-dndanimation");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 

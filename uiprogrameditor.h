@@ -40,6 +40,7 @@ public slots:
     void setExpanded(bool expanded);
 
 private slots:
+    void addAnimationGroup(QObject* group);
 
 private:
     MinoProgram *_program;
