@@ -1,4 +1,5 @@
 *.o
+.directory
 Makefile
 Minotor
 Minotor.pro.user
