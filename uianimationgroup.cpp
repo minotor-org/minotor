@@ -1,16 +1,25 @@
 #include "uianimationgroup.h"
-#include "uianimation.h"
-#include "minoprogram.h"
 
 #include <QStyle>
 #include <QDebug>
 #include <QPushButton>
 #include <QDrag>
 
+#include "minoprogram.h"
+
+#include "uianimation.h"
+#include "uiprogram.h"
+#include "uiprogrambank.h"
+
 UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
     _group(group)
 {
+    QString objectName = QString("Ui:%1(%2)")
+            .arg(group->metaObject()->className())
+            .arg(QString::number((ulong)((void*)group), 16));
+    setObjectName(objectName);
+
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
     lGroupBox->setMargin(0);
@@ -98,6 +107,22 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     this->setExpanded(true);
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+
+    connect(_group, SIGNAL(animationAdded(QObject*)), this, SLOT(addAnimation(QObject*)));
+    connect(_group, SIGNAL(animationMoved(QObject*)), this, SLOT(moveAnimation(QObject*)));
+}
+
+template<typename T>
+T UiAnimationGroup::findParent()
+{
+    QObject *p = this;
+    while((p = p->parent()))
+    {
+        T r = qobject_cast<T>(p);
+        if(r)
+            return r;
+    }
+    return NULL;
 }
 
 UiAnimationGroup::~UiAnimationGroup()
@@ -148,48 +173,75 @@ void UiAnimationGroup::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void UiAnimationGroup::addAnimation(QObject *animation)
+{
+    qDebug() << Q_FUNC_INFO
+             << "animation:" << animation
+             << "this:" << this;
+
+    MinoAnimation* a = qobject_cast<MinoAnimation*>(animation);
+    Q_ASSERT(a);
+    addAnimation(a, a->id());
+}
+
 void UiAnimationGroup::addAnimation(MinoAnimation *animation, int index)
 {
     if (index == -1)
         index = _lAnimations->count();
     UiAnimation *uiAnimation = new UiAnimation(animation, _wAnimations);
-    connect(uiAnimation, SIGNAL(animationMoved(int,int)), this, SLOT(_moveAnimation(int,int)));
     uiAnimation->setExpanded(_expanded);
     _lAnimations->insertWidget(index, uiAnimation);
 }
 
-void UiAnimationGroup::insertAnimation(UiAnimation *animation, int destId)
+void UiAnimationGroup::moveAnimation(QObject *animation)
+{
+    qDebug() << Q_FUNC_INFO
+             << "animation:" << animation
+             << "this:" << this;
+
+    // Find program bank from this
+    UiProgramBank* uipb = findParent<UiProgramBank*>();
+    Q_ASSERT(uipb);
+
+    // Look for corresponding uianimation into bank
+    QString objectName = QString("Ui:%1(%2)")
+            .arg(animation->metaObject()->className())
+            .arg(QString::number((ulong)((void*)animation), 16));
+    QList<UiAnimation*> uial = findChildren<UiAnimation*>(objectName);
+    Q_ASSERT(uial.count()==1);
+    UiAnimation *uia = uial.at(0);
+
+    // Remove uianimation from this uigroup
+    _lAnimations->removeWidget(uia);
+
+    MinoAnimation* ma = qobject_cast<MinoAnimation*>(animation);
+    Q_ASSERT(ma);
+
+    if(this->group()==ma->group())
+    {
+        // Animation moved within this group
+        insertUiAnimation(uia,uia->animation()->id());
+    }
+    else
+    {
+        // Look for corresponding uianimationgroup into bank
+        QString objectName = QString("Ui:%1(%2)")
+                .arg(ma->group()->metaObject()->className())
+                .arg(QString::number((ulong)((void*)ma->group()), 16));
+        QList<UiAnimationGroup*> uiagl = uipb->findChildren<UiAnimationGroup*>(objectName);
+        Q_ASSERT(uiagl.count()==1);
+        UiAnimationGroup *uiag = uiagl.at(0);
+        Q_ASSERT(uiag);
+        Q_ASSERT(uiag != this);
+        uiag->insertUiAnimation(uia, uia->animation()->id());
+    }
+}
+
+void UiAnimationGroup::insertUiAnimation(UiAnimation *animation, int destId)
 {
     _lAnimations->insertWidget(destId, animation);
     animation->setParent(_wAnimations);
-}
-
-void UiAnimationGroup::moveAnimation(int srcId, int destId)
-{
-    UiAnimation *animation = this->takeAt(srcId);
-    if(animation)
-    {
-        insertAnimation(animation, destId);
-    }
-}
-
-void UiAnimationGroup::_moveAnimation(int programId, int groupId)
-{
-    qDebug() << Q_FUNC_INFO
-             << "sender:" << sender();
-    if(programId == _group->program()->id())
-    {
-        // Same program between src and dest
-        if(groupId == _group->id())
-        {
-            // and same groupid
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "group is different between src and dest";
-        }
-    }
+    animation->show();
 }
 
 void UiAnimationGroup::setExpanded(bool on)
@@ -207,17 +259,4 @@ void UiAnimationGroup::enable(const bool on)
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
-}
-
-UiAnimation* UiAnimationGroup::takeAt(int index)
-{
-    QLayoutItem *li = _lAnimations->takeAt(index);
-    if(li->widget())
-    {
-        return dynamic_cast<UiAnimation*>(li->widget());
-    }
-    else
-    {
-        return NULL;
-    }
 }

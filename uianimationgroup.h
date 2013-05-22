@@ -19,12 +19,11 @@ public:
 
     void setExpanded(bool on);
     void addAnimation(MinoAnimation *animation, int index = -1);
-    UiAnimation *takeAt(int index);
-    void moveAnimation(int srcId, int destId);
-    void insertAnimation(UiAnimation *animation, int destId);
+    void insertUiAnimation(UiAnimation *animation, int destId);
     // Accessors
     MinoAnimationGroup* group() const { return _group; }
 
+    template<typename T> T findParent();
 private:
     MinoAnimationGroup *_group;
     QWidget *_wContent;
@@ -38,8 +37,12 @@ public slots:
     void enable(bool on);
     
 protected slots:
-    void _moveAnimation(int programId, int groupId);
     void mousePressEvent(QMouseEvent *event);
+
+private slots:
+    void addAnimation(QObject *animation);
+    void moveAnimation(QObject *animation);
+
 };
 
 #endif // UIANIMATIONGROUP_H
