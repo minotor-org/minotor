@@ -34,8 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _minotor = Minotor::minotor();
 
+    // Debug
+    _minotor->initWithDebugSetup();
     ui->gvGlobal->setScene(_minotor->scene());
-
     ui->dwDebug->hide();
 
     // Configuration dialog box

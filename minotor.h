@@ -59,6 +59,9 @@ public:
     void save(MinoPersistentObject* object, QSettings* parser);
     void load(QSettings* parser);
 
+    // Debug
+    void initWithDebugSetup();
+
 signals:
     void beatToggled(bool active);
     void programAdded(QObject *program);

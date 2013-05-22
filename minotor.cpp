@@ -38,16 +38,10 @@ Minotor::Minotor(QObject *parent) :
 {
     // LED Matrix
     _ledMatrix = new LedMatrix(this);
-
     _master = new MinoMaster(this);
     // Please let MiproDebug as first program:
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
-    _master->setProgram(new MiproDebug(this));
-    new MiproSecondLives(this);
-    new MiproMatrix(this);
-    new MiproBnzIchRU(this);
-    new MiproWaves(this);
 
     // MIDI interfaces
     _midi = new Midi(this);
@@ -159,6 +153,23 @@ Minotor::Minotor(QObject *parent) :
     // Register other instantiable persistent objects
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
     MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
+}
+
+void Minotor::initWithDebugSetup()
+{
+    _master->setProgram(new MiproDebug(_programBank));
+//    new MiproSecondLives(_programBank);
+//    new MiproMatrix(_programBank);
+//    new MiproBnzIchRU(_programBank);
+//    new MiproWaves(_programBank);
+/*
+    MinoProgram* prg1 = new MiproSecondLives(_programBank);
+    //_programBank->addProgram(new MiproSecondLives(_programBank));
+    //_programBank->addProgram(new MiproMatrix());
+    //_programBank->addProgram(new MiproBnzIchRU());
+    //_programBank->addProgram(new MiproWaves());
+    _master->setProgram(_programBank->programs().at(0));
+*/
 }
 
 Minotor::~Minotor()
