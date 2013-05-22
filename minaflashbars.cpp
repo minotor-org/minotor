@@ -24,6 +24,7 @@ MinaFlashBars::MinaFlashBars(QObject *object) :
 void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)uppqn;
+    (void)ppqn;
     (void)qn;
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
