@@ -375,6 +375,19 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
         }
         parser->endArray();
 
+        // HACK: Group and Animations need to be explicitly added to their parent
+        if(MinoAnimationGroup *group = qobject_cast<MinoAnimationGroup*>(object))
+        {
+            MinoProgram *program = qobject_cast<MinoProgram*>(parent);
+            Q_ASSERT(program);
+            program->addAnimationGroup(group);
+        } else if (MinoAnimation *animation = qobject_cast<MinoAnimation*>(object))
+        {
+            MinoAnimationGroup *group = qobject_cast<MinoAnimationGroup*>(parent);
+            Q_ASSERT(group);
+            group->addAnimation(animation);
+        }
+
         // Children
         size = parser->beginReadArray("children");
         for(int i=0; i<size; ++i)
