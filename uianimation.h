@@ -14,6 +14,21 @@ public:
     explicit UiAnimation(MinoAnimation *animation, QWidget *parent);
     void setExpanded(bool expanded);
     MinoAnimation *animation() { return _animation; }
+
+    template<typename T> T findParent() {
+
+        QObject *p = this;
+        while((p = p->parent()))
+        {
+            T r = qobject_cast<T>(p);
+            if(r)
+                return r;
+        }
+        return NULL;
+    }
+
+
+
 protected:
     QLabel *_tAnimation;
 
