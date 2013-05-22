@@ -51,11 +51,13 @@ private slots:
 signals:
     // Signal emitted when group is enabled
     void enabledChanged(bool on);
-    void animationAdded();
+    void animationAdded(QObject *animation);
+
 public slots:
     void setDelayedEnabled(const bool enabled);
     void setEnabled(bool on);
     void toogle() { _setEnabled(!_enabled); }
+
 };
 
 typedef QList<MinoAnimationGroup*> MinoAnimationGroupList;

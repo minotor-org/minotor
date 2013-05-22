@@ -47,6 +47,9 @@ MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName
 
 void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
 {
+    qDebug() << Q_FUNC_INFO
+             << "animation:" << animation
+             << "index:" << index;
     // Add animation to program's list
     if(index<0)
         index = _animations.size();
@@ -70,7 +73,7 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
         _animations.at(z)->graphicItem()->setZValue(z);
     }
     animation->setGroup(this);
-    emit(animationAdded());
+    emit animationAdded(animation);
 }
 
 void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
