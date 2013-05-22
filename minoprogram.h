@@ -114,6 +114,9 @@ signals:
     //Signal emitted when animation group has been moved
     void animationGroupMoved(int srcProgramId, int srcGroupId , int destGroupId);
 
+    // Signal emitted when a group is added to program
+    void animationGroupAdded(QObject * group);
+
 public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
     void setUpdated();
