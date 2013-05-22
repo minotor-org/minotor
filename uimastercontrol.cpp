@@ -69,9 +69,12 @@ void UiMasterControl::updateProgram()
     {
         delete(group);
     }
-    foreach (MinoAnimationGroup *group, _master->program()->animationGroups())
+    if(_master->program())
     {
-        addAnimationGroup(group);
+        foreach (MinoAnimationGroup *group, _master->program()->animationGroups())
+        {
+            addAnimationGroup(group);
+        }
     }
 }
 
