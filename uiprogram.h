@@ -16,6 +16,7 @@ private:
     QFrame *_fPreview;
     QWidget *_wBackground;
     QWidget *_wBorder;
+
 signals:
 
 public slots:
@@ -23,6 +24,7 @@ public slots:
 private slots:
     void updateOnAirStatus(bool onAir);
     void requestMasterProgramChange(bool on);
+
 };
 
 #endif // UIPROGRAM_H

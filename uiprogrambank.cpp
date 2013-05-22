@@ -1,8 +1,11 @@
 #include "uiprogrambank.h"
+
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QScrollArea>
 #include <QPushButton>
+#include <QDebug>
+
 #include "uiprogram.h"
 
 UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
@@ -64,20 +67,34 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     sa->setWidgetResizable(true);
     lContent->addWidget(sa);
 
-    QWidget *wScrollContent = new QWidget(sa);
+    _wScrollContent = new QWidget(sa);
+    _wScrollContent->setObjectName("scrollbackground");
+    sa->setWidget(_wScrollContent);
+    QVBoxLayout *_lScrollContent =  new QVBoxLayout(_wScrollContent);
+    _bgOnAir = new QButtonGroup(_wScrollContent);
 
-    wScrollContent->setObjectName("scrollbackground");
-    sa->setWidget(wScrollContent);
-    QVBoxLayout *lScrollContent =  new QVBoxLayout(wScrollContent);
-    _bgOnAir = new QButtonGroup(wScrollContent);
-
+    _lScrollContent->addStretch();
     foreach(MinoProgram* program, minotor->programs())
     {
-        UiProgram *uip = new UiProgram(program, wScrollContent);
-        QPushButton *pbOnAir = uip->findChild<QPushButton*>("bOnAir");
-        _bgOnAir->addButton(pbOnAir);
-        lScrollContent->addWidget(uip);
-
+        addProgram(program);
     }
-    lScrollContent->addStretch();
+    connect(minotor, SIGNAL(programAdded(QObject*)), this, SLOT(addProgram(QObject*)));
+}
+
+void UiProgramBank::addProgram(MinoProgram *program)
+{
+    UiProgram *uip = new UiProgram(program, _wScrollContent);
+    QPushButton *pbOnAir = uip->findChild<QPushButton*>("bOnAir");
+    _bgOnAir->addButton(pbOnAir);
+    QBoxLayout * bl = dynamic_cast<QBoxLayout*>(_wScrollContent->layout());
+    Q_ASSERT(bl);
+    bl->insertWidget(bl->count()-1,uip);
+}
+
+void UiProgramBank::addProgram(QObject *program)
+{
+    qDebug() << Q_FUNC_INFO;
+    MinoProgram *p = qobject_cast<MinoProgram*>(program);
+    Q_ASSERT(p);
+    addProgram(p);
 }

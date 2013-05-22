@@ -15,7 +15,13 @@ signals:
     
 public slots:
 private:
+    QWidget *_wScrollContent;
     QButtonGroup *_bgOnAir;
+
+    void addProgram(MinoProgram *program);
+
+private slots:
+    void addProgram(QObject *program);
 };
 
 #endif // UIPROGRAMBANK_H
