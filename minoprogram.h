@@ -48,7 +48,6 @@ public:
 
     // Animation Group
     void addAnimationGroup(MinoAnimationGroup *group);
-    void moveAnimation(MinoAnimationGroup *srcGroup, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId);
     void insertAnimationGroup(MinoAnimationGroup *animationGroup, int index);
     void moveAnimationGroup(int srcGroupId, int destGroupId);
 
