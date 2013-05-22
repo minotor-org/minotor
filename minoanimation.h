@@ -46,6 +46,8 @@ class MinoAnimation : public MinoPersistentObject
 public:
     explicit MinoAnimation(QObject *parent);
 
+    int id();
+
     virtual const MinoAnimationDescription description() const = 0;
     virtual QGraphicsItem* graphicItem() = 0;
 

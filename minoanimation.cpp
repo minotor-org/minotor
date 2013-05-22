@@ -27,6 +27,11 @@ MinoAnimation::MinoAnimation(QObject *parent) :
     _beatAnimatedProperty.setEndValue(QVariant(0.0));
 }
 
+int MinoAnimation::id()
+{
+    return _group->animations().indexOf(this);
+}
+
 void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
 {
     const unsigned int ppqnMax = _beatFactor->loopSizeInPpqn();
