@@ -20,8 +20,8 @@ public:
     UiAnimation* takeAnimationAt(int groupId, int animationId);
     UiAnimationGroup* findUiAnimationGroup(int groupId);
     UiAnimationGroup* takeAnimationGroupAt(int groupId);
-    void insertAnimation(UiAnimation *uiAnimation, int destGroupId, int destAnimationId);
     void insertAnimationGroup(UiAnimationGroup *uiAnimationGroup, int destGroupId);
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
@@ -33,13 +33,14 @@ protected:
     UiAnimationGroup* addAnimationGroup(MinoAnimationGroup *group);
     void moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId);
     void moveAnimationGroup(int srcGroupId, int destGroupId);
+
 signals:
 
 public slots:
     void setExpanded(bool expanded);
+
 private slots:
-    void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId);
-    void animationGroupMoved(int srcProgramId, int srcGroupId, int destGroupId);
+
 private:
     MinoProgram *_program;
     bool _expanded;

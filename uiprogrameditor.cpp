@@ -17,8 +17,6 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     _program(program),
     _expanded(true)
 {
-    connect(program, SIGNAL(animationMoved(int,int,int,int,int,int)),this,SLOT(animationMoved(int,int,int,int,int,int)));
-    connect(program, SIGNAL(animationGroupMoved(int,int,int)),this, SLOT(animationGroupMoved(int,int,int)));
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     QWidget *wContainer = new QWidget(this);
@@ -312,7 +310,6 @@ void UiProgramEditor::dropEvent(QDropEvent *event)
         } else {
             event->acceptProposedAction();
         }
-
     } else if (event->mimeData()->hasFormat("application/x-dndanimationgroup")) {
         QByteArray itemData = event->mimeData()->data("application/x-dndanimationgroup");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
@@ -399,28 +396,6 @@ UiAnimationGroup* UiProgramEditor::findUiAnimationGroup(int groupId)
     return uiAnimationGroup;
 }
 
-UiAnimation* UiProgramEditor::takeAnimationAt(int groupId, int animationId)
-{
-    UiAnimation *ret = NULL;
-    UiAnimationGroup *uiAnimationGroup = findUiAnimationGroup(groupId);
-
-    if(uiAnimationGroup)
-    {
-        QList<UiAnimation*> uiAnimations = uiAnimationGroup->findChildren<UiAnimation*>();
-        qDebug() << Q_FUNC_INFO
-                    << "group has" << uiAnimations.count() << "items";
-        for (int j=0; j<uiAnimations.count(); j++)
-        {
-            if(j == animationId)
-            {
-                ret = uiAnimationGroup->takeAt(j);
-                break;
-            }
-        }
-    }
-    return ret;
-}
-
 UiAnimationGroup* UiProgramEditor::takeAnimationGroupAt(int groupId)
 {
     UiAnimationGroup *ret = NULL;
@@ -445,15 +420,6 @@ UiAnimationGroup* UiProgramEditor::takeAnimationGroupAt(int groupId)
     return ret;
 }
 
-void UiProgramEditor::insertAnimation(UiAnimation *uiAnimation, int destGroupId, int destAnimationId)
-{
-    UiAnimationGroup *destGroup = findUiAnimationGroup(destGroupId);
-    if(destGroup)
-    {
-        destGroup->insertAnimation(uiAnimation, destAnimationId);
-    }
-}
-
 void UiProgramEditor::insertAnimationGroup(UiAnimationGroup *uiAnimationGroup, int destGroupId)
 {
     if (destGroupId == -1)
@@ -465,41 +431,20 @@ void UiProgramEditor::insertAnimationGroup(UiAnimationGroup *uiAnimationGroup, i
     _lContent->insertWidget(destGroupId, uiAnimationGroup);
 }
 
-void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, UiAnimationGroup *destGroup, int destAnimationId)
+void UiProgramEditor::moveAnimation(int srcGroupId, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId)
 {
-    _program->moveAnimation(_program->animationGroups().at(srcGroupId), srcAnimationId, destGroup->group(), destAnimationId);
+    qDebug() << Q_FUNC_INFO
+             << "srcGroupId:" << srcGroupId
+             << "srcAnimationId:" << srcAnimationId
+             << "destGroup:" << destGroup
+             << "destAnimationId" << destAnimationId;
+    MinoAnimationGroup *srcGroup = _program->animationGroups().at(srcGroupId);
+    Q_ASSERT(srcGroup);
+    Q_ASSERT(destGroup);
+    srcGroup->moveAnimation(srcAnimationId, destAnimationId, destGroup);
 }
 
 void UiProgramEditor::moveAnimationGroup(int srcGroupId, int destGroupId)
 {
     _program->moveAnimationGroup(srcGroupId, destGroupId);
-}
-
-void UiProgramEditor::animationMoved(int srcProgramId, int srcGroupId , int srcAnimationId, int destProgramId, int destGroupId , int destAnimationId)
-{
-    if (srcProgramId == destProgramId && srcProgramId == _program->id())
-    {
-        if (destGroupId == srcGroupId)
-        {
-            UiAnimationGroup *destGroup = findUiAnimationGroup(destGroupId);
-            destGroup->moveAnimation(srcAnimationId, destAnimationId);
-        } else {
-            UiAnimation *uiAnimation = takeAnimationAt(srcGroupId, srcAnimationId);
-            insertAnimation(uiAnimation, destGroupId, destAnimationId);
-        }
-    }
-}
-
-void UiProgramEditor::animationGroupMoved(int srcProgramId, int srcGroupId, int destGroupId)
-{
-    if (srcProgramId == _program->id())
-    {
-        if (destGroupId != srcGroupId)
-        {
-            //We take group uiGroup with destId because src MinoAnimationGroup has already been moved to destId in program
-            UiAnimationGroup *uiAnimationGroup = takeAnimationGroupAt(destGroupId);
-            qDebug() << Q_FUNC_INFO << uiAnimationGroup->group() << destGroupId;
-            insertAnimationGroup(uiAnimationGroup, destGroupId);
-        }
-    }
 }
