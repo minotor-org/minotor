@@ -7,7 +7,7 @@ class MiproSecondLives : public MinoProgram
 {
     Q_OBJECT
 public:
-    explicit MiproSecondLives(Minotor *minotor);
+    explicit MiproSecondLives(MinoProgramBank *bank);
     
 signals:
     

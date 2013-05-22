@@ -3,13 +3,13 @@
 
 #include <QWidget>
 #include <QButtonGroup>
-#include "minotor.h"
+#include "minoprogrambank.h"
 
 class UiProgramBank : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiProgramBank(Minotor *minotor,QWidget *parent = 0);
+    explicit UiProgramBank(MinoProgramBank *bank, QWidget *parent = 0);
     
 signals:
     

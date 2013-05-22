@@ -7,7 +7,7 @@
 class MiproBnzIchRU : public MinoProgram
 {
 public:
-    explicit MiproBnzIchRU(Minotor *minotor);
+    explicit MiproBnzIchRU(MinoProgramBank *bank);
 
 };
 

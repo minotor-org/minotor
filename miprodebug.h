@@ -7,7 +7,7 @@ class MiproDebug : public MinoProgram
 {
     Q_OBJECT
 public:
-    explicit MiproDebug(Minotor *minotor);
+    explicit MiproDebug(MinoProgramBank *bank);
     
 signals:
     

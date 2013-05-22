@@ -9,6 +9,7 @@
 
 #include "minoanimation.h"
 #include "minoanimationgroup.h"
+#include "minoprogrambank.h"
 
 class Minotor;
 
@@ -17,8 +18,8 @@ class MinoProgram : public MinoPersistentObject
     Q_OBJECT
     Q_PROPERTY (QString label READ label WRITE setLabel STORED true)
 
-    // Minotor can access to protected/private functions
-    friend class Minotor;
+    // Friends can access to protected/private functions
+    friend class MinoProgramBank;
     friend class MinoMaster;
 
 public:

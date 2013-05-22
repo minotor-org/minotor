@@ -9,8 +9,8 @@
 #include "minafallingobjects.h"
 #include "minarotatingbars.h"
 
-MiproSecondLives::MiproSecondLives(Minotor *minotor) :
-    MinoProgram(minotor)
+MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
+    MinoProgram(bank)
 {
     this->setLabel("Vitalic - Second Lives");
     MinoAnimationGroup *agrp = new MinoAnimationGroup(this);

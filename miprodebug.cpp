@@ -7,8 +7,8 @@
 #include "minaimage.h"
 #include "minaballs.h"
 
-MiproDebug::MiproDebug(Minotor *minotor) :
-    MinoProgram(minotor)
+MiproDebug::MiproDebug(MinoProgramBank *bank) :
+    MinoProgram(bank)
 {
     this->setLabel("Debug");
     MinoAnimationGroup *asgd = new MinoAnimationGroup(this);

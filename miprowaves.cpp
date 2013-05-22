@@ -4,8 +4,8 @@
 
 #include "minawaveform.h"
 
-MiproWaves::MiproWaves(Minotor *minotor) :
-    MinoProgram(minotor)
+MiproWaves::MiproWaves(MinoProgramBank *bank) :
+    MinoProgram(bank)
 {
     this->setLabel("Waves");
     MinoAnimationGroup *awfg = new MinoAnimationGroup(this);

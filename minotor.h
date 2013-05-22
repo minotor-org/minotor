@@ -14,6 +14,7 @@
 
 #include "minomaster.h"
 #include "minoclocksource.h"
+#include "minoprogrambank.h"
 
 class MinoAnimation;
 typedef QList<MinoAnimation*> MinoAnimationList;
@@ -37,7 +38,6 @@ public:
 
     // MIDI Interfaces
     Midi *midi() { return _midi; }
-
     // MIDI mapping
     MidiMapper *midiMapper() { return _midiMapper; }
 
@@ -45,26 +45,24 @@ public:
     MinoClockSource *clockSource() { return _clockSource; }
 
     // Display rect
-    const QRect displayRect() { return _ledMatrix->rect(); }
+    const QRect displayRect() const { return _ledMatrix->rect(); }
 
     // Singleton accessor
     static Minotor *minotor() { static Minotor minotor; return &minotor; }
 
-    // Program
-    void addProgram(MinoProgram *program);
-    QList<MinoProgram*> programs() { return _programs; }
-    void clearPrograms();
-
     // Persistence
     void save(MinoPersistentObject* object, QSettings* parser);
     void load(QSettings* parser);
+
+    //Program Bank
+    MinoProgramBank* programBank() { return _programBank; }
+    void clearPrograms();
 
     // Debug
     void initWithDebugSetup();
 
 signals:
     void beatToggled(bool active);
-    void programAdded(QObject *program);
 
 public slots:
     // Clock handler
@@ -92,14 +90,12 @@ private:
     // Clock source (internal generator and Midi)
     MinoClockSource *_clockSource;
 
-    // Programs
-    QList<MinoProgram*> _programs;
-
     void loadObject(QSettings* parser, const QString &className, QObject *parent);
     void loadObjects(QSettings *parser, QObject *parent);
 
     QObject *findParentFor(const QString& className);
 
+    MinoProgramBank *_programBank;
 };
 
 #endif // MINOTOR_H

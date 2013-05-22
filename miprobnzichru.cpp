@@ -2,9 +2,9 @@
 
 #include "minatext.h"
 
-MiproBnzIchRU::MiproBnzIchRU(Minotor *minotor) : MinoProgram(minotor)
+MiproBnzIchRU::MiproBnzIchRU(MinoProgramBank *bank) : MinoProgram(bank)
 {
-    this->setObjectName("BNZ - Ich R U");
+    this->setLabel("BNZ - Ich R U");
     MinoAnimationGroup *atBadg = new MinoAnimationGroup(this);
     MinaText *atBad = new MinaText(atBadg);
     atBad->setColor(QColor::fromHslF(0.08, 1.0, 0.5));

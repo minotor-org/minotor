@@ -7,7 +7,7 @@ class MiproMatrix : public MinoProgram
 {
     Q_OBJECT
 public:
-    explicit MiproMatrix(Minotor *minotor);
+    explicit MiproMatrix(MinoProgramBank *bank);
 
 signals:
     

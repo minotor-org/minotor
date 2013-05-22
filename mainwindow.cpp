@@ -222,7 +222,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lCentralWidget->addWidget(_uiMaster);
 
     // Programs bank
-    UiProgramBank *uiProgramBank = new UiProgramBank(_minotor, ui->centralWidget);
+    UiProgramBank *uiProgramBank = new UiProgramBank(_minotor->programBank(), ui->centralWidget);
     lCentralWidget->addWidget(uiProgramBank);
 
     connect(_uiMaster, SIGNAL(midiLearnToggled(bool)), this, SLOT(tbMidiLearnToggled(bool)));

@@ -8,7 +8,7 @@
 
 #include "uiprogram.h"
 
-UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
+UiProgramBank::UiProgramBank(MinoProgramBank *bank, QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *lMaster = new QVBoxLayout(this);
@@ -74,11 +74,11 @@ UiProgramBank::UiProgramBank(Minotor *minotor, QWidget *parent) :
     _bgOnAir = new QButtonGroup(_wScrollContent);
 
     _lScrollContent->addStretch();
-    foreach(MinoProgram* program, minotor->programs())
+    foreach(MinoProgram* program, bank->programs())
     {
         addProgram(program);
     }
-    connect(minotor, SIGNAL(programAdded(QObject*)), this, SLOT(addProgram(QObject*)));
+    connect(bank, SIGNAL(programAdded(QObject*)), this, SLOT(addProgram(QObject*)));
 }
 
 void UiProgramBank::addProgram(MinoProgram *program)

@@ -22,12 +22,11 @@ MinoProgram::MinoProgram(QObject *parent) :
     _beatFactor->addItem("16", 384);
     _beatFactor->setCurrentItem("1");
 
-    if(Minotor * minotor = qobject_cast<Minotor*>(parent))
-    {
-        _scene = minotor->scene();
-        _scene->addItem(&_itemGroup);
-        minotor->addProgram(this);
-    }
+    MinoProgramBank *programBank = qobject_cast<MinoProgramBank*>(parent);
+    Q_ASSERT(programBank);
+    _scene = programBank->minotor()->scene();
+    _scene->addItem(&_itemGroup);
+    programBank->addProgram(this);
 }
 
 MinoProgram::~MinoProgram()
@@ -127,7 +126,8 @@ void MinoProgram::destroyGroup(QObject *group)
 
 Minotor *MinoProgram::minotor()
 {
-     return static_cast<Minotor*>(parent());
+    MinoProgramBank * programBank = qobject_cast<MinoProgramBank*>(parent());
+    return programBank->minotor();
 }
 
 void MinoProgram::registerAnimationGroupEnableChange(MinoAnimationGroup *group, const bool on)

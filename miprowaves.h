@@ -7,7 +7,7 @@ class MiproWaves : public MinoProgram
 {
     Q_OBJECT
 public:
-    explicit MiproWaves(Minotor *minotor);
+    explicit MiproWaves(MinoProgramBank *bank);
     QString name() { return QString("Waves"); }
 
 signals:

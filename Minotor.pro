@@ -80,7 +80,8 @@ SOURCES += \
     midimapping.cpp \
     uieasingcurve.cpp \
     minopropertybeat.cpp \
-    minaflashbars.cpp
+    minaflashbars.cpp \
+    minoprogrambank.cpp
 
 
 HEADERS  += \
@@ -152,7 +153,8 @@ HEADERS  += \
     midimapping.h \
     uieasingcurve.h \
     minopropertybeat.h \
-    minaflashbars.h
+    minaflashbars.h \
+    minoprogrambank.h
 
 FORMS    += \
     mainwindow.ui \

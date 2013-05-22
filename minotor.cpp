@@ -42,6 +42,7 @@ Minotor::Minotor(QObject *parent) :
     // Please let MiproDebug as first program:
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
+    _programBank = new MinoProgramBank(this);
 
     // MIDI interfaces
     _midi = new Midi(this);
@@ -151,6 +152,7 @@ Minotor::Minotor(QObject *parent) :
     MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
     MinoPersistentObjectFactory::registerAnimationClass<MinaFlashBars>();
     // Register other instantiable persistent objects
+    MinoPersistentObjectFactory::registerClass<MinoProgramBank>();
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
     MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
 }
@@ -175,10 +177,8 @@ void Minotor::initWithDebugSetup()
 Minotor::~Minotor()
 {
     delete _master;
-    foreach(MinoProgram *program, programs())
-    {
-        delete program;
-    }
+
+    delete _programBank;
 
     delete _clockSource;
 
@@ -198,9 +198,11 @@ void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, 
             // Render scene to led matrix
             _ledMatrix->show(master()->program()->rendering());
         }
-        for(int i=0; i<_programs.count(); i++)
+
+        QList<MinoProgram*> programs = _programBank->programs();
+        for(int i=0; i<programs.count(); i++)
         {
-            MinoProgram *program = _programs.at(i);
+            MinoProgram *program = programs.at(i);
             if (program!=_master->program())
             {
                 if(program->isSelected())
@@ -223,30 +225,11 @@ void Minotor::handleMidiInterfaceProgramChange(int interface, quint8 channel, qu
 {
     (void)interface;
     (void)channel;
-    if(program < _programs.count())
+    QList<MinoProgram*> programs = _programBank->programs();
+    if(program < programs.count())
     {
-        _master->setProgram(_programs.at(program));
+        _master->setProgram(programs.at(program));
     }
-}
-
-void Minotor::addProgram(MinoProgram *program)
-{
-    _programs.append(program);
-    const int id = _programs.indexOf(program);
-
-    // Program ID starts at 1
-    program->setId(id+1);
-
-    // Inform program about matrix size (used by animations)
-    program->setRect(_ledMatrix->rect());
-
-    // Drawing rect
-    // On the scene, the program have a dedicated area to display/draw animations
-    // This area left one "screen" before and one "screen" areas to prevent from collisions
-    // Note: Developer of animations should take care to not collide: its objects should never be larger than one screen-size in all directions (up, down, left, right, diagonals)
-    QPointF pos = QPointF(_ledMatrix->size().width()*3, _ledMatrix->size().height() + ((_ledMatrix->size().height()*3) * id));
-    program->setDrawingPos(pos);
-    emit programAdded(program);
 }
 
 void Minotor::save(MinoPersistentObject* object, QSettings* parser)
@@ -315,6 +298,10 @@ QObject *Minotor::findParentFor(const QString& className)
 {
     QObject *parent = NULL;
     if(className == QString("MinoProgram"))
+    {
+        parent = _programBank;
+    }
+    else if (className == QString("MinoProgramBank"))
     {
         parent = this;
     }
@@ -426,11 +413,8 @@ void Minotor::load(QSettings* parser)
 void Minotor::clearPrograms()
 {
     _master->setProgram(NULL);
-    foreach(MinoProgram *prg, _programs)
-    {
-        delete prg;
-    }
-    _programs.clear();
-    MinoProgram *prg = new MinoProgram(this);
-    _master->setProgram(prg);
+    delete _programBank;
+    _programBank = new MinoProgramBank(this);
+    MinoProgram *program = new MinoProgram(_programBank);
+	_master->setProgram(program);
 }

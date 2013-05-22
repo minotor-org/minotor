@@ -9,8 +9,8 @@
 #include "minavibration.h"
 
 // Program "Matrix": animation sets of green effects (Matrix-like)
-MiproMatrix::MiproMatrix(Minotor *minotor) :
-    MinoProgram(minotor)
+MiproMatrix::MiproMatrix(MinoProgramBank *bank) :
+    MinoProgram(bank)
 {
     const QColor matrixColor(QColor::fromHslF(0.32, 1.0, 0.5));
 
