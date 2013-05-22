@@ -63,7 +63,13 @@ int UiProgramView::heightForWidth( int width ) const
 
 void UiProgramView::setProgram(MinoProgram *program)
 {
-    disconnect(_program, SIGNAL(animated()), this, SLOT(update()));
+    if(_program)
+    {
+        disconnect(_program, SIGNAL(animated()), this, SLOT(update()));
+    }
+    if(program)
+    {
+        connect(program, SIGNAL(animated()), this, SLOT(update()));
+    }
     _program = program;
-    connect(_program, SIGNAL(animated()), this, SLOT(update()));
 }
