@@ -53,6 +53,7 @@ public:
     // Program
     void addProgram(MinoProgram *program);
     QList<MinoProgram*> programs() { return _programs; }
+    void clearPrograms();
 
     // Persistence
     void save(MinoPersistentObject* object, QSettings* parser);

@@ -411,3 +411,15 @@ void Minotor::load(QSettings* parser)
 {
     loadObjects(parser, NULL);
 }
+
+void Minotor::clearPrograms()
+{
+    _master->setProgram(NULL);
+    foreach(MinoProgram *prg, _programs)
+    {
+        delete prg;
+    }
+    _programs.clear();
+    MinoProgram *prg = new MinoProgram(this);
+    _master->setProgram(prg);
+}
