@@ -9,10 +9,6 @@ MinaVibration::MinaVibration(QObject *object) :
     _ecrBarLenght.setEndValue(1.0);
     _ecrBarLenght.setEasingCurve(QEasingCurve::OutBounce);
 
-    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
-    blur->setBlurRadius(1.1);
-    _itemGroup.setGraphicsEffect(blur);
-
     _segments = new MinoPropertyReal(this);
     _segments->setObjectName("segment");
     _segments->setLabel("Segment");

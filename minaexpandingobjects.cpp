@@ -45,9 +45,6 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
-    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
-    blur->setBlurRadius(1.1);
-    _itemGroup.setGraphicsEffect(blur);
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

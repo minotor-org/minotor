@@ -46,9 +46,6 @@ MinaRotatingBars::MinaRotatingBars(QObject *object) :
     _items[3] = _scene->addRect(_boundingRect, QPen(Qt::NoPen),QBrush(color));
     _itemGroup.addToGroup(_items[3]);
 
-    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
-    blur->setBlurRadius(1.1);
-    _itemGroup.setGraphicsEffect(blur);
     _itemGroup.setVisible(false);
 }
 
