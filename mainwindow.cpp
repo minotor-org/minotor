@@ -280,6 +280,11 @@ void MainWindow::on_action_MinotorWiki_triggered()
     QDesktopServices::openUrl(QUrl("https://bitbucket.org/neomilium/minotor/wiki/Home"));
 }
 
+void MainWindow::on_actionQuit_triggered()
+{
+    QApplication::quit();
+}
+
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
     static unsigned int uppqn = 0;
