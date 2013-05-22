@@ -60,6 +60,7 @@ public:
 
 signals:
     void beatToggled(bool active);
+    void programAdded(QObject *program);
 
 public slots:
     // Clock handler
