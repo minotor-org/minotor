@@ -34,8 +34,8 @@ public:
     void showScene(QGraphicsScene * scene);
 
     // Accessors
-    QSize size() { return _size; }
-    QRect rect() { return QRect(QPoint(0,0), _size); }
+    QSize size() const { return _size; }
+    QRect rect() const { return QRect(QPoint(0,0), _size); }
 
 private:
     QSize _size;
