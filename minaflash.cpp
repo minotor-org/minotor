@@ -8,7 +8,8 @@ MinaFlash::MinaFlash(QObject *object):
     _rectItem(NULL)
 {
     _ecrOpacity.setEasingCurve(QEasingCurve::OutBounce);
-
+    _ecrOpacity.setStartValue(1.0);
+    _ecrOpacity.setEndValue(0.0);
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
 
     QColor color;
