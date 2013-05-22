@@ -367,3 +367,8 @@ void MainWindow::on_pbLoad_clicked()
     QSettings parser(file, QSettings::IniFormat);
     _minotor->load(&parser);
 }
+
+void MainWindow::on_actionNew_triggered()
+{
+    _minotor->clearPrograms();
+}

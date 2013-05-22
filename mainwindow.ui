@@ -45,7 +45,14 @@
     </property>
     <addaction name="actionExternal_master_view"/>
    </widget>
+   <widget class="QMenu" name="menuProgram_Bank">
+    <property name="title">
+     <string>Program Bank</string>
+    </property>
+    <addaction name="actionNew"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuProgram_Bank"/>
    <addaction name="menuOutput"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -194,6 +201,11 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>
