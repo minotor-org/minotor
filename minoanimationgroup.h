@@ -31,7 +31,8 @@ public:
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);
     MinoAnimation* addAnimation(const QString animationClassName, int index = -1);
-    void moveAnimation(int oldIndex, int newIndex);
+
+    void moveAnimation(int srcIndex, int destIndex, MinoAnimationGroup *destGroup = NULL);
     MinoAnimation* takeAnimationAt(int index);
     void insertAnimation(MinoAnimation *animation, int index = -1);
 
@@ -52,6 +53,7 @@ signals:
     // Signal emitted when group is enabled
     void enabledChanged(bool on);
     void animationAdded(QObject *animation);
+    void animationMoved(QObject *animation);
 
 public slots:
     void setDelayedEnabled(const bool enabled);

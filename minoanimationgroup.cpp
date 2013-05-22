@@ -76,20 +76,47 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
     emit animationAdded(animation);
 }
 
-void MinoAnimationGroup::moveAnimation(int oldIndex, int newIndex)
+void MinoAnimationGroup::moveAnimation(int srcIndex, int destIndex, MinoAnimationGroup *destGroup)
 {
+    qDebug() << Q_FUNC_INFO
+             << "this:" << this
+             << "destIndex:" << destIndex
+             << "destGroup:" << destGroup;
+
+    if(destGroup == NULL)
+        destGroup = this;
+
     //Position -1 is used to place the item at the end of the list
-    if (newIndex == -1)
+    if (destIndex == -1)
     {
-        newIndex = this->animations().count()-1;
+        destIndex = destGroup->animations().count()-1;
     }
-    if (oldIndex != newIndex)
+
+    if((this==destGroup) && (srcIndex==destIndex))
     {
-        _animations.move(oldIndex, newIndex);
+        // Nothing to do: destination is the same as source
+    }
+    else if(this==destGroup)
+    {
+        // Destination group is our group
+        _animations.move(srcIndex, destIndex);
         for (int z=0;z<_animations.count();z++)
         {
             _animations.at(z)->graphicItem()->setZValue(z);
         }
+        emit animationMoved(_animations.at(destIndex));
+    }
+    else
+    {
+        // Destination group is not this group
+        // Let's take animation from this group
+        MinoAnimation *animation = takeAnimationAt(srcIndex);
+        // Prevent group from emitting animationAdded signal
+        destGroup->blockSignals(true);
+        destGroup->insertAnimation(animation, destIndex);
+        destGroup->blockSignals(false);
+        animation->setEnabled(destGroup->enabled());
+        emit animationMoved(animation);
     }
 }
 
