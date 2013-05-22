@@ -98,6 +98,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     setExpanded(program->isOnAir());
     editor->setExpanded(program->isOnAir());
 
+    connect(_program, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(_program, SIGNAL(onAir(bool)), bOnAir, SLOT(setChecked(bool)));
     connect(_program, SIGNAL(onAir(bool)), this, SLOT(updateOnAirStatus(bool)));
 
