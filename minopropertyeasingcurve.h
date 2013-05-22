@@ -10,6 +10,7 @@
 class MinoPropertyEasingCurve : public MinoProperty
 {
     Q_OBJECT
+    Q_PROPERTY(QEasingCurve easingcurve READ easingCurve WRITE setEasingCurve STORED true)
 public:
     explicit MinoPropertyEasingCurve(QObject *parent, bool autofilled = false);
     ~MinoPropertyEasingCurve();
@@ -20,7 +21,8 @@ public:
     // EasingCurveType
     QEasingCurve::Type easingCurveType();
     void setEasingCurveType(const QEasingCurve::Type& type);
-
+    void setEasingCurve(const QEasingCurve ec) { _easingCurveType = ec.type(); }
+    QEasingCurve easingCurve() { return QEasingCurve(_easingCurveType); }
     // Add
     void addEasingCurveType(const QEasingCurve::Type& type);
 
