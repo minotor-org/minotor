@@ -117,7 +117,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     lGroupParameters->addStretch(1);
 
     // Connect UI with its group
-    connect(_group,SIGNAL(animationAdded()), this,SLOT(updateGroup()));
+    connect(_group,SIGNAL(animationAdded(QObject*)), this,SLOT(updateGroup()));
     connect(_group, SIGNAL(enabledChanged(bool)), this, SLOT(enable(bool)));
     connect(_group, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
