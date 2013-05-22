@@ -20,6 +20,10 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent),
     _animation(animation)
 {
+    QString objectName = QString("Ui:%1(%2)")
+            .arg(animation->metaObject()->className())
+            .arg(QString::number((ulong)((void*)animation), 16));
+    setObjectName(objectName);
     this->setMinimumWidth(175);
     this->setMaximumWidth(175);
 
