@@ -1,7 +1,9 @@
 #include "minarotatingbars.h"
-#include "qdebug.h"
-#include <math.h>
+
+#include <QDebug>
 #include <QGraphicsEffect>
+
+#include <math.h>
 
 MinaRotatingBars::MinaRotatingBars(QObject *object) :
     MinoAnimation(object)
