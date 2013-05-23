@@ -50,7 +50,7 @@ public:
     // Animation Group
     void addAnimationGroup(MinoAnimationGroup *group);
     void insertAnimationGroup(MinoAnimationGroup *animationGroup, int index);
-    void moveAnimationGroup(int srcGroupId, int destGroupId);
+    void moveAnimationGroup(int srcGroupId, int destGroupId, MinoProgram *destProgram = NULL);
 
     Minotor *minotor();
     QString label() const { return _label; }
@@ -112,7 +112,7 @@ signals:
     void animationMoved(int srcProgramId, int srcGroupId , int srcAnimationpId, int destProgramId, int destGroupId , int destAnimationpId);
 
     //Signal emitted when animation group has been moved
-    void animationGroupMoved(int srcProgramId, int srcGroupId , int destGroupId);
+    void animationGroupMoved(QObject * group);
 
     // Signal emitted when a group is added to program
     void animationGroupAdded(QObject * group);

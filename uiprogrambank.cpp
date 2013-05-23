@@ -99,3 +99,15 @@ void UiProgramBank::addProgram(QObject *program)
     Q_ASSERT(p);
     addProgram(p);
 }
+
+void UiProgramBank::requestAnimationGroupMove(MinoAnimationGroup *srcGroup, MinoProgram *destProgram, int destGroupId)
+{
+    qDebug() << Q_FUNC_INFO
+             << "srcGroup:" << srcGroup
+             << "destProgram:" << destProgram
+             << "destGroupId" << destGroupId;
+    MinoProgram *srcProgram = srcGroup->program();
+    Q_ASSERT(srcProgram);
+    Q_ASSERT(destProgram);
+    srcProgram->moveAnimationGroup(srcGroup->id(), destGroupId, destProgram);
+}

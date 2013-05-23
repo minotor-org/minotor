@@ -39,9 +39,6 @@ Minotor::Minotor(QObject *parent) :
     // LED Matrix
     _ledMatrix = new LedMatrix(this);
     _master = new MinoMaster(this);
-    // Please let MiproDebug as first program:
-    //   MiproDebug is design to debug, hence the name, so it should be quick to access.
-    //   BTW, MiproDebug can be tweaked depending on current topic..
     _programBank = new MinoProgramBank(this);
 
     // MIDI interfaces
@@ -159,8 +156,11 @@ Minotor::Minotor(QObject *parent) :
 
 void Minotor::initWithDebugSetup()
 {
+    // Please let MiproDebug as first program:
+    //   MiproDebug is design to debug, hence the name, so it should be quick to access.
+    //   BTW, MiproDebug can be tweaked depending on current topic..
     _master->setProgram(new MiproDebug(_programBank));
-//    new MiproSecondLives(_programBank);
+    new MiproSecondLives(_programBank);
 //    new MiproMatrix(_programBank);
 //    new MiproBnzIchRU(_programBank);
 //    new MiproWaves(_programBank);

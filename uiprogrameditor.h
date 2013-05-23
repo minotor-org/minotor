@@ -20,19 +20,24 @@ public:
     UiAnimation* takeAnimationAt(int groupId, int animationId);
     UiAnimationGroup* findUiAnimationGroup(int groupId);
     UiAnimationGroup* takeAnimationGroupAt(int groupId);
-    void insertAnimationGroup(UiAnimationGroup *uiAnimationGroup, int destGroupId);
+    void insertUiAnimationGroup(UiAnimationGroup *uiAnimationGroup, int destGroupId);
+
+    template<typename T> T findParent();
+    template<typename T> T findContainer(QWidget* parent, const QPoint pos);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
+    bool dropMinoAnimation(QDropEvent *event);
+    bool dropMinoAnimationGroup(QDropEvent *event);
+
     QWidget *_wContent;
     QBoxLayout *_lContent;
 
     UiAnimationGroup* addAnimationGroup(MinoAnimationGroup *group);
-    void moveAnimation(int srcGroupId, int srcAnimationId, MinoAnimationGroup *destGroup, int destAnimationId);
-    void moveAnimationGroup(int srcGroupId, int destGroupId);
+    void requestAnimationMove(MinoAnimation *srcAnimation, MinoAnimationGroup *destGroup, int destAnimationId);
 
 signals:
 
@@ -41,6 +46,7 @@ public slots:
 
 private slots:
     void addAnimationGroup(QObject* group);
+    void moveAnimationGroup(QObject *group);
 
 private:
     MinoProgram *_program;

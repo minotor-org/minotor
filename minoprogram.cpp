@@ -188,25 +188,52 @@ void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int i
     {
         _animationGroups.at(z)->itemGroup()->setZValue(z);
     }
+    animationGroup->_program = this;
+    animationGroup->setParent(this);
 }
 
-
-void MinoProgram::moveAnimationGroup(int srcGroupId, int destGroupId)
+void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *destProgram)
 {
-    if(srcGroupId!=destGroupId)
+    qDebug() << Q_FUNC_INFO
+             << "this:" << this
+             << "destIndex:" << destIndex
+             << "destProgram:" << destProgram;
+
+    if(destProgram == NULL)
+        destProgram = this;
+
+    //Position -1 is used to place the item at the end of the list
+    if (destIndex == -1)
     {
-        MinoAnimationGroup *animationGroup = this->takeAnimationGroupAt(srcGroupId);
-        qDebug()<< Q_FUNC_INFO
-                << "src group" << srcGroupId << " destGroup " << destGroupId;
-        this->insertAnimationGroup(animationGroup, destGroupId);
-        qDebug()<< Q_FUNC_INFO
-                << "group inserted";
+        destIndex = destProgram->animationGroups().count();
+        // If group comes from this program, the last will be count()-1
+        if(this==destProgram)
+            destIndex -= 1;
     }
 
-    //Reorder Z values
-    for(int z=0; z<_animationGroups.count(); z++)
+    if((this==destProgram) && (srcIndex==destIndex))
     {
-        _animationGroups.at(z)->itemGroup()->setZValue(z);
+        // Nothing to do: destination is the same as source
     }
-    emit animationGroupMoved(this->id(), srcGroupId , destGroupId);
+    else if(this==destProgram)
+    {
+        // Destination group is our group
+        _animationGroups.move(srcIndex, destIndex);
+        for (int z=0;z<_animationGroups.count();z++)
+        {
+            _animationGroups.at(z)->itemGroup()->setZValue(z);
+        }
+        emit animationGroupMoved(_animationGroups.at(destIndex));
+    }
+    else
+    {
+        // Destination group is not this group
+        // Let's take animation from this group
+        MinoAnimationGroup *group = takeAnimationGroupAt(srcIndex);
+        // Prevent group from emitting animationAdded signal
+        destProgram->blockSignals(true);
+        destProgram->insertAnimationGroup(group, destIndex);
+        destProgram->blockSignals(false);
+        emit animationGroupMoved(group);
+    }
 }

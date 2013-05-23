@@ -10,10 +10,12 @@ class UiProgramBank : public QWidget
     Q_OBJECT
 public:
     explicit UiProgramBank(MinoProgramBank *bank, QWidget *parent = 0);
-    
+    void requestAnimationGroupMove(MinoAnimationGroup *srcGroup, MinoProgram *destProgram, int destGroupId);
+
 signals:
     
 public slots:
+
 private:
     QWidget *_wScrollContent;
     QButtonGroup *_bgOnAir;

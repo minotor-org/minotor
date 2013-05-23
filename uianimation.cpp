@@ -157,40 +157,31 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
     QByteArray itemData;
     QDataStream dataStream(&itemData, QIODevice::WriteOnly);
 
-    const int groupId = _animation->group()->id();
-    if(groupId!=-1)
+    dataStream << objectName() << QPoint(event->pos() - this->pos());
+
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData("application/x-dnd_minoanimation", itemData);
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(event->pos());
+
+    this->setEnabled(false);
+    this->setProperty("dragged", true);
+    this->style()->unpolish(this);
+    this->style()->polish(this);
+
+    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
     {
-        int animationId = _animation->program()->animationGroups().at(groupId)->animations().indexOf(_animation);
-        dataStream
-                << QString("UiAnimation")
-                << QPoint(event->pos() - this->pos())
-                << _animation->program()->id()
-                << groupId
-                << animationId;
-
-        QMimeData *mimeData = new QMimeData;
-        mimeData->setData("application/x-dndanimation", itemData);
-
-        QDrag *drag = new QDrag(this);
-        drag->setMimeData(mimeData);
-        drag->setPixmap(pixmap);
-        drag->setHotSpot(event->pos());
-
-        this->setEnabled(false);
-        this->setProperty("dragged", true);
+        // Nothing to do...
+        this->close();
+    } else {
+        this->show();
+        this->setEnabled(true);
+        this->setProperty("dragged", false);
         this->style()->unpolish(this);
         this->style()->polish(this);
-
-        if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
-        {
-            this->close();
-        } else {
-            this->show();
-            this->setEnabled(true);
-            this->setProperty("dragged", false);
-            this->style()->unpolish(this);
-            this->style()->polish(this);
-        }
     }
 }
 
