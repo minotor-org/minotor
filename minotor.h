@@ -17,7 +17,6 @@
 #include "minoprogrambank.h"
 
 class MinoAnimation;
-typedef QList<MinoAnimation*> MinoAnimationList;
 
 class Minotor : public QObject
 {
