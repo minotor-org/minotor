@@ -7,6 +7,7 @@
 class MinoPropertyReal : public MinoProperty
 {
     Q_OBJECT
+    Q_PROPERTY(qreal value READ value WRITE setValue STORED true)
 public:
     explicit MinoPropertyReal(QObject *parent);
 
