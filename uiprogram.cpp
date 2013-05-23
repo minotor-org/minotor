@@ -121,8 +121,8 @@ void UiProgram::setExpanded(bool expanded)
 
     if (expanded)
     {        
-        this->setMinimumHeight(325);
-        this->setMaximumHeight(325);
+        this->setMinimumHeight(330);
+        this->setMaximumHeight(330);
     }
     else
     {
