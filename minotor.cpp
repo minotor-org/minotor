@@ -418,7 +418,7 @@ void Minotor::load(QSettings* parser)
 void Minotor::clearPrograms()
 {
     MinoProgramBank *programBank = new MinoProgramBank(this);
-    MinoProgram *program = new MinoProgram(programBank);
+    new MinoProgram(programBank);
     changeProgramBank(programBank);
 }
 
