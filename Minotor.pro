@@ -178,4 +178,11 @@ qmake_clang.commands = qmake -recursive -spec unsupported/linux-clang
 clang.commands = scan-build make clean all
 clang.depends = qmake_clang
 
-QMAKE_EXTRA_TARGETS += clang qmake_clang
+cppcheck.commands = \
+	cppcheck --quiet --enable=all \
+	--force --inconclusive \
+	-i libraries \
+	-I libraries/qextserialport/src \
+	./
+
+QMAKE_EXTRA_TARGETS += clang qmake_clang cppcheck
