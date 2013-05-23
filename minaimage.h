@@ -39,7 +39,7 @@ public:
     static const MinoAnimationDescription getDescription() {
         return MinoAnimationDescription("Image", "Use file as image source", QPixmap(), MinaImage::staticMetaObject.className());
     }
-    const MinoAnimationDescription description() const { return MinaImage::getDescription(); }
+    const MinoAnimationDescription description() const { return getDescription(); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
