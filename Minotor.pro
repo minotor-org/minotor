@@ -81,7 +81,8 @@ SOURCES += \
     uieasingcurve.cpp \
     minopropertybeat.cpp \
     minaflashbars.cpp \
-    minoprogrambank.cpp
+    minoprogrambank.cpp \
+    minarainbowoil.cpp
 
 
 HEADERS  += \
@@ -154,7 +155,8 @@ HEADERS  += \
     uieasingcurve.h \
     minopropertybeat.h \
     minaflashbars.h \
-    minoprogrambank.h
+    minoprogrambank.h \
+    minarainbowoil.h
 
 FORMS    += \
     mainwindow.ui \

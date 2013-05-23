@@ -38,5 +38,6 @@
         <file>images/balls.png</file>
         <file>pictos/load.png</file>
         <file>images/flashbars.png</file>
+        <file>images/rainbowoil.png</file>
     </qresource>
 </RCC>

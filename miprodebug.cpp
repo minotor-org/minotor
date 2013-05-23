@@ -6,15 +6,16 @@
 #include "minaflash.h"
 #include "minaimage.h"
 #include "minaballs.h"
+#include "minarainbowoil.h"
 
 MiproDebug::MiproDebug(MinoProgramBank *bank) :
     MinoProgram(bank)
 {
     this->setLabel("Debug");
     MinoAnimationGroup *asgd = new MinoAnimationGroup(this);
-    MinaFlash *ad = new MinaFlash(asgd);
+    MinaRainbowOil *ad = new MinaRainbowOil(asgd);
     ad->setColor(QColor::fromHslF(0.12,0.34,0.56));
-    ad->setLoopSize("1/4");
+    ad->setLoopSize("2");
     asgd->addAnimation(ad);
     this->addAnimationGroup(asgd);
 /*
