@@ -81,20 +81,20 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     QGraphicsItem *item = NULL;
     if ((gppqn%b)==0)
     {
-
-
         int randomPos;
         for (unsigned int i=0;i<density;i++)
         {
+            const qreal progress = (qreal)i/(qreal)density;
+            const qreal step = 1.0/(qreal)density;
             switch(direction)
             {
             case 0:
             {
                 //left to right
-                QLinearGradient grad(0.0, 0.0, length, 0.0) ;
-                grad.setColorAt(0.0, Qt::transparent) ;
-                grad.setColorAt(1, color) ;
-                randomPos = qrand()%_boundingRect.height();
+                QLinearGradient grad(0.0, 0.0, length, 0.0);
+                grad.setColorAt(0.0, Qt::transparent);
+                grad.setColorAt(1, color);
+                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
                 item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
             }
                 break;
@@ -104,7 +104,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 QLinearGradient grad(0.0, 0.0, length, 0.0) ;
                 grad.setColorAt(0.0, color) ;
                 grad.setColorAt(1, Qt::transparent) ;
-                randomPos = qrand()%_boundingRect.height();
+                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
                 item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
             }
                 break;
@@ -114,7 +114,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 QLinearGradient grad(0.0, 0.0, 0.0, length) ;
                 grad.setColorAt(0.0, color) ;
                 grad.setColorAt(1, Qt::transparent) ;
-                randomPos = qrand()%_boundingRect.width();
+                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
                 item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
             }
                 break;
@@ -124,7 +124,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 QLinearGradient grad(0.0, 0.0, 0.0, length) ;
                 grad.setColorAt(0.0, Qt::transparent) ;
                 grad.setColorAt(1, color) ;
-                randomPos = qrand()%_boundingRect.width();
+                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
                 item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
             }
                 break;
