@@ -11,8 +11,8 @@ public:
         _real(real)
     {}
 
-    QString name() { return _name; }
-    qreal real() { return _real; }
+    QString name() const { return _name; }
+    qreal real() const { return _real; }
 
 private:
     QString _name;
