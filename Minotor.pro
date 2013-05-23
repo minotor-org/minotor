@@ -162,7 +162,7 @@ FORMS    += \
     externalmasterview.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
-win32: include(libraries/rtmidi/rtmidi.pri)
+include(libraries/rtmidi/rtmidi.pri)
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += rtmidi
