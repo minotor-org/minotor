@@ -484,7 +484,7 @@ QWidget#scrollcontent {
 }
 
 QWidget#titlebar {
-    background: #2c2c2c;
+    background-color:#2c2c2c;
     border-top: 2px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.5 #171717,stop: 1.0 #666666);
     border-bottom: 2px solid qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0.5 #171717,stop: 1.0 #666666);
     border-left: 2px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,stop: 0.5 #171717,stop: 1.0 #666666);
@@ -529,6 +529,10 @@ UiAnimationGroup[active=true] {
 
 UiMasterAnimationGroup[active=true] {
     background-color:#e75f00;
+}
+
+UiMasterAnimationGroup[highlight=true] > QWidget#group {
+background-color:#16b4db;
 }
 
 UiAnimationPicker#scrollcontent {
