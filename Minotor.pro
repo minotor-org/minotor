@@ -67,22 +67,22 @@ SOURCES += \
     mipromatrix.cpp \
     miprosecondlives.cpp \
     miprowaves.cpp \
-    uianimation.cpp \
-    uianimationdescription.cpp \
-    uianimationgroup.cpp \
-    uianimationpicker.cpp \
-    uianimationproperty.cpp \
-    uieasingcurve.cpp \
-    uiknob.cpp \
-    uimaster.cpp \
-    uimasteranimationgroup.cpp \
-    uimastercontrol.cpp \
-    uimidicontrollableparameter.cpp \
-    uimidiinterface.cpp \
-    uiprogram.cpp \
-    uiprogrambank.cpp \
-    uiprogrameditor.cpp \
-    uiprogramview.cpp
+    Ui/uianimation.cpp \
+    Ui/uianimationdescription.cpp \
+    Ui/uianimationgroup.cpp \
+    Ui/uianimationpicker.cpp \
+    Ui/uianimationproperty.cpp \
+    Ui/uieasingcurve.cpp \
+    Ui/uiknob.cpp \
+    Ui/uimaster.cpp \
+    Ui/uimasteranimationgroup.cpp \
+    Ui/uimastercontrol.cpp \
+    Ui/uimidicontrollableparameter.cpp \
+    Ui/uimidiinterface.cpp \
+    Ui/uiprogram.cpp \
+    Ui/uiprogrambank.cpp \
+    Ui/uiprogrameditor.cpp \
+    Ui/uiprogramview.cpp
 
 
 HEADERS  += \
@@ -141,22 +141,22 @@ HEADERS  += \
     mipromatrix.h \
     miprosecondlives.h \
     miprowaves.h \
-    uianimation.h \
-    uianimationdescription.h \
-    uianimationgroup.h \
-    uianimationpicker.h \
-    uianimationproperty.h \
-    uieasingcurve.h \
-    uiknob.h \
-    uimaster.h \
-    uimasteranimationgroup.h \
-    uimastercontrol.h \
-    uimidicontrollableparameter.h \
-    uimidiinterface.h \
-    uiprogram.h \
-    uiprogrambank.h \
-    uiprogrameditor.h \
-    uiprogramview.h
+    Ui/uianimation.h \
+    Ui/uianimationdescription.h \
+    Ui/uianimationgroup.h \
+    Ui/uianimationpicker.h \
+    Ui/uianimationproperty.h \
+    Ui/uieasingcurve.h \
+    Ui/uiknob.h \
+    Ui/uimaster.h \
+    Ui/uimasteranimationgroup.h \
+    Ui/uimastercontrol.h \
+    Ui/uimidicontrollableparameter.h \
+    Ui/uimidiinterface.h \
+    Ui/uiprogram.h \
+    Ui/uiprogrambank.h \
+    Ui/uiprogrameditor.h \
+    Ui/uiprogramview.h
 
 FORMS    += \
     mainwindow.ui \
