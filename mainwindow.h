@@ -42,7 +42,8 @@ private slots:
     void on_actionSave_triggered();
     // UI: Program Bank/SaveAs
     void on_actionSaveAs_triggered();
-
+    // UI: Add new program to bank
+    void on_actionNewProgram_triggered();
 
 
     void tbFullScreenToggled(bool on);

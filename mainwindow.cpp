@@ -321,6 +321,11 @@ void MainWindow::on_actionSaveAs_triggered()
     _minotor->save(_minotor->programBank(), &parser);
 }
 
+void MainWindow::on_actionNewProgram_triggered()
+{
+    new MinoProgram(_minotor->programBank());
+}
+
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
     static unsigned int uppqn = 0;

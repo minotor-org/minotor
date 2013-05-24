@@ -55,6 +55,7 @@
     <addaction name="actionSaveAs"/>
     <addaction name="actionLoad"/>
     <addaction name="separator"/>
+    <addaction name="actionNewProgram"/>
     <addaction name="actionImport"/>
    </widget>
    <addaction name="menu_File"/>
@@ -237,6 +238,11 @@
   <action name="actionLoad">
    <property name="text">
     <string>&amp;Load...</string>
+   </property>
+  </action>
+  <action name="actionNewProgram">
+   <property name="text">
+    <string>&amp;Add new program</string>
    </property>
   </action>
  </widget>
