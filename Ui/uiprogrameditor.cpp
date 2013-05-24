@@ -55,7 +55,10 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 
     _lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch(1);
-
+    QWidget *wSpacer = new QWidget(_wContent);
+    wSpacer->setMinimumWidth(30);
+    wSpacer->setMaximumWidth(30);
+    _lContent->addWidget(wSpacer);
     foreach (MinoAnimationGroup *group, _program->animationGroups())
     {
         addAnimationGroup(group);
@@ -85,7 +88,7 @@ UiAnimationGroup* UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
     UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
     uiAnimationGroup->setExpanded(_expanded);
 
-    _lContent->insertWidget(_lContent->count()-1, uiAnimationGroup);
+    _lContent->insertWidget(_lContent->count()-2, uiAnimationGroup);
     return uiAnimationGroup;
 }
 
