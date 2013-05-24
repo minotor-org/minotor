@@ -24,6 +24,23 @@ void MinoAnimationGroup::addAnimation(MinoAnimation *animation)
     insertAnimation(animation);
 }
 
+void MinoAnimationGroup::setProgram(MinoProgram *program)
+{
+    if(_program != program)
+    {
+        setParent(program);
+        if(program) {
+            _itemGroup.setParentItem(program->itemGroup());
+            _itemGroup.setGroup(program->itemGroup());
+            _itemGroup.setPos(0,0);
+            _itemGroup.setVisible(true);
+        } else {
+            _itemGroup.setVisible(false);
+        }
+        _program = program;
+    }
+}
+
 MinoAnimationGroup::~MinoAnimationGroup()
 {
     foreach (MinoAnimation *animation, _animations)

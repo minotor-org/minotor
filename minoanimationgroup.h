@@ -24,7 +24,10 @@ public:
     int id();
     QPixmap screenshot() const { return _screenshot; }
     MinoAnimationList animations() const { return _animations; }
+
+    void setProgram(MinoProgram *program);
     MinoProgram *program() const { return _program; }
+
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
     bool enabled() const { return _enabled; }
 

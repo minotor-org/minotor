@@ -155,9 +155,7 @@ void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
 {
     _animationGroups.append(group);
     _itemGroup.addToGroup(group->itemGroup());
-    group->itemGroup()->setParentItem(&_itemGroup);
-    group->itemGroup()->setGroup(&_itemGroup);
-    group->itemGroup()->setPos(0,0);
+    group->setProgram(this);
     emit updated();
     emit animationGroupAdded(group);
 }
@@ -166,6 +164,7 @@ MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
 {
     MinoAnimationGroup *animationGroup = _animationGroups.takeAt(index);
     disconnect(animationGroup);
+    animationGroup->setProgram(NULL);
     if (_animationGroups.count() == 0)
     {
         this->deleteLater();
@@ -188,8 +187,7 @@ void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int i
     {
         _animationGroups.at(z)->itemGroup()->setZValue(z);
     }
-    animationGroup->_program = this;
-    animationGroup->setParent(this);
+    animationGroup->setProgram(this);
 }
 
 void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *destProgram)
