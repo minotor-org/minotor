@@ -46,7 +46,6 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
 
     _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
-    const unsigned int b = _beatFactor->loopSizeInPpqn();
     if (_beatFactor->isBeat(gppqn))
     {
         QGraphicsTextItem* item = _scene->addText(_text->text(),QFont("Arial",12,QFont::Bold,false));

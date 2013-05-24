@@ -29,8 +29,6 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
     (void)ppqn;
     (void)qn;
 
-    const unsigned int b = _beatFactor->loopSizeInPpqn();
-
     QColor color = _color->color();
 
     _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
