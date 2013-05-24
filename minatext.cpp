@@ -47,7 +47,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
     _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
-    if ((gppqn%b)==0)
+    if (_beatFactor->isBeat(gppqn))
     {
         QGraphicsTextItem* item = _scene->addText(_text->text(),QFont("Arial",12,QFont::Bold,false));
         QRectF tRect = item->boundingRect();
@@ -60,7 +60,9 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
         switch(style)
         {
         case 0:
+        {
             item->setTransformOriginPoint(_boundingRect.center());
+        }
             break;
         case 1:
         {

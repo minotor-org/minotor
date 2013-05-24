@@ -58,7 +58,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
     _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int b = _beatFactor->loopSizeInPpqn();
-    if ((gppqn%b)==0)
+    if (_beatFactor->isBeat())
     {
         const unsigned int shape = _generatorShape->currentItem()->real();
         switch(shape)

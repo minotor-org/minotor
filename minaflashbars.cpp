@@ -45,7 +45,7 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
         static_cast<QGraphicsRectItem*>(item)->setBrush(color);
     }
 
-    if ((gppqn%b)==0)
+    if (_beatFactor->isBeat())
     {
         foreach(QGraphicsItem* item, _itemGroup.childItems ())
         {
