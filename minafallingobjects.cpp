@@ -75,13 +75,12 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     QColor color = _color->color();
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    const unsigned int b = _beatFactor->loopSizeInPpqn();
     const unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int length = _generatorLength->currentItem()->real();
     const unsigned int density = _generatorDensity->currentItem()->real();
     const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
-    if ((gppqn%b)==0)
+    if (_beatFactor->isBeat(gppqn))
     {
         int randomPos;
         for (unsigned int i=0;i<density;i++)

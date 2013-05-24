@@ -19,6 +19,7 @@ public:
     qreal loopSizeInPpqn() const { return _mcl->currentItem()->real(); }
 
     qreal progressForGppqn(const unsigned int gppqn) const;
+    bool isBeat(const unsigned int gppqn) const;
 
 signals:
     void loopSizeChanged(const QString& loopSize);

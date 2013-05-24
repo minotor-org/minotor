@@ -36,3 +36,8 @@ void MinoPropertyBeat::setObjectName(const QString &name)
     MinoProperty::setObjectName(name);
 }
 
+bool MinoPropertyBeat::isBeat(const unsigned int gppqn) const
+{
+    const unsigned int loopSize = loopSizeInPpqn();
+    return(gppqn%loopSize)==0;
+}
