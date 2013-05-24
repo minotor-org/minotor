@@ -158,6 +158,9 @@ HEADERS  += \
     Ui/uiprogrameditor.h \
     Ui/uiprogramview.h
 
+INCLUDEPATH += \
+    Ui
+
 FORMS    += \
     mainwindow.ui \
     configdialog.ui \
