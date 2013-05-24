@@ -25,7 +25,7 @@ UiMidiControllableParameter::UiMidiControllableParameter(MidiControllableParamet
     this->setMaximumHeight(50);
 
     QVBoxLayout *lProperty = new QVBoxLayout(this);
-    lProperty->setSpacing(0);
+    lProperty->setSpacing(2);
     lProperty->setMargin(0);
     lProperty->setContentsMargins(0,0,0,0);
     lProperty->addStretch();

@@ -178,7 +178,8 @@ QLabel#bigLabel {
 
 QLabel#dialinfo {
     color:#9c9c9c;
-    font-size:9px;
+    font-size:8px;
+    font-weight:bold;
 }
 
 QLabel#filename {
