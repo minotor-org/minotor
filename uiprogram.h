@@ -24,7 +24,7 @@ public slots:
 private slots:
     void updateOnAirStatus(bool onAir);
     void requestMasterProgramChange(bool on);
-
+    void exportProgram();
 };
 
 #endif // UIPROGRAM_H

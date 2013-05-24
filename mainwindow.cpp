@@ -326,6 +326,14 @@ void MainWindow::on_actionNewProgram_triggered()
     new MinoProgram(_minotor->programBank());
 }
 
+void MainWindow::on_actionImport_triggered()
+{
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr(" (*.mpr)"));
+    QSettings parser(fileName, QSettings::IniFormat);
+    _minotor->load(&parser);
+}
+
 void MainWindow::on_sPpqn_valueChanged(int value)
 {
     static unsigned int uppqn = 0;

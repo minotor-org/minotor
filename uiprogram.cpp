@@ -7,6 +7,8 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QStyle>
+#include <QDesktopServices>
+#include <QFileDialog>
 
 #include "minotor.h"
 
@@ -90,6 +92,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     pbExport->setText("Export");
     pbExport->setMinimumSize(85,16);
     pbExport->setMaximumSize(85,16);
+    connect(pbExport, SIGNAL(clicked()),this, SLOT(exportProgram()));
     lProgramControl->addWidget(pbExport);
     lProgramControl->addStretch();
 
@@ -184,4 +187,16 @@ void UiProgram::updateOnAirStatus(bool onAir)
     this->setProperty("onair", onAir);
     _wBorder->style()->unpolish(_wBorder);
     _wBorder->style()->polish(_wBorder);
+}
+
+void UiProgram::exportProgram()
+{
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.mpr)"));
+    if(QFile::exists(fileName))
+    {
+        QFile::remove(fileName);
+    }
+    QSettings parser(fileName, QSettings::IniFormat);
+    _program->minotor()->save(_program, &parser);
 }
