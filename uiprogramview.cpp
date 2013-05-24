@@ -6,12 +6,12 @@
 
 UiProgramView::UiProgramView(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _program(program)
+    _program(NULL)
 {
     // Optimize widget's repaint
     setAttribute(Qt::WA_OpaquePaintEvent);
 
-    connect(_program, SIGNAL(animated()), this, SLOT(update()));
+    setProgram(program);
 }
 
 // This function produce draw the widget content
@@ -20,6 +20,9 @@ void UiProgramView::paintEvent(QPaintEvent *event)
 {
     // event is not used
     (void)event;
+
+    if(!_program)
+        return;
 
     // Make your code cleaner: store variables from renderer as local const
     const QImage *rendering = _program->rendering();
@@ -66,10 +69,17 @@ void UiProgramView::setProgram(MinoProgram *program)
     if(_program)
     {
         disconnect(_program, SIGNAL(animated()), this, SLOT(update()));
+        disconnect(_program, SIGNAL(destroyed()), this, SLOT(clear()));
     }
     if(program)
     {
         connect(program, SIGNAL(animated()), this, SLOT(update()));
+        connect(program, SIGNAL(destroyed()), this, SLOT(clear()));
     }
     _program = program;
+}
+
+void UiProgramView::clear()
+{
+    _program = NULL;
 }

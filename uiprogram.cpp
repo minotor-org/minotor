@@ -67,6 +67,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     pbDelete->setMinimumSize(16,16);
     pbDelete->setMaximumSize(16,16);
     lTitle->addWidget(pbDelete);
+    connect(pbDelete, SIGNAL(clicked(bool)),_program, SLOT(deleteLater()));
 
     QWidget *wBeat = new QWidget(wProgramControl);
     lProgramControl->addWidget(wBeat);

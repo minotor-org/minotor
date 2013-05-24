@@ -16,6 +16,8 @@ protected:
         virtual int heightForWidth( int width ) const;
 public slots:
         void setProgram(MinoProgram *program);
+protected slots:
+        void clear();
 private:
     MinoProgram *_program;
 };

@@ -16,7 +16,7 @@ public:
     QList<MinoProgram*> programs() { return _programs; }
     ~MinoProgramBank();
     Minotor *minotor();
-    
+
 signals:
     void programAdded(QObject *program);
 
@@ -25,7 +25,9 @@ private:
     QList<MinoProgram*> _programs;
     
 public slots:
-    
+
+protected slots:
+    void destroyProgram(QObject *program);
 };
 
 #endif // MINOPROGRAMBANK_H

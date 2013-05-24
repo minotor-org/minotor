@@ -63,12 +63,14 @@ void MinoMaster::setProgram(MinoProgram *program)
         if(_program)
         {
             disconnect(_program, SIGNAL(updated()), this, SIGNAL(updated()));
+            disconnect(_program, SIGNAL(destroyed()), this, SLOT(clear()));
             _itemGroup.removeFromGroup(_program->itemGroup());
             _program->setOnAir(false);
         }
         if(program)
         {
             connect(program, SIGNAL(updated()), this, SIGNAL(updated()));
+            connect(program,SIGNAL(destroyed()), this, SLOT(clear()));
             _itemGroup.addToGroup(program->itemGroup());
 	        program->setOnAir(true);
 
@@ -99,4 +101,10 @@ void MinoMaster::setProgram(MinoProgram *program)
         _program = program;
         emit programChanged();
     }
+}
+
+void MinoMaster::clear()
+{
+    _program = NULL;
+    emit programChanged();
 }

@@ -26,6 +26,7 @@ void MinoProgramBank::addProgram(MinoProgram *program)
     // Note: Developer of animations should take care to not collide: its objects should never be larger than one screen-size in all directions (up, down, left, right, diagonals)
     QPointF pos = QPointF(matrix->size().width()*3, matrix->size().height() + ((matrix->size().height()*3) * id));
     program->setDrawingPos(pos);
+    connect(program,SIGNAL(destroyed(QObject*)),this,SLOT(destroyProgram(QObject*)));
     emit programAdded(program);
 }
 
@@ -44,4 +45,9 @@ Minotor* MinoProgramBank::minotor()
     qDebug()<<minotor;
     Q_ASSERT(minotor);
     return minotor;
+}
+
+void MinoProgramBank::destroyProgram(QObject *program)
+{    
+    _programs.removeAt(_programs.indexOf(static_cast<MinoProgram*>(program)));
 }

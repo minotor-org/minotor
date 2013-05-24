@@ -26,7 +26,7 @@ signals:
 
 public slots:
     void setBrightness(qreal value);
-
+    void clear();
 };
 
 #endif // MINOMASTER_H
