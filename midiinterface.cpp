@@ -51,6 +51,9 @@ MidiInterface::~MidiInterface()
 #define MIDI_SRTM_START      250  // 11111010
 #define MIDI_SRTM_CONTINUE   251  // 11111011
 
+// System Common Messages (SCM)
+#define MIDI_SCM_SYSEX   240  // 11110000
+
 void MidiInterface::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
     (void)deltatime;
@@ -82,6 +85,15 @@ void MidiInterface::midiCallback(double deltatime, std::vector< unsigned char > 
     case MIDI_SRTM_STOP: emit stopReceived(); break;
     case MIDI_SRTM_START: emit startReceived(); break;
     case MIDI_SRTM_CONTINUE: emit continueReceived(); break;
+    case MIDI_SCM_SYSEX:
+    {
+        // HACK to use Korg nanoKontrol scene button in order to change master view
+        if(message->size() == 11)
+        {
+            emit programChanged(_id, quint8 (channel), quint8 (message->at(9)));
+        }
+    }
+        break;
     default:
         qDebug() << Q_FUNC_INFO
                  << QString("no handler for: %1 (%2)").arg(command).arg(command, 0, 16)

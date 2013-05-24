@@ -11,22 +11,23 @@
 
 UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
-    _group(group)
+    _group(group),
+    _highlight(false)
 {
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
     lGroupBox->setMargin(0);
     lGroupBox->setContentsMargins(2,2,2,2);
 
-    QWidget *wBorder = new QWidget(this);
-    wBorder->setObjectName("group");
-    lGroupBox->addWidget(wBorder);
-    QVBoxLayout *lBorder = new QVBoxLayout(wBorder);
+    _wBorder = new QWidget(this);
+    _wBorder->setObjectName("group");
+    lGroupBox->addWidget(_wBorder);
+    QVBoxLayout *lBorder = new QVBoxLayout(_wBorder);
     lBorder->setSpacing(0);
     lBorder->setMargin(0);
     lBorder->setContentsMargins(1,1,1,1);
 
-    _wContent = new QWidget(wBorder);
+    _wContent = new QWidget(_wBorder);
     lBorder->addWidget(_wContent);
     QVBoxLayout *lContent = new QVBoxLayout(_wContent);
     lContent->setSpacing(2);
@@ -214,5 +215,14 @@ QSize UiMasterAnimationGroup::minimumSizeHint() const
 QSize UiMasterAnimationGroup::sizeHint() const
 {
     return QSize(80, 200);
+}
+
+void UiMasterAnimationGroup::setHighlight(bool on)
+{
+    _highlight = on;
+
+    this->setProperty("highlight", on);
+    _wBorder->style()->unpolish(_wBorder);
+    _wBorder->style()->polish(_wBorder);
 }
 

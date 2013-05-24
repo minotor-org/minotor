@@ -14,7 +14,9 @@
 
 UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
-    _master(master)
+    _master(master),
+    _viewportMin(-1),
+    _viewportMax(-1)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -55,12 +57,17 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
 
     connect(_master,SIGNAL(programChanged()),this,SLOT(updateProgram()));
     connect(_master,SIGNAL(updated()),this,SLOT(updateProgram()));
+    connect(_master, SIGNAL(viewportRangeChanged(int,int)), this, SLOT(changeViewportRange(int,int)));
 }
 
 void UiMasterControl::addAnimationGroup(MinoAnimationGroup *group)
 {
     UiMasterAnimationGroup *uiAnimationGroup = new UiMasterAnimationGroup(group, _wContent);
-    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(_wContent->layout()->count()-1, uiAnimationGroup);
+    const int position = _wContent->layout()->count()-1;
+    if ((position >= _viewportMin) && (position <= _viewportMax)) {
+        uiAnimationGroup->setHighlight(true);
+    }
+    dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(position, uiAnimationGroup);
 }
 
 void UiMasterControl::updateProgram()
@@ -145,5 +152,29 @@ void UiMasterControl::insertAnimationGroup(UiMasterAnimationGroup *uiMasterAnima
         //Place is at the end of the list (-1 beacause there is a spacer at the end)
         destGroupId =  _wContent->layout()->count()-2;
     }
+    if ((destGroupId >= _viewportMin) && (destGroupId <= _viewportMax)) {
+        uiMasterAnimationGroup->setHighlight(true);
+    } else {
+        uiMasterAnimationGroup->setHighlight(false);
+    }
     dynamic_cast<QBoxLayout*>(_wContent->layout())->insertWidget(destGroupId, uiMasterAnimationGroup);
+}
+
+void UiMasterControl::changeViewportRange(const int min, const int max)
+{
+    if((_viewportMin!=min) || (_viewportMax!=max))
+    {
+        _viewportMin = min;
+        _viewportMax = max;
+
+        foreach (UiMasterAnimationGroup *group, this->findChildren<UiMasterAnimationGroup*>())
+        {
+            const int position = group->group()->id();
+            if ((position >= _viewportMin) && (position <= _viewportMax)) {
+                group->setHighlight(true);
+            } else {
+                group->setHighlight(false);
+            }
+        }
+    }
 }

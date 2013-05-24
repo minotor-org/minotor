@@ -16,11 +16,13 @@ public:
     explicit UiMasterAnimationGroup(MinoAnimationGroup *group, QWidget *parent);
     ~UiMasterAnimationGroup();
 
-    void setExpanded(bool on);
+    void setHighlight(const bool on);
+
     void addAnimation(MinoAnimation *animation, int index = -1);
     UiAnimation *takeAt(int index);
     void moveAnimation(int srcId, int destId);
     void insertAnimation(UiAnimation *animation, int destId);
+
     // Accessors
     MinoAnimationGroup* group() const { return _group; }
 
@@ -29,6 +31,7 @@ private:
     QSize sizeHint() const;
 
     MinoAnimationGroup *_group;
+    QWidget *_wBorder;
     QWidget *_wContent;
     QWidget *_wGroupParameters;
 
@@ -41,7 +44,7 @@ private:
     QWidget *_wMidiParameters;
 
     QPushButton *_pbEnable;
-    bool _expanded;
+    bool _highlight;
 
 signals:
     

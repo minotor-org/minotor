@@ -15,6 +15,8 @@ public:
     void setProgram(MinoProgram *program);
     MinoProgram *program() { return _program; }
 
+    void setViewportRange(const int min, const int max);
+
 private:
     MinoProgram *_program;
     bool _shifted;
@@ -22,6 +24,7 @@ private:
 
 signals:
     void programChanged();
+    void viewportRangeChanged(const int min, const int max);
     void updated();
 
 public slots:

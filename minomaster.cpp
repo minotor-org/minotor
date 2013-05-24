@@ -30,7 +30,7 @@ MinoMaster::MinoMaster(Minotor *minotor):
     }
 
     // FIXME
-    QSize sHardMappedArea(9,2);
+    QSize sHardMappedArea(9*4,2);
 
     for (int x=0; x<sHardMappedArea.width(); ++x)
     {
@@ -101,6 +101,11 @@ void MinoMaster::setProgram(MinoProgram *program)
         _program = program;
         emit programChanged();
     }
+}
+
+void MinoMaster::setViewportRange(const int min, const int max)
+{
+    emit viewportRangeChanged(min,max);
 }
 
 void MinoMaster::clear()

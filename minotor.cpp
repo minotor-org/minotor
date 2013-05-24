@@ -62,54 +62,157 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,38,"TRANSPORT_SYNC");
     _midiMapper->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
 */
-/*
     // Korg nanoKontrol
-    _midiMapper->mapControlToRole(2,0,14,"MASTER_CONTROLS_0_0");
-    _midiMapper->mapControlToRole(2,0,15,"MASTER_CONTROLS_1_0");
-    _midiMapper->mapControlToRole(2,0,16,"MASTER_CONTROLS_2_0");
-    _midiMapper->mapControlToRole(2,0,17,"MASTER_CONTROLS_3_0");
-    _midiMapper->mapControlToRole(2,0,18,"MASTER_CONTROLS_4_0");
-    _midiMapper->mapControlToRole(2,0,19,"MASTER_CONTROLS_5_0");
-    _midiMapper->mapControlToRole(2,0,20,"MASTER_CONTROLS_6_0");
-    _midiMapper->mapControlToRole(2,0,21,"MASTER_CONTROLS_7_0");
-    _midiMapper->mapControlToRole(2,0,22,"MASTER_CONTROLS_8_0");
+    // Knobs (scene 1)
+    _midiMapper->mapControlToRole(0,0,14,"MASTER_CONTROLS_0_0");
+    _midiMapper->mapControlToRole(0,0,15,"MASTER_CONTROLS_1_0");
+    _midiMapper->mapControlToRole(0,0,16,"MASTER_CONTROLS_2_0");
+    _midiMapper->mapControlToRole(0,0,17,"MASTER_CONTROLS_3_0");
+    _midiMapper->mapControlToRole(0,0,18,"MASTER_CONTROLS_4_0");
+    _midiMapper->mapControlToRole(0,0,19,"MASTER_CONTROLS_5_0");
+    _midiMapper->mapControlToRole(0,0,20,"MASTER_CONTROLS_6_0");
+    _midiMapper->mapControlToRole(0,0,21,"MASTER_CONTROLS_7_0");
+    _midiMapper->mapControlToRole(0,0,22,"MASTER_CONTROLS_8_0");
+    // Knobs (scene 2)
+    _midiMapper->mapControlToRole(0,0,57,"MASTER_CONTROLS_9_0");
+    _midiMapper->mapControlToRole(0,0,58,"MASTER_CONTROLS_10_0");
+    _midiMapper->mapControlToRole(0,0,59,"MASTER_CONTROLS_11_0");
+    _midiMapper->mapControlToRole(0,0,60,"MASTER_CONTROLS_12_0");
+    _midiMapper->mapControlToRole(0,0,61,"MASTER_CONTROLS_13_0");
+    _midiMapper->mapControlToRole(0,0,62,"MASTER_CONTROLS_14_0");
+    _midiMapper->mapControlToRole(0,0,63,"MASTER_CONTROLS_15_0");
+    _midiMapper->mapControlToRole(0,0,65,"MASTER_CONTROLS_16_0");
+    _midiMapper->mapControlToRole(0,0,66,"MASTER_CONTROLS_17_0");
+    // Knobs (scene 3)
+    _midiMapper->mapControlToRole(0,0,94,"MASTER_CONTROLS_18_0");
+    _midiMapper->mapControlToRole(0,0,95,"MASTER_CONTROLS_19_0");
+    _midiMapper->mapControlToRole(0,0,96,"MASTER_CONTROLS_20_0");
+    _midiMapper->mapControlToRole(0,0,97,"MASTER_CONTROLS_21_0");
+    _midiMapper->mapControlToRole(0,0,102,"MASTER_CONTROLS_22_0");
+    _midiMapper->mapControlToRole(0,0,103,"MASTER_CONTROLS_23_0");
+    _midiMapper->mapControlToRole(0,0,104,"MASTER_CONTROLS_24_0");
+    _midiMapper->mapControlToRole(0,0,105,"MASTER_CONTROLS_25_0");
+    _midiMapper->mapControlToRole(0,0,106,"MASTER_CONTROLS_26_0");
+    // Knobs (scene 4)
+    _midiMapper->mapControlToRole(0,0,10,"MASTER_CONTROLS_27_0");
+    _midiMapper->mapControlToRole(0,1,10,"MASTER_CONTROLS_28_0");
+    _midiMapper->mapControlToRole(0,2,10,"MASTER_CONTROLS_29_0");
+    _midiMapper->mapControlToRole(0,3,10,"MASTER_CONTROLS_30_0");
+    _midiMapper->mapControlToRole(0,4,10,"MASTER_CONTROLS_31_0");
+    _midiMapper->mapControlToRole(0,5,10,"MASTER_CONTROLS_32_0");
+    _midiMapper->mapControlToRole(0,6,10,"MASTER_CONTROLS_33_0");
+    _midiMapper->mapControlToRole(0,7,10,"MASTER_CONTROLS_34_0");
+    _midiMapper->mapControlToRole(0,8,10,"MASTER_CONTROLS_35_0");
+     // Sliders (scene 1)
+    _midiMapper->mapControlToRole(0,0,2,"MASTER_CONTROLS_0_1");
+    _midiMapper->mapControlToRole(0,0,3,"MASTER_CONTROLS_1_1");
+    _midiMapper->mapControlToRole(0,0,4,"MASTER_CONTROLS_2_1");
+    _midiMapper->mapControlToRole(0,0,5,"MASTER_CONTROLS_3_1");
+    _midiMapper->mapControlToRole(0,0,6,"MASTER_CONTROLS_4_1");
+    _midiMapper->mapControlToRole(0,0,8,"MASTER_CONTROLS_5_1");
+    _midiMapper->mapControlToRole(0,0,9,"MASTER_CONTROLS_6_1");
+    _midiMapper->mapControlToRole(0,0,12,"MASTER_CONTROLS_7_1");
+    _midiMapper->mapControlToRole(0,0,13,"MASTER_CONTROLS_8_1");
+    // Sliders (scene 2)
+    _midiMapper->mapControlToRole(0,0,42,"MASTER_CONTROLS_9_1");
+    _midiMapper->mapControlToRole(0,0,43,"MASTER_CONTROLS_10_1");
+    _midiMapper->mapControlToRole(0,0,50,"MASTER_CONTROLS_11_1");
+    _midiMapper->mapControlToRole(0,0,51,"MASTER_CONTROLS_12_1");
+    _midiMapper->mapControlToRole(0,0,52,"MASTER_CONTROLS_13_1");
+    _midiMapper->mapControlToRole(0,0,53,"MASTER_CONTROLS_14_1");
+    _midiMapper->mapControlToRole(0,0,54,"MASTER_CONTROLS_15_1");
+    _midiMapper->mapControlToRole(0,0,55,"MASTER_CONTROLS_16_1");
+    _midiMapper->mapControlToRole(0,0,56,"MASTER_CONTROLS_17_1");
+    // Sliders (scene 3)
+    _midiMapper->mapControlToRole(0,0,85,"MASTER_CONTROLS_18_1");
+    _midiMapper->mapControlToRole(0,0,86,"MASTER_CONTROLS_19_1");
+    _midiMapper->mapControlToRole(0,0,87,"MASTER_CONTROLS_20_1");
+    _midiMapper->mapControlToRole(0,0,88,"MASTER_CONTROLS_21_1");
+    _midiMapper->mapControlToRole(0,0,89,"MASTER_CONTROLS_22_1");
+    _midiMapper->mapControlToRole(0,0,90,"MASTER_CONTROLS_23_1");
+    _midiMapper->mapControlToRole(0,0,91,"MASTER_CONTROLS_24_1");
+    _midiMapper->mapControlToRole(0,0,92,"MASTER_CONTROLS_25_1");
+    _midiMapper->mapControlToRole(0,0,93,"MASTER_CONTROLS_26_1");
+    // Sliders (scene 4)
+    _midiMapper->mapControlToRole(0,0,7,"MASTER_CONTROLS_27_1");
+    _midiMapper->mapControlToRole(0,1,7,"MASTER_CONTROLS_28_1");
+    _midiMapper->mapControlToRole(0,2,7,"MASTER_CONTROLS_29_1");
+    _midiMapper->mapControlToRole(0,3,7,"MASTER_CONTROLS_30_1");
+    _midiMapper->mapControlToRole(0,4,7,"MASTER_CONTROLS_31_1");
+    _midiMapper->mapControlToRole(0,5,7,"MASTER_CONTROLS_32_1");
+    _midiMapper->mapControlToRole(0,6,7,"MASTER_CONTROLS_33_1");
+    _midiMapper->mapControlToRole(0,7,7,"MASTER_CONTROLS_34_1");
+    _midiMapper->mapControlToRole(0,8,7,"MASTER_CONTROLS_35_1");
+    // First lines buttons (scene 1)
+    _midiMapper->mapControlToRole(0,0,23,"MASTER_ANIMATION_SHIFT_0");
+    _midiMapper->mapControlToRole(0,0,24,"MASTER_ANIMATION_SHIFT_1");
+    _midiMapper->mapControlToRole(0,0,25,"MASTER_ANIMATION_SHIFT_2");
+    _midiMapper->mapControlToRole(0,0,26,"MASTER_ANIMATION_SHIFT_3");
+    _midiMapper->mapControlToRole(0,0,27,"MASTER_ANIMATION_SHIFT_4");
+    _midiMapper->mapControlToRole(0,0,28,"MASTER_ANIMATION_SHIFT_5");
+    _midiMapper->mapControlToRole(0,0,29,"MASTER_ANIMATION_SHIFT_6");
+    _midiMapper->mapControlToRole(0,0,30,"MASTER_ANIMATION_SHIFT_7");
+    _midiMapper->mapControlToRole(0,0,31,"MASTER_ANIMATION_SHIFT_8");
+    // First lines buttons (scene 2)
+    _midiMapper->mapControlToRole(0,0,67,"MASTER_ANIMATION_SHIFT_9");
+    _midiMapper->mapControlToRole(0,0,68,"MASTER_ANIMATION_SHIFT_10");
+    _midiMapper->mapControlToRole(0,0,69,"MASTER_ANIMATION_SHIFT_11");
+    _midiMapper->mapControlToRole(0,0,70,"MASTER_ANIMATION_SHIFT_12");
+    _midiMapper->mapControlToRole(0,0,71,"MASTER_ANIMATION_SHIFT_13");
+    _midiMapper->mapControlToRole(0,0,72,"MASTER_ANIMATION_SHIFT_14");
+    _midiMapper->mapControlToRole(0,0,73,"MASTER_ANIMATION_SHIFT_15");
+    _midiMapper->mapControlToRole(0,0,74,"MASTER_ANIMATION_SHIFT_16");
+    _midiMapper->mapControlToRole(0,0,75,"MASTER_ANIMATION_SHIFT_17");
+    // First lines buttons (scene 3)
+    _midiMapper->mapControlToRole(0,0,107,"MASTER_ANIMATION_SHIFT_18");
+    _midiMapper->mapControlToRole(0,0,108,"MASTER_ANIMATION_SHIFT_19");
+    _midiMapper->mapControlToRole(0,0,109,"MASTER_ANIMATION_SHIFT_20");
+    _midiMapper->mapControlToRole(0,0,110,"MASTER_ANIMATION_SHIFT_21");
+    _midiMapper->mapControlToRole(0,0,111,"MASTER_ANIMATION_SHIFT_22");
+    _midiMapper->mapControlToRole(0,0,112,"MASTER_ANIMATION_SHIFT_23");
+    _midiMapper->mapControlToRole(0,0,113,"MASTER_ANIMATION_SHIFT_24");
+    _midiMapper->mapControlToRole(0,0,114,"MASTER_ANIMATION_SHIFT_25");
+    _midiMapper->mapControlToRole(0,0,115,"MASTER_ANIMATION_SHIFT_26");
+    // First lines buttons (scene 4)
+    // The default behavior on this device does not allow to use the #4 scene
+    // Default configuration act as toogle switch but does not remains status when changing scene (4 -> 0 -> ... -> 4)
 
-    _midiMapper->mapControlToRole(2,0,2,"MASTER_CONTROLS_0_1");
-    _midiMapper->mapControlToRole(2,0,3,"MASTER_CONTROLS_1_1");
-    _midiMapper->mapControlToRole(2,0,4,"MASTER_CONTROLS_2_1");
-    _midiMapper->mapControlToRole(2,0,5,"MASTER_CONTROLS_3_1");
-    _midiMapper->mapControlToRole(2,0,6,"MASTER_CONTROLS_4_1");
-    _midiMapper->mapControlToRole(2,0,8,"MASTER_CONTROLS_5_1");
-    _midiMapper->mapControlToRole(2,0,9,"MASTER_CONTROLS_6_1");
-    _midiMapper->mapControlToRole(2,0,12,"MASTER_CONTROLS_7_1");
-    _midiMapper->mapControlToRole(2,0,13,"MASTER_CONTROLS_8_1");
+    // Second lines buttons (scene 1)
+    _midiMapper->mapControlToRole(0,0,33,"MASTER_ANIMATION_0");
+    _midiMapper->mapControlToRole(0,0,34,"MASTER_ANIMATION_1");
+    _midiMapper->mapControlToRole(0,0,35,"MASTER_ANIMATION_2");
+    _midiMapper->mapControlToRole(0,0,36,"MASTER_ANIMATION_3");
+    _midiMapper->mapControlToRole(0,0,37,"MASTER_ANIMATION_4");
+    _midiMapper->mapControlToRole(0,0,38,"MASTER_ANIMATION_5");
+    _midiMapper->mapControlToRole(0,0,39,"MASTER_ANIMATION_6");
+    _midiMapper->mapControlToRole(0,0,40,"MASTER_ANIMATION_7");
+    _midiMapper->mapControlToRole(0,0,41,"MASTER_ANIMATION_8");
+    // Second lines buttons (scene 2)
+    _midiMapper->mapControlToRole(0,0,76,"MASTER_ANIMATION_9");
+    _midiMapper->mapControlToRole(0,0,77,"MASTER_ANIMATION_10");
+    _midiMapper->mapControlToRole(0,0,78,"MASTER_ANIMATION_11");
+    _midiMapper->mapControlToRole(0,0,79,"MASTER_ANIMATION_12");
+    _midiMapper->mapControlToRole(0,0,80,"MASTER_ANIMATION_13");
+    _midiMapper->mapControlToRole(0,0,81,"MASTER_ANIMATION_14");
+    _midiMapper->mapControlToRole(0,0,82,"MASTER_ANIMATION_15");
+    _midiMapper->mapControlToRole(0,0,83,"MASTER_ANIMATION_16");
+    _midiMapper->mapControlToRole(0,0,84,"MASTER_ANIMATION_17");
+    // Second lines buttons (scene 3)
+    _midiMapper->mapControlToRole(0,0,116,"MASTER_ANIMATION_18");
+    _midiMapper->mapControlToRole(0,0,117,"MASTER_ANIMATION_19");
+    _midiMapper->mapControlToRole(0,0,118,"MASTER_ANIMATION_20");
+    _midiMapper->mapControlToRole(0,0,119,"MASTER_ANIMATION_21");
+    _midiMapper->mapControlToRole(0,0,120,"MASTER_ANIMATION_22");
+    _midiMapper->mapControlToRole(0,0,121,"MASTER_ANIMATION_23");
+    _midiMapper->mapControlToRole(0,0,122,"MASTER_ANIMATION_24");
+    _midiMapper->mapControlToRole(0,0,123,"MASTER_ANIMATION_25");
+    _midiMapper->mapControlToRole(0,0,124,"MASTER_ANIMATION_26");
 
-    _midiMapper->mapControlToRole(2,0,33,"MASTER_ANIMATION_0");
-    _midiMapper->mapControlToRole(2,0,34,"MASTER_ANIMATION_1");
-    _midiMapper->mapControlToRole(2,0,35,"MASTER_ANIMATION_2");
-    _midiMapper->mapControlToRole(2,0,36,"MASTER_ANIMATION_3");
-    _midiMapper->mapControlToRole(2,0,37,"MASTER_ANIMATION_4");
-    _midiMapper->mapControlToRole(2,0,38,"MASTER_ANIMATION_5");
-    _midiMapper->mapControlToRole(2,0,39,"MASTER_ANIMATION_6");
-    _midiMapper->mapControlToRole(2,0,40,"MASTER_ANIMATION_7");
-    _midiMapper->mapControlToRole(2,0,41,"MASTER_ANIMATION_8");
-
-    _midiMapper->mapControlToRole(2,0,23,"MASTER_ANIMATION_SHIFT_0");
-    _midiMapper->mapControlToRole(2,0,24,"MASTER_ANIMATION_SHIFT_1");
-    _midiMapper->mapControlToRole(2,0,25,"MASTER_ANIMATION_SHIFT_2");
-    _midiMapper->mapControlToRole(2,0,26,"MASTER_ANIMATION_SHIFT_3");
-    _midiMapper->mapControlToRole(2,0,27,"MASTER_ANIMATION_SHIFT_4");
-    _midiMapper->mapControlToRole(2,0,28,"MASTER_ANIMATION_SHIFT_5");
-    _midiMapper->mapControlToRole(2,0,29,"MASTER_ANIMATION_SHIFT_6");
-    _midiMapper->mapControlToRole(2,0,30,"MASTER_ANIMATION_SHIFT_7");
-    _midiMapper->mapControlToRole(2,0,31,"MASTER_ANIMATION_SHIFT_8");
-
-    _midiMapper->mapControlToRole(2,0,45,"TRANSPORT_PLAY");
-    _midiMapper->mapControlToRole(2,0,46,"TRANSPORT_STOP");
-    _midiMapper->mapControlToRole(2,0,49,"TRANSPORT_SYNC");
-    _midiMapper->mapControlToRole(2,0,44,"TRANSPORT_TAP");
-*/
-
+    _midiMapper->mapControlToRole(0,0,45,"TRANSPORT_PLAY");
+    _midiMapper->mapControlToRole(0,0,46,"TRANSPORT_STOP");
+    _midiMapper->mapControlToRole(0,0,49,"TRANSPORT_SYNC");
+    _midiMapper->mapControlToRole(0,0,44,"TRANSPORT_TAP");
+/*
     // Behringer BCD3000
     _midiMapper->mapControlToRole(1,0,3,"MASTER_CONTROLS_0_0");
     _midiMapper->mapControlToRole(1,0,4,"MASTER_CONTROLS_1_0");
@@ -131,6 +234,7 @@ Minotor::Minotor(QObject *parent) :
 
     _midiMapper->mapNoteToRole(1,0,26,"TRANSPORT_PLAY");
     _midiMapper->mapNoteToRole(1,0,27,"TRANSPORT_TAP");
+*/
 
     // Register animations
     MinoPersistentObjectFactory::registerAnimationClass<MinaFlash>();
@@ -228,11 +332,15 @@ void Minotor::handleMidiInterfaceProgramChange(int interface, quint8 channel, qu
 {
     (void)interface;
     (void)channel;
+    /*
     QList<MinoProgram*> programs = _programBank->programs();
     if(program < programs.count())
     {
         _master->setProgram(programs.at(program));
-    }
+    }*/
+    // HACK to use Korg scene button
+    const int size = 9;
+    _master->setViewportRange(program*size, ((program+1)*size)-1);
 }
 
 void Minotor::save(MinoPersistentObject* object, QSettings* parser)
