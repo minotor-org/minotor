@@ -29,6 +29,9 @@ void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, 
     QColor color = _color->color();
 
     _ecrBarLenght.setEasingCurve(_generatorCurve->easingCurveType());
+    QEasingCurve ec(_generatorCurve->easingCurveType());
+    color.setAlphaF(1.0-ec.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
+
 
     const qreal middle = (qreal)_boundingRect.height()/2;
     foreach(QGraphicsItem* item, _itemGroup.childItems ())
