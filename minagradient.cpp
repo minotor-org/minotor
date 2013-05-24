@@ -15,6 +15,8 @@ MinaGradient::MinaGradient(QObject *object):
     _generatorStyle->setCurrentItem("Radial");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     QColor color = _color->color();
 

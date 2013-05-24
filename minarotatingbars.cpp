@@ -23,6 +23,8 @@ MinaRotatingBars::MinaRotatingBars(QObject *object) :
     _length->setValue(0.6);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     QColor color;
     color.setHsvF(0.4, 1.0, 1.0);

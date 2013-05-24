@@ -6,7 +6,7 @@ MinoPropertyBeat::MinoPropertyBeat(QObject *parent) :
     MinoProperty(parent)
 {
     _mcl = new MidiControllableList(this);
-    this->setObjectName("loop-size");
+    setObjectName("loop-size");
     _mcl->setLabel("Loop");
     _mcl->setLinear();
 
@@ -29,3 +29,10 @@ qreal MinoPropertyBeat::progressForGppqn(const unsigned int gppqn) const
     const qreal durationFactor = lppqn / ppqnMax;
     return durationFactor;
 }
+
+void MinoPropertyBeat::setObjectName(const QString &name)
+{
+    _mcl->setObjectName(name);
+    MinoProperty::setObjectName(name);
+}
+

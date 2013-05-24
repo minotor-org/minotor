@@ -45,6 +45,9 @@ MinaImage::MinaImage(QObject *parent) :
     _itemGroup.addToGroup(_scene->addWidget(_imageWidget));
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
+
     _imageFilename = new MinoPropertyFilename(this);
     connect(_imageFilename, SIGNAL(filenameChanged(QString)), SLOT(loadFromFile(QString)));
     _imageFilename->setFilename("spaceinvader.gif");

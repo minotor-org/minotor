@@ -15,6 +15,8 @@ MinaFlashBars::MinaFlashBars(QObject *object) :
     _width->setValue(0.2);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     int posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
     _oldPosY = posY;

@@ -13,6 +13,7 @@ public:
 
     // Label: Propagate label name to _mcr
     void setLabel(const QString &label);
+    void setObjectName(const QString &name);
 
     // value (0.0 - 1.0)
     qreal value() { return _mcr->value(); }

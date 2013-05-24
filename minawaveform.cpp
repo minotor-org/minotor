@@ -17,6 +17,8 @@ MinaWaveform::MinaWaveform(QObject *object) :
     _colorType->setCurrentItem("plain");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 }
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

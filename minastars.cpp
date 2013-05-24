@@ -21,6 +21,8 @@ MinaStars::MinaStars(QObject *object) :
     _beatDuration->setLinear();
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     _generatorDensity = new MinoItemizedProperty(this);
     _generatorDensity->setObjectName("density");

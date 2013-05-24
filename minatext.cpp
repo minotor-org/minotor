@@ -33,6 +33,8 @@ MinaText::MinaText(QObject *object) :
     _generatorStyle->setCurrentItem("P:R T:F");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 }
 
 void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

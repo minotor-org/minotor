@@ -44,7 +44,8 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _generatorShape->setCurrentItem("Ellipse");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
-
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 }
 
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

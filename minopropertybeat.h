@@ -12,7 +12,7 @@ class MinoPropertyBeat : public MinoProperty
 public:
     explicit MinoPropertyBeat(QObject *parent = 0);
 
-    void setPreferred(bool on = true) { _mcl->setPreferred(on); }
+    void setObjectName(const QString &name);
     
     void setLoopSize(const QString& loopSize) { _mcl->setCurrentItem(loopSize); }
     QString loopSize() const { return _mcl->currentItem()->name(); }

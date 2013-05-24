@@ -8,7 +8,6 @@ MinoPropertyEasingCurve::MinoPropertyEasingCurve(QObject *parent, bool autofille
 {
     _mcl = new MidiControllableList(this);
 
-    setObjectName("easingcurve");
     setLabel("Curve");
 
     connect(_mcl, SIGNAL(itemValueChanged(qreal)), this, SLOT(updateTypeFromValue(qreal)));
@@ -90,4 +89,10 @@ void MinoPropertyEasingCurve::updateTypeFromValue(qreal value)
     {
         setEasingCurveType(valueAsType);
     }
+}
+
+void MinoPropertyEasingCurve::setObjectName(const QString &name)
+{
+    _mcl->setObjectName(name);
+    MinoProperty::setObjectName(name);
 }

@@ -14,3 +14,9 @@ void MinoPropertyReal::setLabel(const QString &label)
     _mcr->setLabel(label);
     MinoProperty::setLabel(label);
 }
+
+void MinoPropertyReal::setObjectName(const QString &name)
+{
+    _mcr->setObjectName(name);
+    MinoProperty::setObjectName(name);
+}

@@ -15,6 +15,8 @@ MinaVibration::MinaVibration(QObject *object) :
     _segments->setValue(0.3);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 }
 
 void MinaVibration::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)

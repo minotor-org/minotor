@@ -7,6 +7,8 @@ MinaCurve::MinaCurve(QObject *object) :
     MinoAnimation(object)
 {
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     _generatorAccel = new MinoPropertyEasingCurve(this);
     _generatorAccel->setObjectName("acceleration");

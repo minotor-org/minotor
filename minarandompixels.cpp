@@ -15,6 +15,8 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _density->setValue(0.1);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
     {

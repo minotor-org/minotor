@@ -2,11 +2,13 @@
 #define MIDICONTROLLABLEPARAMETER_H
 
 #include <QObject>
+#include "minopersistentobject.h"
 
-class MidiControllableParameter : public QObject
+class MidiControllableParameter : public MinoPersistentObject
 {
     friend class MidiMapper;
     Q_OBJECT
+    Q_PROPERTY(bool prefered READ isPreferred WRITE setPreferred STORED true)
 public:
     enum Attribute {
         None = 0x0,

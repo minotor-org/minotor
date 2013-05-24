@@ -34,6 +34,8 @@ MinaRainbowOil::MinaRainbowOil(QObject *parent) :
     _itemGroup.addToGroup(_scene->addWidget(_oilImageWidget));
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
     _generatorCurve->setEasingCurveType(QEasingCurve::InCirc);
 
     _style = new MinoItemizedProperty(this);
@@ -41,17 +43,19 @@ MinaRainbowOil::MinaRainbowOil(QObject *parent) :
     _style->setLabel("Style");
     _style->addItem("Vibration", 0);
     _style->addItem("Stop&Go", 1);
-//    _style->addItem("Plop2", 2);
     _style->setCurrentItem("Vibration");
 
     _mprSpeed = new MinoPropertyReal(this);
     _mprSpeed->setLabel("Speed");
+    _mprSpeed->setObjectName("speed");
     _mprSpeed->setValue(0.2);
     _mprBoost = new MinoPropertyReal(this);
     _mprBoost->setLabel("Boost");
+    _mprBoost->setObjectName("boost");
     _mprBoost->setValue(5.0/15.0);
     _mprStep = new MinoPropertyReal(this);
     _mprStep->setLabel("Step");
+    _mprStep->setObjectName("step");
     _mprStep->setValue(2.0/10.0);
     _pos = 0;
 }

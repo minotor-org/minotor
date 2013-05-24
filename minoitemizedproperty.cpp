@@ -10,6 +10,12 @@ MinoItemizedProperty::MinoItemizedProperty(QObject *parent):
     connect(_mcl, SIGNAL(itemIdChanged(int)), this, SIGNAL(itemIdChanged(int)));
 }
 
+void MinoItemizedProperty::setObjectName(const QString &name)
+{
+    _mcl->setObjectName(name);
+    MinoProperty::setObjectName(name);
+}
+
 void MinoItemizedProperty::addItem(const QString name, const qreal real)
 {
     _mcl->addItem(name, real);

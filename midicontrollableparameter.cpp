@@ -1,7 +1,7 @@
 #include "midicontrollableparameter.h"
 
 MidiControllableParameter::MidiControllableParameter(QObject *parent) :
-    QObject(parent),
+    MinoPersistentObject(parent),
     _value(0)
 {
 }

@@ -239,8 +239,7 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
 {
     if(object)
     {
-        qDebug() << Q_FUNC_INFO
-                 << "object->metaObject()->superClass()->className()" << object->metaObject()->superClass()->className();
+        // Group name
         if(object->metaObject()->superClass() && (QString(object->metaObject()->superClass()->className()) == QString("MinoProgram")))
         {
             // HACK to transform hardcoded programs into a simple -and instantiable- MinoProgram
@@ -250,6 +249,26 @@ void Minotor::save(MinoPersistentObject* object, QSettings* parser)
         {
             // Start a group using classname
             parser->beginGroup(object->metaObject()->className());
+        }
+        if(object->metaObject()->superClass())
+        {
+            if(QString(object->metaObject()->superClass()->className()) == QString("MinoProperty"))
+            {
+                if(object->objectName().isEmpty())
+                {
+                    qDebug() << Q_FUNC_INFO
+                             << "object: " << object << "cant be saved properly (parent: " << object->parent() <<")";
+                    Q_ASSERT(false);
+                }
+            } else if(QString(object->metaObject()->superClass()->className()) == QString("MidiControllableParameter"))
+            {
+                if(object->objectName().isEmpty())
+                {
+                    qDebug() << Q_FUNC_INFO
+                             << "object: " << object << "cant be saved properly (parent: " << object->parent()->parent() <<")";
+                    Q_ASSERT(false);
+                }
+            }
         }
         // Remove all entries in this group
         parser->remove("");

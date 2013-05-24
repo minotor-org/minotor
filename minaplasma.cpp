@@ -22,6 +22,8 @@ MinaPlasma::MinaPlasma(QObject *object):
     _generatorSteps->setLinear();
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
+    _generatorCurve->setObjectName("curve");
+    _generatorCurve->setLabel("Curve");
 
     QColor color = _color->color();
 

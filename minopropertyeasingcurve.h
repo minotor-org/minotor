@@ -17,6 +17,7 @@ public:
 
     // Label: Propagate its label to _mcl
     void setLabel(const QString &name);
+    void setObjectName(const QString &name);
 
     // EasingCurveType
     QEasingCurve::Type easingCurveType();
