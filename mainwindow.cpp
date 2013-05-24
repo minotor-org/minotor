@@ -290,7 +290,7 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_actionLoad_triggered()
 {
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-    _programBankFileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr("Program (*.ini)"));
+    _programBankFileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr("Program (*.mpb)"));
     QSettings parser(_programBankFileName, QSettings::IniFormat);
     _minotor->load(&parser);
 }
@@ -312,7 +312,7 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_actionSaveAs_triggered()
 {
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-    _programBankFileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.ini)"));
+    _programBankFileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.mpb)"));
     if(QFile::exists(_programBankFileName))
     {
         QFile::remove(_programBankFileName);
