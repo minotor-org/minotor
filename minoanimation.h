@@ -82,8 +82,6 @@ protected:
     qreal ratioToBeatFactor(qreal value);
     MinoPropertyBeat *_beatFactor;
     MinoPropertyColor *_color;
-    QPropertyAnimation _beatAnimatedProperty;
-    void computeAnimaBeatProperty(const unsigned int gppqn);
 
     // Will be called by MinoAnimationGroup
     void _setEnabled(const bool on);

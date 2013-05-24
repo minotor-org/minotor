@@ -60,7 +60,6 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     QColor color1 = _color->color();
 

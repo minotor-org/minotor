@@ -63,7 +63,6 @@ void MinaRotatingBars::animate(const unsigned int uppqn, const unsigned int gppq
     (void)uppqn;
     (void)ppqn;
     (void)qn;
-    computeAnimaBeatProperty(gppqn);
 
     qreal centerX = _drawingZone.adjusted(0,0,1,1).center().x();
     qreal centerY = _drawingZone.adjusted(0,0,1,1).center().y();

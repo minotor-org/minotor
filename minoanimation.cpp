@@ -22,22 +22,11 @@ MinoAnimation::MinoAnimation(QObject *parent) :
     _color->setColor(randColor);
 
     _beatFactor = new MinoPropertyBeat(this);
-
-    _beatAnimatedProperty.setStartValue(QVariant(1.0));
-    _beatAnimatedProperty.setEndValue(QVariant(0.0));
 }
 
 int MinoAnimation::id()
 {
     return _group->animations().indexOf(this);
-}
-
-void MinoAnimation::computeAnimaBeatProperty(const unsigned int gppqn)
-{
-    const unsigned int ppqnMax = _beatFactor->loopSizeInPpqn();
-    const qreal lppqn = gppqn % ppqnMax;
-    const qreal durationFactor = lppqn / ppqnMax;
-    _beatAnimatedProperty.setCurrentTime(qreal(_beatAnimatedProperty.duration()) * durationFactor);
 }
 
 QPointF MinoAnimation::qrandPointF()
