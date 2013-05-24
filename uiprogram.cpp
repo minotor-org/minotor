@@ -39,24 +39,59 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lBorder->addWidget(_wBackground);
     QHBoxLayout *lBackground = new QHBoxLayout(_wBackground);
 
-    QWidget *wTitle = new QWidget(_wBackground);
-    wTitle->setMinimumWidth(85);
-    wTitle->setMaximumWidth(85);
-    lBackground->addWidget(wTitle);
-    QVBoxLayout *lTitle = new QVBoxLayout(wTitle);
+    QWidget *wProgramControl = new QWidget(_wBackground);
+    wProgramControl->setMinimumWidth(85);
+    wProgramControl->setMaximumWidth(85);
+    lBackground->addWidget(wProgramControl);
+
+    QVBoxLayout *lProgramControl = new QVBoxLayout(wProgramControl);
+    lProgramControl->setSpacing(5);
+    lProgramControl->setMargin(0);
+    lProgramControl->setContentsMargins(0,0,0,0);
+
+    QWidget *wTitle = new QWidget(wProgramControl);
+    lProgramControl->addWidget(wTitle);
+    QHBoxLayout *lTitle = new QHBoxLayout(wTitle);
 
     QLabel *tTitle = new QLabel(wTitle);
     lTitle->addWidget(tTitle);
     tTitle->setObjectName("title");
     tTitle->setText(QString("Prg ") + QString::number(program->id()));
 
+    lTitle->addStretch();
+
+    QPushButton *pbDelete = new QPushButton(wTitle);
+    pbDelete->setFocusPolicy(Qt::NoFocus);
+    pbDelete->setIcon(QIcon(":/pictos/close.png"));
+    pbDelete->setIconSize(QSize(10,10));
+    pbDelete->setMinimumSize(16,16);
+    pbDelete->setMaximumSize(16,16);
+    lTitle->addWidget(pbDelete);
+
+    QWidget *wBeat = new QWidget(wProgramControl);
+    lProgramControl->addWidget(wBeat);
+    QHBoxLayout *lBeat = new QHBoxLayout(wBeat);
+    lBeat->setSpacing(0);
+    lBeat->setMargin(0);
+    lBeat->setContentsMargins(0,0,0,0);
+    lBeat->addStretch();
+
     MidiControllableParameter *mpBeat = _program->findChild<MidiControllableParameter*>();
     if (mpBeat)
     {
         UiMidiControllableParameter *umpBeat = new UiMidiControllableParameter(mpBeat, this);
-        lTitle->addWidget(umpBeat);
+        lBeat->addWidget(umpBeat);
     }
-    lTitle->addStretch();
+
+    lBeat->addStretch();
+
+    QPushButton *pbExport = new QPushButton(wProgramControl);
+    pbExport->setText("Export");
+    pbExport->setMinimumSize(85,16);
+    pbExport->setMaximumSize(85,16);
+    lProgramControl->addWidget(pbExport);
+    lProgramControl->addStretch();
+
 
     UiProgramEditor * editor = new UiProgramEditor(program, _wBackground);
     lBackground->addWidget(editor);
