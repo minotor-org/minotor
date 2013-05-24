@@ -57,7 +57,6 @@ void MinoAnimation::setGroup(MinoAnimationGroup *group)
         if(group) {
            _program = group->program();
            connect(this, SIGNAL(destroyed(QObject*)), group, SLOT(destroyAnimation(QObject*)));
-           emit groupChanged(_program->id(), group->id());
         } else {
             _program = NULL;
             graphicItem()->setVisible(false);
