@@ -5,6 +5,8 @@
 MinaWaveform::MinaWaveform(QObject *object) :
     MinoAnimation(object)
 {
+    _linesHeight = new qreal[_boundingRect.width()];
+
     _ecrHeight.setStartValue((qreal)_boundingRect.height()/2.0);
     _ecrHeight.setEndValue(1.0);
     _ecrHeight.setEasingCurve(QEasingCurve::OutBounce);
@@ -19,6 +21,18 @@ MinaWaveform::MinaWaveform(QObject *object) :
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
+
+    _animationType = new MinoItemizedProperty(this);
+    _animationType->setObjectName("anim-type");
+    _animationType->setLabel("Type");
+    _animationType->addItem("rand.", 0);
+    _animationType->addItem("smooth", 1);
+    _animationType->setCurrentItem("rand.");
+
+    for (int i=0; i<_boundingRect.width(); i++)
+    {
+        _itemGroup.addToGroup(_scene->addLine(QLineF()));
+    }
 }
 
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -58,14 +72,25 @@ void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, c
     }
 
     const qreal middle = (qreal)_boundingRect.height()/2;
-    foreach(QGraphicsItem* item, _itemGroup.childItems ())
+
+    for (int i=0;i<_itemGroup.childItems().count();i++)
     {
-       delete item;
-    }
-    for (int i=0; i<_boundingRect.width(); i++)
-    {
+        QGraphicsItem* item = _itemGroup.childItems().at(i);
+
+        QGraphicsLineItem *line = dynamic_cast<QGraphicsLineItem*>(item);
+
         const qreal progress = _beatFactor->progressForGppqn(gppqn);
-        qreal randHeight = qrandF() * _ecrHeight.valueForProgress(progress);
-        _itemGroup.addToGroup(_scene->addLine(i, middle-randHeight, i, middle+randHeight, QPen(QBrush(grad),1)));
+        if ((_animationType->currentItem()->real() == 0.0) || (_beatFactor->isBeat(gppqn)))
+        {
+            qreal randHeight = qrandF() * _ecrHeight.valueForProgress(progress);
+            line->setLine(i,middle-randHeight,i,middle+randHeight);
+            _linesHeight[i] = randHeight;
+        }
+
+        qreal height = _linesHeight[i]*(1.0-_generatorCurve->easingCurve().valueForProgress(progress));
+
+        line->setLine(i,middle+0.1-height,i,middle+height);
+        line->setPen(QPen(QBrush(grad),1));
     }
+
 }

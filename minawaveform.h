@@ -27,10 +27,11 @@ private:
     QGraphicsItemGroup _itemGroup;
     EasingCurvedReal _ecrHeight;
     MinoPropertyEasingCurve *_generatorCurve;
+    qreal *_linesHeight;
 
 protected:
     MinoItemizedProperty *_colorType;
-
+    MinoItemizedProperty *_animationType;
 
 };
 
