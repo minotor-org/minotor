@@ -59,9 +59,6 @@ private:
     MinoPropertyReal *_mprStep;
 
     QImage *_image;
-    int _speed;
-    int _stepX;
-    int _stepY;
     qreal _pos;
 
 };
