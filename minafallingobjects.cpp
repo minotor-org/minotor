@@ -1,5 +1,7 @@
 #include "minafallingobjects.h"
+
 #include <QDebug>
+
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
     MinoAnimation(object)
 {
@@ -20,21 +22,10 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _beatDuration->setCurrentItem("1");
     _beatDuration->setLinear();
 
-    _generatorDensity = new MinoItemizedProperty(this);
+    _generatorDensity = new MinoPropertyReal(this);
     _generatorDensity->setObjectName("density");
     _generatorDensity->setLabel("Density");
-    _generatorDensity->addItem("1", 1);
-    _generatorDensity->addItem("2", 2);
-    _generatorDensity->addItem("3", 3);
-    _generatorDensity->addItem("4", 4);
-    _generatorDensity->addItem("5", 5);
-    _generatorDensity->addItem("6", 6);
-    _generatorDensity->addItem("7", 7);
-    _generatorDensity->addItem("8", 8);
-    _generatorDensity->setCurrentItem("1");
-    _generatorDensity->setLinear();
 
-    //Second line of properties
     _generatorDirection = new MinoItemizedProperty(this);
     _generatorDirection->setObjectName("direction");
     _generatorDirection->setLabel("Direction");
@@ -77,12 +68,24 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
     const unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int length = _generatorLength->currentItem()->real();
-    const unsigned int density = _generatorDensity->currentItem()->real();
     const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
     if (_beatFactor->isBeat(gppqn))
     {
         int randomPos;
+        unsigned int density;
+        switch (direction)
+        {
+        case 0: // Left
+        case 1: // Right
+            density = _generatorDensity->value() * _boundingRect.height();
+            break;
+        case 2:
+        case 3:
+            density = _generatorDensity->value() * _boundingRect.width();
+            break;
+        }
+
         for (unsigned int i=0;i<density;i++)
         {
             const qreal progress = (qreal)i/(qreal)density;

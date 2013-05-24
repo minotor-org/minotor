@@ -2,7 +2,10 @@
 #define MINAFALLINGOBJECTS_H
 
 #include "minoanimation.h"
+
 #include "easingcurvedreal.h"
+
+#include "minopropertyreal.h"
 #include "minopropertyeasingcurve.h"
 
 class MinaFallingObjects : public MinoAnimation
@@ -17,8 +20,9 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
+    // To be deleted...
     void setDuration(const unsigned int duration) { _beatDuration->setCurrentItem(QString::number(duration)); }
-    void setDensity(const unsigned int density) { _generatorDensity->setCurrentItem(QString::number(density)); }
+    void setDensity(const unsigned int density) { _generatorDensity->setValue(density); }
     void setLength(const unsigned int length) { _generatorLength->setCurrentItem(QString::number(length)); }
     void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
 
@@ -32,7 +36,7 @@ protected:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorDirection;
     MinoItemizedProperty *_generatorLength;
-    MinoItemizedProperty *_generatorDensity;
+    MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
