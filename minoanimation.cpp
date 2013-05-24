@@ -13,8 +13,8 @@ MinoAnimation::MinoAnimation(QObject *parent) :
     if(MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent))
     {
         setGroup(mag);
-        _scene = _program->minotor()->scene();
-        _boundingRect = _program->minotor()->displayRect();
+        _scene = Minotor::minotor()->scene();
+        _boundingRect = Minotor::minotor()->displayRect();
     }
     _color = new MinoPropertyColor(this);
     QColor randColor;
@@ -55,10 +55,8 @@ void MinoAnimation::setGroup(MinoAnimationGroup *group)
         }
         setParent(group);
         if(group) {
-           _program = group->program();
            connect(this, SIGNAL(destroyed(QObject*)), group, SLOT(destroyAnimation(QObject*)));
         } else {
-            _program = NULL;
             graphicItem()->setVisible(false);
         }
         _group = group;

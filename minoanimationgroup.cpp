@@ -11,9 +11,7 @@ MinoAnimationGroup::MinoAnimationGroup(QObject *parent) :
     _program(NULL)
 {
     Q_ASSERT(parent);
-    _program = qobject_cast<MinoProgram*>(parent);
-    Q_ASSERT(_program);
-    connect(this, SIGNAL(destroyed(QObject*)), _program, SLOT(destroyGroup(QObject*)));
+    Q_ASSERT(qobject_cast<MinoProgram*>(parent));
 }
 
 int MinoAnimationGroup::id ()

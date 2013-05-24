@@ -57,7 +57,6 @@ public:
     QPointF qrandPointF();
 
     bool enabled() const { return _enabled; }
-    MinoProgram* program() const { return _program; }
     MinoAnimationGroup* group() const { return _group; }
     void setGroup(MinoAnimationGroup *group);
 
@@ -74,7 +73,6 @@ public slots:
 protected:
     // Parent
     MinoAnimationGroup *_group;
-    MinoProgram *_program;
 
     // Graphics
     QGraphicsScene *_scene;
