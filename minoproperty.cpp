@@ -16,6 +16,7 @@ void MinoProperty::setObjectName(const QString &name)
         qDebug() << Q_FUNC_INFO
                  << "objectName should not contains upper letters nor dots nor whitespaces";
         qDebug() << "    please fix this object:" << this << "with objectName:" << name;
+        Q_ASSERT(false);
     }
     QObject::setObjectName(name);
 }
