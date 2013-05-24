@@ -60,6 +60,12 @@ MinaRainbowOil::MinaRainbowOil(QObject *parent) :
     _pos = 0;
 }
 
+MinaRainbowOil::~MinaRainbowOil()
+{
+    delete _image;
+    delete _oilImageWidget;
+}
+
 void MinaRainbowOil::renderImage(const qreal pos, const qreal hue, const qreal light, QImage *image)
 {
     qreal sin_low = std::sin(pos * 0.0042);

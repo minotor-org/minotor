@@ -32,6 +32,7 @@ class MinaRainbowOil : public MinoAnimation
     Q_OBJECT
 public:
     explicit MinaRainbowOil(QObject *parent);
+    ~MinaRainbowOil();
 
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
