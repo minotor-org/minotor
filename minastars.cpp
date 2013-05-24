@@ -53,7 +53,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     const unsigned int duration = _beatDuration->currentItem()->real();
 
     QGraphicsItem *item = NULL;
-    if (_beatFactor->isBeat())
+    if (_beatFactor->isBeat(gppqn))
     {
         const QPointF offset(0.1, 0.1);
         QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
