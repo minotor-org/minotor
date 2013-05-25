@@ -25,6 +25,7 @@ public:
 private:
     QGraphicsRectItem *_rectItem;
     MinoItemizedProperty *_generatorStyle;
+    MinoItemizedProperty *_waves;
     MinoPropertyEasingCurve *_generatorCurve;
 
 };
