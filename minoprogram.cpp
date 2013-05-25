@@ -111,7 +111,10 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
 
 void MinoProgram::destroyGroup(QObject *group)
 {
-    _animationGroups.removeAt(_animationGroups.indexOf(static_cast<MinoAnimationGroup*>(group)));
+    MinoAnimationGroup * mag = static_cast<MinoAnimationGroup*>(group);
+    Q_ASSERT(mag);
+    Q_ASSERT(_animationGroups.contains(mag));
+    _animationGroups.removeAt(_animationGroups.indexOf(mag));
     const int ate = _animationGroupsToEnable.indexOf(static_cast<MinoAnimationGroup*>(group));
     if (ate != -1)
     {
@@ -153,11 +156,7 @@ void MinoProgram::setOnAir(bool on)
 
 void MinoProgram::addAnimationGroup(MinoAnimationGroup *group)
 {
-    _animationGroups.append(group);
-    _itemGroup.addToGroup(group->itemGroup());
-    group->setProgram(this);
-    emit updated();
-    emit animationGroupAdded(group);
+    insertAnimationGroup(group, -1);
 }
 
 MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
@@ -168,22 +167,24 @@ MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
     return animationGroup;
 }
 
-void MinoProgram::insertAnimationGroup(MinoAnimationGroup *animationGroup, int index)
+void MinoProgram::insertAnimationGroup(MinoAnimationGroup *group, int index)
 {
     // Add group to program's list
     if(index<0)
         index = _animationGroups.size();
-    _animationGroups.insert(index, animationGroup);
+    _animationGroups.insert(index, group);
 
     // Will remove animation group from list when destroyed
-    connect(animationGroup, SIGNAL(destroyed(QObject*)), this, SLOT(destroyGroup(QObject*)));
+    connect(group, SIGNAL(destroyed(QObject*)), this, SLOT(destroyGroup(QObject*)));
 
     //Reorder Z values
     for(int z=0; z<_animationGroups.count(); z++)
     {
         _animationGroups.at(z)->itemGroup()->setZValue(z);
     }
-    animationGroup->setProgram(this);
+    group->setProgram(this);
+    emit updated();
+    emit animationGroupAdded(group);
 }
 
 void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *destProgram)

@@ -49,7 +49,7 @@ public:
 
     // Animation Group
     void addAnimationGroup(MinoAnimationGroup *group);
-    void insertAnimationGroup(MinoAnimationGroup *animationGroup, int index);
+    void insertAnimationGroup(MinoAnimationGroup *group, int index);
     void moveAnimationGroup(int srcGroupId, int destGroupId, MinoProgram *destProgram = NULL);
 
     Minotor *minotor();
