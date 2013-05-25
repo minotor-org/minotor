@@ -4,7 +4,8 @@
 #include <QDebug>
 
 MinoPropertyEasingCurve::MinoPropertyEasingCurve(QObject *parent, bool autofilled) :
-    MinoProperty(parent)
+    MinoProperty(parent),
+    _easingCurveType(QEasingCurve::Linear)
 {
     _mcl = new MidiControllableList(this);
 

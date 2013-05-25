@@ -11,7 +11,6 @@ class MidiInterface : public QObject
 {
     Q_OBJECT
 
-
     Q_PROPERTY(QString name READ portName)
     Q_PROPERTY(bool accept_clock READ acceptClock WRITE setAcceptClock)
     Q_PROPERTY(bool accept_program READ acceptProgramChange WRITE setAcceptProgramChange)

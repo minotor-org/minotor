@@ -73,7 +73,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     if (_beatFactor->isBeat(gppqn))
     {
         int randomPos;
-        unsigned int density;
+        unsigned int density = 0;
         switch (direction)
         {
         case 0: // Left

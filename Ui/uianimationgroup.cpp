@@ -13,7 +13,8 @@
 
 UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QGroupBox(parent),
-    _group(group)
+    _group(group),
+    _expanded(false)
 {
     QString objectName = QString("Ui:%1(%2)")
             .arg(group->metaObject()->className())
