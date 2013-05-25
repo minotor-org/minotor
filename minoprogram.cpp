@@ -165,10 +165,6 @@ MinoAnimationGroup* MinoProgram::takeAnimationGroupAt(int index)
     MinoAnimationGroup *animationGroup = _animationGroups.takeAt(index);
     disconnect(animationGroup);
     animationGroup->setProgram(NULL);
-    if (_animationGroups.count() == 0)
-    {
-        this->deleteLater();
-    }
     return animationGroup;
 }
 
