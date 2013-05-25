@@ -3,7 +3,6 @@
 #include "minotor.h"
 #include "minoanimationgroup.h"
 #include "minopropertyreal.h"
-#include "midimapper.h"
 
 #include <QDebug>
 
@@ -20,26 +19,7 @@ MinoMaster::MinoMaster(Minotor *minotor):
     mpBrightness->setLabel("Brightness");
     connect(mpBrightness, SIGNAL(valueChanged(qreal)), this, SLOT(setBrightness(qreal)));
 
-    // FIXME
-    for (int i=0; i<100; i++)
-    {
-        QString role = QString("MASTER_ANIMATION_%1").arg(i);
-        MidiMapper::registerTrigger(role);
-        role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-        MidiMapper::registerTrigger(role);
-    }
-
-    // FIXME
-    QSize sHardMappedArea(9*4,2);
-
-    for (int x=0; x<sHardMappedArea.width(); ++x)
-    {
-        for(int y=0; y<sHardMappedArea.height(); ++y)
-        {
-            const QString role = QString("MASTER_CONTROLS_%1_%2").arg(x).arg(y);
-            MidiMapper::registerControl(role);
-        }
-    }
+    _midiMapper = new MinoMasterMidiMapper(this);
 }
 
 MinoMaster::~MinoMaster()
@@ -73,30 +53,6 @@ void MinoMaster::setProgram(MinoProgram *program)
             connect(program,SIGNAL(destroyed()), this, SLOT(clear()));
             _itemGroup.addToGroup(program->itemGroup());
 	        program->setOnAir(true);
-
-            for(int i=0; i<program->animationGroups().count(); ++i)
-            {
-                MinoAnimationGroup *group = program->animationGroups().at(i);
-                QString role = QString("MASTER_ANIMATION_%1").arg(i);
-                MidiMapper::registerTrigger(role, group, SLOT(setEnabled(bool)), true, true);
-                role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-                MidiMapper::registerTrigger(role, group, SLOT(toogle()), false, true);
-
-                int id = 0;
-                foreach(MinoAnimation *animation, group->animations())
-                {
-                    QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
-                    for(int j=0; j<mcp.count(); ++j)
-                    {
-                        if(mcp.at(j)->isPreferred())
-                        {
-                            const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
-                            MidiMapper::registerControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
-                            id++;
-                        }
-                    }
-                }
-            }
         }
         _program = program;
         emit programChanged();

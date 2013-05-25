@@ -82,7 +82,8 @@ SOURCES += \
     Ui/uiprogram.cpp \
     Ui/uiprogrambank.cpp \
     Ui/uiprogrameditor.cpp \
-    Ui/uiprogramview.cpp
+    Ui/uiprogramview.cpp \
+    minomastermidimapper.cpp
 
 
 HEADERS  += \
@@ -156,7 +157,8 @@ HEADERS  += \
     Ui/uiprogram.h \
     Ui/uiprogrambank.h \
     Ui/uiprogrameditor.h \
-    Ui/uiprogramview.h
+    Ui/uiprogramview.h \
+    minomastermidimapper.h
 
 INCLUDEPATH += \
     Ui

@@ -2,6 +2,7 @@
 #define MINOMASTER_H
 
 #include "minoprogram.h"
+#include "minomastermidimapper.h"
 
 class Minotor;
 
@@ -19,6 +20,8 @@ public:
 
 private:
     MinoProgram *_program;
+    MinoMasterMidiMapper *_midiMapper;
+
     bool _shifted;
     QGraphicsItemGroup _itemGroup;
 

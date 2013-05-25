@@ -33,6 +33,7 @@ MidiControl* MidiMapper::addMidiControl(int interface, quint8 channel, quint8 co
     {
         qDebug() << Q_FUNC_INFO
                  << "Mega big error \\o/";
+        Q_ASSERT(false);
     }
     MidiControl *midiControl = new MidiControl(interface, channel, control, this);
     _midiControls.append(midiControl);
@@ -230,6 +231,7 @@ bool MidiMapper::registerControl(QString role, const QObject *receiver, const ch
         {
             qDebug() << Q_FUNC_INFO
                      << "role:" << role << "is already registered!";
+            Q_ASSERT(!minoControl);
             return false;
         }
     }
