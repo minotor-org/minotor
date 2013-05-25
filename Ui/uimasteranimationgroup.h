@@ -31,7 +31,7 @@ private:
     QSize sizeHint() const;
 
     MinoAnimationGroup *_group;
-    QWidget *_wBorder;
+    QWidget *_wHighlight;
     QWidget *_wContent;
     QWidget *_wGroupParameters;
 

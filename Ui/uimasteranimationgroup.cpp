@@ -19,15 +19,15 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     lGroupBox->setMargin(0);
     lGroupBox->setContentsMargins(2,2,2,2);
 
-    _wBorder = new QWidget(this);
-    _wBorder->setObjectName("group");
-    lGroupBox->addWidget(_wBorder);
-    QVBoxLayout *lBorder = new QVBoxLayout(_wBorder);
+    QWidget *wBorder = new QWidget(this);
+    wBorder->setObjectName("group");
+    lGroupBox->addWidget(wBorder);
+    QVBoxLayout *lBorder = new QVBoxLayout(wBorder);
     lBorder->setSpacing(0);
     lBorder->setMargin(0);
     lBorder->setContentsMargins(1,1,1,1);
 
-    _wContent = new QWidget(_wBorder);
+    _wContent = new QWidget(wBorder);
     lBorder->addWidget(_wContent);
     QVBoxLayout *lContent = new QVBoxLayout(_wContent);
     lContent->setSpacing(2);
@@ -81,6 +81,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     lTools->addWidget(wRight);
 
     QFrame *fSeparator = new QFrame(_wContent);
+    _wHighlight = fSeparator;
     fSeparator->setObjectName("groupline");
     fSeparator->setFrameShape(QFrame::HLine);
     fSeparator->setFrameShadow(QFrame::Sunken);
@@ -222,7 +223,7 @@ void UiMasterAnimationGroup::setHighlight(bool on)
     _highlight = on;
 
     this->setProperty("highlight", on);
-    _wBorder->style()->unpolish(_wBorder);
-    _wBorder->style()->polish(_wBorder);
+    _wHighlight->style()->unpolish(_wHighlight);
+    _wHighlight->style()->polish(_wHighlight);
 }
 

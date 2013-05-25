@@ -531,8 +531,8 @@ UiMasterAnimationGroup[active=true] {
     background-color:#e75f00;
 }
 
-UiMasterAnimationGroup[highlight=true] > QWidget#group {
-background-color:#16b4db;
+UiMasterAnimationGroup[highlight=true] > QWidget > QWidget > QFrame#groupline {
+    background-color:#16b4db;
 }
 
 UiAnimationPicker#scrollcontent {
