@@ -24,7 +24,6 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
     setObjectName(objectName);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-
     QWidget *wContainer = new QWidget(this);
     layout->addWidget(wContainer);
     wContainer->setObjectName("scroll");
@@ -55,10 +54,8 @@ UiProgramEditor::UiProgramEditor(MinoProgram *program, QWidget *parent) :
 
     _lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch(1);
-    QWidget *wSpacer = new QWidget(_wContent);
-    wSpacer->setMinimumWidth(30);
-    wSpacer->setMaximumWidth(30);
-    _lContent->addWidget(wSpacer);
+    _lContent->setContentsMargins(5,5,50,5);
+
     foreach (MinoAnimationGroup *group, _program->animationGroups())
     {
         addAnimationGroup(group);
@@ -88,7 +85,7 @@ UiAnimationGroup* UiProgramEditor::addAnimationGroup(MinoAnimationGroup *group)
     UiAnimationGroup *uiAnimationGroup = new UiAnimationGroup(group, _wContent);
     uiAnimationGroup->setExpanded(_expanded);
 
-    _lContent->insertWidget(_lContent->count()-2, uiAnimationGroup);
+    _lContent->insertWidget(_lContent->count()-1, uiAnimationGroup);
     return uiAnimationGroup;
 }
 
