@@ -6,7 +6,6 @@
 #include "uiprogramview.h"
 
 #include <QFrame>
-#include <QScrollArea>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -37,18 +36,17 @@ UiMasterControl::UiMasterControl(MinoMaster *master, QWidget *parent) :
     QVBoxLayout *lContent = new QVBoxLayout(wContent);
 
     // Animations properties
-    QScrollArea *sa = new QScrollArea(wContent);
-    lContent->addWidget(sa);
-
+    _sa = new QScrollArea(wContent);
+    lContent->addWidget(_sa);
 
     _wContent = new QWidget(this);
     _wContent->setObjectName("scrollbackground");
-    sa->setWidget(_wContent);
-    sa->setFrameShadow(QFrame::Plain);
-    sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    sa->setFocusPolicy(Qt::NoFocus);
-    sa->setWidgetResizable(true);
+    _sa->setWidget(_wContent);
+    _sa->setFrameShadow(QFrame::Plain);
+    _sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    _sa->setFocusPolicy(Qt::NoFocus);
+    _sa->setWidgetResizable(true);
 
     QHBoxLayout *_lContent = new QHBoxLayout(_wContent);
     _lContent->addStretch(1);
@@ -167,14 +165,32 @@ void UiMasterControl::changeViewportRange(const int min, const int max)
         _viewportMin = min;
         _viewportMax = max;
 
+        int left = -1;
+        int right = -1;
         foreach (UiMasterAnimationGroup *group, this->findChildren<UiMasterAnimationGroup*>())
         {
             const int position = group->group()->id();
             if ((position >= _viewportMin) && (position <= _viewportMax)) {
                 group->setHighlight(true);
+                if(left==-1)
+                {
+                    left = group->pos().x();
+                } else {
+                    left = qMin(left, group->pos().x());
+                }
+
+                right = qMax(right, group->pos().x() + group->width());
             } else {
                 group->setHighlight(false);
             }
         }
+        const int half = (right - left) / 2;
+        const int middle = left + half;
+        qDebug() << Q_FUNC_INFO
+                    << "left" << left
+                    << "right" << right
+                    << "half" << half
+                       << "middle" << middle;
+        _sa->ensureVisible(middle, 0, half);
     }
 }

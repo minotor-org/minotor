@@ -5,6 +5,7 @@
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QScrollArea>
 
 #include "minomaster.h"
 #include "uimasteranimationgroup.h"
@@ -37,6 +38,7 @@ private:
     MinoMaster *_master;
     int _viewportMin;
     int _viewportMax;
+    QScrollArea *_sa;
 };
 
 #endif // UIMASTERCONTROL_H
