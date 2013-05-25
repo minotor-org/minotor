@@ -68,7 +68,7 @@ public:
     QString loopSize() const { return _beatFactor->loopSize(); }
 
 public slots:
-    void setEnabled(const bool enabled);
+    virtual void setEnabled(const bool enabled);
 
 protected:
     // Parent
@@ -82,9 +82,6 @@ protected:
     qreal ratioToBeatFactor(qreal value);
     MinoPropertyBeat *_beatFactor;
     MinoPropertyColor *_color;
-
-    // Will be called by MinoAnimationGroup
-    void _setEnabled(const bool on);
 
     bool _enabled;
     bool _pending;

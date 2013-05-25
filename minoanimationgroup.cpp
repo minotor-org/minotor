@@ -165,7 +165,7 @@ void MinoAnimationGroup::_setEnabled(const bool on)
     _enabled = on;
     foreach(MinoAnimation *animation, _animations)
     {
-        animation->_setEnabled(on);
+        animation->setEnabled(on);
     }
 
     _itemGroup.setVisible(on);

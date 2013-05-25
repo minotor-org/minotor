@@ -7,7 +7,7 @@
 MinoAnimation::MinoAnimation(QObject *parent) :
     MinoPersistentObject(parent),
     _group(NULL),
-    _enabled(true)
+    _enabled(false)
 {
     Q_ASSERT(parent);
     if(MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent))
@@ -56,13 +56,8 @@ void MinoAnimation::setEnabled(const bool on)
 {
     if(on != _enabled)
     {
-        _setEnabled(on);
+        _enabled = on;
+        graphicItem()->setVisible(on);
+        emit enabledChanged(on);
     }
-}
-
-void MinoAnimation::_setEnabled(const bool on)
-{
-    _enabled = on;
-    graphicItem()->setVisible(on);
-    emit enabledChanged(on);
 }
