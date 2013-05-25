@@ -149,13 +149,8 @@ UiProgramEditor::~UiProgramEditor()
 void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)
 {
     event->accept();
-    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
-        if (event->source() == this) {
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
-        } else {
-            event->acceptProposedAction();
-        }
+    if (event->mimeData()->hasFormat("application/x-dnd_minoanimationdescription")) {
+        event->accept();
     } else if (event->mimeData()->hasFormat("application/x-dnd_minoanimation")) {
         event->accept();
     } else if (event->mimeData()->hasFormat("application/x-dnd_minoanimationgroup")) {
@@ -171,13 +166,8 @@ void UiProgramEditor::dragEnterEvent(QDragEnterEvent *event)
 
 void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
-        if (event->source() == this) {
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
-        } else {
-            event->acceptProposedAction();
-        }
+    if (event->mimeData()->hasFormat("application/x-dnd_minoanimationdescription")) {
+        event->accept();
     } else if (event->mimeData()->hasFormat("application/x-dnd_minoanimation")) {
         event->accept();
     } else if (event->mimeData()->hasFormat("application/x-dnd_minoanimationgroup")) {
@@ -193,62 +183,9 @@ void UiProgramEditor::dragMoveEvent(QDragMoveEvent *event)
 
 void UiProgramEditor::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dndanimationdescription")) {
-        QByteArray itemData = event->mimeData()->data("application/x-dndanimationdescription");
-        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-
-        QString className;
-        QPoint offset;
-        dataStream >> className >> offset;
-
-        bool destGroupFound = false;
-        bool destAnimationFound = false;
-        QList<UiAnimationGroup*> uiGroups = _wContent->findChildren<UiAnimationGroup*>();
-        for (int i=0;i<uiGroups.count();i++)
-        {
-            UiAnimationGroup *uiGroup = uiGroups.at(i);
-            if (uiGroup->geometry().contains(event->pos()))
-            {
-                MinoAnimationGroup *group = uiGroup->group();
-                QList<UiAnimation*> uiAnimations = uiGroup->findChildren<UiAnimation*>();
-                for (int j=0; j<uiAnimations.count(); j++)
-                {
-                    QPoint pa = uiAnimations.at(j)->mapFrom(this, event->pos());
-                    if(uiAnimations.at(j)->rect().contains(pa))
-                    {
-                        const int destAnimationId = group->animations().indexOf(uiAnimations.at(j)->animation());
-                        if (destAnimationId != -1)
-                        {
-                            destAnimationFound = true;
-                            group->addAnimation(className,destAnimationId);
-                        }
-                    }
-                }
-                destGroupFound = true;
-
-                if(!destAnimationFound)
-                {
-                    // Group was found but no target animation under mouse: let's create it at the end of group
-                    group->addAnimation(className);
-                }
-                break;
-            }
-        }
-
-        if(!destGroupFound)
-        {
-            // No group found under mouse: let's create a new group
-            MinoAnimationGroup *group = new MinoAnimationGroup(_program);
-            group->addAnimation(className);
-            _program->addAnimationGroup(group);
-        }
-
-        if (event->source() == this) {
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
-        } else {
-            event->acceptProposedAction();
-        }
+    if (dropMinoAnimationDescription(event)) {
+        qDebug() << Q_FUNC_INFO
+                 << "MinoAnimationDescription successfully dropped";
     } else if (dropMinoAnimation(event)) {
         qDebug() << Q_FUNC_INFO
                  << "MinoAnimation successfully dropped";
@@ -274,6 +211,49 @@ T UiProgramEditor::findContainer(QWidget* parent, const QPoint pos)
         }
     }
     return container;
+}
+
+bool UiProgramEditor::dropMinoAnimationDescription(QDropEvent *event)
+{
+    if (!event->mimeData()->hasFormat("application/x-dnd_minoanimationdescription"))
+    {
+        return false;
+    }
+
+    QByteArray itemData = event->mimeData()->data("application/x-dnd_minoanimationdescription");
+    QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+    QString className;
+    QPoint offset;
+    dataStream >> className >> offset;
+    qDebug() << Q_FUNC_INFO
+             << "source className:" << className;
+
+    // Find destination
+    UiAnimationGroup* destUiGroup = findContainer<UiAnimationGroup*>(_wContent, event->pos());
+    MinoAnimationGroup* destGroup = NULL;
+
+    int destAnimationId = -1;
+    if(destUiGroup) {
+        // Destination group have been located
+        destGroup = destUiGroup->group();
+
+        // If possible, locate the target animation (ie. to retrieve position)
+        UiAnimation* destUiAnimation = findContainer<UiAnimation*>(destUiGroup, event->pos());
+        if(destUiAnimation)
+        {
+            qDebug() << destUiAnimation;
+            destAnimationId = destUiAnimation->animation()->id();
+        }
+    } else {
+        // No UiAnimationGroup have not been found: we assume user drop on UiProgramEditor widget and expect to place its animation at the end of program
+        destGroup = new MinoAnimationGroup(_program);
+        _program->addAnimationGroup(destGroup);
+    }
+
+    // Request animation add
+    destGroup->addAnimation(className,destAnimationId);
+    return true;
 }
 
 bool UiProgramEditor::dropMinoAnimation(QDropEvent *event)

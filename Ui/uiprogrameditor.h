@@ -30,6 +30,7 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
+    bool dropMinoAnimationDescription(QDropEvent *event);
     bool dropMinoAnimation(QDropEvent *event);
     bool dropMinoAnimationGroup(QDropEvent *event);
 

@@ -24,7 +24,6 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     QHBoxLayout *lContent = new QHBoxLayout(wContent);
     lContent->setSpacing(10);
 
-
     this->setAttribute(Qt::WA_TranslucentBackground,false);
 
     QList<MinoAnimationDescription> animations = MinoPersistentObjectFactory::availableAnimationModels();
@@ -57,7 +56,7 @@ void UiAnimationPicker::mousePressEvent(QMouseEvent *event)
      dataStream << child->description()->className() << QPoint(event->pos() - child->pos());
 
      QMimeData *mimeData = new QMimeData;
-     mimeData->setData("application/x-dndanimationdescription", itemData);
+     mimeData->setData("application/x-dnd_minoanimationdescription", itemData);
 
      QDrag *drag = new QDrag(this);
      drag->setMimeData(mimeData);
