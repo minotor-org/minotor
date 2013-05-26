@@ -135,6 +135,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
                 break;
             }
 
+            item->setData(MinaFallingObjects::Direction, direction);
             MinoAnimatedItem maItem (uppqn, duration, item);
             _itemGroup.addToGroup(item);
             _animatedItems.append(maItem);
@@ -152,7 +153,8 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
         else
         {
             const qreal progress = item.progressForUppqn(uppqn);
-            switch(direction)
+            const int itemDirection = item.graphicsItem()->data(MinaFallingObjects::Direction).toInt();
+            switch(itemDirection)
             {
             case 0:
             {

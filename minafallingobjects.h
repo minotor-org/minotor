@@ -46,5 +46,7 @@ protected:
     bool _alive;
 
     void setAlive(const bool on);
+
+    enum ItemData { Direction };
 };
 #endif // MINAFALLINGOBJECTS_H
