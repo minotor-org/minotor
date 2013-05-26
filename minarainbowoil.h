@@ -15,7 +15,7 @@ class OilImageWidget : public QWidget
     Q_OBJECT
 
 public:
-    OilImageWidget(QWidget *parent = 0);
+    explicit OilImageWidget(QWidget *parent = 0);
 
     void setImage(QImage *image);
 

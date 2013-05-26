@@ -16,7 +16,7 @@ class ImageWidget : public QWidget
     Q_OBJECT
 
 public:
-    ImageWidget(QWidget *parent = 0);
+    explicit ImageWidget(QWidget *parent = 0);
 
     void setImage(QImage *image);
 
