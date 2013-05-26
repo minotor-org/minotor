@@ -445,7 +445,7 @@ QObject *Minotor::findParentFor(const QString& className)
 
 void Minotor::loadObjects(QSettings *parser, QObject *parent)
 {
-    foreach(QString group, parser->childGroups())
+    foreach(const QString& group, parser->childGroups())
     {
         qDebug() << Q_FUNC_INFO
                  << "group" << group;
@@ -488,7 +488,7 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
         for(int i=0; i<size; ++i)
         {
             parser->setArrayIndex(i);
-            foreach(QString key, parser->childKeys())
+            foreach(const QString& key, parser->childKeys())
             {
                 qDebug() << Q_FUNC_INFO
                          << QString("#%1 key:").arg(i) << key;

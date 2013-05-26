@@ -27,7 +27,7 @@ UiAnimationPicker::UiAnimationPicker(QWidget *parent) :
     this->setAttribute(Qt::WA_TranslucentBackground,false);
 
     QList<MinoAnimationDescription> animations = MinoPersistentObjectFactory::availableAnimationModels();
-    foreach(MinoAnimationDescription animation, animations)
+    foreach(const MinoAnimationDescription& animation, animations)
     {
         UiAnimationDescription *ad = new UiAnimationDescription(animation, wContent);
         ad->setObjectName("image");

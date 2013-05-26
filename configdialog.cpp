@@ -54,7 +54,7 @@ void ConfigDialog::setupLedMatrix(QSettings &settings)
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
         QStringList portnames;
 
-        foreach (QextPortInfo info, ports) {
+        foreach (const QextPortInfo info, ports) {
             if (1 || info.physName.startsWith("/dev/ttyACM"))
             {
                 portnames.append(info.physName);
@@ -77,7 +77,7 @@ void ConfigDialog::setupMidi(QSettings &settings)
     Midi *midi = Minotor::minotor()->midi();
 
     settings.beginGroup("interface");
-    foreach(QString group, settings.childGroups())
+    foreach(const QString& group, settings.childGroups())
     {
         // Use id as group in settings (ie: midi/interface/0)
         settings.beginGroup(group);

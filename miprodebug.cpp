@@ -31,7 +31,7 @@ MiproDebug::MiproDebug(MinoProgramBank *bank) :
 //    }
 
     QList<MinoAnimationDescription> animations = MinoPersistentObjectFactory::availableAnimationModels();
-    foreach(MinoAnimationDescription animation, animations)
+    foreach(const MinoAnimationDescription& animation, animations)
     {
         MinoAnimationGroup *mag = new MinoAnimationGroup(this);
         mag->addAnimation(animation.className());

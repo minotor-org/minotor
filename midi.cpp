@@ -16,7 +16,7 @@ Midi::Midi(QObject *parent) :
         error.printMessage();
     }
     QStringList ports = getPorts();
-    foreach(QString port, ports)
+    foreach(const QString& port, ports)
     {
         addMidiInterface(new MidiInterface(port, this));
     }

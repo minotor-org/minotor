@@ -62,7 +62,7 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
             QPointF intersectPoint;
             bool updated = false;
             QLineF destination;
-            foreach(QLineF line, _borders)
+            foreach(const QLineF& line, _borders)
             {
                 if (item->_destination != line)
                 {
