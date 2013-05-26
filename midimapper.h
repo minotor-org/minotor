@@ -16,7 +16,8 @@ class MidiMapper : public QObject
 {
     Q_OBJECT
 public:
-    explicit MidiMapper(Minotor *minotor = 0);
+    explicit MidiMapper(Minotor *minotor);
+    ~MidiMapper();
     
     void assignCapturedControlTo(MidiControllableParameter *parameter);
     MidiControl* getMidiControlFor(MidiControllableParameter *parameter);

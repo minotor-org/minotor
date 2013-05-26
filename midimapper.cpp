@@ -14,6 +14,17 @@ MidiMapper::MidiMapper(Minotor *minotor) :
     connect(minotor->midi(), SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SLOT(noteChanged(int,quint8,quint8,bool,quint8)));
 }
 
+MidiMapper::~MidiMapper()
+{
+    foreach(MinoTrigger *t, minoTriggers())
+        delete t;
+    minoTriggers().clear();
+
+    foreach(MinoControl *c, minoControls())
+        delete c;
+    minoControls().clear();
+}
+
 void MidiMapper::assignCapturedControlTo(MidiControllableParameter *parameter)
 {
     if(parameter)
