@@ -90,12 +90,12 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
 
             if (destination.x1() == destination.x2())
             {
-                qreal p2y = qMax(qMin(newPath.p2().y(),10.0),6.0);
+                qreal p2y = qMax(qMin(newPath.p2().y(),qreal(10.0)),qreal(6.0));
                 newPath.setP2(QPoint(newPath.x2(),p2y));
             }
             else
             {
-                qreal p2x = qMax(qMin(newPath.p2().x(),18.0),6.0);
+                qreal p2x = qMax(qMin(newPath.p2().x(),qreal(18.0)),qreal(6.0));
                 newPath.setP2(QPoint(p2x, newPath.y2()));
             }
             item->_path = newPath;

@@ -98,7 +98,7 @@ void MinaRainbowOil::renderImage(const qreal pos, const qreal hue, const qreal l
                          << "hue" << hue
                          << sin1 << sin2 << sin3;
             }
-            pixel_hue = qBound(0.0, pixel_hue, 1.0);
+            pixel_hue = qBound(qreal(0.0), pixel_hue, qreal(1.0));
             image->setPixel(x,y,QColor::fromHslF(pixel_hue, 1.0, light).rgb());
         }
     }
