@@ -558,7 +558,10 @@ void Minotor::changeProgramBank(MinoProgramBank *bank)
     delete _programBank;
     _programBank = bank;
     Q_ASSERT(bank);
-    Q_ASSERT(bank->programs().count());
-    _master->setProgram(bank->programs().at(0));
+    if(bank->programs().count())
+    {
+        // Use the first available program as master
+        _master->setProgram(bank->programs().at(0));
+    }
     emit programBankChanged(bank);
 }
