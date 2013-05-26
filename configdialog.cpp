@@ -55,7 +55,7 @@ void ConfigDialog::setupLedMatrix(QSettings &settings)
         QStringList portnames;
 
         foreach (const QextPortInfo info, ports) {
-            if (1 || info.physName.startsWith("/dev/ttyACM"))
+            if (1 || info.physName.startsWith(QLatin1String("/dev/ttyACM")))
             {
                 portnames.append(info.physName);
             }
@@ -337,7 +337,7 @@ void ConfigDialog::updateSerialTab()
     QStringList portnames;
 
     foreach (QextPortInfo info, ports) {
-        if (1 || info.physName.startsWith("/dev/ttyACM"))
+        if (1 || info.physName.startsWith(QLatin1String("/dev/ttyACM")))
         {
             //                qDebug() << "port name:"       << info.portName;
             //                qDebug() << "friendly name:"   << info.friendName;
