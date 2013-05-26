@@ -35,6 +35,11 @@ MinaWaveform::MinaWaveform(QObject *object) :
     }
 }
 
+MinaWaveform::~MinaWaveform()
+{
+    delete [] _linesHeight;
+}
+
 void MinaWaveform::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)uppqn;
