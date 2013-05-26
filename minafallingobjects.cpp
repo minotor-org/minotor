@@ -34,6 +34,7 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorDirection->addItem("Left", 1);
     _generatorDirection->addItem("Up", 2);
     _generatorDirection->addItem("Down", 3);
+    _generatorDirection->addItem("Rand.", 4);
     _generatorDirection->setCurrentItem("Down");
 
     _generatorLength = new MinoItemizedProperty(this);
@@ -67,7 +68,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     QColor color = _color->color();
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    const unsigned int direction = _generatorDirection->currentItem()->real();
+    unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int length = _generatorLength->currentItem()->real();
     const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
@@ -75,6 +76,10 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     {
         int randomPos;
         unsigned int density = 0;
+        if(direction == 4)
+        {
+            direction = qrand() % 4;
+        }
         switch (direction)
         {
         case 0: // Left
