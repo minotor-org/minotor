@@ -69,7 +69,7 @@ public:
     QString loopSize() const { return _beatFactor->loopSize(); }
 
 public slots:
-    virtual void setEnabled(const bool enabled);
+    void setEnabled(const bool enabled);
 
 protected:
     // Parent
@@ -79,8 +79,6 @@ protected:
     QGraphicsScene *_scene;
     QRect _boundingRect;
 
-    // MinoAnimaBeat ?
-    qreal ratioToBeatFactor(qreal value);
     MinoPropertyBeat *_beatFactor;
     MinoPropertyColor *_color;
 
@@ -114,6 +112,7 @@ public:
     unsigned int _startUppqn;
     unsigned int _duration;
     QGraphicsItem *_graphicsItem;
+
 } ;
 
 typedef QList<MinoAnimatedItem> MinoAnimatedItems;

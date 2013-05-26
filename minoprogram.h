@@ -35,11 +35,6 @@ public:
     const QImage *rendering() const { return _image; }
     int id() const { return _id; }
 
-    // Properties
-    // FIXME: We may use a local property list instead of using findChildren()
-    // MinoPropertyList _properties;
-    // const MinoPropertyList properties() { return _properties; }
-
     // Selection
     bool isSelected() { return true; }
     bool isOnAir() { return _onAir; }
