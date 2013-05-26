@@ -40,7 +40,6 @@ class MinoAnimationGroup;
 class MinoAnimation : public MinoPersistentObject
 {
     Q_OBJECT
-    friend class MinoAnimationGroup;
 
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled STORED true)
 public:
@@ -57,6 +56,8 @@ public:
     QPointF qrandPointF();
 
     bool enabled() const { return _enabled; }
+    virtual bool isAlive() const { return _enabled; }
+
     MinoAnimationGroup* group() const { return _group; }
     void setGroup(MinoAnimationGroup *group);
 
@@ -84,7 +85,8 @@ protected:
     MinoPropertyColor *_color;
 
     bool _enabled;
-    bool _pending;
+
+    virtual void setAlive(const bool on) { graphicItem()->setVisible(on); }
 
 signals:
     void enabledChanged(bool on);

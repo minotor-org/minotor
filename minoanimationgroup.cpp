@@ -8,6 +8,7 @@
 MinoAnimationGroup::MinoAnimationGroup(QObject *parent) :
     MinoPersistentObject(parent),
     _enabled(false),
+    _alive(false),
     _program(NULL)
 {
     Q_ASSERT(parent);
@@ -168,7 +169,13 @@ void MinoAnimationGroup::_setEnabled(const bool on)
         animation->setEnabled(on);
     }
 
-    _itemGroup.setVisible(on);
+    // Show _itemGroup (on=true) but dont hide it (on=false):
+    //     it will be shuted-down when all animations stopped running..
+    if(on)
+    {
+        _alive = true;
+        _itemGroup.setVisible(true);
+    }
     emit enabledChanged(on);
 }
 
@@ -179,5 +186,23 @@ void MinoAnimationGroup::destroyAnimation(QObject *animation)
     {
         this->deleteLater();
     }
+}
+
+void MinoAnimationGroup::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+{
+    bool alive = false;
+    foreach(MinoAnimation *ma, _animations)
+    {
+        if(ma->isAlive())
+        {
+            ma->animate(uppqn, gppqn, ppqn, qn);
+            alive = true;
+        }
+    }
+
+	if(!alive)
+        _itemGroup.setVisible(false);
+
+    _alive = alive;
 }
 

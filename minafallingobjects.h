@@ -27,6 +27,8 @@ public:
     void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
+
+    bool isAlive() const { return _alive; }
     
 signals:
     
@@ -41,5 +43,8 @@ protected:
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrPosition;
+    bool _alive;
+
+    void setAlive(const bool on);
 };
 #endif // MINAFALLINGOBJECTS_H

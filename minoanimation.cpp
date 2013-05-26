@@ -57,7 +57,7 @@ void MinoAnimation::setEnabled(const bool on)
     if(on != _enabled)
     {
         _enabled = on;
-        graphicItem()->setVisible(on);
+        setAlive(on);
         emit enabledChanged(on);
     }
 }

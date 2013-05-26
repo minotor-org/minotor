@@ -82,15 +82,9 @@ void MinoProgram::animate(const unsigned int uppqn, const unsigned int gppqn, co
     // Animate whole content (ie. this includes objects creation/desctruction moves)
     foreach(MinoAnimationGroup *animationGroup, _animationGroups)
     {
-        if(animationGroup->enabled())
+        if(animationGroup->isAlive())
         {
-            foreach(MinoAnimation *animation, animationGroup->animations())
-            {
-                if(animation->enabled())
-                {
-                    animation->animate(uppqn, gppqn, ppqn, qn);
-                }
-            }
+            animationGroup->animate(uppqn,gppqn,ppqn,qn);
         }
     }
 

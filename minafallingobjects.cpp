@@ -3,7 +3,8 @@
 #include <QDebug>
 
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
-    MinoAnimation(object)
+    MinoAnimation(object),
+    _alive(false)
 {
     _ecrPosition.setStartValue(0.0);
     _ecrPosition.setEndValue(1.0);
@@ -70,7 +71,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     const unsigned int length = _generatorLength->currentItem()->real();
     const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
-    if (_beatFactor->isBeat(gppqn))
+    if (_enabled && _beatFactor->isBeat(gppqn))
     {
         int randomPos;
         unsigned int density = 0;
@@ -180,5 +181,23 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
             }
         }
     }
+
+    if(!_enabled && !_animatedItems.count())
+    {
+        MinoAnimation::setAlive(false);
+        _alive = false;
+    }
 }
 
+void MinaFallingObjects::setAlive(const bool on)
+{
+    if(on)
+    {
+        MinoAnimation::setAlive(true);
+        _alive = on;
+    }
+    else
+    {
+        // Nothing to do: we let animate() detected that if animation is alive...
+    }
+}

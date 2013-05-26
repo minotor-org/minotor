@@ -29,7 +29,10 @@ public:
     MinoProgram *program() const { return _program; }
 
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
+
     bool enabled() const { return _enabled; }
+    bool isAlive() const { return _alive; }
+    void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);
@@ -39,10 +42,16 @@ public:
     MinoAnimation* takeAnimationAt(int index);
     void insertAnimation(MinoAnimation *animation, int index = -1);
 
+public slots:
+    void setDelayedEnabled(const bool enabled);
+    void setEnabled(bool on);
+    void toogle() { _setEnabled(!_enabled); }
+
 private:
     QPixmap _screenshot;
     MinoAnimationList _animations;
     bool _enabled;
+    bool _alive;
     MinoProgram *_program;
     QGraphicsItemGroup _itemGroup;
 
@@ -57,11 +66,6 @@ signals:
     void enabledChanged(bool on);
     void animationAdded(QObject *animation);
     void animationMoved(QObject *animation);
-
-public slots:
-    void setDelayedEnabled(const bool enabled);
-    void setEnabled(bool on);
-    void toogle() { _setEnabled(!_enabled); }
 
 };
 
