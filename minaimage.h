@@ -22,7 +22,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *);
-    virtual void resizeEvent(QResizeEvent *event);
+    virtual void resizeEvent(QResizeEvent *);
 
 private:
     QImage _image;

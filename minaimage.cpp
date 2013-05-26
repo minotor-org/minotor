@@ -16,19 +16,20 @@ void ImageWidget::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.drawImage(QPointF(), _image);
 }
-void ImageWidget::resizeEvent(QResizeEvent *event)
+
+void ImageWidget::resizeEvent(QResizeEvent *)
 {
     // Dirty rescale of previously saved image
-    QImage image = _image.scaled(event->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-    _image = image;
+    if(!_image.isNull())
+        _image = _image.scaled(size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 }
 
 void ImageWidget::setImage(QImage *image)
 {
-    _image = image->scaled(size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-    qDebug() << Q_FUNC_INFO
-                << image->size()
-                << _image.size();
+    if(image->isNull())
+        _image = *image;
+    else
+        _image = image->scaled(size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 }
 
 MinaImage::MinaImage(QObject *parent) :
