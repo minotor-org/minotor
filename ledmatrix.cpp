@@ -11,17 +11,18 @@ LedMatrix::LedMatrix(QObject *parent) :
     _connected(false),
     _framebuffer()
 {
+    _port = new QextSerialPort();
 }
 
 LedMatrix::~LedMatrix()
 {
     if (_connected) _port->close();
-    if (_port) delete _port;
+    delete _port;
 }
 
-bool LedMatrix::openPortByName(QString portName)
+bool LedMatrix::openPortByName(const QString& portName)
 {
-    _port = new QextSerialPort(portName);
+    _port->setPortName(portName);
     _port->setBaudRate(BAUD1000000);
     if (_port->open(QIODevice::WriteOnly)){
         qDebug() << "Led matrix connected to:" << this->portName();
@@ -45,7 +46,7 @@ bool LedMatrix::isConnected()
     return _connected;
 }
 
-QString LedMatrix::portName()
+QString LedMatrix::portName() const
 {
     if (_port) {
         return _port->portName();

@@ -24,9 +24,9 @@ public:
     explicit LedMatrix(QObject *parent = 0);
     ~LedMatrix();
 
-    bool openPortByName(QString portName);
+    bool openPortByName(const QString &portName);
     void closePort();
-    QString portName();
+    QString portName() const;
 
     bool isConnected();
 
