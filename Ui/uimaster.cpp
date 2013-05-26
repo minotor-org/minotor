@@ -8,13 +8,12 @@
 #include <QPushButton>
 #include <QLCDNumber>
 #include <QDoubleSpinBox>
-#include "uimastercontrol.h"
+
 #include "minotor.h"
 
 #include "uiprogramview.h"
 #include "uimidicontrollableparameter.h"
-
-#include "minotor.h"
+#include "uimastercontrol.h"
 
 UiMaster::UiMaster(MinoMaster *master, QWidget *parent) :
     QWidget(parent),
