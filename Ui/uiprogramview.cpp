@@ -4,14 +4,36 @@
 #include <QLine>
 #include <QDebug>
 
+#include "minotor.h"
+
 UiProgramView::UiProgramView(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _program(NULL)
+    _program(NULL),
+    _gridStepMin(0)
 {
     // Optimize widget's repaint
     setAttribute(Qt::WA_OpaquePaintEvent);
 
     setProgram(program);
+}
+
+void UiProgramView::resizeEvent(QResizeEvent *)
+{
+    const QRect rect = Minotor::minotor()->displayRect();
+    _gridLines.clear();
+    const qreal stepX = (qreal)width() / rect.width();
+    const qreal stepY = (qreal)height() / rect.height();
+    for (int x = 1; x < rect.width(); x++)
+    {
+        int pos = x * stepX;
+        _gridLines.append(QLine(pos,0,pos,height()));
+    }
+    for (int y = 1; y < rect.height(); y++)
+    {
+        int pos = y * stepY;
+        _gridLines.append(QLine(0,pos,width(),pos));
+    }
+    _gridStepMin = qMin(stepX, stepY);
 }
 
 // This function produce draw the widget content
@@ -32,31 +54,12 @@ void UiProgramView::paintEvent(QPaintEvent *event)
 
     painter.drawImage(rect(), *rendering, rendering->rect());
 
-    const qreal stepX = (qreal)width() / rendering->width();
-    const qreal stepY = (qreal)height() / rendering->height();
-
-    const qreal minRatio = qMin(stepX, stepY);
-
     QPen pen;
-    pen.setWidthF(minRatio*0.25);
+    pen.setWidthF(_gridStepMin*0.25);
     pen.setColor(Qt::black);
     painter.setPen(pen);
-    const int nbLines = (rendering->width()-1) + (rendering->height()-1);
-    QLine lines[nbLines];
-    int currentLine = 0;
-    for (int x = 1; x < rendering->width(); x++)
-    {
-        int pos = x * stepX;
-        lines[currentLine] = QLine(pos,0,pos,height());
-        currentLine++;
-    }
-    for (int y = 1; y < rendering->height(); y++)
-    {
-        int pos = y * stepY;
-        lines[currentLine] = QLine(0,pos,width(),pos);
-        currentLine++;
-    }
-    painter.drawLines(lines,nbLines);
+
+    painter.drawLines(_gridLines);
 }
 
 int UiProgramView::heightForWidth( int width ) const
