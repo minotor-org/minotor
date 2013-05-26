@@ -79,11 +79,11 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
         {
         case 0: // Left
         case 1: // Right
-            density = _generatorDensity->value() * _boundingRect.height();
+            density = 1 + (_generatorDensity->value() * (_boundingRect.height()-1));
             break;
-        case 2:
-        case 3:
-            density = _generatorDensity->value() * _boundingRect.width();
+        case 2: // Bottom
+        case 3: // Top
+            density = 1 + (_generatorDensity->value() * (_boundingRect.width()-1));
             break;
         }
 
