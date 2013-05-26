@@ -35,7 +35,7 @@ public:
     // Test if MIDI is open
     bool isConnected();
 
-    // Retreive current connected port name
+    // Retrieve current connected port name
     QString portName() const;
 
     // ID

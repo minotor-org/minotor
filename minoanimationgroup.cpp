@@ -169,7 +169,7 @@ void MinoAnimationGroup::_setEnabled(const bool on)
         animation->setEnabled(on);
     }
 
-    // Show _itemGroup (on=true) but dont hide it (on=false):
+    // Show _itemGroup (on=true) but do not hide it (on=false):
     //     it will be shuted-down when all animations stopped running..
     if(on)
     {

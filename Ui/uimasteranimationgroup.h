@@ -35,7 +35,7 @@ private:
     QWidget *_wContent;
     QWidget *_wGroupParameters;
 
-    // Flagged as "Important" paramaters
+    // Flagged as "Important" parameters
     QBoxLayout *_lImportantParameters;
     QWidget *_wImportantParameters;
 

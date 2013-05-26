@@ -385,7 +385,7 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
                 for(int j=0; j<object->metaObject()->propertyCount(); j++)
                 {
                     QMetaProperty omp = object->metaObject()->property(j);
-                    // Dont store "objectName"
+                    // Do not store "objectName"
                     if(omp.name() != QString("objectName"))
                     {
                         settings.setValue(omp.name(), omp.read(object));
@@ -495,7 +495,7 @@ void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
         // Draw a pushbutton only when MIDI interface is available (and useful)
         if(mi->isConnected() && mi->isUsed())
         {
-            // If its a generic MIDI or the selected mapping matchs with current MIDI interface
+            // If its a generic MIDI or the selected mapping match with current MIDI interface
             if(generic_midi_selected || (mi->mapping() == ui->cbMidiMapping->currentText()))
             {
                 QPushButton *pb = new QPushButton(QString("Learn with \"%1\"").arg(mi->portName()), ui->wMidiMappingBottom);

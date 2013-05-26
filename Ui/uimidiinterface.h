@@ -12,7 +12,7 @@ class UiMidiInterface : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UiMidiInterface(MidiInterface *inteface, QWidget *parent = 0);
+    explicit UiMidiInterface(MidiInterface *interface, QWidget *parent = 0);
 
     QString name() { return _txtName->text(); }
     void setName(QString name) { _txtName->setText(name); }

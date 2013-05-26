@@ -8,7 +8,7 @@ class MidiControllableParameter : public MinoPersistentObject
 {
     friend class MidiMapper;
     Q_OBJECT
-    Q_PROPERTY(bool prefered READ isPreferred WRITE setPreferred STORED true)
+    Q_PROPERTY(bool preferred READ isPreferred WRITE setPreferred STORED true)
 public:
     enum Attribute {
         None = 0x0,
