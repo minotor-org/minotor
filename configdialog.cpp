@@ -31,7 +31,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     setupMidi(settings);
 
     _smMidiMappingLearnMapper = new QSignalMapper(this);
-    connect(_smMidiMappingLearnMapper, SIGNAL(mapped(const QString &)),this, SLOT(midiLearnToggled(const QString &)));
+    connect(_smMidiMappingLearnMapper, SIGNAL(mapped(QString)),this, SLOT(midiLearnToggled(QString)));
 
     // Hack to refresh list at startup
     updateMidiTab();

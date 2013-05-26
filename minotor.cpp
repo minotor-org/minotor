@@ -52,7 +52,7 @@ Minotor::Minotor(QObject *parent) :
     // Clock source
     _clockSource = new MinoClockSource(this);
     _clockSource->setMidiClockSource(_midi);
-    connect(_clockSource, SIGNAL(clock(unsigned int,unsigned int,unsigned int,unsigned int)), this, SLOT(dispatchClock(unsigned int,unsigned int,unsigned int,unsigned int)));
+    connect(_clockSource, SIGNAL(clock(uint,uint,uint,uint)), this, SLOT(dispatchClock(uint,uint,uint,uint)));
 
     // Register HARDCODED triggers notes
 /*
