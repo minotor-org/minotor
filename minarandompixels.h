@@ -1,5 +1,5 @@
-#ifndef MINOANIMATIONRANDOMPIXELS_H
-#define MINOANIMATIONRANDOMPIXELS_H
+#ifndef MINARANDOMPIXELS_H
+#define MINARANDOMPIXELS_H
 
 #include "minoanimation.h"
 
@@ -33,4 +33,4 @@ private:
     EasingCurvedReal _ecrAlpha;
 };
 
-#endif // MINOANIMATIONRANDOMPIXELS_H
+#endif // MINARANDOMPIXELS_H

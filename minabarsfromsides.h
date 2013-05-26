@@ -1,5 +1,5 @@
-#ifndef MINOANIMATIONBARSFROMSIDES_H
-#define MINOANIMATIONBARSFROMSIDES_H
+#ifndef MINABARSFROMSIDES_H
+#define MINABARSFROMSIDES_H
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
@@ -33,4 +33,4 @@ protected:
 
 };
 
-#endif // MINOANIMATIONBARSFROMSIDES_H
+#endif // MINABARSFROMSIDES_H

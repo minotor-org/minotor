@@ -1,5 +1,5 @@
-#ifndef MINOANIMATIONWAVEFORM_H
-#define MINOANIMATIONWAVEFORM_H
+#ifndef MINAWAVEFORM_H
+#define MINAWAVEFORM_H
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
@@ -35,4 +35,4 @@ protected:
 
 };
 
-#endif // MINOANIMATIONWAVEFORM_H
+#endif // MINAWAVEFORM_H

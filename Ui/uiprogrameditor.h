@@ -1,5 +1,5 @@
-#ifndef UICHANNELEDITOR_H
-#define UICHANNELEDITOR_H
+#ifndef UIPROGRAMEDITOR_H
+#define UIPROGRAMEDITOR_H
 
 #include <QWidget>
 #include <QLayout>
@@ -54,4 +54,4 @@ private:
     bool _expanded;
 };
 
-#endif // UICHANNELEDITOR_H
+#endif // UIPROGRAMEDITOR_H

@@ -1,5 +1,5 @@
-#ifndef MINOANIMATIONEXPANDINGOBJECTS_H
-#define MINOANIMATIONEXPANDINGOBJECTS_H
+#ifndef MINAEXPANDINGOBJECTS_H
+#define MINAEXPANDINGOBJECTS_H
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
@@ -36,4 +36,4 @@ private:
     EasingCurvedReal _ecrScale;
 };
 
-#endif // MINOANIMATIONEXPANDINGOBJECTS_H
+#endif // MINAEXPANDINGOBJECTS_H

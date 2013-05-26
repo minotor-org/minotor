@@ -1,7 +1,8 @@
-#ifndef UIMIDIPARAMETER_H
-#define UIMIDIPARAMETER_H
+#ifndef UIMIDICONTROLLABLEPARAMETER_H
+#define UIMIDICONTROLLABLEPARAMETER_H
 
 #include <QWidget>
+
 #include "midicontrollableparameter.h"
 
 class UiMidiControllableParameter : public QWidget
@@ -34,4 +35,4 @@ private slots:
     void togglePropertyToMaster(bool on);
 };
 
-#endif // UIMIDIPARAMETER
+#endif // UIMIDICONTROLLABLEPARAMETER

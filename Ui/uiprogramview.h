@@ -1,5 +1,5 @@
-#ifndef UICHANNELVIEW_H
-#define UICHANNELVIEW_H
+#ifndef UIPROGRAMVIEW_H
+#define UIPROGRAMVIEW_H
 
 #include <QWidget>
 
@@ -22,4 +22,4 @@ private:
     MinoProgram *_program;
 };
 
-#endif // UICHANNELVIEW_H
+#endif // UIPROGRAMVIEW_H

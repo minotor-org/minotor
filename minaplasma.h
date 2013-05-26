@@ -1,5 +1,5 @@
-#ifndef MINOANIMATIONPLASMA_H
-#define MINOANIMATIONPLASMA_H
+#ifndef MINAPLASMA_H
+#define MINAPLASMA_H
 
 #include "minoanimation.h"
 
@@ -35,4 +35,4 @@ private:
     EasingCurvedReal _ecrPosition;
 };
 
-#endif // MINOANIMATIONPLASMA_H
+#endif // MINAPLASMA_H
