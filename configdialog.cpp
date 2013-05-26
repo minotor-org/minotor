@@ -325,7 +325,7 @@ void ConfigDialog::updateMidiMappingTab()
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
     //Set Header Label Texts
-    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Channel;Control;Role;Value").split(";"));
+    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Channel;Control;Role;Value").split(';'));
     loadMidiMappingFiles(ui->cbMidiMapping);
 }
 
