@@ -47,7 +47,7 @@ public:
     const QRect displayRect() const { return _ledMatrix->rect(); }
 
     // Singleton accessor
-    static Minotor *minotor() { static Minotor minotor; return &minotor; }
+    static Minotor *minotor() { static Minotor *minotor = new Minotor(); return minotor; }
 
     // Persistence
     void save(MinoPersistentObject* object, QSettings* parser);

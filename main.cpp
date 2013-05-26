@@ -3,9 +3,14 @@
 
 #include <QDebug>
 
+#include "minotor.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    // Auto-create minotor instance
+    Minotor::minotor();
 
     // HACK
     qDebug() << "";
@@ -23,9 +28,13 @@ int main(int argc, char *argv[])
     a.setStyleSheet( style );
     // a.setOrganizationName(); ???
     a.setApplicationName("Minotor");
-    MainWindow w;
 
+    MainWindow w;
     w.show();
 
-    return a.exec();
+    int ret = a.exec();
+
+    delete Minotor::minotor();
+
+    return ret;
 }
