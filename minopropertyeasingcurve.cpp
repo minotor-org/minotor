@@ -82,10 +82,6 @@ void MinoPropertyEasingCurve::setLabel(const QString &label)
 void MinoPropertyEasingCurve::updateTypeFromValue(qreal value)
 {
     QEasingCurve::Type valueAsType = (QEasingCurve::Type)(int)value;
-    qDebug() << Q_FUNC_INFO
-             << value
-             << valueAsType
-             << easingCurveTypeToString(valueAsType);
     if(_easingCurveType != valueAsType)
     {
         setEasingCurveType(valueAsType);

@@ -42,7 +42,6 @@ MinoProgramBank::~MinoProgramBank()
 Minotor* MinoProgramBank::minotor()
 {
     Minotor* minotor =  qobject_cast<Minotor*>(parent());
-    qDebug()<<minotor;
     Q_ASSERT(minotor);
     return minotor;
 }

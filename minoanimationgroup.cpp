@@ -63,9 +63,9 @@ MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName
 
 void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
 {
-    qDebug() << Q_FUNC_INFO
-             << "animation:" << animation
-             << "index:" << index;
+//    qDebug() << Q_FUNC_INFO
+//             << "animation:" << animation
+//             << "index:" << index;
     // Add animation to program's list
     if(index<0)
         index = _animations.size();
