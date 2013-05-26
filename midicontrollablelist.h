@@ -24,6 +24,7 @@ class MidiControllableList : public MidiControllableParameter
     Q_OBJECT
 public:
     explicit MidiControllableList(QObject *parent = 0);
+    ~MidiControllableList();
 
     // Type
     enum Type { Items, Steps };

@@ -7,6 +7,13 @@ MidiControllableList::MidiControllableList(QObject *parent) :
 {
 }
 
+MidiControllableList::~MidiControllableList()
+{
+    foreach(MidiControllableListItem* i, _items)
+        delete i;
+    _items.clear();
+}
+
 void MidiControllableList::addItem(const QString name, const qreal real)
 {
     _items.append(new MidiControllableListItem(name, real));
