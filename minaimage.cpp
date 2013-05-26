@@ -54,6 +54,15 @@ MinaImage::MinaImage(QObject *parent) :
     _imageFilename->setFilename("spaceinvader.gif");
 }
 
+MinaImage::~MinaImage()
+{
+    foreach(QImage* i, _imageList)
+    {
+        delete i;
+    }
+    _imageList.clear();
+}
+
 void MinaImage::loadFromFile(const QString& filename)
 {
     QImageReader ir;

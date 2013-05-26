@@ -34,6 +34,8 @@ class MinaImage : public MinoAnimation
 
 public:
     explicit MinaImage(QObject *parent);
+    ~MinaImage();
+
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
