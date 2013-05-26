@@ -18,7 +18,7 @@ class MidiInterface : public QObject
     Q_PROPERTY(bool accept_note READ acceptNoteChange WRITE setAcceptNoteChange)
     Q_PROPERTY(QString mapping READ mapping WRITE setMapping)
 public:
-    explicit MidiInterface(QString portName, Midi *parent);
+    explicit MidiInterface(const QString &portName, Midi *parent);
     ~MidiInterface();
 
     // List ports
@@ -27,7 +27,7 @@ public:
     // Open port using _portName
     bool open();
     // Open port by name
-    bool open(QString portName);
+    bool open(const QString& portName);
 
     // Close open MIDI connection (if one exists).
     bool close();
@@ -36,7 +36,7 @@ public:
     bool isConnected();
 
     // Retreive current connected port name
-    QString portName();
+    QString portName() const;
 
     // ID
     int id() { return _id; }

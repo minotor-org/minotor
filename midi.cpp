@@ -43,7 +43,7 @@ QStringList Midi::getPorts()
     return ports;
 }
 
-MidiInterface* Midi::addMidiInterface(QString portName)
+MidiInterface* Midi::addMidiInterface(const QString &portName)
 {
     MidiInterface * mi = new MidiInterface(portName, this);
     addMidiInterface(mi);
@@ -55,16 +55,8 @@ MidiInterfaces Midi::interfaces()
     return findChildren<MidiInterface*>();
 }
 
-MidiInterface* Midi::interface(QString portName)
+MidiInterface* Midi::interface(const QString &portName)
 {
-    /*
-    foreach(MidiInterface * midiInterface, findChildren<MidiInterface*>())
-    {
-        qDebug() << Q_FUNC_INFO
-                    << midiInterface << midiInterface->objectName();
-    }
-    */
-
     return findChild<MidiInterface*>(portName);
 }
 

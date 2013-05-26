@@ -5,7 +5,7 @@
 
 #include "midi.h"
 
-MidiInterface::MidiInterface(QString portName, Midi *parent) :
+MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     QObject(parent),
     _midi(parent),
     _rtMidiIn(NULL),
@@ -113,7 +113,7 @@ bool MidiInterface::open()
     return open(portName());
 }
 
-bool MidiInterface::open(QString portName)
+bool MidiInterface::open(const QString& portName)
 {
     if(_rtMidiIn)
     {
@@ -195,7 +195,7 @@ void MidiInterface::setPortName(QString portName)
     setObjectName(portName);
 }
 
-QString MidiInterface::portName()
+QString MidiInterface::portName() const
 {
     return objectName();
 }

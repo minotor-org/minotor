@@ -23,8 +23,8 @@ public:
 
     // Interfaces
     MidiInterfaces interfaces();
-    MidiInterface* interface(QString portName);
-    MidiInterface* addMidiInterface(QString portName);
+    MidiInterface* interface(const QString& portName);
+    MidiInterface* addMidiInterface(const QString& portName);
 
 private:
     int grabMidiInterfaceId();
