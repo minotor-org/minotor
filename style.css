@@ -148,6 +148,10 @@ QFrame#line {
     background-color:#2c2c2c;
 }
 
+QFrame#programline {
+    background-color:#3a3a3a;
+}
+
 QFrame#view {
     background-color:#1c1c1c;
 }
@@ -567,4 +571,6 @@ UiProgram[onair=true] > QWidget#panel {
     border:1px solid #e75f00;
 }
 
-
+UiProgram[highlight=true] > QWidget > QWidget > QFrame#programline {
+    background-color:#16b4db;
+}

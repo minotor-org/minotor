@@ -24,6 +24,7 @@ private:
 
 private slots:
     void addProgram(QObject *program);
+    void highlightProgram(QObject *program);
 };
 
 #endif // UIPROGRAMBANK_H

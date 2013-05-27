@@ -209,9 +209,12 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapControlToRole(0,0,124,"MASTER_ANIMATION_26");
 
     _midiMapper->mapControlToRole(0,0,45,"TRANSPORT_PLAY");
-    _midiMapper->mapControlToRole(0,0,46,"TRANSPORT_STOP");
     _midiMapper->mapControlToRole(0,0,49,"TRANSPORT_SYNC");
     _midiMapper->mapControlToRole(0,0,44,"TRANSPORT_TAP");
+
+    _midiMapper->mapControlToRole(0,0,47,"BANK_PREVIOUS");
+    _midiMapper->mapControlToRole(0,0,48,"BANK_NEXT");
+    _midiMapper->mapControlToRole(0,0,46,"BANK_SELECT");
 /*
     // Behringer BCD3000
     _midiMapper->mapControlToRole(1,0,3,"MASTER_CONTROLS_0_0");

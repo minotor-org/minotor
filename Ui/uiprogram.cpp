@@ -19,14 +19,15 @@
 
 UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QWidget(parent),
-    _program(program)
+    _program(program),
+    _highlight(false)
 {
     QVBoxLayout *lProgram = new QVBoxLayout(this);
     lProgram->setSpacing(0);
     lProgram->setMargin(0);
     lProgram->setContentsMargins(0,0,0,0);
 
-    _wBorder = new QWidget();
+    _wBorder = new QWidget(this);
     _wBorder->setObjectName("panel");
     lProgram->addWidget(_wBorder);
 
@@ -45,6 +46,14 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     wProgramControl->setMinimumWidth(85);
     wProgramControl->setMaximumWidth(85);
     lBackground->addWidget(wProgramControl);
+
+    QFrame *fHighlight = new QFrame(_wBackground);
+    _wHighlight = fHighlight;
+    fHighlight->setObjectName("programline");
+    fHighlight->setFrameShape(QFrame::VLine);
+    fHighlight->setFrameShadow(QFrame::Sunken);
+    fHighlight->setLineWidth(1);
+    lBackground->addWidget(fHighlight);
 
     QVBoxLayout *lProgramControl = new QVBoxLayout(wProgramControl);
     lProgramControl->setSpacing(5);
@@ -199,4 +208,13 @@ void UiProgram::exportProgram()
     }
     QSettings parser(fileName, QSettings::IniFormat);
     _program->minotor()->save(_program, &parser);
+}
+
+void UiProgram::setHighlight(bool on)
+{
+    _highlight = on;
+
+    this->setProperty("highlight", on);
+    _wHighlight->style()->unpolish(_wHighlight);
+    _wHighlight->style()->polish(_wHighlight);
 }

@@ -11,11 +11,16 @@ class UiProgram : public QWidget
 public:
     explicit UiProgram(MinoProgram *program, QWidget *parent);
     void setOnAir(bool onAir);
+    void setHighlight(bool on);
+    MinoProgram *program() { return _program; }
+
 private:
     MinoProgram *_program;
     QFrame *_fPreview;
     QWidget *_wBackground;
     QWidget *_wBorder;
+    bool _highlight;
+    QWidget *_wHighlight;
 
 signals:
 

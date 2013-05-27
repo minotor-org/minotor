@@ -3,14 +3,20 @@
 #include <QDebug>
 
 MinoProgramBank::MinoProgramBank(QObject *parent) :
-    MinoPersistentObject(parent)
+    MinoPersistentObject(parent),
+    _programSelectorPos(-1)
 {
-
+    MidiMapper::registerTrigger("BANK_NEXT", this, SLOT(programSelectorNext()), false, true);
+    MidiMapper::registerTrigger("BANK_PREVIOUS", this, SLOT(programSelectorPrevious()), false, true);
+    MidiMapper::registerTrigger("BANK_SELECT", this, SLOT(programSelectorSelect()), false, true);
 }
 
 
 void MinoProgramBank::addProgram(MinoProgram *program)
 {
+    _programSelectorPos = -1;
+    emit programSelectorChanged(NULL);
+
     _programs.append(program);
     const int id = _programs.indexOf(program);
 
@@ -49,4 +55,35 @@ Minotor* MinoProgramBank::minotor()
 void MinoProgramBank::destroyProgram(QObject *program)
 {    
     _programs.removeAt(_programs.indexOf(static_cast<MinoProgram*>(program)));
+    _programSelectorPos = -1;
+    emit programSelectorChanged(NULL);
+}
+
+void MinoProgramBank::programSelectorNext()
+{
+    if (++_programSelectorPos >= _programs.count() )
+    {
+        _programSelectorPos = 0;
+    }
+    Q_ASSERT(_programs.at(_programSelectorPos));
+    emit programSelectorChanged(_programs.at(_programSelectorPos));
+}
+
+void MinoProgramBank::programSelectorPrevious()
+{
+    if (--_programSelectorPos < 0)
+    {
+        _programSelectorPos = _programs.count() - 1;
+    }
+    Q_ASSERT(_programs.at(_programSelectorPos));
+    emit programSelectorChanged(_programs.at(_programSelectorPos));
+}
+
+void MinoProgramBank::programSelectorSelect()
+{
+    if((_programSelectorPos >= 0)
+            && (_programSelectorPos < _programs.count()))
+    {
+        Minotor::minotor()->master()->setProgram(_programs.at(_programSelectorPos));
+    }
 }

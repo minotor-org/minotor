@@ -25,7 +25,6 @@ UiProgramBank::UiProgramBank(MinoProgramBank *bank, QWidget *parent) :
     lBorder->setMargin(0);
     lBorder->setContentsMargins(2,2,2,2);
 
-
     QWidget *wBackground = new QWidget(this);
     lBorder->addWidget(wBackground);
     wBackground->setObjectName("panelcontent");
@@ -80,6 +79,8 @@ UiProgramBank::UiProgramBank(MinoProgramBank *bank, QWidget *parent) :
     }
     connect(bank, SIGNAL(programAdded(QObject*)), this, SLOT(addProgram(QObject*)));
     connect(bank, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+
+    connect(bank, SIGNAL(programSelectorChanged(QObject*)), this, SLOT(highlightProgram(QObject*)));
 }
 
 void UiProgramBank::addProgram(MinoProgram *program)
@@ -110,4 +111,28 @@ void UiProgramBank::requestAnimationGroupMove(MinoAnimationGroup *srcGroup, Mino
     Q_ASSERT(srcProgram);
     Q_ASSERT(destProgram);
     srcProgram->moveAnimationGroup(srcGroup->id(), destGroupId, destProgram);
+}
+
+void UiProgramBank::highlightProgram(QObject *program)
+{
+    MinoProgram *mp = NULL;
+    if(program)
+    {
+        mp = qobject_cast<MinoProgram*>(program);
+        Q_ASSERT(mp);
+    }
+    QList<UiProgram*> uiPrograms = findChildren<UiProgram*>();
+    foreach (UiProgram *uip, uiPrograms) {
+        if(uip->program() == mp)
+        {
+            uip->setHighlight(true);
+            const int top = uip->pos().y();
+            const int half = uip->height() / 2;
+            findChild<QScrollArea *>()->ensureVisible(0, top + half, 0, half);
+        }
+        else
+        {
+            uip->setHighlight(false);
+        }
+    }
 }

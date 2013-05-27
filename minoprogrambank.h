@@ -19,15 +19,21 @@ public:
 
 signals:
     void programAdded(QObject *program);
+    void programSelectorChanged(QObject *program);
 
 private:
     // Programs
     QList<MinoProgram*> _programs;
+    int _programSelectorPos;
     
 public slots:
 
 protected slots:
     void destroyProgram(QObject *program);
+
+    void programSelectorNext();
+    void programSelectorPrevious();
+    void programSelectorSelect();
 };
 
 #endif // MINOPROGRAMBANK_H
