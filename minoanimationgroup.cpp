@@ -4,6 +4,7 @@
 
 #include "minoprogram.h"
 #include "minopersistentobjectfactory.h"
+#include "midicontrollableparameter.h"
 
 MinoAnimationGroup::MinoAnimationGroup(QObject *parent) :
     MinoPersistentObject(parent),
@@ -57,6 +58,17 @@ MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName
     if(animation)
     {
         insertAnimation(animation, index);
+
+        MidiControllableParameter *mcpHue = animation->findChild<MidiControllableParameter*>("hue");
+        if (mcpHue)
+        {
+            mcpHue->setPreferred();
+        }
+        MidiControllableParameter *mcpBeatFactor = animation->findChild<MidiControllableParameter*>("loop-size");
+        if (mcpBeatFactor)
+        {
+            mcpBeatFactor->setPreferred();
+        }
     }
     return animation;
 }
