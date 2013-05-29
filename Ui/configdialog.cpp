@@ -48,26 +48,6 @@ void ConfigDialog::setupLedMatrix(QSettings &settings)
 
     // TODO: Search in port list
     matrix->openPortByName(settings.value("serial/interface").toString());
-    if (matrix->isConnected())
-    {
-        // Port enumeration
-        QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-        QStringList portnames;
-
-        foreach (const QextPortInfo info, ports) {
-            if (1 || info.physName.startsWith(QLatin1String("/dev/ttyACM")))
-            {
-                portnames.append(info.physName);
-            }
-        }
-
-        int currentItem = -1;
-        if(portnames.contains(matrix->portName()))
-        {
-            currentItem = portnames.indexOf(matrix->portName());
-        }
-        ui->cbSerialPort->setCurrentIndex(currentItem);
-    }
 }
 
 void ConfigDialog::setupMidi(QSettings &settings)
@@ -331,29 +311,36 @@ void ConfigDialog::updateMidiMappingTab()
 
 void ConfigDialog::updateSerialTab()
 {
-    //    qDebug() << Q_FUNC_INFO;
     // Port enumeration
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     QStringList portnames;
 
-    foreach (QextPortInfo info, ports) {
+    foreach (const QextPortInfo info, ports) {
         if (1 || info.physName.startsWith(QLatin1String("/dev/ttyACM")))
         {
-            //                qDebug() << "port name:"       << info.portName;
-            //                qDebug() << "friendly name:"   << info.friendName;
-            //                qDebug() << "physical name:"   << info.physName;
-            //                qDebug() << "enumerator name:" << info.enumName;
-            //                qDebug() << "vendor ID:"       << info.vendorID;
-            //                qDebug() << "product ID:"      << info.productID;
-            //                qDebug() << "===================================";
+//            qDebug() << "port name:"       << info.portName;
+//            qDebug() << "friendly name:"   << info.friendName;
+//            qDebug() << "physical name:"   << info.physName;
+//            qDebug() << "enumerator name:" << info.enumName;
+//            qDebug() << "vendor ID:"       << info.vendorID;
+//            qDebug() << "product ID:"      << info.productID;
             portnames.append(info.physName);
         }
     }
 
     int currentItem = -1;
-    if(portnames.contains(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex())))
+    LedMatrix *matrix = Minotor::minotor()->ledMatrix();
+    if (matrix->isConnected())
     {
-        currentItem = portnames.indexOf(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
+        if(portnames.contains(matrix->portName()))
+        {
+            currentItem = portnames.indexOf(matrix->portName());
+        }
+    } else {
+        if(portnames.contains(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex())))
+        {
+            currentItem = portnames.indexOf(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
+        }
     }
 
     // Clear combobox
@@ -471,7 +458,7 @@ void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
         {
             QStringList sl = rx.capturedTexts();
             qDebug() << Q_FUNC_INFO
-                        << "captured texts:" << sl;
+                     << "captured texts:" << sl;
             addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
         }
     }

@@ -37,6 +37,7 @@ void LedMatrix::closePort()
     if (_port) {
         _port->close();
         qDebug() << "Led matrix disconnected.";
+        _connected = false;
         emit(connected(false));
     }
 }
