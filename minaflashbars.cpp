@@ -60,6 +60,6 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
             }
         }
         _oldPosY = posY;
-        _itemGroup.addToGroup(_scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(color)));
+        _itemGroup.addToGroup(_scene->addRect(0, posY, _boundingRect.width(), _width->value()*(_boundingRect.height()-1.0)+1.0, QPen(Qt::NoPen),QBrush(color)));
     }
 }
