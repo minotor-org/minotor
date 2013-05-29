@@ -29,6 +29,14 @@ SOURCES += \
     Animation/minatext.cpp \
     Animation/minavibration.cpp \
     Animation/minawaveform.cpp \
+    Core/Property/minoitemizedproperty.cpp \
+    Core/Property/minoproperty.cpp \
+    Core/Property/minopropertybeat.cpp \
+    Core/Property/minopropertycolor.cpp \
+    Core/Property/minopropertyeasingcurve.cpp \
+    Core/Property/minopropertyfilename.cpp \
+    Core/Property/minopropertyreal.cpp \
+    Core/Property/minopropertytext.cpp \
     Ui/Widget/uianimation.cpp \
     Ui/Widget/uianimationdescription.cpp \
     Ui/Widget/uianimationgroup.cpp \
@@ -63,20 +71,12 @@ SOURCES += \
     minoanimationgroup.cpp \
     minoclocksource.cpp \
     minocontrol.cpp \
-    minoitemizedproperty.cpp \
     minomaster.cpp \
     minomastermidimapper.cpp \
     minopersistentobject.cpp \
     minopersistentobjectfactory.cpp \
     minoprogram.cpp \
     minoprogrambank.cpp \
-    minoproperty.cpp \
-    minopropertybeat.cpp \
-    minopropertycolor.cpp \
-    minopropertyeasingcurve.cpp \
-    minopropertyfilename.cpp \
-    minopropertyreal.cpp \
-    minopropertytext.cpp \
     minotor.cpp \
     minotrigger.cpp \
     miprobnzichru.cpp \
@@ -105,6 +105,14 @@ HEADERS  += \
     Animation/minatext.h \
     Animation/minavibration.h \
     Animation/minawaveform.h \
+    Core/Property/minoitemizedproperty.h \
+    Core/Property/minoproperty.h \
+    Core/Property/minopropertybeat.h \
+    Core/Property/minopropertycolor.h \
+    Core/Property/minopropertyeasingcurve.h \
+    Core/Property/minopropertyfilename.h \
+    Core/Property/minopropertyreal.h \
+    Core/Property/minopropertytext.h \
     Ui/Widget/uianimation.h \
     Ui/Widget/uianimationdescription.h \
     Ui/Widget/uianimationgroup.h \
@@ -138,20 +146,12 @@ HEADERS  += \
     minoanimationgroup.h \
     minoclocksource.h \
     minocontrol.h \
-    minoitemizedproperty.h \
     minomaster.h \
     minomastermidimapper.h \
     minopersistentobject.h \
     minopersistentobjectfactory.h \
     minoprogram.h \
     minoprogrambank.h \
-    minoproperty.h \
-    minopropertybeat.h \
-    minopropertycolor.h \
-    minopropertyeasingcurve.h \
-    minopropertyfilename.h \
-    minopropertyreal.h \
-    minopropertytext.h \
     minotor.h \
     minotrigger.h \
     miprobnzichru.h \
@@ -162,6 +162,7 @@ HEADERS  += \
 
 INCLUDEPATH += \
     Animation \
+    Core/Property \
     Ui \
     Ui/Widget
 
