@@ -55,7 +55,8 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     _pbEnable->setObjectName("enableButton");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
-    _pbEnable->setIcon(QIcon(_group->screenshot().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
+    if(!_group->screenshot().isNull())
+        _pbEnable->setIcon(QIcon(_group->screenshot().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
     _pbEnable->setIconSize(QSize(58,38));
     _pbEnable->setMinimumSize(60,40);
     _pbEnable->setMaximumSize(60,40);
