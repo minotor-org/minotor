@@ -60,6 +60,8 @@ protected:
     // Acceded by MinoMaster
     void setOnAir(bool on);
 
+    void reorderAnimationGroups();
+
 private:
     // ID
     int _id;

@@ -171,14 +171,22 @@ void MinoProgram::insertAnimationGroup(MinoAnimationGroup *group, int index)
     // Will remove animation group from list when destroyed
     connect(group, SIGNAL(destroyed(QObject*)), this, SLOT(destroyGroup(QObject*)));
 
-    //Reorder Z values
-    for(int z=0; z<_animationGroups.count(); z++)
-    {
-        _animationGroups.at(z)->itemGroup()->setZValue(z);
-    }
+    reorderAnimationGroups();
     group->setProgram(this);
     emit updated();
     emit animationGroupAdded(group);
+}
+
+void MinoProgram::reorderAnimationGroups()
+{
+    //Reorder Z values
+    for(int z=0; z<_animationGroups.count(); z++)
+    {
+        MinoAnimationGroup * mag = _animationGroups.at(z);
+        mag->setParent(NULL);
+        mag->setParent(this);
+        mag->itemGroup()->setZValue(z);
+    }
 }
 
 void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *destProgram)
@@ -208,10 +216,7 @@ void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *d
     {
         // Destination group is our group
         _animationGroups.move(srcIndex, destIndex);
-        for (int z=0;z<_animationGroups.count();z++)
-        {
-            _animationGroups.at(z)->itemGroup()->setZValue(z);
-        }
+        reorderAnimationGroups();
         emit animationGroupMoved(_animationGroups.at(destIndex));
     }
     else

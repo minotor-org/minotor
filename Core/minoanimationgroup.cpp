@@ -100,14 +100,21 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
     animation->graphicItem()->setGroup(&_itemGroup);
     animation->graphicItem()->setPos(0,0);
 
-    // Reorder Z values
-    for(int z=0; z<_animations.count(); z++)
-    {
-        _animations.at(z)->graphicItem()->setZValue(z);
-    }
+    reorderAnimations();
     animation->setGroup(this);
     animation->setEnabled(_enabled);
     emit animationAdded(animation);
+}
+void MinoAnimationGroup::reorderAnimations()
+{
+    // Reorder Z values
+    for(int z=0; z<_animations.count(); z++)
+    {
+        MinoAnimation *ma = _animations.at(z);
+        ma->setParent(NULL);
+        ma->setParent(this);
+        ma->graphicItem()->setZValue(z);
+    }
 }
 
 void MinoAnimationGroup::moveAnimation(int srcIndex, int destIndex, MinoAnimationGroup *destGroup)
@@ -134,10 +141,7 @@ void MinoAnimationGroup::moveAnimation(int srcIndex, int destIndex, MinoAnimatio
     {
         // Destination group is our group
         _animations.move(srcIndex, destIndex);
-        for (int z=0;z<_animations.count();z++)
-        {
-            _animations.at(z)->graphicItem()->setZValue(z);
-        }
+        reorderAnimations();
         emit animationMoved(_animations.at(destIndex));
     }
     else

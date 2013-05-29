@@ -59,6 +59,7 @@ private:
 
     // Will be called by MinoProgram
     void _setEnabled(const bool on);
+    void reorderAnimations();
 
 private slots:
     void destroyAnimation(QObject *animation);
