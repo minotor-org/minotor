@@ -216,8 +216,8 @@ void MinoProgram::moveAnimationGroup(int srcIndex, int destIndex, MinoProgram *d
     }
     else
     {
-        // Destination group is not this group
-        // Let's take animation from this group
+        // Destination program is not this program
+        // Let's take group from this program
         MinoAnimationGroup *group = takeAnimationGroupAt(srcIndex);
         // Prevent group from emitting animationAdded signal
         destProgram->blockSignals(true);
