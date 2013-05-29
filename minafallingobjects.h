@@ -22,7 +22,7 @@ public:
 
     // To be deleted...
     void setDuration(const unsigned int duration) { _beatDuration->setCurrentItem(QString::number(duration)); }
-    void setDensity(const unsigned int density) { _generatorDensity->setValue(density); }
+    void setDensity(const qreal density) { _generatorDensity->setValue(density); }
     void setLength(const unsigned int length) { _generatorLength->setCurrentItem(QString::number(length)); }
     void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
 

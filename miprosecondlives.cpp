@@ -66,7 +66,7 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     afo1->setColor(QColor::fromHslF(0.4, 1.0, 0.5));
     afo1->setLoopSize("1/2");
     afo1->setDirection("Left");
-    afo1->setDensity(1);
+    afo1->setDensity(0.05);
     agfo1->addAnimation(afo1);
     this->addAnimationGroup(agfo1);
 
@@ -84,7 +84,7 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     afo2->setColor(QColor::fromHslF(0.6, 1.0, 0.5));
     afo2->setLoopSize("1/2");
     afo2->setDirection("Right");
-    afo2->setDensity(1);
+    afo2->setDensity(0.05);
     agfo2->addAnimation(afo2);
     this->addAnimationGroup(agfo2);
 
@@ -94,14 +94,14 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     afo3->setLoopSize("8");
     afo3->setDuration(16);
     afo3->setDirection("Down");
-    afo3->setDensity(6);
+    afo3->setDensity(0.2);
     agfo3->addAnimation(afo3);
     MinaFallingObjects *afo4 = new MinaFallingObjects(agfo3);
     afo4->setColor(1.0);
     afo4->setLoopSize("1/2");
     afo4->setDuration(2);
     afo4->setDirection("Up");
-    afo4->setDensity(1);
+    afo4->setDensity(0.05);
     agfo3->addAnimation(afo4);
     this->addAnimationGroup(agfo3);
 
