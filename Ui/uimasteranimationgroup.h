@@ -53,7 +53,7 @@ public slots:
     void updateGroup();
 
 private slots:
-
+    void reloadScreenshot();
 };
 
 #endif // UIMASTERANIMATIONGROUP_H

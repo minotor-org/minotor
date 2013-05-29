@@ -14,7 +14,7 @@ class MinoAnimationGroup : public MinoPersistentObject
 {
     Q_OBJECT
     friend class MinoProgram;
-
+    Q_PROPERTY(QPixmap screenshot READ screenshot WRITE setScreenshot STORED true)
 public:
     explicit MinoAnimationGroup(QObject *parent);
 
@@ -24,6 +24,7 @@ public:
     int id();
     QPixmap screenshot() const { return _screenshot; }
     MinoAnimationList animations() const { return _animations; }
+    void setScreenshot(const QPixmap &screenshot);
 
     void setProgram(MinoProgram *program);
     MinoProgram *program() const { return _program; }
@@ -36,7 +37,7 @@ public:
 
     // Animation manipulation
     void addAnimation(MinoAnimation *animation);
-    MinoAnimation* addAnimation(const QString animationClassName, int index = -1);
+    MinoAnimation* addAnimation(const QString &animationClassName, int index = -1);
 
     void moveAnimation(int srcIndex, int destIndex, MinoAnimationGroup *destGroup = NULL);
     MinoAnimation* takeAnimationAt(int index);
@@ -66,7 +67,7 @@ signals:
     void enabledChanged(bool on);
     void animationAdded(QObject *animation);
     void animationMoved(QObject *animation);
-
+    void screenshotUpdated();
 };
 
 typedef QList<MinoAnimationGroup*> MinoAnimationGroupList;

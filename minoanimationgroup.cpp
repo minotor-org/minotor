@@ -43,6 +43,12 @@ void MinoAnimationGroup::setProgram(MinoProgram *program)
     }
 }
 
+void MinoAnimationGroup::setScreenshot(const QPixmap &screenshot)
+{
+    _screenshot = screenshot;
+    emit screenshotUpdated();
+}
+
 MinoAnimationGroup::~MinoAnimationGroup()
 {
     foreach (MinoAnimation *animation, _animations)
@@ -51,7 +57,7 @@ MinoAnimationGroup::~MinoAnimationGroup()
     }
 }
 
-MinoAnimation* MinoAnimationGroup::addAnimation(const QString animationClassName, int index)
+MinoAnimation* MinoAnimationGroup::addAnimation(const QString &animationClassName, int index)
 {
 
     MinoAnimation *animation = qobject_cast<MinoAnimation*>(MinoPersistentObjectFactory::createObject(animationClassName.toAscii(), this));

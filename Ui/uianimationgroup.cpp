@@ -64,6 +64,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     _pbEnable = new QPushButton(wTools);
     _pbEnable->setObjectName("enableButton");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
+    _pbEnable->setIcon(QIcon(_group->screenshot().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
     _pbEnable->setIconSize(QSize(58,38));
     _pbEnable->setMinimumSize(60,40);
     _pbEnable->setMaximumSize(60,40);
@@ -249,7 +250,7 @@ void UiAnimationGroup::enable(const bool on)
 void UiAnimationGroup::takeAShot()
 {
     QPixmap *pixmap = Minotor::minotor()->graphicsItemToPixmap(_group->itemGroup());
-    _pbEnable->setIcon(QIcon(pixmap->scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
-    //_lblScreenshot->setPixmap(pixmap->scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    _group->setScreenshot(*pixmap);
+    _pbEnable->setIcon(QIcon(_group->screenshot().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
     delete pixmap;
 }
