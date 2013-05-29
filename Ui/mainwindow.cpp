@@ -168,11 +168,10 @@ MainWindow::MainWindow(QWidget *parent) :
     lMidiClock->setContentsMargins(0,0,0,0);
 
     _wClockLed = new QWidget(wMidiClock);
-    _wClockLed->setObjectName("offled");
+    _wClockLed->setObjectName("led");
     lMidiClock->addWidget(_wClockLed);
     _wClockLed->setMinimumSize(10,10);
     _wClockLed->setMaximumSize(10,10);
-
     connect(_minotor,SIGNAL(beatToggled(bool)),this,SLOT(beatToggledReceived(bool)));
 
     QLabel *tClockLed = new QLabel(wMidiClock);
@@ -180,22 +179,23 @@ MainWindow::MainWindow(QWidget *parent) :
     tClockLed->setText("clock");
 
     //Midi note
-    QWidget *wMidiNote = new QWidget(wMidiMonitor);
-    lMidiMonitor->addWidget(wMidiNote);
-    QHBoxLayout *lMidiNote = new QHBoxLayout(wMidiNote);
+    QWidget *wMidi = new QWidget(wMidiMonitor);
+    lMidiMonitor->addWidget(wMidi);
+    QHBoxLayout *lMidiNote = new QHBoxLayout(wMidi);
     lMidiNote->setSpacing(5);
     lMidiNote->setMargin(0);
     lMidiNote->setContentsMargins(0,0,0,0);
 
-    QWidget *wNoteLed = new QWidget(wMidiNote);
-    wNoteLed->setObjectName("offled");
-    lMidiNote->addWidget(wNoteLed);
-    wNoteLed->setMinimumSize(10,10);
-    wNoteLed->setMaximumSize(10,10);
+    _wMidiLed = new QWidget(wMidi);
+    _wMidiLed->setObjectName("led");
+    lMidiNote->addWidget(_wMidiLed);
+    _wMidiLed->setMinimumSize(10,10);
+    _wMidiLed->setMaximumSize(10,10);
+    connect(Minotor::minotor()->midi(), SIGNAL(dataReceived()), this, SLOT(midiDataReceived()));
 
-    QLabel *tNoteLed = new QLabel(wMidiNote);
+    QLabel *tNoteLed = new QLabel(wMidi);
     lMidiNote->addWidget(tNoteLed);
-    tNoteLed->setText("midi note");
+    tNoteLed->setText("midi");
 
     // Viewmode
     QPushButton *pbViewmode = new QPushButton(wBackground);
@@ -264,6 +264,27 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set default viewmode to live
     pbViewmode->setChecked(true);
     tbViewmodeToggled(true);
+}
+
+void MainWindow::midiDataReceived()
+{
+    if(!_wMidiLed->property("active").toBool())
+    {
+        setMidiDataLedStatus(true);
+    }
+    _midiDataLedTimer.start(100,this);
+}
+
+void MainWindow::timerEvent(QTimerEvent *)
+{
+    setMidiDataLedStatus(false);
+}
+
+void MainWindow::setMidiDataLedStatus(bool active)
+{
+    _wMidiLed->setProperty("active", active);
+    _wMidiLed->style()->unpolish(_wMidiLed);
+    _wMidiLed->style()->polish(_wMidiLed);
 }
 
 MainWindow::~MainWindow()
@@ -397,7 +418,6 @@ void MainWindow::on_pbScene_clicked()
 
 void MainWindow::beatToggledReceived(bool active)
 {
-    _wClockLed->setObjectName("led");
     _wClockLed->setProperty("active", active);
     _wClockLed->style()->unpolish(_wClockLed);
     _wClockLed->style()->polish(_wClockLed);

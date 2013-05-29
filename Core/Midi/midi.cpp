@@ -70,6 +70,14 @@ void Midi::addMidiInterface(MidiInterface *interface)
     connect(interface, SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SIGNAL(controlChanged(int,quint8,quint8,quint8)));
     connect(interface, SIGNAL(programChanged(int,quint8,quint8)), this, SIGNAL(programChanged(int,quint8,quint8)));
     connect(interface, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)));
+
+
+    connect(interface, SIGNAL(startReceived()), this, SIGNAL(dataReceived()));
+    connect(interface, SIGNAL(stopReceived()), this, SIGNAL(dataReceived()));
+    connect(interface, SIGNAL(continueReceived()), this, SIGNAL(dataReceived()));
+    connect(interface, SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SIGNAL(dataReceived()));
+    connect(interface, SIGNAL(programChanged(int,quint8,quint8)), this, SIGNAL(dataReceived()));
+    connect(interface, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SIGNAL(dataReceived()));
 }
 
 int Midi::grabMidiInterfaceId()

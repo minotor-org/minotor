@@ -59,6 +59,7 @@ private slots:
     void on_pbScene_clicked();
 
     void beatToggledReceived(bool active);
+    void midiDataReceived();
 
     void on_actionExternal_master_view_toggled(bool on);
 
@@ -89,12 +90,21 @@ private:
     Minotor *_minotor;
 
     QWidget *_wClockLed;
+    QWidget *_wMidiLed;
 
     // External master view
     ExternalMasterView *_externalMasterView;
 
-    //Current ProgramBankFile
+    // Current ProgramBankFile
     QString _programBankFileName;
+
+    // Timer for MIDI data led
+    // FIXME: Wrote a dedicated QWidget (performance)
+    QBasicTimer _midiDataLedTimer;
+
+    void timerEvent(QTimerEvent *);
+
+    void setMidiDataLedStatus(bool active);
 };
 
 #endif // MAINWINDOW_H

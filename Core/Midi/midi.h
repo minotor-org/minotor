@@ -49,8 +49,8 @@ signals:
     // Note
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
-public slots:
-    
+    // CC, Note and program changes emit this signal
+    void dataReceived();
 };
 
 #endif // MIDI_H
