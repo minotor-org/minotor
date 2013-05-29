@@ -48,21 +48,15 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     lDescription->setContentsMargins(4,3,4,0);
 
     QWidget *wLeft = new QWidget(wDescription);
-    wLeft->setMinimumSize(12,12);
-    wLeft->setMaximumSize(12,12);
+    wLeft->setMinimumSize(14,14);
+    wLeft->setMaximumSize(14,14);
     lDescription->addWidget(wLeft);
 
     lDescription->addStretch();
     MinoAnimationDescription desc = animation->description();
     _tAnimation = new QLabel(desc.name(),wDescription);
-    if(!desc.pixmap().isNull())
-        _tAnimation->setPixmap(desc.pixmap().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-
-    _tAnimation->setObjectName("image");
     _tAnimation->setAlignment(Qt::AlignCenter);
-    _tAnimation->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    _tAnimation->setMinimumSize(60,40);
-    _tAnimation->setMaximumSize(60,40);
+    _tAnimation->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     lDescription->addWidget(_tAnimation);
     lDescription->addStretch();
@@ -71,9 +65,9 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QPushButton *pbDelete = new QPushButton(wDescription);
     pbDelete->setFocusPolicy(Qt::NoFocus);
     pbDelete->setIcon(QIcon(":/pictos/close.png"));
-    pbDelete->setIconSize(QSize(8,8));
-    pbDelete->setMinimumSize(12,12);
-    pbDelete->setMaximumSize(12,12);
+    pbDelete->setIconSize(QSize(12,12));
+    pbDelete->setMinimumSize(14,14);
+    pbDelete->setMaximumSize(14,14);
     connect(pbDelete, SIGNAL(clicked()), _animation, SLOT(deleteLater()));
     lDescription->addWidget(pbDelete);
     lDescription->setAlignment(pbDelete,Qt::AlignTop);

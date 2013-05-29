@@ -174,6 +174,11 @@ QHeaderView::up-arrow {
     image: url(:/pictos/up-arrow.png);
 }
 
+QLabel {
+    font:bold;
+    font-size:11px;
+}
+
 QLabel#bigLabel {
     font:bold;
     font-size:10px;
@@ -257,6 +262,12 @@ QPushButton:checked {
     background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0.05 #e79e11,stop: 0.15 #e75f00,stop: 1 #d55400);
     border: 1px solid #e75f00;
     color:#2e2e2e;
+}
+QPushButton#enableButton {
+    border-radius:1px;
+}
+QPushButton#enableButton:hover {
+    border: 2px solid #e75f00;
 }
 
 QPushButton:hover {

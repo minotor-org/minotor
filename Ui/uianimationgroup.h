@@ -38,7 +38,7 @@ public slots:
     
 protected slots:
     void mousePressEvent(QMouseEvent *event);
-
+    void takeAShot();
 private slots:
     void addAnimation(QObject *animation);
     void moveAnimation(QObject *animation);

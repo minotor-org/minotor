@@ -6,7 +6,7 @@
 #include <QDrag>
 
 #include "minoprogram.h"
-
+#include "minotor.h"
 #include "uianimation.h"
 #include "uiprogram.h"
 #include "uiprogrambank.h"
@@ -37,38 +37,36 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     _wContent = new QWidget(wBorder);
     lBorder->addWidget(_wContent);
     QVBoxLayout *lContent = new QVBoxLayout(_wContent);
-    lContent->setSpacing(2);
+    lContent->setSpacing(4);
     lContent->setMargin(0);
-    lContent->setContentsMargins(1,1,1,1);
+    lContent->setContentsMargins(0,0,0,0);
 
     QWidget *wTools = new QWidget(_wContent);
     lContent->addWidget(wTools);
-    wTools->setObjectName("titlebar");
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
     lTools->setSpacing(0);
     lTools->setMargin(0);
     lTools->setContentsMargins(6,4,6,4);
 
-    //Delayed button
-    QPushButton *pbDelayedEnable = new QPushButton(wTools);
-    pbDelayedEnable->setFocusPolicy(Qt::NoFocus);
-    pbDelayedEnable->setIcon(QIcon(":/pictos/delayed.png"));
-    pbDelayedEnable->setIconSize(QSize(8,8));
-    pbDelayedEnable->setMinimumSize(12,12);
-    pbDelayedEnable->setMaximumSize(12,12);
-    pbDelayedEnable->setCheckable(true);
-    connect(pbDelayedEnable, SIGNAL(toggled(bool)), _group, SLOT(setDelayedEnabled(bool)));
-    lTools->addWidget(pbDelayedEnable);
+    //Screenshot button
+    QPushButton *pbScreenshot = new QPushButton(wTools);
+    pbScreenshot->setFocusPolicy(Qt::NoFocus);
+    pbScreenshot->setIcon(QIcon(":/pictos/reload.png"));
+    pbScreenshot->setIconSize(QSize(12,12));
+    pbScreenshot->setMinimumSize(14,14);
+    pbScreenshot->setMaximumSize(14,14);
+    connect(pbScreenshot, SIGNAL(clicked()), this, SLOT(takeAShot()));
+    lTools->addWidget(pbScreenshot);
 
     lTools->addStretch();
 
     //Enable button
     _pbEnable = new QPushButton(wTools);
+    _pbEnable->setObjectName("enableButton");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
-    _pbEnable->setIcon(QIcon(":/pictos/power.png"));
-    _pbEnable->setIconSize(QSize(18,18));
-    _pbEnable->setMinimumSize(18,18);
-    _pbEnable->setMaximumSize(18,18);
+    _pbEnable->setIconSize(QSize(58,38));
+    _pbEnable->setMinimumSize(60,40);
+    _pbEnable->setMaximumSize(60,40);
     _pbEnable->setCheckable(true);
     connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lTools->addWidget(_pbEnable);
@@ -79,19 +77,12 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     QPushButton *pbDelete = new QPushButton(wTools);
     pbDelete->setFocusPolicy(Qt::NoFocus);
     pbDelete->setIcon(QIcon(":/pictos/close.png"));
-    pbDelete->setIconSize(QSize(8,8));
-    pbDelete->setMinimumSize(12,12);
-    pbDelete->setMaximumSize(12,12);
+    pbDelete->setIconSize(QSize(12,12));
+    pbDelete->setMinimumSize(14,14);
+    pbDelete->setMaximumSize(14,14);
     pbDelete->setCheckable(true);
     connect(pbDelete, SIGNAL(toggled(bool)), _group, SLOT(deleteLater()));
     lTools->addWidget(pbDelete);
-
-    QFrame *fSeparator = new QFrame(_wContent);
-    fSeparator->setObjectName("groupline");
-    fSeparator->setFrameShape(QFrame::HLine);
-    fSeparator->setFrameShadow(QFrame::Sunken);
-    fSeparator->setLineWidth(1);
-    lContent->addWidget(fSeparator);
 
      _wAnimations = new QWidget(_wContent);
     lContent->addWidget(_wAnimations);
@@ -253,4 +244,12 @@ void UiAnimationGroup::enable(const bool on)
     this->setProperty("active", on);
     this->style()->unpolish(this);
     this->style()->polish(this);
+}
+
+void UiAnimationGroup::takeAShot()
+{
+    QPixmap *pixmap = Minotor::minotor()->graphicsItemToPixmap(_group->itemGroup());
+    _pbEnable->setIcon(QIcon(pixmap->scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
+    //_lblScreenshot->setPixmap(pixmap->scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    delete pixmap;
 }
