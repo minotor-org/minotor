@@ -12,7 +12,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("stars", "Moving stars", QPixmap(":/images/stars.png"), MinaStars::staticMetaObject.className());
+        return MinoAnimationDescription("Stars", "Moving stars", QPixmap(":/images/stars.png"), MinaStars::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 

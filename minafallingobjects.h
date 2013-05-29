@@ -16,7 +16,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("falling", "Falling Objects", QPixmap(":/images/falling.png"), MinaFallingObjects::staticMetaObject.className());
+        return MinoAnimationDescription("Falling objects", "Beat-sync moving lines", QPixmap(":/images/falling.png"), MinaFallingObjects::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 

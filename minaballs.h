@@ -30,7 +30,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("balls", "Balls", QPixmap(":/images/balls.png"), MinaBalls::staticMetaObject.className());
+        return MinoAnimationDescription("Balls", "Balls", QPixmap(":/images/balls.png"), MinaBalls::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 

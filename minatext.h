@@ -15,7 +15,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("text", "Beat-synced text", QPixmap(":/images/text.png"), MinaText::staticMetaObject.className());
+        return MinoAnimationDescription("Text", "Beat-synced text", QPixmap(":/images/text.png"), MinaText::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
     

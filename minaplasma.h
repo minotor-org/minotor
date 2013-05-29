@@ -17,7 +17,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("plasma", "Plasma", QPixmap(":/images/plasma.png"), MinaPlasma::staticMetaObject.className());
+        return MinoAnimationDescription("Plasma", "Strange thing ;-)", QPixmap(":/images/plasma.png"), MinaPlasma::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 

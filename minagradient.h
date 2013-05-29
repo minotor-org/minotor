@@ -16,7 +16,7 @@ public:
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
     static const MinoAnimationDescription getDescription() {
-        return MinoAnimationDescription("gradient", "Gradient", QPixmap(":/images/gradient.png"), MinaGradient::staticMetaObject.className());
+        return MinoAnimationDescription("Gradient", "Beat-sync gradient waves", QPixmap(":/images/gradient.png"), MinaGradient::staticMetaObject.className());
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
