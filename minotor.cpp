@@ -3,6 +3,7 @@
 #include <QtCore/QDebug>
 
 #include <QGraphicsView>
+#include <QPainter>
 
 #include "minoprogram.h"
 #include "minopersistentobjectfactory.h"
@@ -567,4 +568,52 @@ void Minotor::changeProgramBank(MinoProgramBank *bank)
         _master->setProgram(bank->programs().at(0));
     }
     emit programBankChanged(bank);
+}
+
+QPixmap* Minotor::graphicsItemToPixmap(QGraphicsItem *item)
+{
+    const qreal width = 24.0;
+    const qreal height = 16.0;
+    QPixmap *pixmap = new QPixmap(width, height);
+    pixmap->fill(Qt::black);
+
+    QPainter painter(pixmap);
+
+    // Render a part of scene dedicated to screenshot (0,0)
+    const QPointF screeningPos(0,0);
+    QPointF fromScenePos = item->scenePos();
+    QPointF fromPos = item->pos();
+    item->setPos(item->mapFromScene(screeningPos));
+    _scene.render(&painter, QRectF(0,0,width,height), QRectF(screeningPos, displayRect().size()), Qt::IgnoreAspectRatio);
+    item->setPos(fromPos);
+    Q_ASSERT(item->scenePos() == fromScenePos);
+
+//    // Computes grids lines
+//    QVector<QLine> gridLines;
+//    qreal gridStepMin;
+
+//    const QRect rect = displayRect();
+//    gridLines.clear();
+//    const qreal stepX =  width / rect.width();
+//    const qreal stepY = height / rect.height();
+//    for (int x = 1; x < rect.width(); x++)
+//    {
+//        int pos = x * stepX;
+//        gridLines.append(QLine(pos,0,pos,height));
+//    }
+//    for (int y = 1; y < rect.height(); y++)
+//    {
+//        int pos = y * stepY;
+//        gridLines.append(QLine(0,pos,width,pos));
+//    }
+//    gridStepMin = qMin(stepX, stepY);
+
+//    QPen pen;
+//    pen.setWidthF(gridStepMin*0.25);
+//    pen.setColor(Qt::red);
+//    painter.setPen(pen);
+
+//    painter.drawLines(gridLines);
+
+    return pixmap;
 }

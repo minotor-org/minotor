@@ -7,6 +7,7 @@
 #include <QGraphicsItemGroup>
 #include <QPropertyAnimation>
 #include <QSettings>
+#include <QPixmap>
 
 #include "ledmatrix.h"
 #include "midi.h"
@@ -57,6 +58,9 @@ public:
     MinoProgramBank* programBank() { return _programBank; }
     void changeProgramBank(MinoProgramBank *bank);
     void clearPrograms();
+
+    // Screenshots
+    QPixmap* graphicsItemToPixmap(QGraphicsItem *item);
 
     // Debug
     void initWithDebugSetup();

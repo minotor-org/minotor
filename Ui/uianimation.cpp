@@ -15,6 +15,7 @@
 
 #include "minoprogram.h"
 #include "minoanimationgroup.h"
+#include "minotor.h"
 
 UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     QGroupBox(parent),
@@ -188,4 +189,11 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
 void UiAnimation::changeAnimationGroup(int programId, int groupId)
 {
     emit animationMoved(programId, groupId);
+}
+
+void UiAnimation::takeAShot()
+{
+    QPixmap *pixmap = Minotor::minotor()->graphicsItemToPixmap(_animation->graphicItem());
+    _tAnimation->setPixmap(pixmap->scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    delete pixmap;
 }
