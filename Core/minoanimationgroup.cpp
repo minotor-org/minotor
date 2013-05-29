@@ -95,7 +95,7 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
     _itemGroup.addToGroup(animation->graphicItem());
 
     // Re-parent animation to our itemGroup
-    animation->graphicItem()->setVisible(this->_enabled);
+    animation->graphicItem()->setVisible(_enabled);
     animation->graphicItem()->setParentItem(&_itemGroup);
     animation->graphicItem()->setGroup(&_itemGroup);
     animation->graphicItem()->setPos(0,0);
@@ -106,6 +106,7 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
         _animations.at(z)->graphicItem()->setZValue(z);
     }
     animation->setGroup(this);
+    animation->setEnabled(_enabled);
     emit animationAdded(animation);
 }
 

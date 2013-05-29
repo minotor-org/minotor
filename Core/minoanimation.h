@@ -41,7 +41,6 @@ class MinoAnimation : public MinoPersistentObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled STORED true)
 public:
     explicit MinoAnimation(QObject *parent);
 

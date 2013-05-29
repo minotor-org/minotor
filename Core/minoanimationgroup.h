@@ -14,6 +14,7 @@ class MinoAnimationGroup : public MinoPersistentObject
 {
     Q_OBJECT
     friend class MinoProgram;
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled STORED true)
     Q_PROPERTY(QPixmap screenshot READ screenshot WRITE setScreenshot STORED true)
 public:
     explicit MinoAnimationGroup(QObject *parent);
