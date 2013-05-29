@@ -11,12 +11,28 @@ TEMPLATE = app
 
 
 SOURCES += \
-    configdialog.cpp \
+    Ui/Widget/uianimation.cpp \
+    Ui/Widget/uianimationdescription.cpp \
+    Ui/Widget/uianimationgroup.cpp \
+    Ui/Widget/uianimationpicker.cpp \
+    Ui/Widget/uianimationproperty.cpp \
+    Ui/Widget/uieasingcurve.cpp \
+    Ui/Widget/uiknob.cpp \
+    Ui/Widget/uimaster.cpp \
+    Ui/Widget/uimasteranimationgroup.cpp \
+    Ui/Widget/uimastercontrol.cpp \
+    Ui/Widget/uimidicontrollableparameter.cpp \
+    Ui/Widget/uimidiinterface.cpp \
+    Ui/Widget/uiprogram.cpp \
+    Ui/Widget/uiprogrambank.cpp \
+    Ui/Widget/uiprogrameditor.cpp \
+    Ui/Widget/uiprogramview.cpp \
+    Ui/configdialog.cpp \
+    Ui/externalmasterview.cpp \
+    Ui/mainwindow.cpp \
     easingcurvedreal.cpp \
-    externalmasterview.cpp \
     ledmatrix.cpp \
     main.cpp\
-    mainwindow.cpp \
     midi.cpp \
     midicontrol.cpp \
     midicontrollablelist.cpp \
@@ -49,6 +65,7 @@ SOURCES += \
     minocontrol.cpp \
     minoitemizedproperty.cpp \
     minomaster.cpp \
+    minomastermidimapper.cpp \
     minopersistentobject.cpp \
     minopersistentobjectfactory.cpp \
     minoprogram.cpp \
@@ -66,32 +83,31 @@ SOURCES += \
     miprodebug.cpp \
     mipromatrix.cpp \
     miprosecondlives.cpp \
-    miprowaves.cpp \
-    Ui/uianimation.cpp \
-    Ui/uianimationdescription.cpp \
-    Ui/uianimationgroup.cpp \
-    Ui/uianimationpicker.cpp \
-    Ui/uianimationproperty.cpp \
-    Ui/uieasingcurve.cpp \
-    Ui/uiknob.cpp \
-    Ui/uimaster.cpp \
-    Ui/uimasteranimationgroup.cpp \
-    Ui/uimastercontrol.cpp \
-    Ui/uimidicontrollableparameter.cpp \
-    Ui/uimidiinterface.cpp \
-    Ui/uiprogram.cpp \
-    Ui/uiprogrambank.cpp \
-    Ui/uiprogrameditor.cpp \
-    Ui/uiprogramview.cpp \
-    minomastermidimapper.cpp
+    miprowaves.cpp
 
 
 HEADERS  += \
-    configdialog.h \
+    Ui/Widget/uianimation.h \
+    Ui/Widget/uianimationdescription.h \
+    Ui/Widget/uianimationgroup.h \
+    Ui/Widget/uianimationpicker.h \
+    Ui/Widget/uianimationproperty.h \
+    Ui/Widget/uieasingcurve.h \
+    Ui/Widget/uiknob.h \
+    Ui/Widget/uimaster.h \
+    Ui/Widget/uimasteranimationgroup.h \
+    Ui/Widget/uimastercontrol.h \
+    Ui/Widget/uimidicontrollableparameter.h \
+    Ui/Widget/uimidiinterface.h \
+    Ui/Widget/uiprogram.h \
+    Ui/Widget/uiprogrambank.h \
+    Ui/Widget/uiprogrameditor.h \
+    Ui/Widget/uiprogramview.h \
+    Ui/configdialog.h \
+    Ui/externalmasterview.h \
+    Ui/mainwindow.h \
     easingcurvedreal.h \
-    externalmasterview.h \
     ledmatrix.h \
-    mainwindow.h \
     midi.h \
     midicontrol.h \
     midicontrollablelist.h \
@@ -124,6 +140,7 @@ HEADERS  += \
     minocontrol.h \
     minoitemizedproperty.h \
     minomaster.h \
+    minomastermidimapper.h \
     minopersistentobject.h \
     minopersistentobjectfactory.h \
     minoprogram.h \
@@ -141,32 +158,16 @@ HEADERS  += \
     miprodebug.h \
     mipromatrix.h \
     miprosecondlives.h \
-    miprowaves.h \
-    Ui/uianimation.h \
-    Ui/uianimationdescription.h \
-    Ui/uianimationgroup.h \
-    Ui/uianimationpicker.h \
-    Ui/uianimationproperty.h \
-    Ui/uieasingcurve.h \
-    Ui/uiknob.h \
-    Ui/uimaster.h \
-    Ui/uimasteranimationgroup.h \
-    Ui/uimastercontrol.h \
-    Ui/uimidicontrollableparameter.h \
-    Ui/uimidiinterface.h \
-    Ui/uiprogram.h \
-    Ui/uiprogrambank.h \
-    Ui/uiprogrameditor.h \
-    Ui/uiprogramview.h \
-    minomastermidimapper.h
+    miprowaves.h
 
 INCLUDEPATH += \
-    Ui
+    Ui \
+    Ui/Widget
 
 FORMS    += \
-    mainwindow.ui \
-    configdialog.ui \
-    externalmasterview.ui
+    Ui/mainwindow.ui \
+    Ui/configdialog.ui \
+    Ui/externalmasterview.ui
 
 include(libraries/qextserialport/src/qextserialport.pri)
 include(libraries/rtmidi/rtmidi.pri)
@@ -180,6 +181,8 @@ RESOURCES += \
 
 OTHER_FILES += \
     style.css
+
+UI_DIR = Ui/
 
 qmake_clang.commands = qmake -recursive -spec unsupported/linux-clang
 clang.commands = scan-build make clean all
