@@ -53,7 +53,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     lDescription->addStretch();
     MinoAnimationDescription desc = animation->description();
-    _tAnimation = new QLabel(desc.name());
+    _tAnimation = new QLabel(desc.name(),wDescription);
     if(!desc.pixmap().isNull())
         _tAnimation->setPixmap(desc.pixmap().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
