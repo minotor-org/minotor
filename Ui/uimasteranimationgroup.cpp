@@ -36,22 +36,11 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
 
     QWidget *wTools = new QWidget(_wContent);
     lContent->addWidget(wTools);
-    wTools->setObjectName("titlebar");
     QHBoxLayout *lTools = new QHBoxLayout(wTools);
     lTools->setSpacing(0);
     lTools->setMargin(0);
-    lTools->setContentsMargins(6,4,6,4);
+    lTools->setContentsMargins(0,4,0,0);
 
-    //Delayed button
-    QPushButton *pbDelayedEnable = new QPushButton(wTools);
-    pbDelayedEnable->setFocusPolicy(Qt::NoFocus);
-    pbDelayedEnable->setIcon(QIcon(":/pictos/delayed.png"));
-    pbDelayedEnable->setIconSize(QSize(8,8));
-    pbDelayedEnable->setMinimumSize(12,12);
-    pbDelayedEnable->setMaximumSize(12,12);
-    pbDelayedEnable->setCheckable(true);
-    connect(pbDelayedEnable, SIGNAL(toggled(bool)), _group, SLOT(setDelayedEnabled(bool)));
-    lTools->addWidget(pbDelayedEnable);
     lTools->addStretch();
 
     //Enable button
@@ -64,21 +53,16 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
         _pbEnable->setShortcut(notesKeys[groupId]);
     }
 
+    _pbEnable->setObjectName("enableButton");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
-    _pbEnable->setIcon(QIcon(":/pictos/power.png"));
-    _pbEnable->setIconSize(QSize(18,18));
-    _pbEnable->setMinimumSize(18,18);
-    _pbEnable->setMaximumSize(18,18);
+    _pbEnable->setIconSize(QSize(58,38));
+    _pbEnable->setMinimumSize(60,40);
+    _pbEnable->setMaximumSize(60,40);
     _pbEnable->setCheckable(true);
     connect(_pbEnable, SIGNAL(toggled(bool)), _group, SLOT(setEnabled(bool)));
     lTools->addWidget(_pbEnable);
 
     lTools->addStretch();
-
-    QWidget *wRight = new QWidget(wTools);
-    wRight->setMinimumSize(12,12);
-    wRight->setMaximumSize(12,12);
-    lTools->addWidget(wRight);
 
     QFrame *fSeparator = new QFrame(_wContent);
     _wHighlight = fSeparator;
