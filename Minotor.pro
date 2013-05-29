@@ -45,6 +45,20 @@ SOURCES += \
     Core/Property/minopropertyfilename.cpp \
     Core/Property/minopropertyreal.cpp \
     Core/Property/minopropertytext.cpp \
+    Core/easingcurvedreal.cpp \
+    Core/ledmatrix.cpp \
+    Core/minoanimation.cpp \
+    Core/minoanimationgroup.cpp \
+    Core/minoclocksource.cpp \
+    Core/minocontrol.cpp \
+    Core/minomaster.cpp \
+    Core/minomastermidimapper.cpp \
+    Core/minopersistentobject.cpp \
+    Core/minopersistentobjectfactory.cpp \
+    Core/minoprogram.cpp \
+    Core/minoprogrambank.cpp \
+    Core/minotor.cpp \
+    Core/minotrigger.cpp \
     Ui/Widget/uianimation.cpp \
     Ui/Widget/uianimationdescription.cpp \
     Ui/Widget/uianimationgroup.cpp \
@@ -64,21 +78,7 @@ SOURCES += \
     Ui/configdialog.cpp \
     Ui/externalmasterview.cpp \
     Ui/mainwindow.cpp \
-    easingcurvedreal.cpp \
-    ledmatrix.cpp \
     main.cpp\
-    minoanimation.cpp \
-    minoanimationgroup.cpp \
-    minoclocksource.cpp \
-    minocontrol.cpp \
-    minomaster.cpp \
-    minomastermidimapper.cpp \
-    minopersistentobject.cpp \
-    minopersistentobjectfactory.cpp \
-    minoprogram.cpp \
-    minoprogrambank.cpp \
-    minotor.cpp \
-    minotrigger.cpp \
     miprobnzichru.cpp \
     miprodebug.cpp \
     mipromatrix.cpp \
@@ -121,6 +121,20 @@ HEADERS  += \
     Core/Property/minopropertyfilename.h \
     Core/Property/minopropertyreal.h \
     Core/Property/minopropertytext.h \
+    Core/easingcurvedreal.h \
+    Core/ledmatrix.h \
+    Core/minoanimation.h \
+    Core/minoanimationgroup.h \
+    Core/minoclocksource.h \
+    Core/minocontrol.h \
+    Core/minomaster.h \
+    Core/minomastermidimapper.h \
+    Core/minopersistentobject.h \
+    Core/minopersistentobjectfactory.h \
+    Core/minoprogram.h \
+    Core/minoprogrambank.h \
+    Core/minotor.h \
+    Core/minotrigger.h \
     Ui/Widget/uianimation.h \
     Ui/Widget/uianimationdescription.h \
     Ui/Widget/uianimationgroup.h \
@@ -140,20 +154,6 @@ HEADERS  += \
     Ui/configdialog.h \
     Ui/externalmasterview.h \
     Ui/mainwindow.h \
-    easingcurvedreal.h \
-    ledmatrix.h \
-    minoanimation.h \
-    minoanimationgroup.h \
-    minoclocksource.h \
-    minocontrol.h \
-    minomaster.h \
-    minomastermidimapper.h \
-    minopersistentobject.h \
-    minopersistentobjectfactory.h \
-    minoprogram.h \
-    minoprogrambank.h \
-    minotor.h \
-    minotrigger.h \
     miprobnzichru.h \
     miprodebug.h \
     mipromatrix.h \
@@ -162,6 +162,7 @@ HEADERS  += \
 
 INCLUDEPATH += \
     Animation \
+    Core \
     Core/Midi \
     Core/Property \
     Ui \
