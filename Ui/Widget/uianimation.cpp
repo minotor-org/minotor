@@ -128,10 +128,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
         // Add property there to the right layout
         lPropGroup->addWidget(uiAnimationProperty);
     }
-    //if (columnCount<maxColumnCount)
-   //{
-        lPropGroup->addStretch(1);
-    //}
+    lPropGroup->addStretch(1);
+
     lContent->addStretch(1);
     connect(animation, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 
@@ -180,9 +178,16 @@ void UiAnimation::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void UiAnimation::changeAnimationGroup(int programId, int groupId)
+template <typename T> T UiAnimation::findParent()
 {
-    emit animationMoved(programId, groupId);
+    QObject *p = this;
+    while((p = p->parent()))
+    {
+        T r = qobject_cast<T>(p);
+        if(r)
+            return r;
+    }
+    return NULL;
 }
 
 void UiAnimation::takeAShot()
