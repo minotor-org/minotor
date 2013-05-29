@@ -29,6 +29,14 @@ SOURCES += \
     Animation/minatext.cpp \
     Animation/minavibration.cpp \
     Animation/minawaveform.cpp \
+    Core/Midi/midi.cpp \
+    Core/Midi/midicontrol.cpp \
+    Core/Midi/midicontrollablelist.cpp \
+    Core/Midi/midicontrollableparameter.cpp \
+    Core/Midi/midicontrollablereal.cpp \
+    Core/Midi/midiinterface.cpp \
+    Core/Midi/midimapper.cpp \
+    Core/Midi/midimapping.cpp \
     Core/Property/minoitemizedproperty.cpp \
     Core/Property/minoproperty.cpp \
     Core/Property/minopropertybeat.cpp \
@@ -59,14 +67,6 @@ SOURCES += \
     easingcurvedreal.cpp \
     ledmatrix.cpp \
     main.cpp\
-    midi.cpp \
-    midicontrol.cpp \
-    midicontrollablelist.cpp \
-    midicontrollableparameter.cpp \
-    midicontrollablereal.cpp \
-    midiinterface.cpp \
-    midimapper.cpp \
-    midimapping.cpp \
     minoanimation.cpp \
     minoanimationgroup.cpp \
     minoclocksource.cpp \
@@ -105,6 +105,14 @@ HEADERS  += \
     Animation/minatext.h \
     Animation/minavibration.h \
     Animation/minawaveform.h \
+    Core/Midi/midi.h \
+    Core/Midi/midicontrol.h \
+    Core/Midi/midicontrollablelist.h \
+    Core/Midi/midicontrollableparameter.h \
+    Core/Midi/midicontrollablereal.h \
+    Core/Midi/midiinterface.h \
+    Core/Midi/midimapper.h \
+    Core/Midi/midimapping.h \
     Core/Property/minoitemizedproperty.h \
     Core/Property/minoproperty.h \
     Core/Property/minopropertybeat.h \
@@ -134,14 +142,6 @@ HEADERS  += \
     Ui/mainwindow.h \
     easingcurvedreal.h \
     ledmatrix.h \
-    midi.h \
-    midicontrol.h \
-    midicontrollablelist.h \
-    midicontrollableparameter.h \
-    midicontrollablereal.h \
-    midiinterface.h \
-    midimapper.h \
-    midimapping.h \
     minoanimation.h \
     minoanimationgroup.h \
     minoclocksource.h \
@@ -162,6 +162,7 @@ HEADERS  += \
 
 INCLUDEPATH += \
     Animation \
+    Core/Midi \
     Core/Property \
     Ui \
     Ui/Widget
