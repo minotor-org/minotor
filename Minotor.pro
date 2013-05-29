@@ -11,6 +11,24 @@ TEMPLATE = app
 
 
 SOURCES += \
+    Animation/minaballs.cpp \
+    Animation/minabarsfromsides.cpp \
+    Animation/minacurve.cpp \
+    Animation/minadebug.cpp \
+    Animation/minaexpandingobjects.cpp \
+    Animation/minafallingobjects.cpp \
+    Animation/minaflash.cpp \
+    Animation/minaflashbars.cpp \
+    Animation/minagradient.cpp \
+    Animation/minaimage.cpp \
+    Animation/minaplasma.cpp \
+    Animation/minarainbowoil.cpp \
+    Animation/minarandompixels.cpp \
+    Animation/minarotatingbars.cpp \
+    Animation/minastars.cpp \
+    Animation/minatext.cpp \
+    Animation/minavibration.cpp \
+    Animation/minawaveform.cpp \
     Ui/Widget/uianimation.cpp \
     Ui/Widget/uianimationdescription.cpp \
     Ui/Widget/uianimationgroup.cpp \
@@ -41,24 +59,6 @@ SOURCES += \
     midiinterface.cpp \
     midimapper.cpp \
     midimapping.cpp \
-    minaballs.cpp \
-    minabarsfromsides.cpp \
-    minacurve.cpp \
-    minadebug.cpp \
-    minaexpandingobjects.cpp \
-    minafallingobjects.cpp \
-    minaflash.cpp \
-    minaflashbars.cpp \
-    minagradient.cpp \
-    minaimage.cpp \
-    minaplasma.cpp \
-    minarainbowoil.cpp \
-    minarandompixels.cpp \
-    minarotatingbars.cpp \
-    minastars.cpp \
-    minatext.cpp \
-    minavibration.cpp \
-    minawaveform.cpp \
     minoanimation.cpp \
     minoanimationgroup.cpp \
     minoclocksource.cpp \
@@ -87,6 +87,24 @@ SOURCES += \
 
 
 HEADERS  += \
+    Animation/minaballs.h \
+    Animation/minabarsfromsides.h \
+    Animation/minacurve.h \
+    Animation/minadebug.h \
+    Animation/minaexpandingobjects.h \
+    Animation/minafallingobjects.h \
+    Animation/minaflash.h \
+    Animation/minaflashbars.h \
+    Animation/minagradient.h \
+    Animation/minaimage.h \
+    Animation/minaplasma.h \
+    Animation/minarainbowoil.h \
+    Animation/minarandompixels.h \
+    Animation/minarotatingbars.h \    
+    Animation/minastars.h \
+    Animation/minatext.h \
+    Animation/minavibration.h \
+    Animation/minawaveform.h \
     Ui/Widget/uianimation.h \
     Ui/Widget/uianimationdescription.h \
     Ui/Widget/uianimationgroup.h \
@@ -116,24 +134,6 @@ HEADERS  += \
     midiinterface.h \
     midimapper.h \
     midimapping.h \
-    minaballs.h \
-    minabarsfromsides.h \
-    minacurve.h \
-    minadebug.h \
-    minaexpandingobjects.h \
-    minafallingobjects.h \
-    minaflash.h \
-    minaflashbars.h \
-    minagradient.h \
-    minaimage.h \
-    minaplasma.h \
-    minarainbowoil.h \
-    minarandompixels.h \
-    minarotatingbars.h \    
-    minastars.h \
-    minatext.h \
-    minavibration.h \
-    minawaveform.h \
     minoanimation.h \
     minoanimationgroup.h \
     minoclocksource.h \
@@ -161,6 +161,7 @@ HEADERS  += \
     miprowaves.h
 
 INCLUDEPATH += \
+    Animation \
     Ui \
     Ui/Widget
 
