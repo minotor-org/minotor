@@ -106,7 +106,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     bool toogle = true;
     for (qreal pos = 0.0; pos <= 1.0; pos+=step)
     {
-        qreal at = anipos + pos;
+        qreal at = (anipos/waves) + pos;
         if(at > 1.0) at -= 1.0;
 
         if(toogle)

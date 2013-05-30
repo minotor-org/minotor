@@ -216,6 +216,27 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapControlToRole(0,0,47,"BANK_PREVIOUS");
     _midiMapper->mapControlToRole(0,0,48,"BANK_NEXT");
     _midiMapper->mapControlToRole(0,0,46,"BANK_SELECT");
+
+    // Piano
+    _midiMapper->mapNoteToRole(1,0,59,"MASTER_ANIMATION_0");
+    _midiMapper->mapNoteToRole(1,0,60,"MASTER_ANIMATION_1");
+    _midiMapper->mapNoteToRole(1,0,61,"MASTER_ANIMATION_2");
+    _midiMapper->mapNoteToRole(1,0,62,"MASTER_ANIMATION_3");
+    _midiMapper->mapNoteToRole(1,0,63,"MASTER_ANIMATION_4");
+    _midiMapper->mapNoteToRole(1,0,64,"MASTER_ANIMATION_5");
+    _midiMapper->mapNoteToRole(1,0,65,"MASTER_ANIMATION_6");
+    _midiMapper->mapNoteToRole(1,0,66,"MASTER_ANIMATION_7");
+    _midiMapper->mapNoteToRole(1,0,67,"MASTER_ANIMATION_8");
+    _midiMapper->mapNoteToRole(1,0,68,"MASTER_ANIMATION_9");
+    _midiMapper->mapNoteToRole(1,0,69,"MASTER_ANIMATION_10");
+    _midiMapper->mapNoteToRole(1,0,70,"MASTER_ANIMATION_11");
+    _midiMapper->mapNoteToRole(1,0,71,"MASTER_ANIMATION_12");
+    _midiMapper->mapNoteToRole(1,0,72,"MASTER_ANIMATION_13");
+    _midiMapper->mapNoteToRole(1,0,73,"MASTER_ANIMATION_14");
+    _midiMapper->mapNoteToRole(1,0,74,"MASTER_ANIMATION_15");
+    _midiMapper->mapNoteToRole(1,0,75,"MASTER_ANIMATION_16");
+    _midiMapper->mapNoteToRole(1,0,76,"MASTER_ANIMATION_17");
+    _midiMapper->mapNoteToRole(1,0,77,"MASTER_ANIMATION_18");
 /*
     // Behringer BCD3000
     _midiMapper->mapControlToRole(1,0,3,"MASTER_CONTROLS_0_0");
