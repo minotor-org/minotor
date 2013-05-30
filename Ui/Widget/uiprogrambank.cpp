@@ -126,6 +126,7 @@ void UiProgramBank::highlightProgram(QObject *program)
         if(uip->program() == mp)
         {
             uip->setHighlight(true);
+            uip->setExpanded(true);
             const int top = uip->pos().y();
             const int half = uip->height() / 2;
             findChild<QScrollArea *>()->ensureVisible(0, top + half, 0, half);
@@ -133,6 +134,7 @@ void UiProgramBank::highlightProgram(QObject *program)
         else
         {
             uip->setHighlight(false);
+            uip->setExpanded(false);
         }
     }
 }
