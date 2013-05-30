@@ -308,7 +308,12 @@ void MainWindow::on_action_Configuration_triggered()
 
 void MainWindow::on_action_MinotorWiki_triggered()
 {
-    QDesktopServices::openUrl(QUrl("https://bitbucket.org/neomilium/minotor/wiki/Home"));
+    QDesktopServices::openUrl(QUrl("http://wiki.minotor.org"));
+}
+
+void MainWindow::on_action_MinotorSite_triggered()
+{
+    QDesktopServices::openUrl(QUrl("http://www.minotor.org"));
 }
 
 void MainWindow::on_actionQuit_triggered()

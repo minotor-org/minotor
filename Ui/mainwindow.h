@@ -34,6 +34,8 @@ private slots:
     void on_action_Configuration_triggered();
     // UI: Action help->wiki
     void on_action_MinotorWiki_triggered();
+    // UI : Action help->minotor website
+    void on_action_MinotorSite_triggered();
     // UI: File Quit
     void on_actionQuit_triggered();
     // UI: Program Bank/Load
