@@ -106,6 +106,11 @@ ConfigDialog::~ConfigDialog()
     delete ui;
 }
 
+#define ROW_ROLE    0
+#define ROW_CHANNEL 1
+#define ROW_CONTROL 2
+#define ROW_VALUE   3
+
 void ConfigDialog::midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value)
 {
     for(int i=0;i<Minotor::minotor()->midi()->interfaces().count();++i)
@@ -119,10 +124,10 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
                 int row;
                 for(row = 0; row < ui->tableMidiMapping->rowCount(); row++)
                 {
-                    if(channel == ui->tableMidiMapping->item(row, 0)->text().toInt()
-                            && control == ui->tableMidiMapping->item(row, 1)->text().toInt())
+                    if(channel == ui->tableMidiMapping->item(row, ROW_CHANNEL)->text().toInt()
+                            && control == ui->tableMidiMapping->item(row, ROW_CONTROL)->text().toInt())
                     {
-                        ui->tableMidiMapping->item(row, 3)->setText(QString::number(value));
+                        ui->tableMidiMapping->item(row, ROW_VALUE)->setText(QString::number(value));
                         ui->tableMidiMapping->selectRow(row);
                         found = true;
                         break;
@@ -150,12 +155,12 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
     item = new QTableWidgetItem(QString::number(channel));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ui->tableMidiMapping->setItem(row, 0, item);
+    ui->tableMidiMapping->setItem(row, ROW_CHANNEL, item);
     // Control
     item = new QTableWidgetItem(QString::number(control));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ui->tableMidiMapping->setItem(row, 1, item);
+    ui->tableMidiMapping->setItem(row, ROW_CONTROL, item);
     // Role
     QComboBox *cb = new QComboBox();
     cb->addItem("none");
@@ -172,12 +177,12 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
     {
         cb->setCurrentIndex(index);
     }
-    ui->tableMidiMapping->setCellWidget(row, 2, cb);
+    ui->tableMidiMapping->setCellWidget(row, ROW_ROLE, cb);
     // Value
     item = new QTableWidgetItem(QString::number(value));
     item->setFlags(item->flags() ^ Qt::ItemIsEditable);
     item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ui->tableMidiMapping->setItem(row, 3, item);
+    ui->tableMidiMapping->setItem(row, ROW_VALUE, item);
     ui->lMidiControlsCount->setText(QString::number(ui->tableMidiMapping->rowCount()));
 }
 
@@ -276,9 +281,9 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     for (int i = 0; i < ui->tableMidiMapping->rowCount(); ++i) {
         // MIDI Controls
         mapping.setArrayIndex(i);
-        mapping.setValue("channel", ui->tableMidiMapping->item(i,0)->text());
-        mapping.setValue("control", ui->tableMidiMapping->item(i,1)->text());
-        const QComboBox* cb = qobject_cast<QComboBox*>(ui->tableMidiMapping->cellWidget(i,2));
+        mapping.setValue("channel", ui->tableMidiMapping->item(i,ROW_CHANNEL)->text());
+        mapping.setValue("control", ui->tableMidiMapping->item(i,ROW_CONTROL)->text());
+        const QComboBox* cb = qobject_cast<QComboBox*>(ui->tableMidiMapping->cellWidget(i,ROW_ROLE));
         if(cb)
             mapping.setValue("role", cb->currentText());
     }
@@ -305,7 +310,7 @@ void ConfigDialog::updateMidiMappingTab()
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
     //Set Header Label Texts
-    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Channel;Control;Role;Value").split(';'));
+    ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Role;Channel;Control;Value").split(';'));
     loadMidiMappingFiles(ui->cbMidiMapping);
 }
 
