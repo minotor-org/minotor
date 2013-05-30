@@ -2,6 +2,7 @@
 #define MINABALLS_H
 
 #include "minoanimation.h"
+#include "minopropertyreal.h"
 
 #include <QGraphicsRectItem>
 #include <QLineF>
@@ -41,6 +42,8 @@ private:
     QGraphicsItemGroup _itemGroup;
     QList<MinoAnimatedBall> _animatedItems;
     QList<QLineF> _borders;
+
+    MinoPropertyReal *_ballSize;
 
 };
 

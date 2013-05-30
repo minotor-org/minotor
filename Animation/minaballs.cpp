@@ -12,13 +12,14 @@ MinaBalls::MinaBalls(QObject *object) :
     _borders.append(QLineF(_boundingRect.topLeft(),_boundingRect.bottomLeft()));
     _borders.append(QLineF(_boundingRect.topRight(),_boundingRect.bottomRight()));
 
-    qreal width = 18.0;
-    QRectF ball(0,0,width,width);
-    QRadialGradient grad(ball.adjusted(0,0,1,1).center(),ball.width());
-    grad.setColorAt(0.4, Qt::transparent);
-    grad.setColorAt(0.0, Qt::white);
+    _ballSize = new MinoPropertyReal(this);
+    _ballSize->setObjectName("size");
+    _ballSize->setLabel("Size");
+    _ballSize->setValue(18.0/24.0);
 
-    QGraphicsEllipseItem *item = _scene->addEllipse(ball, QPen(Qt::NoPen), QBrush(grad));
+    QRectF ball(0,0,1,1);
+
+    QGraphicsEllipseItem *item = _scene->addEllipse(ball, QPen(Qt::NoPen), QBrush(Qt::NoBrush));
     _itemGroup.addToGroup(item);
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
     blur->setBlurRadius(1.1);
@@ -40,16 +41,41 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     QColor color = _color->color();
 
     const unsigned int duration = _beatFactor->loopSizeInPpqn();
+    const qreal sideMax = qMax(_boundingRect.height(), _boundingRect.width());
+    const qreal sideSize = _ballSize->value()*sideMax;
+
+    QRadialGradient grad;
+    grad.setColorAt(0.0,color);
+    QColor col(color);
+
+    col.setAlphaF(0.46);
+    grad.setColorAt(0.11,col);
+
+    col.setAlphaF(0.21);
+    grad.setColorAt(0.22,col);
+
+    col.setAlphaF(0.0983118);
+    grad.setColorAt(0.333333,col);
+
+    col.setAlphaF(0.0449751);
+    grad.setColorAt(0.444444,col);
+
+    grad.setColorAt(1.0,Qt::transparent);
 
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
         MinoAnimatedBall *item = const_cast<MinoAnimatedBall*>(&_animatedItems.at(i));
         QGraphicsEllipseItem *ball = dynamic_cast<QGraphicsEllipseItem*>(item->graphicsItem());
-        QRadialGradient grad(ball->boundingRect().adjusted(0,0,1,1).center(),ball->boundingRect().width());
-        grad.setColorAt(0.4, Qt::transparent);
-        grad.setColorAt(0.0, color);
+        QRectF rect(0.0,0.0,sideSize,sideSize);
+        rect.moveCenter(ball->rect().center());
+        ball->setRect(rect);
+
+        grad.setCenter(ball->rect().adjusted(0,0,1,1).center());
+        grad.setRadius(sideSize);
+        grad.setFocalPoint(ball->rect().center());
+
         ball->setBrush(grad);
-        if (uppqn > (item->startUppqn()+item->duration()))
+        if ((uppqn > (item->startUppqn()+item->duration())))
         {
             item->_duration = duration;
             item->_startUppqn = uppqn;
@@ -105,5 +131,5 @@ void MinaBalls::animate(const unsigned int uppqn, const unsigned int gppqn, cons
         const qreal progress = item->progressForUppqn(uppqn);
         QPointF pos = item->_path.pointAt(progress);
         item->_graphicsItem->setPos(pos-item->_graphicsItem->boundingRect().center());
-   }
+    }
 }
