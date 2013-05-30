@@ -40,5 +40,6 @@
         <file>images/flashbars.png</file>
         <file>images/rainbowoil.png</file>
         <file>pictos/reload.png</file>
+        <file>pictos/icone.png</file>
     </qresource>
 </RCC>
