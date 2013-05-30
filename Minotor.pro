@@ -186,8 +186,6 @@ RESOURCES += \
 OTHER_FILES += \
     style.css
 
-UI_DIR = Ui/
-
 qmake_clang.commands = qmake -recursive -spec unsupported/linux-clang
 clang.commands = scan-build make clean all
 clang.depends = qmake_clang
