@@ -72,6 +72,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lTitle->addStretch();
 
     QPushButton *pbDelete = new QPushButton(wTitle);
+    pbDelete->setToolTip("Delete program");
     pbDelete->setFocusPolicy(Qt::NoFocus);
     pbDelete->setIcon(QIcon(":/pictos/close.png"));
     pbDelete->setIconSize(QSize(10,10));
@@ -98,6 +99,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
 //    lBeat->addStretch();
 
     QPushButton *pbExport = new QPushButton(wProgramControl);
+    pbExport->setToolTip("Export this program to a .mpr file");
     pbExport->setText("Export");
     pbExport->setMinimumSize(85,16);
     pbExport->setMaximumSize(85,16);
@@ -118,6 +120,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lRightArea->addWidget(wCollapse);
     QHBoxLayout *lCollapse = new QHBoxLayout(wCollapse);
     QPushButton *bOnAir = new QPushButton(wRightArea);
+    bOnAir->setToolTip("Send this program to the master");
     bOnAir->setCheckable(true);
     bOnAir->setObjectName("bOnAir");
     bOnAir->setText("On Air");
@@ -125,6 +128,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lCollapse->addWidget(bOnAir);
     lCollapse->addStretch();
     QCheckBox *cbCollapse = new QCheckBox(wCollapse);
+    cbCollapse->setToolTip("Expand/Collapse program");
     cbCollapse->setObjectName("arrow");
     cbCollapse->setChecked(false);
     lCollapse->addWidget(cbCollapse);

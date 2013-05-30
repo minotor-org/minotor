@@ -63,6 +63,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
 
     //Delete button
     QPushButton *pbDelete = new QPushButton(wDescription);
+    pbDelete->setToolTip("Delete animation");
     pbDelete->setFocusPolicy(Qt::NoFocus);
     pbDelete->setIcon(QIcon(":/pictos/close.png"));
     pbDelete->setIconSize(QSize(12,12));

@@ -50,6 +50,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
 
     //Screenshot button
     QPushButton *pbScreenshot = new QPushButton(wTools);
+    pbScreenshot->setToolTip("Refresh preview (animation group must be enabled)");
     pbScreenshot->setFocusPolicy(Qt::NoFocus);
     pbScreenshot->setIcon(QIcon(":/pictos/reload.png"));
     pbScreenshot->setIconSize(QSize(12,12));
@@ -63,6 +64,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
     //Enable button
     _pbEnable = new QPushButton(wTools);
     _pbEnable->setObjectName("enableButton");
+    _pbEnable->setToolTip("Activate/Deactivate animation group");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
     if(!_group->screenshot().isNull())
         _pbEnable->setIcon(QIcon(_group->screenshot().scaled(60,40,Qt::KeepAspectRatio,Qt::SmoothTransformation)));
@@ -78,6 +80,7 @@ UiAnimationGroup::UiAnimationGroup(MinoAnimationGroup *group, QWidget *parent) :
 
     //Delete button
     QPushButton *pbDelete = new QPushButton(wTools);
+    pbDelete->setToolTip("Delete animation group");
     pbDelete->setFocusPolicy(Qt::NoFocus);
     pbDelete->setIcon(QIcon(":/pictos/close.png"));
     pbDelete->setIconSize(QSize(12,12));

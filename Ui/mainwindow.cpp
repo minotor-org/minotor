@@ -87,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lTransportButtons->addWidget(pbStart);
     _bgTransport->addButton(pbStart);
     pbStart->setCheckable(true);
+    pbStart->setToolTip("Start");
     pbStart->setIcon(QIcon(":/pictos/play.png"));
     pbStart->setIconSize(QSize(16,16));
     pbStart->setMinimumSize(28,28);
@@ -96,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lTransportButtons->addWidget(pbStop);
     _bgTransport->addButton(pbStop);
     pbStop->setCheckable(true);
+    pbStop->setToolTip("Stop");
     pbStop->setIcon(QIcon(":/pictos/stop.png"));
     pbStop->setIconSize(QSize(16,16));
     pbStop->setMinimumSize(28,28);
@@ -104,6 +106,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
     QPushButton *pbSync = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbSync);
+    pbSync->setToolTip("Sync: click to define the first beat of the loop");
     pbSync->setIcon(QIcon(":/pictos/sync.png"));
     pbSync->setIconSize(QSize(16,16));
     pbSync->setMinimumSize(28,28);
@@ -118,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lTempoButtons->setContentsMargins(0,0,0,0);
     //BPM
     QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(wTempoButtons);
+    _sbBPM->setToolTip("BPM: current tempo of the animation");
     _sbBPM->setMinimum(20);
     _sbBPM->setMaximum(300);
     _sbBPM->setSingleStep(0.1);
@@ -132,6 +136,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Tap
     QPushButton *pbTap = new QPushButton(wTempoButtons);
     lTempoButtons->addWidget(pbTap);
+    pbTap->setToolTip("Tap tempo: ajust tempo by clicking to the rythm");
     pbTap->setIcon(QIcon(":/pictos/tap.png"));
     pbTap->setIconSize(QSize(20,20));
     pbTap->setMinimumSize(28,28);
@@ -147,6 +152,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // MIDI toolbar
     QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
     connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
+    pbMidiLearn->setToolTip("Active/Deactivate midi learn to map your controler");
     pbMidiLearn->setText("MIDI learn");
     pbMidiLearn->setCheckable(true);
     lMidiButtons->addWidget(pbMidiLearn);
@@ -200,6 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Viewmode
     QPushButton *pbViewmode = new QPushButton(wBackground);
     lBackground->addWidget(pbViewmode);
+    pbViewmode->setToolTip("Switch between editor mode and live mode");
     pbViewmode->setText(QString::fromUtf8("η"));
     pbViewmode->setIconSize(QSize(20,20));
     pbViewmode->setMinimumSize(28,28);
@@ -211,6 +218,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton *pbFullscreen = new QPushButton(wBackground);
     pbFullscreen->setShortcut(Qt::Key_Escape);
     lBackground->addWidget(pbFullscreen);
+    pbFullscreen->setToolTip("Fullscreen mode");
     pbFullscreen->setIcon(QIcon(":/pictos/fullscreen.png"));
     pbFullscreen->setIconSize(QSize(20,20));
     pbFullscreen->setMinimumSize(28,28);

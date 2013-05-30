@@ -52,7 +52,7 @@ UiMasterAnimationGroup::UiMasterAnimationGroup(MinoAnimationGroup *group, QWidge
     {
         _pbEnable->setShortcut(notesKeys[groupId]);
     }
-
+    _pbEnable->setToolTip("Activate/Deactivate animation group");
     _pbEnable->setObjectName("enableButton");
     _pbEnable->setFocusPolicy(Qt::NoFocus);
     if(!_group->screenshot().isNull())

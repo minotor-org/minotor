@@ -31,6 +31,7 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     dynamic_cast<QHBoxLayout*>(this->layout())->addStretch(1);
     //Mapping : fake data
     _cbMapping = new QComboBox(this);
+    _cbMapping->setToolTip("Select midi mapping to use with this interface");
     ConfigDialog* cd = qobject_cast<ConfigDialog*>(parent);
     cd->loadMidiMappingFiles(_cbMapping);
     int index;
@@ -50,24 +51,28 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     this->layout()->addWidget(_cbMapping);
     //BeatSync
     _pbSync = new QPushButton("Sync",this);
+    _pbSync->setToolTip("Receive sync data (Beatclock)");
     _pbSync->setCheckable(true);
     _pbSync->setChecked(interface->acceptClock());
     connect(_pbSync,SIGNAL(toggled(bool)),interface,SLOT(setAcceptClock(bool)));
     this->layout()->addWidget(_pbSync);
     //Notes
     _pbNotes = new QPushButton("Notes",this);
+    _pbNotes->setToolTip("Receive midi notes");
     _pbNotes->setCheckable(true);
     _pbNotes->setChecked(interface->acceptNoteChange());
     connect(_pbNotes,SIGNAL(toggled(bool)),interface,SLOT(setAcceptNoteChange(bool)));
     this->layout()->addWidget(_pbNotes);
     //ControlChange
     _pbControlChange = new QPushButton("Ctrl Change",this);
+    _pbControlChange->setToolTip("Receive midi control changes");
     _pbControlChange->setCheckable(true);
     _pbControlChange->setChecked(interface->acceptControlChange());
     connect(_pbControlChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptControlChange(bool)));
     this->layout()->addWidget(_pbControlChange);
     //ProgramChange
     _pbProgramChange = new QPushButton("Prg Change",this);
+    _pbProgramChange->setToolTip("Receive midi program changes");
     _pbProgramChange->setCheckable(true);
     _pbProgramChange->setChecked(interface->acceptProgramChange());
     connect(_pbProgramChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptProgramChange(bool)));
