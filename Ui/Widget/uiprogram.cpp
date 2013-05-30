@@ -80,22 +80,22 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     lTitle->addWidget(pbDelete);
     connect(pbDelete, SIGNAL(clicked(bool)),_program, SLOT(deleteLater()));
 
-    QWidget *wBeat = new QWidget(wProgramControl);
-    lProgramControl->addWidget(wBeat);
-    QHBoxLayout *lBeat = new QHBoxLayout(wBeat);
-    lBeat->setSpacing(0);
-    lBeat->setMargin(0);
-    lBeat->setContentsMargins(0,0,0,0);
-    lBeat->addStretch();
+//    QWidget *wBeat = new QWidget(wProgramControl);
+//    lProgramControl->addWidget(wBeat);
+//    QHBoxLayout *lBeat = new QHBoxLayout(wBeat);
+//    lBeat->setSpacing(0);
+//    lBeat->setMargin(0);
+//    lBeat->setContentsMargins(0,0,0,0);
+//    lBeat->addStretch();
 
-    MidiControllableParameter *mpBeat = _program->findChild<MidiControllableParameter*>();
-    if (mpBeat)
-    {
-        UiMidiControllableParameter *umpBeat = new UiMidiControllableParameter(mpBeat, this);
-        lBeat->addWidget(umpBeat);
-    }
+//    MidiControllableParameter *mpBeat = _program->findChild<MidiControllableParameter*>();
+//    if (mpBeat)
+//    {
+//        UiMidiControllableParameter *umpBeat = new UiMidiControllableParameter(mpBeat, this);
+//        lBeat->addWidget(umpBeat);
+//    }
 
-    lBeat->addStretch();
+//    lBeat->addStretch();
 
     QPushButton *pbExport = new QPushButton(wProgramControl);
     pbExport->setText("Export");
