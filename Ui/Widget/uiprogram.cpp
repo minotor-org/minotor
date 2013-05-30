@@ -141,7 +141,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     QVBoxLayout *lPreview = new QVBoxLayout(_fPreview);
     _fPreview->setObjectName("view");
     _fPreview->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    _fPreview->setMinimumSize(200, 150);
+    _fPreview->setMinimumSize(200, _program->heightForWidth(200));
     UiProgramView *pView = new UiProgramView(program, _fPreview);
     QSizePolicy policy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     policy.setHeightForWidth(true);
