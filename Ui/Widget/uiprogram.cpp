@@ -9,6 +9,7 @@
 #include <QStyle>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "minotor.h"
 
@@ -79,7 +80,7 @@ UiProgram::UiProgram(MinoProgram *program, QWidget *parent) :
     pbDelete->setMinimumSize(16,16);
     pbDelete->setMaximumSize(16,16);
     lTitle->addWidget(pbDelete);
-    connect(pbDelete, SIGNAL(clicked(bool)),_program, SLOT(deleteLater()));
+    connect(pbDelete, SIGNAL(clicked(bool)),this, SLOT(confirmDelete()));
 
 //    QWidget *wBeat = new QWidget(wProgramControl);
 //    lProgramControl->addWidget(wBeat);
@@ -221,4 +222,14 @@ void UiProgram::setHighlight(bool on)
     this->setProperty("highlight", on);
     _wHighlight->style()->unpolish(_wHighlight);
     _wHighlight->style()->polish(_wHighlight);
+}
+
+void UiProgram::confirmDelete()
+{
+    QMessageBox::StandardButton ret = QMessageBox::question(this,"Delete program","Are you sure you want to delete this program ?",QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Ok);
+
+    if (ret == QMessageBox::Ok) {
+    	_program->deleteLater();
+    }
+
 }

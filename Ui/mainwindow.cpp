@@ -15,6 +15,7 @@
 #include <QUrl>
 #include <QMetaProperty>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "uianimationdescription.h"
 #include "uianimationpicker.h"
@@ -457,7 +458,11 @@ void MainWindow::on_pbLoad_clicked()
 
 void MainWindow::on_actionNew_triggered()
 {
-    _minotor->clearPrograms();
+    QMessageBox::StandardButton ret = QMessageBox::question(this,"Create a new program bank","This will erase you current bank.",QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Ok);
+
+    if (ret == QMessageBox::Ok) {
+            _minotor->clearPrograms();
+     }
 }
 
 void MainWindow::createUiProgramBank(QObject *bank)

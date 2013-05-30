@@ -30,6 +30,7 @@ private slots:
     void updateOnAirStatus(bool onAir);
     void requestMasterProgramChange(bool on);
     void exportProgram();
+    void confirmDelete();
 };
 
 #endif // UIPROGRAM_H
