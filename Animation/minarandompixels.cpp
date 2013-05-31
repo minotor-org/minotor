@@ -18,46 +18,60 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
 
-    for (qreal i=0.0;i<_boundingRect.height();i+=1.0)
+    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration->setObjectName("duration");
+    _beatDuration->setLabel("Duration");
+    _beatDuration->addItem("1/4", 6);
+    _beatDuration->addItem("1/2", 12);
+    _beatDuration->addItem("1", 24);
+    _beatDuration->addItem("2", 48);
+    _beatDuration->addItem("4", 96);
+    _beatDuration->addItem("8", 192);
+    _beatDuration->addItem("16", 384);
+    _beatDuration->setCurrentItem("1");
+    _beatDuration->setLinear();
+}
+
+void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned duration)
+{
+    const qreal pixelCount = _density->value()*(_boundingRect.width()*_boundingRect.height());
+    for(int i=0; i<pixelCount; i++)
     {
-        for (qreal j=0.0; j<_boundingRect.width();j+=1.0)
-        {
-            const qreal h = 0.1;
-            _itemGroup.addToGroup(_scene->addLine ( j, i, j+h, i+h, QPen(Qt::NoPen) ));
-        }
+        const QPointF rand = qrandPointF();
+        const qreal h = 0.1;
+        QGraphicsLineItem *gli = _scene->addLine(rand.x(), rand.y(), rand.x()+h, rand.y()+h, QPen(_color->color()));
+        _itemGroup.addToGroup(gli);
+        MinoAnimatedItem maItem (uppqn, duration, gli);
+        _animatedItems.append(maItem);
     }
 }
 
-void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
+void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int, const unsigned int )
 {
-    (void)uppqn;
-    (void)qn;
-
-    QColor color = _color->color();
-
     _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
 
-    color.setAlphaF(_ecrAlpha.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
-
-    QColor transparency;
-    transparency.setAlpha(0);
-
-    if ((ppqn%6) == 0)
+    if (_beatFactor->isBeat(gppqn))
     {
-        foreach (QGraphicsItem *item , _itemGroup.childItems())
+        createPixels(uppqn, (uint)_beatDuration->currentItem()->real());
+    }
+
+    // Animate pixels
+    for (int i=_animatedItems.count()-1;i>-1;i--)
+    {
+        MinoAnimatedItem mai = _animatedItems.at(i);
+        QGraphicsLineItem *gli = dynamic_cast<QGraphicsLineItem*>(mai.graphicsItem());
+        Q_ASSERT(gli);
+        if (mai.isCompleted(uppqn))
         {
-            static_cast<QGraphicsLineItem*>(item)->setPen(QPen(transparency));
+            delete mai._graphicsItem;
+            _animatedItems.removeAt(i);
         }
-
-        const qreal pixelCount = _density->value()*(_boundingRect.width()*_boundingRect.height());
-        for(int i=0; i<pixelCount; i++)
+        else
         {
-            int x = (qrandF()*_boundingRect.width());
-            int y = (qrandF()*_boundingRect.height());
-
-            int pixelIndex = (y*_boundingRect.width())+x;
-
-            static_cast<QGraphicsLineItem*>(_itemGroup.childItems().at(pixelIndex))->setPen(QPen(color));
+            const qreal progress = mai.progressForUppqn(uppqn);
+            QColor color = gli->pen().color();
+            color.setAlphaF(_ecrAlpha.valueForProgress(progress));
+            gli->setPen(color);
         }
     }
 }
