@@ -263,9 +263,16 @@ QPushButton:checked {
     border: 1px solid #e75f00;
     color:#2e2e2e;
 }
+
 QPushButton#enableButton {
     border-radius:1px;
 }
+
+QPushButton#enableButton:checked {
+    border: 1px solid #5f5f5f;
+    background-color:#4c4c4c;
+}
+
 QPushButton#enableButton:hover {
     border: 2px solid #e75f00;
 }
