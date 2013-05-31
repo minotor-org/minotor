@@ -150,7 +150,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
         const MinoAnimatedItem item = _animatedItems.at(i);
-        if (uppqn > (item._startUppqn+item._duration))
+        if (item.isCompleted(uppqn))
         {
             delete item._graphicsItem;
             _animatedItems.removeAt(i);
