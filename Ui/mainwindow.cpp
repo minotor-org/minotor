@@ -312,11 +312,6 @@ void MainWindow::on_action_MinotorWiki_triggered()
     QDesktopServices::openUrl(QUrl("http://wiki.minotor.org"));
 }
 
-void MainWindow::on_action_MinotorSite_triggered()
-{
-    QDesktopServices::openUrl(QUrl("http://www.minotor.org"));
-}
-
 void MainWindow::on_actionQuit_triggered()
 {
     QApplication::quit();
