@@ -30,7 +30,8 @@
 MinoMasterMidiMapper::MinoMasterMidiMapper(MinoMaster *parent) :
     QObject(parent),
     _master(parent),
-    _program(NULL)
+    _program(NULL),
+    _controlsPerChannel(2)
 {
     Q_ASSERT(_master);
     connect(_master, SIGNAL(programChanged()), this, SLOT(updateProgram()));
@@ -42,7 +43,6 @@ void MinoMasterMidiMapper::registerRoles()
 {
     // FIXME
     const int columns = 9;
-    const int rows = 2;
     const int virtual_pages = 4;
     const int virtual_columns = columns*virtual_pages;
 
@@ -57,7 +57,7 @@ void MinoMasterMidiMapper::registerRoles()
     }
 
     // FIXME
-    QSize sHardMappedArea(virtual_columns,rows);
+    QSize sHardMappedArea(virtual_columns,_controlsPerChannel);
     for (int x=0; x<sHardMappedArea.width(); ++x)
     {
         for(int y=0; y<sHardMappedArea.height(); ++y)
@@ -238,10 +238,18 @@ void MinoMasterMidiMapper::updateMap()
                     // FIXME qMin(counter, row)
                     if(mcp.at(j)->isPreferred())
                     {
+                        if (id >= _controlsPerChannel)
+                        {
+                            break;
+                        }
                         const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
                         MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
                         id++;
                     }
+                }
+                if (id >= _controlsPerChannel)
+                {
+                    break;
                 }
             }
         }
