@@ -42,6 +42,7 @@ protected:
     void registerAnimation(MinoAnimation *ma);
     void unregisterAnimation(MinoAnimation *ma);
 
+    void registerRoles();
     void clearRoles();
 
     void updateMap();

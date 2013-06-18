@@ -23,6 +23,10 @@ MidiMapper::~MidiMapper()
     foreach(MinoControl *c, minoControls())
         delete c;
     minoControls().clear();
+
+    foreach(MinoRole *r, minoRoles())
+        delete r;
+    minoRoles().clear();
 }
 
 void MidiMapper::assignCapturedControlTo(MidiControllableParameter *parameter)
@@ -158,43 +162,55 @@ void MidiMapper::noteChanged(int interface, quint8 channel, quint8 note, bool on
 
 void MidiMapper::mapNoteToRole(int interface, quint8 channel, quint8 note, QString role)
 {
-    MinoTrigger *trigger = minoTriggers().value(role, NULL);
-    if(!trigger)
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "role:" << role << "is not registered!";
-    }
-    else
-    {
-        const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
-        _hashMinoTriggerNotes.insert(key, trigger);
-    }
+    const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
+    MinoRole *mr = minoRoles().value(role, NULL);
+    Q_ASSERT(mr);
+
+    Q_ASSERT((mr->type() == MinoRole::Trigger) || (mr->type() == MinoRole::Hold));
+    MinoTrigger *mt = minoTriggers().value(role, NULL);
+    _hashMinoTriggerNotes.insert(key, mt);
 }
 
 void MidiMapper::mapControlToRole(int interface, quint8 channel, quint8 control, QString role)
 {
-    MinoTrigger *minoTrigger = minoTriggers().value(role, NULL);
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(control));
-    if(!minoTrigger)
+    MinoRole *mr = minoRoles().value(role, NULL);
+    Q_ASSERT(mr);
+
+    switch(mr->type())
     {
-        MinoControl *minoControl = minoControls().value(role, NULL);
-        if(!minoControl)
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "role:" << role << "is not registered!";
-        }
-        else
-        {
-            _hashMinoControls.insert(key, minoControl);
-        }
+    case MinoRole::Direct:
+    {
+        MinoControl *mc = minoControls().value(role, NULL);
+        _hashMinoControls.insert(key, mc);
     }
-    else
+        break;
+    case MinoRole::Hold:
+    case MinoRole::Trigger:
     {
-        _hashMinoTriggerControls.insert(key, minoTrigger);
+        MinoTrigger *mt = minoTriggers().value(role, NULL);
+        _hashMinoTriggerControls.insert(key, mt);
+    }
+        break;
     }
 }
 
-bool MidiMapper::registerTrigger(QString role, const QObject *receiver, const char *method, bool toogle, bool overwrite)
+bool MidiMapper::registerTrigger(const QString &role, const QString &description, const MinoRole::Type type)
+{
+    Q_ASSERT((type == MinoRole::Trigger) || (type == MinoRole::Hold));
+    registerRole(role, description, type);
+    return connectTrigger(role, NULL, NULL, (type==MinoRole::Hold));
+}
+
+bool MidiMapper::registerTrigger(const QString &role, const QString &description, const QObject *receiver, const char *method, MinoRole::Type type, bool overwrite)
+{
+    Q_ASSERT((type == MinoRole::Trigger) || (type == MinoRole::Hold));
+    if(!(overwrite && minoRoles().contains(role)))
+        registerRole(role, description, type);
+    return connectTrigger(role, receiver, method, (type == MinoRole::Hold), overwrite);
+}
+
+bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle, bool overwrite)
 {
     MinoTrigger *trigger = minoTriggers().value(role, NULL);
     if(!overwrite)
@@ -233,8 +249,18 @@ bool MidiMapper::registerTrigger(QString role, const QObject *receiver, const ch
     return true;
 }
 
-bool MidiMapper::registerControl(QString role, const QObject *receiver, const char *method, bool overwrite)
+bool MidiMapper::registerControl(const QString &role, const QString &description, const QObject *receiver, const char *method, bool overwrite)
 {
+    if(!(overwrite && minoRoles().contains(role)))
+        registerRole(role, description, MinoRole::Direct);
+
+    return connectControl(role, receiver, method, overwrite);
+}
+
+bool MidiMapper::connectControl(const QString &role, const QObject *receiver, const char *method, bool overwrite)
+{
+    Q_ASSERT(minoRoles().contains(role));
+
     MinoControl *minoControl = minoControls().value(role, NULL);
     if(!overwrite)
     {
@@ -267,6 +293,12 @@ bool MidiMapper::registerControl(QString role, const QObject *receiver, const ch
 //                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
     }
     return true;
+}
+
+void MidiMapper::registerRole(const QString &name, const QString &description, MinoRole::Type type)
+{
+    Q_ASSERT(!minoRoles().contains(name));
+    minoRoles().insert(name, new MinoRole(name, description, type));
 }
 
 QStringList MidiMapper::registeredRoles()

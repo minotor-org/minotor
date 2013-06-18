@@ -20,10 +20,10 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     // Set default BPM to 124
     setBPM(124);
 
-    MidiMapper::registerTrigger("TRANSPORT_PLAY", this, SLOT(uiStart()));
-    MidiMapper::registerTrigger("TRANSPORT_STOP", this, SLOT(uiStop()));
-    MidiMapper::registerTrigger("TRANSPORT_SYNC", this, SLOT(uiSync()));
-    MidiMapper::registerTrigger("TRANSPORT_TAP", this, SLOT(uiTapOn()));
+    MidiMapper::registerTrigger("TRANSPORT_PLAY", "Start internal clock generator", this, SLOT(uiStart()));
+    MidiMapper::registerTrigger("TRANSPORT_STOP", "Stop internal clock generator", this, SLOT(uiStop()));
+    MidiMapper::registerTrigger("TRANSPORT_SYNC", "Sync clock", this, SLOT(uiSync()));
+    MidiMapper::registerTrigger("TRANSPORT_TAP", "Tap tempo", this, SLOT(uiTapOn()));
 }
 
 void MinoClockSource::internalTimerTimeout()

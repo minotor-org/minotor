@@ -15,8 +15,38 @@ MinoMasterMidiMapper::MinoMasterMidiMapper(MinoMaster *parent) :
     Q_ASSERT(_master);
     connect(_master, SIGNAL(programChanged()), this, SLOT(updateProgram()));
 
-    // HACK to register roles
-    clearRoles();
+    registerRoles();
+}
+
+void MinoMasterMidiMapper::registerRoles()
+{
+    // FIXME
+    const int columns = 9;
+    const int rows = 2;
+    const int virtual_pages = 4;
+    const int virtual_columns = columns*virtual_pages;
+
+    for (int i=0; i<virtual_columns; i++)
+    {
+        QString role = QString("MASTER_ANIMATION_%1").arg(i);
+        QString description = QString("Toggle master's animation #%1").arg(i);
+        MidiMapper::registerTrigger(role, description, MinoRole::Trigger);
+        role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
+        description = QString("Activate master's animation #%1").arg(i);
+        MidiMapper::registerTrigger(role, description, MinoRole::Hold);
+    }
+
+    // FIXME
+    QSize sHardMappedArea(virtual_columns,rows);
+    for (int x=0; x<sHardMappedArea.width(); ++x)
+    {
+        for(int y=0; y<sHardMappedArea.height(); ++y)
+        {
+            const QString role = QString("MASTER_CONTROLS_%1_%2").arg(x).arg(y);
+            const QString description = QString("Change control at %1,%2").arg(x).arg(y);
+            MidiMapper::registerControl(role, description);
+        }
+    }
 }
 
 void MinoMasterMidiMapper::clearRoles()
@@ -30,9 +60,9 @@ void MinoMasterMidiMapper::clearRoles()
     for (int i=0; i<virtual_columns; i++)
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
-        MidiMapper::registerTrigger(role, NULL, NULL, false, true);
+        MidiMapper::connectTrigger(role, NULL, NULL, false, true);
         role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-        MidiMapper::registerTrigger(role, NULL, NULL, false, true);
+        MidiMapper::connectTrigger(role, NULL, NULL, false, true);
     }
 
     // FIXME
@@ -42,7 +72,7 @@ void MinoMasterMidiMapper::clearRoles()
         for(int y=0; y<sHardMappedArea.height(); ++y)
         {
             const QString role = QString("MASTER_CONTROLS_%1_%2").arg(x).arg(y);
-            MidiMapper::registerControl(role, NULL, NULL, true);
+            MidiMapper::connectControl(role, NULL, NULL, true);
         }
     }
 }
@@ -175,9 +205,9 @@ void MinoMasterMidiMapper::updateMap()
         {
             MinoAnimationGroup *group = _program->animationGroups().at(i);
             QString role = QString("MASTER_ANIMATION_%1").arg(i);
-            MidiMapper::registerTrigger(role, group, SLOT(setEnabled(bool)), true, true);
+            MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), true, true);
             role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-            MidiMapper::registerTrigger(role, group, SLOT(toogle()), false, true);
+            MidiMapper::connectTrigger(role, group, SLOT(toogle()), false, true);
 
             int id = 0;
             foreach(MinoAnimation *animation, group->animations())
@@ -189,7 +219,7 @@ void MinoMasterMidiMapper::updateMap()
                     if(mcp.at(j)->isPreferred())
                     {
                         const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
-                        MidiMapper::registerControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
+                        MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
                         id++;
                     }
                 }
