@@ -1,8 +1,29 @@
 Requirements:
-  Minotor uses RtMidi¹, it have been developped using 1.0.15².
-  Minotor could be used with the RtMidi backend you want but have been tested and developped with ALSA support only.
+  Mintor uses RtMidi¹ and QExtSerialPort².
 
-  Under Debian and derivatives, RtMidi package could not be used as well, you need to patch it this way:
+Install of requirements:
+  You can use requierement for your system or embedded them into libraries.
+
+  If you choose to use your system packages or your own install, please to refer to the according section.
+
+  To embed librairies, proceed as follow, in Minotor source directory:
+
+$ cd libraries/qextserialport
+$ git clone https://code.google.com/p/qextserialport ./
+
+$ cd ../..
+  
+$ cd libraries/rtmidi
+$ wget http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-2.0.1.tar.gz
+$ tar xvzf rtmidi-2.0.1.tar.gz --strip-components=1
+
+  Now, you can open QtCreator and compile Minotor as usual.
+
+Debian and derivatives (Ubuntu,Linux Mint):
+  Minotor could use RtMidi 1.0.15³ as provided some (old) version but may need to be patched.
+
+  Minotor could be used with the RtMidi backend you want but have been tested and developped with ALSA support only.
+  If you want to use ALSA, you need to patch it this way:
 
 $ cd /tmp
 $ apt-get source rtmidi
@@ -21,5 +42,6 @@ Note: you need to enable source (deb-src) in your debian repositories list
 database (sudo apt-get update).
 
 [1] http://www.music.mcgill.ca/~gary/rtmidi/
-[2] http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-1.0.15.tar.gz
+[2] http://code.google.com/p/qextserialport/
+[3] http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-1.0.15.tar.gz
 
