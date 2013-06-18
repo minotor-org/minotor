@@ -35,10 +35,40 @@ Midi::Midi(QObject *parent) :
     } catch ( RtError &error ) {
         error.printMessage();
     }
+    scanMidiInterfaces();
+}
+
+void Midi::scanMidiInterfaces()
+{
     QStringList ports = getPorts();
+
+    QStringList midiInterfacePortNames;
+    MidiInterfaces midiInterfaces = interfaces();
+    foreach(MidiInterface * mi, midiInterfaces)
+    {
+        midiInterfacePortNames.append(mi->portName());
+    }
+
     foreach(const QString& port, ports)
     {
-        addMidiInterface(new MidiInterface(port, this));
+        if(midiInterfacePortNames.contains(port))
+        {
+            // Remove from interfacePortNames:
+            //   It will only remains orphelin midi interface
+            const int id = midiInterfacePortNames.indexOf(port);
+            midiInterfacePortNames.removeAt(id);
+            midiInterfaces.removeAt(id);
+        } else {
+            addMidiInterface(new MidiInterface(port, this));
+        }
+    }
+
+    foreach(MidiInterface *mi, midiInterfaces)
+    {
+        if(mi->isConnected() || mi->isUsed())
+            continue;
+        if(!ports.contains(mi->portName()))
+            delete mi;
     }
 }
 

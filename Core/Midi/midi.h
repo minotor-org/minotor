@@ -41,6 +41,9 @@ public:
     // List ports
     QStringList getPorts();
 
+    // Scan interfaces
+    void scanMidiInterfaces();
+
     // Interfaces
     MidiInterfaces interfaces();
     MidiInterface* interface(const QString& portName);

@@ -237,6 +237,10 @@ void ConfigDialog::updateMidiTab()
     {
         delete(separator);
     }
+
+    // Scan new interfaces
+    midi->scanMidiInterfaces();
+
     foreach (MidiInterface *interface, midi->interfaces())
     {
         UiMidiInterface *uiInterface = new UiMidiInterface(interface,this);
