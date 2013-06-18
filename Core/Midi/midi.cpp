@@ -53,9 +53,15 @@ void Midi::scanMidiInterfaces()
     {
         if(midiInterfacePortNames.contains(port))
         {
+            const int id = midiInterfacePortNames.indexOf(port);
+
+            // Attempt to reconnect interface
+            MidiInterface *mi = midiInterfaces.at(id);
+            if(mi->isUsed() && (!mi->isConnected()))
+                midiInterfaces.at(id)->open();
+
             // Remove from interfacePortNames:
             //   It will only remains orphelin midi interface
-            const int id = midiInterfacePortNames.indexOf(port);
             midiInterfacePortNames.removeAt(id);
             midiInterfaces.removeAt(id);
         } else {
@@ -65,7 +71,9 @@ void Midi::scanMidiInterfaces()
 
     foreach(MidiInterface *mi, midiInterfaces)
     {
-        if(mi->isConnected() || mi->isUsed())
+        if(mi->isConnected())
+            mi->close();
+        if(mi->isUsed())
             continue;
         if(!ports.contains(mi->portName()))
             delete mi;
