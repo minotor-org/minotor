@@ -69,7 +69,11 @@ public:
     static bool registerControl(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, bool overwrite = false);
     // Connect an already-registered control to slot
     static bool connectControl(const QString &role, const QObject *receiver, const char *method, bool overwrite = false);
-    static QStringList registeredRoles();
+
+    // Roles
+    static QList<MinoRole*> registeredRoles();
+    QString findMinoControlFromRole(const QString &role);
+    QString findMinoTriggerControlFromRole(const QString &role);
 
 protected:
     bool _controlCaptureMode;

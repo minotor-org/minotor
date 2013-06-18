@@ -147,8 +147,6 @@ void ConfigDialog::midiControlChanged(const int interface, const quint8 channel,
 
 void ConfigDialog::addMidiControl(const int row, const quint8 channel, const quint8 control, const QString& role, const quint8 value)
 {
-    qDebug() << Q_FUNC_INFO
-             << "role" << role;
     ui->tableMidiMapping->insertRow(row);
     QTableWidgetItem *item;
     // Channel
@@ -164,7 +162,9 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
     // Role
     QComboBox *cb = new QComboBox();
     cb->addItem("none");
-    cb->addItems(MidiMapper::registeredRoles());
+    foreach(MinoRole *role, MidiMapper::registeredRoles())
+        cb->addItem(role->name());
+
     int index;
     if((index = cb->findText(role)) == -1)
     {
@@ -501,6 +501,9 @@ void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
             }
         }
     }
+    QPushButton *pb = new QPushButton(QString("Load current mapping"), ui->wMidiMappingBottom);
+    pb->setObjectName("midi-learn");
+    connect(pb,SIGNAL(clicked()),this,SLOT(midiLoadCurrentMapping()));
 }
 
 void ConfigDialog::midiLearnToggled(const QString &portName)
@@ -526,4 +529,47 @@ void ConfigDialog::midiLearnToggled(const QString &portName)
         connect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)),Qt::UniqueConnection);
     else
         disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+}
+
+void ConfigDialog::midiLoadCurrentMapping()
+{
+    MidiMapper *mapper = Minotor::minotor()->midiMapper();
+    QList<MinoRole*> roles = mapper->registeredRoles();
+    foreach(const MinoRole *role, roles)
+    {
+        int row = ui->tableMidiMapping->rowCount();
+        switch(role->type())
+        {
+        case MinoRole::Direct:
+        {
+            QString key = mapper->findMinoControlFromRole(role->name());
+            Q_ASSERT(!key.isEmpty());
+
+            QStringList sl = key.split(':');
+            Q_ASSERT(sl.count() == 3);
+            addMidiControl(row, sl.at(1).toInt(), sl.at(2).toInt(), role->name());
+        }
+            break;
+        case MinoRole::Trigger:
+        case MinoRole::Hold:
+        {
+            QString key = mapper->findMinoTriggerControlFromRole(role->name());
+            if(!key.isEmpty())
+            {
+                QStringList sl = key.split(':');
+                Q_ASSERT(sl.count() == 3);
+                addMidiControl(row, sl.at(1).toInt(), sl.at(2).toInt(), role->name());
+            }
+            else
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "Role not found:" << role->name();
+                // TODO Notes
+            }
+
+        }
+            break;
+
+        }
+    }
 }

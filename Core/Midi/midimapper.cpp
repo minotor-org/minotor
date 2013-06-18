@@ -301,10 +301,41 @@ void MidiMapper::registerRole(const QString &name, const QString &description, M
     minoRoles().insert(name, new MinoRole(name, description, type));
 }
 
-QStringList MidiMapper::registeredRoles()
+QList<MinoRole *> MidiMapper::registeredRoles()
 {
-    QStringList sl;
-    sl.append(minoTriggers().keys());
-    sl.append(minoControls().keys());
-    return sl;
+    QHash<QString, MinoRole*>::const_iterator i = minoRoles().constBegin();
+    QList<MinoRole *> roles;
+    while (i != minoRoles().constEnd()) {
+        roles.append(i.value());
+        ++i;
+    }
+    return roles;
+}
+
+QString MidiMapper::findMinoControlFromRole(const QString &role)
+{
+    QHash<QString, MinoControl*>::const_iterator i = _hashMinoControls.constBegin();
+    while (i != _hashMinoControls.constEnd()) {
+        MinoControl *mc = i.value();
+        if(mc->role() == role)
+        {
+            return i.key();
+        }
+        ++i;
+    }
+    return "";
+}
+
+QString MidiMapper::findMinoTriggerControlFromRole(const QString &role)
+{
+    QHash<QString, MinoTrigger*>::const_iterator i = _hashMinoTriggerControls.constBegin();
+    while (i != _hashMinoTriggerControls.constEnd()) {
+        MinoTrigger *mi = i.value();
+        if(mi->role() == role)
+        {
+            return i.key();
+        }
+        ++i;
+    }
+    return "";
 }

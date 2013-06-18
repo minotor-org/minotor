@@ -40,6 +40,7 @@ private slots:
     void on_cbMidiMapping_currentIndexChanged(int index);
 
     void midiLearnToggled(const QString& portName);
+    void midiLoadCurrentMapping();
 
 private:
     Ui::ConfigDialog *ui;
