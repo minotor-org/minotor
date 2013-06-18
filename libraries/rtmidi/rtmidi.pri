@@ -13,4 +13,10 @@ exists("$$PWD/RtMidi.cpp") {
   win32:LIBS             += -lwinmm
 
   unix:DEFINES           += __LINUX_ALSA__
+  unix:LIBS              += -lasound
+}
+
+!exists("$$PWD/RtMidi.cpp") {
+  # Attempt to use pkg-config to find an available rtmidi on system
+  unix: PKGCONFIG += rtmidi
 }

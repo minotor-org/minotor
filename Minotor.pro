@@ -177,7 +177,6 @@ include(libraries/qextserialport/src/qextserialport.pri)
 include(libraries/rtmidi/rtmidi.pri)
 
 unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += rtmidi
 unix: CONFIG += extserialport
 
 RESOURCES += \
