@@ -299,7 +299,9 @@ void ConfigDialog::addMidiMappingEditorEntry(QFileInfo file)
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", "undefined").toString();
         QString comment = mapping.value("comment", "").toString();
-        QListWidgetItem *item = new QListWidgetItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(comment));
+        QString title = QString("%1 - %2").arg(vendor).arg(product);
+        if(!comment.isEmpty()) title += QString(" (%1)").arg(comment);
+        QListWidgetItem *item = new QListWidgetItem(title);
         item->setData(Qt::ToolTipRole,file.absoluteFilePath());
         ui->lwMappings->addItem(item);
         mapping.endGroup();
@@ -320,7 +322,9 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", QVariant("undefined")).toString();
         QString comment = mapping.value("comment", "").toString();
-        cb->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(comment), file.absoluteFilePath());
+        QString title = QString("%1 - %2").arg(vendor).arg(product);
+        if(!comment.isEmpty()) title += QString(" (%1)").arg(comment);
+        cb->addItem(title, file.absoluteFilePath());
         mapping.endGroup();
     }
     else
