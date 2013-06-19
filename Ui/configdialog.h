@@ -62,6 +62,7 @@ private slots:
 
     void on_lwMappings_currentItemChanged();
 
+    void updateMidiInterfaces();
     void midiLearnToggled(const QString& portName);
     void midiLoadCurrentMapping();
 
@@ -79,6 +80,7 @@ private:
     void updateMidiMappingTab();
     void updateSerialTab();
 
+    QTimer *_midiAutoRefreshTimer;
     void addMidiMappingEntry(QFileInfo file, QComboBox *cb);
     void addMidiMappingEditorEntry(QFileInfo file);
     void saveMidiMappingFile(QString file);

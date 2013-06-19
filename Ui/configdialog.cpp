@@ -54,6 +54,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     connect(_smMidiMappingLearnMapper, SIGNAL(mapped(QString)),this, SLOT(midiLearnToggled(QString)));
 
     // Hack to refresh list at startup
+    _midiAutoRefreshTimer = new QTimer(this);
     updateMidiTab();
     updateMidiMappingTab();
     updateSerialTab();
@@ -210,6 +211,7 @@ void ConfigDialog::addMidiControl(const int row, const quint8 channel, const qui
 void ConfigDialog::on_tabWidget_currentChanged(int index)
 {
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+    _midiAutoRefreshTimer->stop();
 
     switch(index)
     {
@@ -225,9 +227,8 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
     }
 }
 
-void ConfigDialog::updateMidiTab()
+void ConfigDialog::updateMidiInterfaces()
 {
-    //    qDebug() << Q_FUNC_INFO;
     Midi *midi = Minotor::minotor()->midi();
     foreach (UiMidiInterface *uiInterface, ui->wMidiInterfaces->findChildren<UiMidiInterface*>())
     {
@@ -237,9 +238,6 @@ void ConfigDialog::updateMidiTab()
     {
         delete(separator);
     }
-
-    // Scan new interfaces
-    midi->scanMidiInterfaces();
 
     foreach (MidiInterface *interface, midi->interfaces())
     {
@@ -252,6 +250,17 @@ void ConfigDialog::updateMidiTab()
         fSeparator->setLineWidth(1);
         dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->insertWidget(ui->wMidiInterfaces->layout()->count()-1,fSeparator);
     }
+}
+
+void ConfigDialog::updateMidiTab()
+{
+    Midi *midi = Minotor::minotor()->midi();
+    connect(_midiAutoRefreshTimer, SIGNAL(timeout()), midi, SLOT(scanMidiInterfaces()), Qt::UniqueConnection);
+    connect(midi, SIGNAL(updated()), this, SLOT(updateMidiInterfaces()), Qt::UniqueConnection);
+    // Scan new interfaces
+    midi->scanMidiInterfaces();
+    updateMidiInterfaces();
+    _midiAutoRefreshTimer->start(500);
 }
 
 void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)

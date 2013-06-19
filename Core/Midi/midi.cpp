@@ -40,6 +40,8 @@ Midi::Midi(QObject *parent) :
 
 void Midi::scanMidiInterfaces()
 {
+    bool modified = false;
+
     QStringList ports = getPorts();
 
     QStringList midiInterfacePortNames;
@@ -58,7 +60,7 @@ void Midi::scanMidiInterfaces()
             // Attempt to reconnect interface
             MidiInterface *mi = midiInterfaces.at(id);
             if(mi->isUsed() && (!mi->isConnected()))
-                midiInterfaces.at(id)->open();
+                modified |= midiInterfaces.at(id)->open();
 
             // Remove from interfacePortNames:
             //   It will only remains orphelin midi interface
@@ -66,17 +68,25 @@ void Midi::scanMidiInterfaces()
             midiInterfaces.removeAt(id);
         } else {
             addMidiInterface(new MidiInterface(port, this));
+            modified = true;
         }
     }
 
     foreach(MidiInterface *mi, midiInterfaces)
     {
         if(mi->isConnected())
-            mi->close();
+            modified |= mi->close();
         if(mi->isUsed())
             continue;
         if(!ports.contains(mi->portName()))
+        {
             delete mi;
+            modified = true;
+        }
+    }
+    if (modified)
+    {
+        emit updated();
     }
 }
 

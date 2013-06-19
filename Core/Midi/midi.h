@@ -41,13 +41,14 @@ public:
     // List ports
     QStringList getPorts();
 
-    // Scan interfaces
-    void scanMidiInterfaces();
-
     // Interfaces
     MidiInterfaces interfaces();
     MidiInterface* interface(const QString& portName);
     MidiInterface* addMidiInterface(const QString& portName);
+
+public slots:
+        // Scan interfaces
+        void scanMidiInterfaces();
 
 private:
     int grabMidiInterfaceId();
@@ -74,6 +75,9 @@ signals:
 
     // CC, Note and program changes emit this signal
     void dataReceived();
+
+    // One or more interface have been plugged/unplugged during scanMidiInterfaces()
+    void updated();
 };
 
 #endif // MIDI_H
