@@ -306,7 +306,8 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
         mapping.beginGroup("general");
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", QVariant("undefined")).toString();
-        cb->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(file.fileName()), file.absoluteFilePath());
+        QString comment = mapping.value("comment", "").toString();
+        cb->addItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(comment), file.absoluteFilePath());
         mapping.endGroup();
     }
     else
