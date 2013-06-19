@@ -69,7 +69,7 @@ public:
     bool isUsed() { return (_acceptClock || _acceptProgramChange || _acceptControlChange || _acceptNoteChange); }
 
     // Mapping (Just keep a name (supposed to be unique) of corresponding mapping)
-    QString mapping() { return _mapping; }
+    QString mapping() const { return _mapping; }
 
     // RtMidi callback
     // Warning: Should not be used by user...
