@@ -548,18 +548,23 @@ void ConfigDialog::on_lwMappings_currentItemChanged()
         while (i.hasNext()) {
             i.next();
             const int row = ui->tableMidiMapping->rowCount();
-            QRegExp rx("CC(\\d+):(\\d+)");
-            if(rx.indexIn(i.value().toString()) == -1)
+            const QStringList sl = i.value().toStringList();
+            qDebug() << Q_FUNC_INFO
+                     << sl;
+            Q_ASSERT(sl.count()==3);
+            switch (sl.at(0).toUInt())
             {
-                qDebug() << Q_FUNC_INFO
-                         << "no match for control:" << i.value().toString();
-            }
-            else
+            case 0: // CC
             {
-                QStringList sl = rx.capturedTexts();
-                qDebug() << Q_FUNC_INFO
-                         << "captured texts:" << sl;
                 addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
+            }
+                break;
+            case 1: // Note
+            {
+                // FIXME
+                //addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
+            }
+                break;
             }
         }
         delete mm;
