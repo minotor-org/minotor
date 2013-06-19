@@ -252,13 +252,48 @@ void ConfigDialog::updateMidiTab()
 void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)
 {
     cb->clear();
-    cb->addItem("Generic MIDI controller");
+    cb->addItem("no mapping");
 
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
     foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
     {
         addMidiMappingEntry(file, cb);
+    }
+}
+
+void ConfigDialog::loadMidiMappingEditor()
+{
+    ui->wMappingEditor->setVisible(false);
+    ui->lwMappings->clear();
+    ui->lwMappings->addItem("NEW MAPPING");
+
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QDir dataDir(dataPath);
+    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    {
+        addMidiMappingEditorEntry(file);
+    }
+}
+
+void ConfigDialog::addMidiMappingEditorEntry(QFileInfo file)
+{
+    QSettings mapping(file.absoluteFilePath(), QSettings::IniFormat);
+    if(QSettings::NoError == mapping.status())
+    {
+        mapping.beginGroup("general");
+        QString vendor = mapping.value("vendor", "undefined").toString();
+        QString product = mapping.value("product", "undefined").toString();
+        QString comment = mapping.value("comment", "").toString();
+        QListWidgetItem *item = new QListWidgetItem(QString("%1 - %2 (%3)").arg(vendor).arg(product).arg(comment));
+        item->setData(Qt::ToolTipRole,file.absoluteFilePath());
+        ui->lwMappings->addItem(item);
+        mapping.endGroup();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "unable to parse file:" << file.absoluteFilePath();
     }
 }
 
@@ -292,6 +327,11 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     if(ui->leProduct->text() == QString(""))
         ui->leProduct->setText("undefined");
     mapping.setValue("product", ui->leProduct->text());
+    mapping.setValue("comment", ui->leComment->text());
+    mapping.setValue("acceptClock", ui->pbAcceptSync->isChecked());
+    mapping.setValue("acceptNoteChange", ui->pbAcceptNotes->isChecked());
+    mapping.setValue("acceptControlChange", ui->pbAcceptControlChange->isChecked());
+    mapping.setValue("acceptProgramChange", ui->pbAcceptProgramChange->isChecked());
     mapping.endGroup();
 
     // MIDI Controls
@@ -310,28 +350,38 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     mapping.endArray();
     mapping.sync();
 
-    // Reload files list in combobox
-    loadMidiMappingFiles(ui->cbMidiMapping);
+    // Reload files list
+    loadMidiMappingEditor();
+
     // Reselect the current item
-    for(int i=0; i<ui->cbMidiMapping->count(); ++i)
+    for(int i=0; i<ui->lwMappings->count(); ++i)
     {
-        if(ui->cbMidiMapping->itemData(i).toString() == file)
+        const QString data = ui->lwMappings->item(i)->data(Qt::ToolTipRole).toString();
+        if(data == file)
         {
-            ui->cbMidiMapping->setCurrentIndex(i);
+            ui->lwMappings->setCurrentItem(ui->lwMappings->item(i));
             break;
+        }
+    }
+
+    Midi *midi = Minotor::minotor()->midi();
+    for (int i = 0; i< midi->interfaces().count();i++)
+    {
+        if (midi->interfaces().at(i)->mapping() == file)
+        {
+            midi->interfaces().at(i)->setMapping(file);
         }
     }
 }
 
 void ConfigDialog::updateMidiMappingTab()
 {
-    //    qDebug() << Q_FUNC_INFO;
     ui->tableMidiMapping->clear();
     ui->tableMidiMapping->setColumnCount(4);
     ui->tableMidiMapping->setRowCount(0);
     //Set Header Label Texts
     ui->tableMidiMapping->setHorizontalHeaderLabels(QString("Role;Channel;Control;Value").split(';'));
-    loadMidiMappingFiles(ui->cbMidiMapping);
+    loadMidiMappingEditor();
 }
 
 void ConfigDialog::updateSerialTab()
@@ -438,92 +488,124 @@ void ConfigDialog::configDialogFinished(int result)
 void ConfigDialog::on_pbSaveAs_clicked()
 {
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath, tr("MinoMidiMapping (*.ini)"));
+    QString fileName;
+    if (ui->lwMappings->currentRow() != 0)
+    {
+        fileName = ui->lwMappings->currentItem()->data(Qt::ToolTipRole).toString();
+        qDebug() << Q_FUNC_INFO
+                 << "Current file : " << fileName;
+    }
+    else
+    {
+        fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath, tr("MinoMidiMapping (*.ini)"));
+    }
     if(!fileName.isEmpty())
     {
         saveMidiMappingFile(fileName);
     }
 }
 
-void ConfigDialog::on_cbMidiMapping_currentIndexChanged(int index)
+void ConfigDialog::on_lwMappings_currentItemChanged()
 {
-    // User choose a MIDI mapping from combobox
-    QVariant filename = ui->cbMidiMapping->itemData(index);
-    MidiMapping * mm = NULL;
-
-    const bool generic_midi_selected = !filename.isValid();
-    if(!generic_midi_selected)
+    if (ui->lwMappings->currentItem() != NULL)
     {
-        // Load the selected mapping
-        mm = MidiMapping::loadFromFile(filename.toString());
-    }
-    if(!mm)
-    {
-        mm = new MidiMapping();
-    }
+        ui->wMappingEditor->setVisible(true);
+        // User choose a MIDI mapping from combobox
+        QVariant filename = ui->lwMappings->currentItem()->data(Qt::ToolTipRole);
+        MidiMapping * mm = NULL;
 
-    // Reload MIDI mapping table content
-    ui->tableMidiMapping->clearContents();
-    ui->tableMidiMapping->setRowCount(0);
-    ui->leVendor->setText(mm->vendor());
-    ui->leProduct->setText(mm->product());
-
-    // Add each available assignement (role <-> control)
-    QMapIterator<QString, QVariant> i(mm->map());
-    while (i.hasNext()) {
-        i.next();
-        const int row = ui->tableMidiMapping->rowCount();
-        QRegExp rx("CC(\\d+):(\\d+)");
-        if(rx.indexIn(i.value().toString()) == -1)
+        const bool generic_midi_selected = !filename.isValid();
+        if(!generic_midi_selected)
         {
-            qDebug() << Q_FUNC_INFO
-                     << "no match for control:" << i.value().toString();
+            // Load the selected mapping
+            mm = MidiMapping::loadFromFile(filename.toString());
         }
-        else
+        if(!mm)
         {
-            QStringList sl = rx.capturedTexts();
-            qDebug() << Q_FUNC_INFO
-                     << "captured texts:" << sl;
-            addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
+            mm = new MidiMapping();
         }
-    }
-    delete mm;
 
-    foreach(QPushButton *pb, ui->wMidiMappingBottom->findChildren<QPushButton*>("midi-learn"))
-    {
-        if(pb->isChecked())
-        {
-            // If active we need to remove it from our list
-            pb->setChecked(false);
-        }
-        // Delete all available midi-learn related buttons
-        delete pb;
-    }
+        // Reload MIDI mapping table content
+        ui->tableMidiMapping->clearContents();
+        ui->tableMidiMapping->setRowCount(0);
+        ui->leVendor->setText(mm->vendor());
+        ui->leProduct->setText(mm->product());
+        ui->leComment->setText(mm->comment());
+        ui->pbAcceptSync->setChecked(mm->acceptClock());
+        ui->pbAcceptNotes->setChecked(mm->acceptNoteChange());
+        ui->pbAcceptControlChange->setChecked(mm->acceptControlChange());
+        ui->pbAcceptProgramChange->setChecked(mm->acceptProgramChange());
 
-    // Create buttons for midi-learn
-    Midi *midi = Minotor::minotor()->midi();
-    foreach(MidiInterface *mi, midi->interfaces())
-    {
-        // Draw a pushbutton only when MIDI interface is available (and useful)
-        if(mi->isConnected() && mi->isUsed())
-        {
-            // If its a generic MIDI or the selected mapping match with current MIDI interface
-            if(generic_midi_selected || (mi->mapping() == ui->cbMidiMapping->currentText()))
+        // Add each available assignement (role <-> control)
+        QMapIterator<QString, QVariant> i(mm->map());
+        while (i.hasNext()) {
+            i.next();
+            const int row = ui->tableMidiMapping->rowCount();
+            QRegExp rx("CC(\\d+):(\\d+)");
+            if(rx.indexIn(i.value().toString()) == -1)
             {
-                QPushButton *pb = new QPushButton(QString("Learn with \"%1\"").arg(mi->portName()), ui->wMidiMappingBottom);
-                pb->setObjectName("midi-learn");
-                pb->setCheckable(true);
-                connect(pb,SIGNAL(toggled(bool)),_smMidiMappingLearnMapper,SLOT(map()));
-                _smMidiMappingLearnMapper->setMapping(pb,QString(mi->portName()));
-                QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
-                Q_ASSERT(layout);
-                layout->insertWidget(0, pb);
+                qDebug() << Q_FUNC_INFO
+                         << "no match for control:" << i.value().toString();
+            }
+            else
+            {
+                QStringList sl = rx.capturedTexts();
+                qDebug() << Q_FUNC_INFO
+                         << "captured texts:" << sl;
+                addMidiControl(row, sl.at(1).toUInt(), sl.at(2).toUInt(), i.key());
             }
         }
+        delete mm;
+
+        foreach(QPushButton *pb, ui->wMidiMappingBottom->findChildren<QPushButton*>("midi-learn"))
+        {
+            if(pb->isChecked())
+            {
+                // If active we need to remove it from our list
+                pb->setChecked(false);
+            }
+            // Delete all available midi-learn related buttons
+            delete pb;
+        }
+
+        // Create buttons for midi-learn
+        Midi *midi = Minotor::minotor()->midi();
+        foreach(MidiInterface *mi, midi->interfaces())
+        {
+            // Draw a pushbutton only when MIDI interface is available (and useful)
+            if(mi->isConnected() && mi->isUsed())
+            {
+                // If its a generic MIDI or the selected mapping match with current MIDI interface
+                if(generic_midi_selected || (mi->mapping() == ui->lwMappings->currentItem()->data(Qt::ToolTipRole).toString()))
+                {
+                    QPushButton *pb = new QPushButton(QString("Learn with \"%1\"").arg(mi->portName()), ui->wMidiMappingBottom);
+                    pb->setObjectName("midi-learn");
+                    pb->setCheckable(true);
+                    connect(pb,SIGNAL(toggled(bool)),_smMidiMappingLearnMapper,SLOT(map()));
+                    _smMidiMappingLearnMapper->setMapping(pb,QString(mi->portName()));
+                    QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
+                    Q_ASSERT(layout);
+                    layout->insertWidget(0, pb);
+                }
+            }
+        }
+        QPushButton *pb = new QPushButton(QString("Load current mapping"), ui->wMidiMappingBottom);
+        pb->setObjectName("midi-learn");
+        connect(pb,SIGNAL(clicked()),this,SLOT(midiLoadCurrentMapping()));
     }
-    QPushButton *pb = new QPushButton(QString("Load current mapping"), ui->wMidiMappingBottom);
-    pb->setObjectName("midi-learn");
-    connect(pb,SIGNAL(clicked()),this,SLOT(midiLoadCurrentMapping()));
+    else
+    {
+        ui->wMappingEditor->setVisible(false);
+        ui->tableMidiMapping->clearContents();
+        ui->tableMidiMapping->setRowCount(0);
+        ui->leVendor->setText("");
+        ui->leProduct->setText("");
+        ui->leComment->setText("");
+        ui->pbAcceptSync->setChecked(false);
+        ui->pbAcceptNotes->setChecked(false);
+        ui->pbAcceptControlChange->setChecked(false);
+        ui->pbAcceptProgramChange->setChecked(false);
+    }
 }
 
 void ConfigDialog::midiLearnToggled(const QString &portName)

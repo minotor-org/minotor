@@ -30,7 +30,13 @@ class MidiMapping : public QObject
     Q_OBJECT
     Q_PROPERTY(QString vendor READ vendor WRITE setVendor STORED true)
     Q_PROPERTY(QString product READ product WRITE setProduct STORED true)
+    Q_PROPERTY(QString comment READ comment WRITE setComment STORED true)
     Q_PROPERTY(QMap map READ map STORED true)
+    Q_PROPERTY(bool acceptClock READ acceptClock WRITE setAcceptClock STORED true)
+    Q_PROPERTY(bool acceptProgramChange READ acceptProgramChange WRITE setAcceptProgramChange STORED true)
+    Q_PROPERTY(bool acceptControlChange READ acceptControlChange WRITE setAcceptControlChange STORED true)
+    Q_PROPERTY(bool acceptNoteChange READ acceptNoteChange WRITE setAcceptNoteChange STORED true)
+
 public:
     explicit MidiMapping(QObject *parent = 0);
     
@@ -39,6 +45,21 @@ public:
 
     void setProduct(const QString& product);
     QString product() const { return _product; }
+
+    void setComment(const QString& comment);
+    QString comment() const { return _comment; }
+
+    void setAcceptClock(const bool& acceptClock) { _acceptClock = acceptClock; }
+    bool acceptClock() { return _acceptClock; }
+
+    void setAcceptProgramChange(const bool& acceptProgramChange) { _acceptProgramChange = acceptProgramChange; }
+    bool acceptProgramChange() { return _acceptProgramChange; }
+
+    void setAcceptControlChange(const bool& acceptControlChange) { _acceptControlChange = acceptControlChange; }
+    bool acceptControlChange() { return _acceptControlChange; }
+
+    void setAcceptNoteChange(const bool& acceptNoteChange) { _acceptNoteChange = acceptNoteChange; }
+    bool acceptNoteChange() { return _acceptNoteChange; }
 
     QMap<QString,QVariant> map() const { return _map; }
     void addAssignedMidiControl(const QString &role, const quint8 channel, const quint8 control);
@@ -53,6 +74,11 @@ public slots:
 private:
     QString _vendor;
     QString _product;
+    QString _comment;
+    bool _acceptClock;
+    bool _acceptProgramChange;
+    bool _acceptControlChange;
+    bool _acceptNoteChange;
     QMap<QString,QVariant> _map;
     bool _modified;
 };

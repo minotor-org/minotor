@@ -48,6 +48,15 @@ void MidiMapping::setProduct(const QString &product)
     }
 }
 
+void MidiMapping::setComment(const QString &comment)
+{
+    if(_comment != comment)
+    {
+        _comment = comment;
+        _modified = true;
+    }
+}
+
 void MidiMapping::addAssignedMidiControl(const QString &role, const quint8 channel, const quint8 control)
 {
     qDebug() << Q_FUNC_INFO
@@ -68,8 +77,18 @@ MidiMapping *MidiMapping::loadFromFile(const QString& filename, QObject *parent)
         mapping.beginGroup("general");
         const QString vendor = mapping.value("vendor", QString("undefined")).toString();
         const QString product = mapping.value("product", QString("undefined")).toString();
+        const QString comment = mapping.value("comment", "").toString();
+        const bool acceptClock = mapping.value("acceptClock", false).toBool();
+        const bool acceptProgramChange = mapping.value("acceptProgramChange", false).toBool();
+        const bool acceptControlChange = mapping.value("acceptControlChange", false).toBool();
+        const bool acceptNoteChange = mapping.value("acceptNoteChange", false).toBool();
         mm->setVendor(vendor);
         mm->setProduct(product);
+        mm->setComment(comment);
+        mm->setAcceptClock(acceptClock);
+        mm->setAcceptProgramChange(acceptProgramChange);
+        mm->setAcceptControlChange(acceptControlChange);
+        mm->setAcceptNoteChange(acceptNoteChange);
         mapping.endGroup();
 
         // MIDI Controls

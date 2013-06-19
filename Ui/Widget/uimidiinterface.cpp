@@ -27,7 +27,8 @@
 #include "midimapper.h"
 
 UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    _interface(interface)
 {
     //Item 1
     QHBoxLayout *lMaster = new QHBoxLayout(this);
@@ -37,16 +38,16 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     QPushButton *_pbConnection = new QPushButton("",this);
     _pbConnection->setObjectName("tiny");
     _pbConnection->setCheckable(true);
-    _pbConnection->setChecked(interface->isConnected());
+    _pbConnection->setChecked(_interface->isConnected());
     _pbConnection->setEnabled(false);
     _pbConnection->setFixedSize(9,9);
-    connect(interface,SIGNAL(connected(bool)),_pbConnection,SLOT(setChecked(bool)));
+    connect(_interface,SIGNAL(connected(bool)),_pbConnection,SLOT(setChecked(bool)));
     this->layout()->addWidget(_pbConnection);
 
     //Name
     _txtName = new QLabel(this);
     _txtName->setObjectName("interfacename");
-    _txtName->setText(interface->portName() + QString("    ID: ") + QString::number(interface->id()));
+    _txtName->setText(_interface->portName() + QString("    ID: ") + QString::number(_interface->id()));
     this->layout()->addWidget(_txtName);
     dynamic_cast<QHBoxLayout*>(this->layout())->addStretch(1);
     //Mapping : fake data
@@ -54,11 +55,11 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     _cbMapping->setToolTip("Select midi mapping to use with this interface");
     ConfigDialog* cd = qobject_cast<ConfigDialog*>(parent);
     cd->loadMidiMappingFiles(_cbMapping);
-    int index;
-    if((index = _cbMapping->findText(interface->mapping())) == -1)
+    int index = _cbMapping->findData(QVariant(_interface->mapping()));
+    if(index == -1)
     {
         qDebug() << Q_FUNC_INFO
-                 << "mapping not found:" << interface->mapping();
+                 << "mapping not found:" << _interface->mapping();
         // Select "none"
         _cbMapping->setCurrentIndex(0);
     }
@@ -66,35 +67,14 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     {
         _cbMapping->setCurrentIndex(index);
     }
-    connect(_cbMapping,SIGNAL(currentIndexChanged(QString)),interface,SLOT(setMapping(QString)));
+
+    connect(_cbMapping, SIGNAL(currentIndexChanged(int)),this,SLOT(mappingChanged(int)));
 
     this->layout()->addWidget(_cbMapping);
-    //BeatSync
-    _pbSync = new QPushButton("Sync",this);
-    _pbSync->setToolTip("Receive sync data (Beatclock)");
-    _pbSync->setCheckable(true);
-    _pbSync->setChecked(interface->acceptClock());
-    connect(_pbSync,SIGNAL(toggled(bool)),interface,SLOT(setAcceptClock(bool)));
-    this->layout()->addWidget(_pbSync);
-    //Notes
-    _pbNotes = new QPushButton("Notes",this);
-    _pbNotes->setToolTip("Receive midi notes");
-    _pbNotes->setCheckable(true);
-    _pbNotes->setChecked(interface->acceptNoteChange());
-    connect(_pbNotes,SIGNAL(toggled(bool)),interface,SLOT(setAcceptNoteChange(bool)));
-    this->layout()->addWidget(_pbNotes);
-    //ControlChange
-    _pbControlChange = new QPushButton("Ctrl Change",this);
-    _pbControlChange->setToolTip("Receive midi control changes");
-    _pbControlChange->setCheckable(true);
-    _pbControlChange->setChecked(interface->acceptControlChange());
-    connect(_pbControlChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptControlChange(bool)));
-    this->layout()->addWidget(_pbControlChange);
-    //ProgramChange
-    _pbProgramChange = new QPushButton("Prg Change",this);
-    _pbProgramChange->setToolTip("Receive midi program changes");
-    _pbProgramChange->setCheckable(true);
-    _pbProgramChange->setChecked(interface->acceptProgramChange());
-    connect(_pbProgramChange,SIGNAL(toggled(bool)),interface,SLOT(setAcceptProgramChange(bool)));
-    this->layout()->addWidget(_pbProgramChange);
+}
+
+void UiMidiInterface::mappingChanged(int mapping)
+{
+   _interface->setMapping(_cbMapping->itemData(mapping).toString());
+
 }

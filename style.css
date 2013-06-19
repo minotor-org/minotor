@@ -216,11 +216,18 @@ QLabel#title {
 }
 
 QLineEdit {
-    border-radius:2px;
-    border:1px solid #1c1c1c;
+    border-radius:3px;
+    border:1px solid #5f5f5f;
+    height:26px;
     background-color:#3a3a3a;
     font:bold;
     color:#e75f00;
+}
+
+QListWidget {
+    background-color: #242424;
+    border: none;
+    selection-background-color: #e75f00;
 }
 
 QMainWindow {

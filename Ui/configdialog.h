@@ -28,6 +28,7 @@
 #include <QString>
 #include <QComboBox>
 #include <QSignalMapper>
+#include <QListWidget>
 
 
 namespace Ui {
@@ -44,6 +45,8 @@ public:
     
     void loadMidiMappingFiles(QComboBox *cb);
 
+    void loadMidiMappingEditor();
+
 private slots:
     void midiControlChanged(const int interface, const quint8 channel, const quint8 control, const quint8 value);
 
@@ -57,7 +60,7 @@ private slots:
 
     void on_pbSaveAs_clicked();
 
-    void on_cbMidiMapping_currentIndexChanged(int index);
+    void on_lwMappings_currentItemChanged();
 
     void midiLearnToggled(const QString& portName);
     void midiLoadCurrentMapping();
@@ -77,6 +80,7 @@ private:
     void updateSerialTab();
 
     void addMidiMappingEntry(QFileInfo file, QComboBox *cb);
+    void addMidiMappingEditorEntry(QFileInfo file);
     void saveMidiMappingFile(QString file);
 };
 

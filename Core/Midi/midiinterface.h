@@ -22,6 +22,7 @@
 #define MIDIINTERFACE_H
 
 #include <QObject>
+#include <QSettings>
 
 #include "RtMidi.h"
 
@@ -32,10 +33,6 @@ class MidiInterface : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString name READ portName)
-    Q_PROPERTY(bool accept_clock READ acceptClock WRITE setAcceptClock)
-    Q_PROPERTY(bool accept_program READ acceptProgramChange WRITE setAcceptProgramChange)
-    Q_PROPERTY(bool accept_control READ acceptControlChange WRITE setAcceptControlChange)
-    Q_PROPERTY(bool accept_note READ acceptNoteChange WRITE setAcceptNoteChange)
     Q_PROPERTY(QString mapping READ mapping WRITE setMapping)
 public:
     explicit MidiInterface(const QString &portName, Midi *parent);
@@ -109,13 +106,18 @@ signals:
     void controlChanged(int interface, quint8 channel, quint8 control, quint8 value);
     void programChanged(int interface, quint8 channel, quint8 program);
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
+    void acceptClockChanged(bool clock);
+    void acceptControlChanged(bool control);
+    void acceptProgramChanged(bool program);
+    void acceptNoteChanged(bool note);
+
 
 public slots:
     void setAcceptClock(bool on);
     void setAcceptProgramChange(bool on);
     void setAcceptControlChange(bool on);
     void setAcceptNoteChange(bool on);
-    void setMapping(const QString& mapping) { _mapping = mapping; }
+    void setMapping(const QString& mapping);
 };
 
 #endif // MIDIINTERFACE_H
