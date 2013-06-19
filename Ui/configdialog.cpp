@@ -316,7 +316,7 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
     QSettings mapping(file.absoluteFilePath(), QSettings::IniFormat);
     if(QSettings::NoError == mapping.status())
     {
-        mapping.beginGroup("general");
+        mapping.beginGroup("properties");
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", QVariant("undefined")).toString();
         QString comment = mapping.value("comment", "").toString();
@@ -332,38 +332,30 @@ void ConfigDialog::addMidiMappingEntry(QFileInfo file, QComboBox *cb)
 
 void ConfigDialog::saveMidiMappingFile(QString file)
 {
-    QSettings mapping(file, QSettings::IniFormat);
+    MidiMapping *mm = new MidiMapping();
 
-    // General
-    mapping.beginGroup("general");
-    if(ui->leVendor->text() == QString(""))
-        ui->leVendor->setText("undefined");
-    mapping.setValue("vendor", ui->leVendor->text());
-    if(ui->leProduct->text() == QString(""))
-        ui->leProduct->setText("undefined");
-    mapping.setValue("product", ui->leProduct->text());
-    mapping.setValue("comment", ui->leComment->text());
-    mapping.setValue("acceptClock", ui->pbAcceptSync->isChecked());
-    mapping.setValue("acceptNoteChange", ui->pbAcceptNotes->isChecked());
-    mapping.setValue("acceptControlChange", ui->pbAcceptControlChange->isChecked());
-    mapping.setValue("acceptProgramChange", ui->pbAcceptProgramChange->isChecked());
-    mapping.endGroup();
+    // Vendor
+    QString vendor = ui->leVendor->text();
+    if(vendor.isEmpty()) vendor = "undefined";
+    mm->setVendor(vendor);
 
-    // MIDI Controls
-    mapping.beginWriteArray("midi_controls");
-    // Remove all existing midi_controls entries
-    mapping.remove("");
+    // Product
+    QString product = ui->leProduct->text();
+    if(product.isEmpty()) product = "undefined";
+    mm->setProduct(product);
+
     for (int i = 0; i < ui->tableMidiMapping->rowCount(); ++i) {
         // MIDI Controls
-        mapping.setArrayIndex(i);
-        mapping.setValue("channel", ui->tableMidiMapping->item(i,ROW_CHANNEL)->text());
-        mapping.setValue("control", ui->tableMidiMapping->item(i,ROW_CONTROL)->text());
         const QComboBox* cb = qobject_cast<QComboBox*>(ui->tableMidiMapping->cellWidget(i,ROW_ROLE));
-        if(cb)
-            mapping.setValue("role", cb->currentText());
+        Q_ASSERT(cb);
+        const QString role = cb->currentText();
+        const uint channel = ui->tableMidiMapping->item(i,ROW_CHANNEL)->text().toUInt();
+        const uint control = ui->tableMidiMapping->item(i,ROW_CONTROL)->text().toUInt();
+        mm->addAssignedMidiControl(role, channel, control);
     }
-    mapping.endArray();
-    mapping.sync();
+
+    MidiMapping::saveToFile(mm, file);
+    delete mm;
 
     // Reload files list
     loadMidiMappingEditor();
