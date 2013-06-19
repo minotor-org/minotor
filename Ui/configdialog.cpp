@@ -348,8 +348,25 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     if(product.isEmpty()) product = "undefined";
     mm->setProduct(product);
 
-    QString comment = ui->leComment->text();
+    // Comment
+    const QString comment = ui->leComment->text();
     mm->setComment(comment);
+
+    // Clock
+    const bool clock = ui->pbAcceptSync->isChecked();
+    mm->setAcceptClock(clock);
+
+    // CC
+    const bool cc = ui->pbAcceptControlChange->isChecked();
+    mm->setAcceptControlChange(cc);
+
+    // Note
+    const bool note = ui->pbAcceptNotes->isChecked();
+    mm->setAcceptNoteChange(note);
+
+    // Program Change
+    const bool pc = ui->pbAcceptProgramChange->isChecked();
+    mm->setAcceptProgramChange(pc);
 
     for (int i = 0; i < ui->tableMidiMapping->rowCount(); ++i) {
         // MIDI Controls
