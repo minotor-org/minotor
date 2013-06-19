@@ -58,6 +58,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     updateMidiMappingTab();
     updateSerialTab();
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
+    ui->tableMidiMapping->setColumnWidth(0,250);
 }
 
 void ConfigDialog::setupLedMatrix(QSettings &settings)
@@ -590,7 +591,10 @@ void ConfigDialog::on_lwMappings_currentItemChanged()
             }
         }
         QPushButton *pb = new QPushButton(QString("Load current mapping"), ui->wMidiMappingBottom);
-        pb->setObjectName("midi-learn");
+        pb->setObjectName("load-mapping");
+        QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
+        Q_ASSERT(layout);
+        layout->insertWidget(0, pb);
         connect(pb,SIGNAL(clicked()),this,SLOT(midiLoadCurrentMapping()));
     }
     else
