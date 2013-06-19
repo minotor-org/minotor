@@ -1,0 +1,20 @@
+Source: minotor
+Section: unknown
+Priority: extra
+Maintainer: Romuald Conty <neomilium@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), qt4-qmake, libqt4-dev
+Standards-Version: 3.9.2
+Homepage: http://www.minotor.org/
+Vcs-Git: https://github.com/neomilium/minotor.git
+Vcs-Browser: https://github.com/neomilium/minotor
+
+Package: minotor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Beat-synced pixel-art software
+ Minotor, which means Midi Note Animator is a software designed
+ for low-resolution VJing.
+ It produces fancy low-res animations synced with internal or MIDI clock which
+ can be output to a LED pannel.
+ A (recommended) external MIDI controller could be used as main interface for
+ live performance.

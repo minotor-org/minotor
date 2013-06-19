@@ -1,0 +1,5 @@
+minotor (0.0-1) unstable; urgency=low
+
+  * Initial Debian package.
+
+ -- Romuald Conty <neomilium@gmail.com>  Wed, 19 Jun 2013 14:25:31 +0200
