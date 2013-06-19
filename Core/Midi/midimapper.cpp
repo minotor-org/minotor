@@ -362,42 +362,108 @@ QString MidiMapper::findMinoTriggerControlFromRole(const QString &role)
 
 void MidiMapper::flushMidiMapping(MidiInterface *mi)
 {
-    // TODO Notes and other control changes
-    QHash<QString, MinoTrigger*>::const_iterator i = _hashMinoTriggerControls.constBegin();
+    int deletedControlCount = 0;
+    // Trigger controls
+    QHash<QString, MinoTrigger*>::const_iterator itc = _hashMinoTriggerControls.constBegin();
     QStringList toBeDeleted;
-    while (i != _hashMinoTriggerControls.constEnd()) {
+    while (itc != _hashMinoTriggerControls.constEnd()) {
         QRegExp rx("(\\d+):(\\d+):(\\d+)");
-        if(rx.indexIn(i.key()) == -1)
+        if(rx.indexIn(itc.key()) == -1)
         {
             qDebug() << Q_FUNC_INFO
-                     << "no match for control:" << i.key();
+                     << "no match for control:" << itc.key();
             Q_ASSERT(false);
         }
         else
         {
             QStringList sl = rx.capturedTexts();
-            qDebug() << Q_FUNC_INFO
-                     << "captured texts:" << sl;
             Q_ASSERT(sl.count()==4);
             if(sl.at(1).toInt() == mi->id())
             {
-                qDebug() << Q_FUNC_INFO
-                         << "delete" << i.key() << "from _hashMinoTriggerControls";
-                toBeDeleted.append(i.key());
+                toBeDeleted.append(itc.key());
+                delete itc.value();
+                ++deletedControlCount;
             }
         }
-        ++i;
+        ++itc;
     }
 
     foreach(const QString& tbd, toBeDeleted)
     {
         _hashMinoTriggerControls.remove(tbd);
     }
+
+    // Trigger note
+    QHash<QString, MinoTrigger*>::const_iterator itn = _hashMinoTriggerNotes.constBegin();
+    while (itn != _hashMinoTriggerNotes.constEnd()) {
+        QRegExp rx("(\\d+):(\\d+):(\\d+)");
+        if(rx.indexIn(itn.key()) == -1)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "no match for control:" << itn.key();
+            Q_ASSERT(false);
+        }
+        else
+        {
+            QStringList sl = rx.capturedTexts();
+            Q_ASSERT(sl.count()==4);
+            if(sl.at(1).toInt() == mi->id())
+            {
+                toBeDeleted.append(itn.key());
+                delete itn.value();
+                ++deletedControlCount;
+            }
+        }
+        ++itn;
+    }
+
+    foreach(const QString& tbd, toBeDeleted)
+    {
+        _hashMinoTriggerNotes.remove(tbd);
+    }
+
+    // Control Change (direct)
+    QHash<QString, MinoControl*>::const_iterator icc = _hashMinoControls.constBegin();
+    while (icc != _hashMinoControls.constEnd()) {
+        QRegExp rx("(\\d+):(\\d+):(\\d+)");
+        if(rx.indexIn(icc.key()) == -1)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "no match for control:" << icc.key();
+            Q_ASSERT(false);
+        }
+        else
+        {
+            QStringList sl = rx.capturedTexts();
+            Q_ASSERT(sl.count()==4);
+            if(sl.at(1).toInt() == mi->id())
+            {
+                toBeDeleted.append(icc.key());
+                delete icc.value();
+                ++deletedControlCount;
+            }
+        }
+        ++icc;
+    }
+
+    foreach(const QString& tbd, toBeDeleted)
+    {
+        _hashMinoControls.remove(tbd);
+    }
+
+    if(deletedControlCount)
+    {
+        qDebug() << Q_FUNC_INFO
+                 << deletedControlCount << "controls/notes have been deleted";
+    }
 }
 
 void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
 {
     flushMidiMapping(mi);
+    const uint controlCount = _hashMinoTriggerNotes.count() + _hashMinoTriggerControls.count() + _hashMinoControls.count();
+    qDebug() << Q_FUNC_INFO
+             << controlCount << "controls/notes are available";
 
     QMapIterator<QString, QVariant> i(mm->map());
     bool haveCC = false;
@@ -432,6 +498,11 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             Q_ASSERT(false);
         }
     }
+
+    const uint afterLoadControlCount = _hashMinoTriggerNotes.count() + _hashMinoTriggerControls.count() + _hashMinoControls.count();
+
+    qDebug() << Q_FUNC_INFO
+             << afterLoadControlCount - controlCount << "controls/notes have been loaded";
 
     mi->setAcceptClock(mm->acceptClock());
     mi->setAcceptProgramChange(mm->acceptProgramChange());

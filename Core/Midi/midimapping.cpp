@@ -90,10 +90,10 @@ MidiMapping *MidiMapping::loadFromFile(const QString& filename)
             {
                 QMetaProperty omp = mm->metaObject()->property(index) ;
                 omp.write(mm, mapping.value(key));
-                qDebug() << Q_FUNC_INFO
-                         << "write property:" << key
-                         << "with value:" << mapping.value(key)
-                         << "on mm:" << mm;
+//                qDebug() << Q_FUNC_INFO
+//                         << "write property:" << key
+//                         << "with value:" << mapping.value(key)
+//                         << "on mm:" << mm;
             }
         }
         mapping.endGroup();
@@ -113,7 +113,7 @@ void MidiMapping::saveToFile(MidiMapping *mm, const QString &filename)
 
     // Remove all entries in this group
     mapping.remove("");
-    qDebug() << QString(" ").repeated(2) << mm;
+//    qDebug() << QString(" ").repeated(2) << mm;
 
     // Start an array of properties
     mapping.beginGroup("properties");
@@ -127,11 +127,11 @@ void MidiMapping::saveToFile(MidiMapping *mm, const QString &filename)
         if(QString(omp.name()) != QString("objectName"))
         {
             mapping.setValue(omp.name(), omp.read(mm));
-            qDebug() << QString(" ").repeated(3)
-                     << omp.typeName()
-                     << omp.name()
-                     << omp.read(mm)
-                     << omp.isStored();
+//            qDebug() << QString(" ").repeated(3)
+//                     << omp.typeName()
+//                     << omp.name()
+//                     << omp.read(mm)
+//                     << omp.isStored();
             ++index;
         }
     }
