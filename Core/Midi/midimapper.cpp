@@ -400,6 +400,9 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
     flushMidiMapping(mi);
 
     QMapIterator<QString, QVariant> i(mm->map());
+    bool haveCC = false;
+    bool haveNote = false;
+
     while (i.hasNext()) {
         i.next();
         const QString role = i.key();
@@ -412,6 +415,7 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             const uint channel = mappedTo.at(1).toUInt();
             const uint control = mappedTo.at(2).toUInt();
             mapControlToRole(mi->id(), channel, control, role);
+            haveCC = true;
         }
             break;
         case 1: // Note
@@ -419,6 +423,7 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             const uint channel = mappedTo.at(1).toUInt();
             const uint note = mappedTo.at(2).toUInt();
             mapNoteToRole(mi->id(), channel, note, role);
+            haveNote = true;
         }
             break;
         default:
@@ -427,4 +432,10 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             Q_ASSERT(false);
         }
     }
+
+    mi->setAcceptClock(mm->acceptClock());
+    mi->setAcceptProgramChange(mm->acceptProgramChange());
+
+    mi->setAcceptControlChange(haveCC);
+    mi->setAcceptNoteChange(haveNote);
 }

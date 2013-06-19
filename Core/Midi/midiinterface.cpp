@@ -270,30 +270,6 @@ void MidiInterface::setAcceptNoteChange(bool on)
 void MidiInterface::setMapping(const QString& mapping)
 {
     _mapping = mapping;
-    QSettings midiMapping(mapping, QSettings::IniFormat);
-    if(QSettings::NoError == midiMapping.status())
-    {
-        midiMapping.beginGroup("general");
-        const bool acceptClock = midiMapping.value("acceptClock", false).toBool();
-        const bool acceptProgramChange = midiMapping.value("acceptProgramChange", false).toBool();
-        const bool acceptControlChange = midiMapping.value("acceptControlChange", false).toBool();
-        const bool acceptNoteChange = midiMapping.value("acceptNoteChange", false).toBool();
-        setAcceptClock(acceptClock);
-        setAcceptProgramChange(acceptProgramChange);
-        setAcceptControlChange(acceptControlChange);
-        setAcceptNoteChange(acceptNoteChange);
-        midiMapping.endGroup();
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "unable to parse file:" << mapping;
-        setAcceptClock(false);
-        setAcceptProgramChange(false);
-        setAcceptControlChange(false);
-        setAcceptNoteChange(false);
-    }
-    /*
     MidiMapping * mm = MidiMapping::loadFromFile(mapping);
     if(mm)
     {
@@ -303,5 +279,4 @@ void MidiInterface::setMapping(const QString& mapping)
         qDebug() << Q_FUNC_INFO
                  << "Invalid file" << mapping;
     }
-    */
 }
