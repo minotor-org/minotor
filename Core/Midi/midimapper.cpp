@@ -350,8 +350,8 @@ QString MidiMapper::findMinoTriggerControlFromRole(const QString &role)
 {
     QHash<QString, MinoTrigger*>::const_iterator i = _hashMinoTriggerControls.constBegin();
     while (i != _hashMinoTriggerControls.constEnd()) {
-        MinoTrigger *mi = i.value();
-        if(mi->role() == role)
+        MinoTrigger *mt = i.value();
+        if(mt->role() == role)
         {
             return i.key();
         }
