@@ -344,6 +344,9 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     if(product.isEmpty()) product = "undefined";
     mm->setProduct(product);
 
+    QString comment = ui->leComment->text();
+    mm->setComment(comment);
+
     for (int i = 0; i < ui->tableMidiMapping->rowCount(); ++i) {
         // MIDI Controls
         const QComboBox* cb = qobject_cast<QComboBox*>(ui->tableMidiMapping->cellWidget(i,ROW_ROLE));
