@@ -295,7 +295,7 @@ void ConfigDialog::addMidiMappingEditorEntry(QFileInfo file)
     QSettings mapping(file.absoluteFilePath(), QSettings::IniFormat);
     if(QSettings::NoError == mapping.status())
     {
-        mapping.beginGroup("general");
+        mapping.beginGroup("properties");
         QString vendor = mapping.value("vendor", "undefined").toString();
         QString product = mapping.value("product", "undefined").toString();
         QString comment = mapping.value("comment", "").toString();
