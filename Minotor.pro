@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = Minotor
+TARGET = minotor
 TEMPLATE = app
 
 
@@ -197,3 +197,29 @@ cppcheck.commands = \
 	./
 
 QMAKE_EXTRA_TARGETS += clang qmake_clang cppcheck
+
+unix {
+  #VARIABLES
+  isEmpty(PREFIX) {
+    PREFIX = /usr
+  }
+  BINDIR = $$PREFIX/bin
+  DATADIR =$$PREFIX/share
+
+  DEFINES += DATADIR=\\\"$$DATADIR\\\" PKGDATADIR=\\\"$$PKGDATADIR\\\"
+
+  #MAKE INSTALL
+
+  INSTALLS += target desktop icon
+
+  target.path =$$BINDIR
+
+  desktop.path = $$DATADIR/applications
+  desktop.files += $${TARGET}.desktop
+
+  icon.path = $$DATADIR/pixmaps
+  icon.files += $${TARGET}.xpm
+
+#  icon64.path = $$DATADIR/icons/hicolor/64x64/apps
+#  icon64.files += ../data/64x64/$${TARGET}.png
+}

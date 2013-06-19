@@ -1,7 +1,7 @@
 *.o
 .directory
 Makefile
-Minotor
+minotor
 Minotor.pro.user
 moc_*.cpp
 qrc_minotor.cpp

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Minotor
+GenericName=Beat-synced pixel-art generator
+Comment=Create low-res animations synchronized with the beat
+Type=Application
+Categories=Graphics;Video;2DGraphics;Midi;
+Exec=minotor %F
+TryExec=minotor
+Terminal=false
+StartupNotify=true
+Icon=minotor
+
