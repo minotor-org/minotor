@@ -56,6 +56,9 @@ private:
     MinoRole::Type _type;
 };
 
+#include "midiinterface.h"
+#include "midimapping.h"
+
 class MidiMapper : public QObject
 {
     Q_OBJECT
@@ -94,6 +97,9 @@ public:
     static QList<MinoRole*> registeredRoles();
     QString findMinoControlFromRole(const QString &role);
     QString findMinoTriggerControlFromRole(const QString &role);
+
+    void flushMidiMapping(MidiInterface *mi);
+    void loadMidiMapping(MidiInterface *mi, MidiMapping *mm);
 
 protected:
     bool _controlCaptureMode;

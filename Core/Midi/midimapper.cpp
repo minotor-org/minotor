@@ -359,3 +359,72 @@ QString MidiMapper::findMinoTriggerControlFromRole(const QString &role)
     }
     return "";
 }
+
+void MidiMapper::flushMidiMapping(MidiInterface *mi)
+{
+    // TODO Notes and other control changes
+    QHash<QString, MinoTrigger*>::const_iterator i = _hashMinoTriggerControls.constBegin();
+    QStringList toBeDeleted;
+    while (i != _hashMinoTriggerControls.constEnd()) {
+        QRegExp rx("(\\d+):(\\d+):(\\d+)");
+        if(rx.indexIn(i.key()) == -1)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "no match for control:" << i.key();
+            Q_ASSERT(false);
+        }
+        else
+        {
+            QStringList sl = rx.capturedTexts();
+            qDebug() << Q_FUNC_INFO
+                     << "captured texts:" << sl;
+            Q_ASSERT(sl.count()==4);
+            if(sl.at(1).toUInt() == mi->id())
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "delete" << i.key() << "from _hashMinoTriggerControls";
+                toBeDeleted.append(i.key());
+            }
+        }
+        ++i;
+    }
+
+    foreach(const QString& tbd, toBeDeleted)
+    {
+        _hashMinoTriggerControls.remove(tbd);
+    }
+}
+
+void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
+{
+    flushMidiMapping(mi);
+
+    QMapIterator<QString, QVariant> i(mm->map());
+    while (i.hasNext()) {
+        i.next();
+        const QString role = i.key();
+        const QStringList mappedTo = i.value().toStringList();
+        Q_ASSERT(mappedTo.count()==3);
+        const uint type = mappedTo.at(0).toUInt();
+        switch (type) {
+        case 0: // CC
+        {
+            const uint channel = mappedTo.at(1).toUInt();
+            const uint control = mappedTo.at(2).toUInt();
+            mapControlToRole(mi->id(), channel, control, role);
+        }
+            break;
+        case 1: // Note
+        {
+            const uint channel = mappedTo.at(1).toUInt();
+            const uint note = mappedTo.at(2).toUInt();
+            mapNoteToRole(mi->id(), channel, note, role);
+        }
+            break;
+        default:
+            qDebug() << Q_FUNC_INFO
+                     << "You should not be there...";
+            Q_ASSERT(false);
+        }
+    }
+}
