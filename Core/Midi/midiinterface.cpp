@@ -24,6 +24,10 @@
 #include <QDebug>
 
 #include "midi.h"
+#include "midimapping.h"
+#include "midimapper.h"
+
+#include "minotor.h"
 
 MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     QObject(parent),
@@ -289,4 +293,15 @@ void MidiInterface::setMapping(const QString& mapping)
         setAcceptControlChange(false);
         setAcceptNoteChange(false);
     }
+    /*
+    MidiMapping * mm = MidiMapping::loadFromFile(mapping);
+    if(mm)
+    {
+        Minotor::minotor()->midiMapper()->loadMidiMapping(this, mm);
+        delete mm;
+    } else {
+        qDebug() << Q_FUNC_INFO
+                 << "Invalid file" << mapping;
+    }
+    */
 }

@@ -379,7 +379,7 @@ void MidiMapper::flushMidiMapping(MidiInterface *mi)
             qDebug() << Q_FUNC_INFO
                      << "captured texts:" << sl;
             Q_ASSERT(sl.count()==4);
-            if(sl.at(1).toUInt() == mi->id())
+            if(sl.at(1).toInt() == mi->id())
             {
                 qDebug() << Q_FUNC_INFO
                          << "delete" << i.key() << "from _hashMinoTriggerControls";
