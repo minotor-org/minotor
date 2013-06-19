@@ -31,7 +31,7 @@ class MidiMapping : public QObject
     Q_PROPERTY(QString vendor READ vendor WRITE setVendor STORED true)
     Q_PROPERTY(QString product READ product WRITE setProduct STORED true)
     Q_PROPERTY(QString comment READ comment WRITE setComment STORED true)
-    Q_PROPERTY(QMap map READ map STORED true)
+    Q_PROPERTY(QMap map READ map WRITE setMap STORED true)
     Q_PROPERTY(bool acceptClock READ acceptClock WRITE setAcceptClock STORED true)
     Q_PROPERTY(bool acceptProgramChange READ acceptProgramChange WRITE setAcceptProgramChange STORED true)
     Q_PROPERTY(bool acceptControlChange READ acceptControlChange WRITE setAcceptControlChange STORED true)
@@ -61,11 +61,13 @@ public:
     void setAcceptNoteChange(const bool& acceptNoteChange) { _acceptNoteChange = acceptNoteChange; }
     bool acceptNoteChange() { return _acceptNoteChange; }
 
+    void setMap(QMap<QString,QVariant> map) { _map = map; }
     QMap<QString,QVariant> map() const { return _map; }
+
     void addAssignedMidiControl(const QString &role, const quint8 channel, const quint8 control);
 
-    static MidiMapping *loadFromFile(const QString &filename, QObject *parent = 0);
-//    static bool saveToFile(QString filename);
+    static MidiMapping *loadFromFile(const QString &filename);
+    static void saveToFile(MidiMapping *mm, const QString& filename);
 
 signals:
     

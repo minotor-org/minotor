@@ -23,6 +23,10 @@
 
 #include <QSettings>
 #include <QDebug>
+#include <QStringList>
+
+#include <QMetaProperty>
+#include <QMetaObject>
 
 MidiMapping::MidiMapping(QObject *parent) :
     QObject(parent),
@@ -63,42 +67,36 @@ void MidiMapping::addAssignedMidiControl(const QString &role, const quint8 chann
              << "role" << role
              << "channel" << channel
              << "control" << control;
-    _map.insertMulti(role, QString("CC%1:%2").arg(QString::number(channel)).arg(QString::number(control)));
+    QStringList sl;
+    const uint type = 0; // Control Change
+    sl << QString::number(type) << QString::number(channel) << QString::number(control);
+    _map.insertMulti(role, sl);
     _modified = true;
 }
 
-MidiMapping *MidiMapping::loadFromFile(const QString& filename, QObject *parent)
+MidiMapping *MidiMapping::loadFromFile(const QString& filename)
 {
     QSettings mapping(filename, QSettings::IniFormat);
     if(QSettings::NoError == mapping.status())
     {
-        MidiMapping *mm = new MidiMapping(parent);
-        // General
-        mapping.beginGroup("general");
-        const QString vendor = mapping.value("vendor", QString("undefined")).toString();
-        const QString product = mapping.value("product", QString("undefined")).toString();
-        const QString comment = mapping.value("comment", "").toString();
-        const bool acceptClock = mapping.value("acceptClock", false).toBool();
-        const bool acceptProgramChange = mapping.value("acceptProgramChange", false).toBool();
-        const bool acceptControlChange = mapping.value("acceptControlChange", false).toBool();
-        const bool acceptNoteChange = mapping.value("acceptNoteChange", false).toBool();
-        mm->setVendor(vendor);
-        mm->setProduct(product);
-        mm->setComment(comment);
-        mm->setAcceptClock(acceptClock);
-        mm->setAcceptProgramChange(acceptProgramChange);
-        mm->setAcceptControlChange(acceptControlChange);
-        mm->setAcceptNoteChange(acceptNoteChange);
-        mapping.endGroup();
-
-        // MIDI Controls
-        int size = mapping.beginReadArray("midi_controls");
-        for(int i = 0; i < size; ++i)
+        MidiMapping *mm = new MidiMapping();
+        // Restore properties values
+        mapping.beginGroup("properties");
+        QStringList properties = mapping.childKeys();
+        foreach(const QString& key, properties)
         {
-            mapping.setArrayIndex(i);
-            mm->addAssignedMidiControl(mapping.value("role").toString(), mapping.value("channel").toUInt(), mapping.value("control").toUInt());
+            int index = mm->metaObject()->indexOfProperty(key.toAscii());
+            if(index != -1)
+            {
+                QMetaProperty omp = mm->metaObject()->property(index) ;
+                omp.write(mm, mapping.value(key));
+                qDebug() << Q_FUNC_INFO
+                         << "write property:" << key
+                         << "with value:" << mapping.value(key)
+                         << "on mm:" << mm;
+            }
         }
-        mapping.endArray();
+        mapping.endGroup();
         return mm;
     }
     else
@@ -107,4 +105,37 @@ MidiMapping *MidiMapping::loadFromFile(const QString& filename, QObject *parent)
                  << "unable to parse file:" << filename;
     }
     return NULL;
+}
+
+void MidiMapping::saveToFile(MidiMapping *mm, const QString &filename)
+{
+    QSettings mapping(filename, QSettings::IniFormat);
+
+    // Remove all entries in this group
+    mapping.remove("");
+    qDebug() << QString(" ").repeated(2) << mm;
+
+    // Start an array of properties
+    mapping.beginGroup("properties");
+    mapping.remove("");
+
+    int index = 0;
+    for(int j=0; j<mm->metaObject()->propertyCount(); j++)
+    {
+        QMetaProperty omp = mm->metaObject()->property(j);
+        // Skip the already-handled objectName property
+        if(QString(omp.name()) != QString("objectName"))
+        {
+            mapping.setValue(omp.name(), omp.read(mm));
+            qDebug() << QString(" ").repeated(3)
+                     << omp.typeName()
+                     << omp.name()
+                     << omp.read(mm)
+                     << omp.isStored();
+            ++index;
+        }
+    }
+    // End of properties array
+    mapping.endGroup();
+    mapping.sync();
 }
