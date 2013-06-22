@@ -44,19 +44,10 @@ MinaStars::MinaStars(QObject *object) :
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
 
-    _generatorDensity = new MinoItemizedProperty(this);
+    _generatorDensity = new MinoPropertyReal(this);
     _generatorDensity->setObjectName("density");
     _generatorDensity->setLabel("Density");
-    _generatorDensity->addItem("1", 1);
-    _generatorDensity->addItem("2", 2);
-    _generatorDensity->addItem("3", 3);
-    _generatorDensity->addItem("4", 4);
-    _generatorDensity->addItem("5", 5);
-    _generatorDensity->addItem("6", 6);
-    _generatorDensity->addItem("7", 7);
-    _generatorDensity->addItem("8", 8);
-    _generatorDensity->setCurrentItem("1");
-    _generatorDensity->setLinear();
+    _generatorDensity->setValue(0.4);
 
 }
 
@@ -68,7 +59,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     QColor color = _color->color();
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    const unsigned int density = _generatorDensity->currentItem()->real();
+    const unsigned int density = qMax(1.0,(_generatorDensity->value()*qMax(_boundingRect.width(),_boundingRect.height())));
     const unsigned int duration = _beatDuration->currentItem()->real();
 
     QGraphicsItem *item = NULL;

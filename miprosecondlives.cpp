@@ -61,7 +61,7 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     as1->setColor(QColor::fromHslF(0.65, 1.0, 0.5));
     as1->setLoopSize("1/4");
     as1->setDuration("2");
-    as1->setDensity(5);
+    as1->setDensity(0.5);
     ags1->addAnimation(as1);
     this->addAnimationGroup(ags1);
 
@@ -70,7 +70,7 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     as2->setColor(QColor::fromHslF(0.8, 1.0, 0.5));
     as2->setLoopSize("1/4");
     as2->setDuration("2");
-    as2->setDensity(5);
+    as2->setDensity(0.5);
     ags2->addAnimation(as2);
     this->addAnimationGroup(ags2);
 
@@ -95,7 +95,7 @@ MiproSecondLives::MiproSecondLives(MinoProgramBank *bank) :
     as3->setColor(QColor::fromHslF(0.4, 1.0, 0.5));
     as3->setLoopSize("1/4");
     as3->setDuration("2");
-    as3->setDensity(5);
+    as3->setDensity(0.5);
     ags3->addAnimation(as3);
     this->addAnimationGroup(ags3);
 

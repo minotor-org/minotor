@@ -24,6 +24,7 @@
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minopropertyreal.h"
 
 class MinaStars : public MinoAnimation
 {
@@ -36,7 +37,7 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setDensity(const unsigned int density) { _generatorDensity->setCurrentItem(QString::number(density)); }
+    void setDensity(const qreal density) { _generatorDensity->setValue(density); }
     void setDuration(QString duration) { _beatDuration->setCurrentItem(duration);}
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
@@ -47,7 +48,7 @@ public slots:
 
 private:
     MinoItemizedProperty *_beatDuration;
-    MinoItemizedProperty *_generatorDensity;
+    MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
