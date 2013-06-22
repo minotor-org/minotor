@@ -171,25 +171,25 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
             case 0:
             {
                 //left to right
-                _animatedItems.at(i)._graphicsItem->setPos((_ecrPosition.valueForProgress(progress)*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
+                _animatedItems.at(i)._graphicsItem->setPos((_ecrPosition.valueForProgress(progress)*((qreal)_boundingRect.width()+(length))-length),item._graphicsItem->pos().y());
             }
                 break;
             case 1:
             {
                 //right to left
-                _animatedItems.at(i)._graphicsItem->setPos(((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.width()+(length*2))-length),item._graphicsItem->pos().y());
+                _animatedItems.at(i)._graphicsItem->setPos(((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.width()+(length))-length),item._graphicsItem->pos().y());
                 break;
             }
             case 2:
             {
                 //bottom to top
-                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length*2))-length));
+                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((1-_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length))-length));
                 break;
             }
             case 3:
             {
                 //top to bottom
-                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length*2))-length));
+                _animatedItems.at(i)._graphicsItem->setPos(item._graphicsItem->pos().x(),((_ecrPosition.valueForProgress(progress))*((qreal)_boundingRect.height()+(length))-length));
                 break;
             }
             }
