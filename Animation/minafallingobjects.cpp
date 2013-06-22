@@ -57,23 +57,10 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorDirection->addItem("Rand.", 4);
     _generatorDirection->setCurrentItem("Down");
 
-    _generatorLength = new MinoItemizedProperty(this);
+    _generatorLength = new MinoPropertyReal(this);
     _generatorLength->setObjectName("length");
     _generatorLength->setLabel("Length");
-    _generatorLength->addItem("1", 1);
-    _generatorLength->addItem("2", 2);
-    _generatorLength->addItem("3", 3);
-    _generatorLength->addItem("4", 4);
-    _generatorLength->addItem("5", 5);
-    _generatorLength->addItem("6", 6);
-    _generatorLength->addItem("7", 7);
-    _generatorLength->addItem("8", 8);
-    _generatorLength->addItem("9", 9);
-    _generatorLength->addItem("10", 10);
-    _generatorLength->addItem("11", 11);
-    _generatorLength->addItem("12", 12);
-    _generatorLength->setLinear();
-    _generatorLength->setCurrentItem("8");
+    _generatorLength->setValue(0.4);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
@@ -89,7 +76,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
     unsigned int direction = _generatorDirection->currentItem()->real();
-    const unsigned int length = _generatorLength->currentItem()->real();
+    const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
     const unsigned int duration = _beatDuration->currentItem()->real();
     QGraphicsItem *item = NULL;
     if (_enabled && _beatFactor->isBeat(gppqn))

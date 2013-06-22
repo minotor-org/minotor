@@ -65,7 +65,7 @@ MiproMatrix::MiproMatrix(MinoProgramBank *bank) :
     afo->setLoopSize("1/2");
     afo->setDensity(7);
     afo->setDuration(8);
-    afo->setLength(5);
+    afo->setLength(0.5);
     afog->addAnimation(afo);
     this->addAnimationGroup(afog);
 }

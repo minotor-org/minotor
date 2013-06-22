@@ -43,7 +43,7 @@ public:
     // To be deleted...
     void setDuration(const unsigned int duration) { _beatDuration->setCurrentItem(QString::number(duration)); }
     void setDensity(const qreal density) { _generatorDensity->setValue(density); }
-    void setLength(const unsigned int length) { _generatorLength->setCurrentItem(QString::number(length)); }
+    void setLength(const qreal length) { _generatorLength->setValue(length); }
     void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
@@ -57,7 +57,7 @@ public slots:
 protected:
     MinoItemizedProperty *_beatDuration;
     MinoItemizedProperty *_generatorDirection;
-    MinoItemizedProperty *_generatorLength;
+    MinoPropertyReal *_generatorLength;
     MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;
