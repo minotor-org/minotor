@@ -235,7 +235,7 @@ QMainWindow {
     font-size:9px;
 }
 
-QMenu{
+QMenu {
     background-color: #3a3a3a;
     border: 1px solid black;
     font:bold;
@@ -252,6 +252,10 @@ QMenu::item:selected {
 QMenuBar {
     background-color: #1c1c1c;
     font:bold;
+}
+
+QMenuBar::item {
+    background-color: #1c1c1c;
 }
 
 QPushButton {
@@ -296,14 +300,23 @@ QPushButton#tiny {
     border-radius:2px;
 }
 
+QScrollArea {
+    background-color:#3a3a3a;
+    border-radius:2px;
+}
+
 QScrollArea#scroll {
     background-color:#3a3a3a;
     border-radius:2px;
 }
 
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }
+
 QScrollBar:horizontal {
     border: 1px solid #171717;
-    background: #404040;
+    background: #242424;
     height: 15px;
     margin-top: 0px;
     margin-right:21px;
@@ -314,7 +327,7 @@ QScrollBar:horizontal {
 
 QScrollBar:vertical {
     border: 1px solid #171717;
-    background: #404040;
+    background: #242424;
     width: 15px;
     margin-top: 21px;
     margin-right:0px;
@@ -448,6 +461,8 @@ QTableView QTableCornerButton::section {
 
 QToolBar {
     spacing: 1px;
+    background: #242424;
+    border:1px solid #242424;
 }
 
 QToolBar::separator {
