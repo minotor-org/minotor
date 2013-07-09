@@ -663,6 +663,14 @@ void ConfigDialog::midiLearnToggled(const QString &portName)
     {
         // register portName as listened ports
         _slMidiMappingLearnPorts.append(portName);
+        foreach(MidiInterface* mi, Minotor::minotor()->midi()->interfaces())
+        {
+            if(mi->portName() == portName) {
+                mi->setAcceptControlChange(true);
+                mi->setAcceptNoteChange(true);
+                break;
+            }
+        }
     }
 
     // If there is at least one port in list, connect signals from MIDI manager
