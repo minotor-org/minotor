@@ -198,7 +198,7 @@ bool MidiInterface::open(const unsigned int portIndex)
 
 bool MidiInterface::close()
 {
-    if(_rtMidiIn)
+    if(_rtMidiIn && _connected)
     {
         _rtMidiIn->closePort();
         _rtMidiIn->cancelCallback();
@@ -270,13 +270,22 @@ void MidiInterface::setAcceptNoteChange(bool on)
 void MidiInterface::setMapping(const QString& mapping)
 {
     _mapping = mapping;
-    MidiMapping * mm = MidiMapping::loadFromFile(mapping);
-    if(mm)
+    if(mapping.isEmpty())
     {
-        Minotor::minotor()->midiMapper()->loadMidiMapping(this, mm);
-        delete mm;
+        setAcceptClock(false);
+        setAcceptProgramChange(false);
+        setAcceptControlChange(false);
+        setAcceptNoteChange(false);
+        close();
     } else {
-        qDebug() << Q_FUNC_INFO
-                 << "Invalid file" << mapping;
+        MidiMapping * mm = MidiMapping::loadFromFile(mapping);
+        if(mm)
+        {
+            Minotor::minotor()->midiMapper()->loadMidiMapping(this, mm);
+            delete mm;
+        } else {
+            qDebug() << Q_FUNC_INFO
+                     << "Invalid file" << mapping;
+        }
     }
 }
