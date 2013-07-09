@@ -75,6 +75,33 @@ Minotor::Minotor(QObject *parent) :
     _clockSource->setMidiClockSource(_midi);
     connect(_clockSource, SIGNAL(clock(uint,uint,uint,uint)), this, SLOT(dispatchClock(uint,uint,uint,uint)));
 
+    // Register animations
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFlash>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaExpandingObjects>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaWaveform>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaVibration>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaBarsFromSides>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFallingObjects>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaText>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaRandomPixels>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaStars>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaGradient>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaPlasma>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaRotatingBars>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaCurve>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaBalls>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaFlashBars>();
+    MinoPersistentObjectFactory::registerAnimationClass<MinaRainbowOil>();
+
+    // Register other instantiable persistent objects
+    MinoPersistentObjectFactory::registerClass<MinoProgramBank>();
+    MinoPersistentObjectFactory::registerClass<MinoProgram>();
+    MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
+}
+
+void Minotor::initWithDebugSetup()
+{
     // Register HARDCODED triggers notes
 /*
     // LPD8
@@ -83,6 +110,7 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,38,"TRANSPORT_SYNC");
     _midiMapper->mapNoteToRole(1,0,39,"TRANSPORT_TAP");
 */
+/*
     // Korg nanoKontrol
     // Knobs (scene 1)
     _midiMapper->mapControlToRole(0,0,14,"MASTER_CONTROLS_0_0");
@@ -257,6 +285,7 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,75,"MASTER_ANIMATION_16");
     _midiMapper->mapNoteToRole(1,0,76,"MASTER_ANIMATION_17");
     _midiMapper->mapNoteToRole(1,0,77,"MASTER_ANIMATION_18");
+*/
 /*
     // Behringer BCD3000
     _midiMapper->mapControlToRole(1,0,3,"MASTER_CONTROLS_0_0");
@@ -281,33 +310,6 @@ Minotor::Minotor(QObject *parent) :
     _midiMapper->mapNoteToRole(1,0,27,"TRANSPORT_TAP");
 */
 
-    // Register animations
-    MinoPersistentObjectFactory::registerAnimationClass<MinaFlash>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaExpandingObjects>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaWaveform>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaVibration>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaBarsFromSides>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaFallingObjects>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaText>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaRandomPixels>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaStars>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaGradient>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaPlasma>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaRotatingBars>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaCurve>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaBalls>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaImage>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaFlashBars>();
-    MinoPersistentObjectFactory::registerAnimationClass<MinaRainbowOil>();
-
-    // Register other instantiable persistent objects
-    MinoPersistentObjectFactory::registerClass<MinoProgramBank>();
-    MinoPersistentObjectFactory::registerClass<MinoProgram>();
-    MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
-}
-
-void Minotor::initWithDebugSetup()
-{
     // Please let MiproDebug as first program:
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
