@@ -430,7 +430,7 @@ void ConfigDialog::updateSerialTab()
 //            qDebug() << "enumerator name:" << info.enumName;
 //            qDebug() << "vendor ID:"       << info.vendorID;
 //            qDebug() << "product ID:"      << info.productID;
-            portnames.append(info.physName);
+            portnames.append(info.portName);
         }
     }
 
