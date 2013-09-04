@@ -447,6 +447,13 @@ void ConfigDialog::updateSerialTab()
         {
             currentItem = portnames.indexOf(ui->cbSerialPort->itemText(ui->cbSerialPort->currentIndex()));
         }
+        else
+        {
+            if (portnames.contains(matrix->portName()))
+            {
+                currentItem = portnames.indexOf(matrix->portName());
+            }
+        }
     }
 
     // Clear combobox
