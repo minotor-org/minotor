@@ -503,6 +503,7 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
         {
             qDebug() << Q_FUNC_INFO
                      << "Unable to connect to serial port";
+            ui->pbSerialConnect->setChecked(false);
         }
     } else {
         Minotor::minotor()->ledMatrix()->closePort();
