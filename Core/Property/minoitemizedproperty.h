@@ -34,10 +34,10 @@ public:
     void setLabel(const QString &label);
 
     // Items
-    void addItem(const QString name, const qreal real);
+    void addItem(const QString &name, const qreal real);
     MidiControllableListItem* currentItem();
-    void setCurrentItem(const QString name);
-    void setCurrentItemIndex(int index);
+    void setCurrentItem(const QString &name);
+    void setCurrentItemIndex(const int index);
 
     // Preferred MIDI control
     void setPreferred(bool on = true) { _mcl->setPreferred(on); }

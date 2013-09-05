@@ -69,7 +69,7 @@ void MidiControllableList::setValueFromMidi(quint8 value)
     MidiControllableParameter::setValueFromMidi(value);
 }
 
-void MidiControllableList::setCurrentItemIndex(int index)
+void MidiControllableList::setCurrentItemIndex(const int index)
 {
     if(_currentItemId != index)
     {

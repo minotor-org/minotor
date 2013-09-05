@@ -36,7 +36,7 @@ void MinoItemizedProperty::setObjectName(const QString &name)
     MinoProperty::setObjectName(name);
 }
 
-void MinoItemizedProperty::addItem(const QString name, const qreal real)
+void MinoItemizedProperty::addItem(const QString &name, const qreal real)
 {
     _mcl->addItem(name, real);
 }
@@ -46,12 +46,12 @@ MidiControllableListItem *MinoItemizedProperty::currentItem()
     return _mcl->currentItem();
 }
 
-void MinoItemizedProperty::setCurrentItemIndex(int index)
+void MinoItemizedProperty::setCurrentItemIndex(const int index)
 {
     _mcl->setCurrentItemIndex(index);
 }
 
-void MinoItemizedProperty::setCurrentItem(const QString name)
+void MinoItemizedProperty::setCurrentItem(const QString &name)
 {
     _mcl->setCurrentItem(name);
 }

@@ -57,7 +57,7 @@ public:
     void addItem(const QString name, const qreal real);
     MidiControllableListItem* currentItem();
     void setCurrentItem(const QString &name);
-    void setCurrentItemIndex(int index);
+    void setCurrentItemIndex(const int index);
     int currentItemIndex() { return _currentItemId; }
 
     // Type: Linear or Items (default)
