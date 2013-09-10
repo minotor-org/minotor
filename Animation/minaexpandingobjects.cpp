@@ -42,7 +42,7 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _beatDuration->addItem("8", 192);
     _beatDuration->addItem("16", 384);
     _beatDuration->setLinear();
-    _beatDuration->setCurrentItem("1");
+    _beatDuration->setCurrentItemFromString("1");
 
     _generatorStyle = new MinoItemizedProperty(this);
     _generatorStyle->setObjectName("style");
@@ -52,7 +52,7 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _generatorStyle->addItem("P:F T:R", 2);
     _generatorStyle->addItem("P:R=T:R", 3);
     _generatorStyle->addItem("P:R T:R", 4);
-    _generatorStyle->setCurrentItem("P:R T:F");
+    _generatorStyle->setCurrentItemFromString("P:R T:F");
 
     _generatorShape = new MinoItemizedProperty(this);
     _generatorShape->setObjectName("shape");
@@ -61,7 +61,7 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _generatorShape->addItem("Rect", 1);
     _generatorShape->addItem("Circle", 2);
     _generatorShape->addItem("Square", 3);
-    _generatorShape->setCurrentItem("Ellipse");
+    _generatorShape->setCurrentItemFromString("Ellipse");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");

@@ -37,7 +37,7 @@ MinaStars::MinaStars(QObject *object) :
     _beatDuration->addItem("4", 96);
     _beatDuration->addItem("8", 192);
     _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItem("1");
+    _beatDuration->setCurrentItemFromString("1");
     _beatDuration->setLinear();
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);

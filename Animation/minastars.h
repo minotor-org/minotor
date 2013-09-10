@@ -37,9 +37,6 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    void setDensity(const qreal density) { _generatorDensity->setValue(density); }
-    void setDuration(QString duration) { _beatDuration->setCurrentItem(duration);}
-
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:

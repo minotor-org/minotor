@@ -57,7 +57,6 @@ public:
 
     QGraphicsItemGroup* graphicItem() { return &_itemGroup; }
 
-    //void setDuration(const unsigned int duration) { _beatDuration.setCurrentItem(QString::number(duration)); }
 private:
     QGraphicsItemGroup _itemGroup;
     QList<MinoAnimatedBall> _animatedItems;

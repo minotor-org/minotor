@@ -46,14 +46,14 @@ MidiControllableListItem *MinoItemizedProperty::currentItem()
     return _mcl->currentItem();
 }
 
-void MinoItemizedProperty::setCurrentItemIndex(const int index)
+void MinoItemizedProperty::setCurrentItemFromIndex(const int index)
 {
-    _mcl->setCurrentItemIndex(index);
+    _mcl->setCurrentItemFromIndex(index);
 }
 
-void MinoItemizedProperty::setCurrentItem(const QString &name)
+void MinoItemizedProperty::setCurrentItemFromString(const QString &name)
 {
-    _mcl->setCurrentItem(name);
+    _mcl->setCurrentItemFromString(name);
 }
 
 void MinoItemizedProperty::setLinear(bool linear)

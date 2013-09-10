@@ -34,7 +34,7 @@ MinaBarsFromSides::MinaBarsFromSides(QObject *object) :
     _colorType->setLabel("Color type");
     _colorType->addItem("plain", 0);
     _colorType->addItem("grad.", 1);
-    _colorType->setCurrentItem("plain");
+    _colorType->setCurrentItemFromString("plain");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");

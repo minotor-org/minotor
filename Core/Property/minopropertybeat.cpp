@@ -37,7 +37,7 @@ MinoPropertyBeat::MinoPropertyBeat(QObject *parent) :
     _mcl->addItem("1", 24);
     _mcl->addItem("1/2", 12);
     _mcl->addItem("1/4", 6);
-    _mcl->setCurrentItem("1");
+    _mcl->setCurrentItemFromString("1");
 
     connect(_mcl, SIGNAL(itemChanged(QString)), this, SIGNAL(loopSizeChanged(QString)));
 }

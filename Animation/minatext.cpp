@@ -37,7 +37,7 @@ MinaText::MinaText(QObject *object) :
     _beatDuration->addItem("4", 96);
     _beatDuration->addItem("8", 192);
     _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItem("1");
+    _beatDuration->setCurrentItemFromString("1");
     _beatDuration->setLinear();
 
     _text = new MinoPropertyText(this);
@@ -50,7 +50,7 @@ MinaText::MinaText(QObject *object) :
     _generatorStyle->addItem("P:F T:R", 2);
     _generatorStyle->addItem("P:R=T:R", 3);
     _generatorStyle->addItem("P:R T:R", 4);
-    _generatorStyle->setCurrentItem("P:R T:F");
+    _generatorStyle->setCurrentItemFromString("P:R T:F");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");

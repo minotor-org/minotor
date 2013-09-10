@@ -40,7 +40,7 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _beatDuration->addItem("4", 96);
     _beatDuration->addItem("8", 192);
     _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItem("1");
+    _beatDuration->setCurrentItemFromString("1");
     _beatDuration->setLinear();
 
     _generatorDensity = new MinoPropertyReal(this);
@@ -55,7 +55,7 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorDirection->addItem("Up", 2);
     _generatorDirection->addItem("Down", 3);
     _generatorDirection->addItem("Rand.", 4);
-    _generatorDirection->setCurrentItem("Down");
+    _generatorDirection->setCurrentItemFromString("Down");
 
     _generatorLength = new MinoPropertyReal(this);
     _generatorLength->setObjectName("length");

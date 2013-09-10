@@ -63,7 +63,7 @@ MinaRainbowOil::MinaRainbowOil(QObject *parent) :
     _style->setLabel("Style");
     _style->addItem("Vibration", 0);
     _style->addItem("Stop&Go", 1);
-    _style->setCurrentItem("Vibration");
+    _style->setCurrentItemFromString("Vibration");
 
     _mprSpeed = new MinoPropertyReal(this);
     _mprSpeed->setLabel("Speed");

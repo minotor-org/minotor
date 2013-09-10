@@ -32,7 +32,7 @@ MinaGradient::MinaGradient(QObject *object):
     _generatorStyle->setLabel("Style");
     _generatorStyle->addItem("Radial", 0);
     _generatorStyle->addItem("Conical", 1);
-    _generatorStyle->setCurrentItem("Radial");
+    _generatorStyle->setCurrentItemFromString("Radial");
 
     _waves = new MinoItemizedProperty(this);
     _waves->setObjectName("waves");
@@ -41,7 +41,7 @@ MinaGradient::MinaGradient(QObject *object):
     _waves->addItem("2", 2);
     _waves->addItem("4", 4);
     _waves->addItem("8", 8);
-    _waves->setCurrentItem("1");
+    _waves->setCurrentItemFromString("1");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");

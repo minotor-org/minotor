@@ -69,7 +69,7 @@ void MidiControllableList::setValueFromMidi(quint8 value)
     MidiControllableParameter::setValueFromMidi(value);
 }
 
-void MidiControllableList::setCurrentItemIndex(const int index)
+void MidiControllableList::setCurrentItemFromIndex(const int index)
 {
     if(_currentItemId != index)
     {
@@ -80,7 +80,7 @@ void MidiControllableList::setCurrentItemIndex(const int index)
     }
 }
 
-void MidiControllableList::setCurrentItem(const QString& name)
+void MidiControllableList::setCurrentItemFromString(const QString& name)
 {
     if((_currentItemId==-1) || _items.at(_currentItemId)->name() != name)
     {

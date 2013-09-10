@@ -38,7 +38,7 @@ MinaPlasma::MinaPlasma(QObject *object):
     _generatorSteps->addItem("10", 10);
     _generatorSteps->addItem("12", 12);
     _generatorSteps->addItem("14", 14);
-    _generatorSteps->setCurrentItem("4");
+    _generatorSteps->setCurrentItemFromString("4");
     _generatorSteps->setLinear();
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);

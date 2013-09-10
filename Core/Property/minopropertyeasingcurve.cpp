@@ -71,7 +71,7 @@ void MinoPropertyEasingCurve::addAllEasingCurveTypes()
                 addEasingCurveType(type);
             }
         }
-        _mcl->setCurrentItemIndex(0);
+        _mcl->setCurrentItemFromIndex(0);
     }
 }
 
@@ -88,7 +88,7 @@ void MinoPropertyEasingCurve::setEasingCurveType(const QEasingCurve::Type& type)
     if(_easingCurveType != type)
     {
         _easingCurveType = type;
-        _mcl->setCurrentItem(easingCurveTypeToString(type));
+        _mcl->setCurrentItemFromString(easingCurveTypeToString(type));
         emit easingCurveChanged(QEasingCurve(type));
     }
 }

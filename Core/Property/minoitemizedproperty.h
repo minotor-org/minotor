@@ -36,8 +36,10 @@ public:
     // Items
     void addItem(const QString &name, const qreal real);
     MidiControllableListItem* currentItem();
-    void setCurrentItem(const QString &name);
-    void setCurrentItemIndex(const int index);
+
+    QString currentItemString() { return currentItem()?currentItem()->name():""; }
+    void setCurrentItemFromString(const QString &name);
+    void setCurrentItemFromIndex(const int index);
 
     // Preferred MIDI control
     void setPreferred(bool on = true) { _mcl->setPreferred(on); }

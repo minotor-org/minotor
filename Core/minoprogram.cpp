@@ -40,7 +40,7 @@ MinoProgram::MinoProgram(QObject *parent) :
     _beatFactor->addItem("4", 96);
     _beatFactor->addItem("8", 192);
     _beatFactor->addItem("16", 384);
-    _beatFactor->setCurrentItem("1");
+    _beatFactor->setCurrentItemFromString("1");
 
     MinoProgramBank *programBank = qobject_cast<MinoProgramBank*>(parent);
     Q_ASSERT(programBank);

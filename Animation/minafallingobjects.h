@@ -40,12 +40,6 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
 
-    // To be deleted...
-    void setDuration(const unsigned int duration) { _beatDuration->setCurrentItem(QString::number(duration)); }
-    void setDensity(const qreal density) { _generatorDensity->setValue(density); }
-    void setLength(const qreal length) { _generatorLength->setValue(length); }
-    void setDirection(QString direction) { _generatorDirection->setCurrentItem(direction); }
-
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
     bool isAlive() const { return _alive; }

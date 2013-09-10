@@ -34,7 +34,7 @@ public:
 
     void setObjectName(const QString &name);
     
-    void setLoopSize(const QString& loopSize) { _mcl->setCurrentItem(loopSize); }
+    void setLoopSize(const QString& loopSize) { _mcl->setCurrentItemFromString(loopSize); }
     QString loopSize() const { return _mcl->currentItem()->name(); }
     qreal loopSizeInPpqn() const { return _mcl->currentItem()->real(); }
 

@@ -36,7 +36,7 @@ MinaWaveform::MinaWaveform(QObject *object) :
     _colorType->setLabel("Color type");
     _colorType->addItem("plain", 0);
     _colorType->addItem("grad.", 1);
-    _colorType->setCurrentItem("plain");
+    _colorType->setCurrentItemFromString("plain");
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
@@ -47,7 +47,7 @@ MinaWaveform::MinaWaveform(QObject *object) :
     _animationType->setLabel("Type");
     _animationType->addItem("rand.", 0);
     _animationType->addItem("smooth", 1);
-    _animationType->setCurrentItem("rand.");
+    _animationType->setCurrentItemFromString("rand.");
 
     for (int i=0; i<_boundingRect.width(); i++)
     {

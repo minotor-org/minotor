@@ -39,10 +39,6 @@ public:
     }
     const MinoAnimationDescription description() const { return getDescription(); }
     
-    void setText(const QString &value) { _text->setText(value); }
-    void setDuration(const QString &duration) { _beatDuration->setCurrentItem(duration); }
-    void setGeneratorStyle(const QString &style) { _generatorStyle->setCurrentItem(style); }
-
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
 signals:
