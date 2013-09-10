@@ -178,6 +178,9 @@ unix: CONFIG += extserialport
 RESOURCES += \
     minotor.qrc
 
+# Windows icon
+RC_FILE = minotor.rc
+
 OTHER_FILES += \
     style.css
 
