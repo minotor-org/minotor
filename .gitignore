@@ -1,8 +1,12 @@
 *.o
 .directory
 Makefile
-minotor
+Makefile.Debug
+Makefile.Release
 Minotor.pro.user
+minotor
 moc_*.cpp
+object_script.minotor.*
 qrc_minotor.cpp
+release
 ui_*.h
