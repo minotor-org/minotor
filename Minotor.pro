@@ -79,11 +79,7 @@ SOURCES += \
     Ui/externalmasterview.cpp \
     Ui/mainwindow.cpp \
     main.cpp\
-    miprobnzichru.cpp \
-    miprodebug.cpp \
-    mipromatrix.cpp \
-    miprosecondlives.cpp \
-    miprowaves.cpp
+    miprodebug.cpp
 
 
 HEADERS  += \

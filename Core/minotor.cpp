@@ -314,7 +314,7 @@ void Minotor::initWithDebugSetup()
     //   MiproDebug is design to debug, hence the name, so it should be quick to access.
     //   BTW, MiproDebug can be tweaked depending on current topic..
     _master->setProgram(new MiproDebug(_programBank));
-    new MiproSecondLives(_programBank);
+//    new MiproSecondLives(_programBank);
 //    new MiproMatrix(_programBank);
 //    new MiproBnzIchRU(_programBank);
 //    new MiproWaves(_programBank);
