@@ -93,6 +93,11 @@ void MinoPropertyEasingCurve::setEasingCurveType(const QEasingCurve::Type& type)
     }
 }
 
+void MinoPropertyEasingCurve::setEasingCurve(const QEasingCurve ec)
+{
+    setEasingCurveType(ec.type());
+}
+
 void MinoPropertyEasingCurve::setLabel(const QString &label)
 {
     _mcl->setLabel(label);

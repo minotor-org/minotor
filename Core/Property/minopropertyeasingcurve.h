@@ -42,7 +42,7 @@ public:
     // EasingCurveType
     QEasingCurve::Type easingCurveType();
     void setEasingCurveType(const QEasingCurve::Type& type);
-    void setEasingCurve(const QEasingCurve ec) { _easingCurveType = ec.type(); }
+    void setEasingCurve(const QEasingCurve ec);
     QEasingCurve easingCurve() { return QEasingCurve(_easingCurveType); }
     // Add
     void addEasingCurveType(const QEasingCurve::Type& type);
