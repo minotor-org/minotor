@@ -29,19 +29,9 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _ecrPosition.setStartValue(0.0);
     _ecrPosition.setEndValue(1.0);
 
-    //First line of properties
-    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration = new MinoPropertyBeat(this, true);
     _beatDuration->setObjectName("duration");
     _beatDuration->setLabel("Duration");
-    _beatDuration->addItem("1/4", 6);
-    _beatDuration->addItem("1/2", 12);
-    _beatDuration->addItem("1", 24);
-    _beatDuration->addItem("2", 48);
-    _beatDuration->addItem("4", 96);
-    _beatDuration->addItem("8", 192);
-    _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItemFromString("1");
-    _beatDuration->setLinear();
 
     _generatorDensity = new MinoPropertyReal(this);
     _generatorDensity->setObjectName("density");
@@ -77,7 +67,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
     unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
-    const unsigned int duration = _beatDuration->currentItem()->real();
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
     QGraphicsItem *item = NULL;
     if (_enabled && _beatFactor->isBeat(gppqn))
     {

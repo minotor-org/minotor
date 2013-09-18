@@ -50,7 +50,7 @@ signals:
 public slots:
 
 protected:
-    MinoItemizedProperty *_beatDuration;
+    MinoPropertyBeat *_beatDuration;
     MinoItemizedProperty *_generatorDirection;
     MinoPropertyReal *_generatorLength;
     MinoPropertyReal *_generatorDensity;
