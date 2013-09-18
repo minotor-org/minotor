@@ -25,7 +25,6 @@
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
 #include "minopropertyreal.h"
-#include "minoitemizedproperty.h"
 
 class MinaStars : public MinoAnimation
 {
@@ -45,7 +44,7 @@ signals:
 public slots:
 
 private:
-    MinoItemizedProperty *_beatDuration;
+    MinoPropertyBeat *_beatDuration;
     MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
     QGraphicsItemGroup _itemGroup;

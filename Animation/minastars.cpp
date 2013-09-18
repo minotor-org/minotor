@@ -27,18 +27,9 @@ MinaStars::MinaStars(QObject *object) :
     _ecrPosition.setEndValue(2.0);
     _ecrPosition.setEasingCurve(QEasingCurve::InQuart);
 
-    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration = new MinoPropertyBeat(this, true);
     _beatDuration->setObjectName("duration");
     _beatDuration->setLabel("Duration");
-    _beatDuration->addItem("1/4", 6);
-    _beatDuration->addItem("1/2", 12);
-    _beatDuration->addItem("1", 24);
-    _beatDuration->addItem("2", 48);
-    _beatDuration->addItem("4", 96);
-    _beatDuration->addItem("8", 192);
-    _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItemFromString("1");
-    _beatDuration->setLinear();
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
@@ -60,7 +51,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
     const unsigned int density = qMax(1.0,(_generatorDensity->value()*qMax(_boundingRect.width(),_boundingRect.height())));
-    const unsigned int duration = _beatDuration->currentItem()->real();
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
 
     QGraphicsItem *item = NULL;
     if (_beatFactor->isBeat(gppqn))
