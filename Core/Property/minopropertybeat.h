@@ -30,7 +30,7 @@ class MinoPropertyBeat : public MinoProperty
     Q_PROPERTY (QString loop_size READ loopSize WRITE setLoopSize STORED true)
 
 public:
-    explicit MinoPropertyBeat(QObject *parent = 0);
+    explicit MinoPropertyBeat(QObject *parent, bool reversedOrder = false);
 
     void setObjectName(const QString &name);
     void setLabel(const QString &label) { _mcl->setLabel(label); MinoProperty::setLabel(label); }
