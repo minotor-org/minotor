@@ -31,18 +31,9 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _ecrScale.setEndValue(2.0);
     _ecrScale.setEasingCurve(QEasingCurve::Linear);
 
-    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration = new MinoPropertyBeat(this, true);
     _beatDuration->setObjectName("duration");
     _beatDuration->setLabel("Duration");
-    _beatDuration->addItem("1/4", 6);
-    _beatDuration->addItem("1/2", 12);
-    _beatDuration->addItem("1", 24);
-    _beatDuration->addItem("2", 48);
-    _beatDuration->addItem("4", 96);
-    _beatDuration->addItem("8", 192);
-    _beatDuration->addItem("16", 384);
-    _beatDuration->setLinear();
-    _beatDuration->setCurrentItemFromString("1");
 
     _generatorStyle = new MinoItemizedProperty(this);
     _generatorStyle->setObjectName("style");
@@ -144,7 +135,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
             break;
         }
 
-        const unsigned int duration = _beatDuration->currentItem()->real();
+        const unsigned int duration = _beatDuration->loopSizeInPpqn();
         MinoAnimatedItem maItem (uppqn, duration, item);
         _itemGroup.addToGroup(item);
         _animatedItems.append(maItem);

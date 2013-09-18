@@ -46,7 +46,7 @@ signals:
 public slots:
     
 private:
-    MinoItemizedProperty *_beatDuration;
+    MinoPropertyBeat *_beatDuration;
     MinoItemizedProperty *_generatorStyle;
     MinoItemizedProperty *_generatorShape;
     MinoPropertyEasingCurve *_generatorCurve;
