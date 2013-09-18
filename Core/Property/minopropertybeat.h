@@ -33,7 +33,7 @@ public:
     explicit MinoPropertyBeat(QObject *parent = 0);
 
     void setObjectName(const QString &name);
-    
+    void setLabel(const QString &label) { _mcl->setLabel(label); MinoProperty::setLabel(label); }
     void setLoopSize(const QString& loopSize) { _mcl->setCurrentItemFromString(loopSize); }
     QString loopSize() const { return _mcl->currentItem()->name(); }
     qreal loopSizeInPpqn() const { return _mcl->currentItem()->real(); }

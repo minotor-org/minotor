@@ -33,7 +33,7 @@ public:
     explicit MinoProperty(QObject *parent);
     void setObjectName(const QString &name);
 
-    void setLabel(const QString &label) { _label = label; }
+    virtual void setLabel(const QString &label) { _label = label; }
     QString label() { return _label; }
 
 protected:
