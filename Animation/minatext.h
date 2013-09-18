@@ -26,6 +26,7 @@
 #include "minopropertytext.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minopropertybeat.h"
 #include "minoitemizedproperty.h"
 
 class MinaText : public MinoAnimation
@@ -47,7 +48,7 @@ signals:
 public slots:
     
 private:
-    MinoItemizedProperty *_beatDuration;
+    MinoPropertyBeat *_beatDuration;
     MinoItemizedProperty *_generatorStyle;
     MinoPropertyText *_text;
     MinoPropertyEasingCurve *_generatorCurve;

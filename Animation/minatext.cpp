@@ -27,18 +27,9 @@ MinaText::MinaText(QObject *object) :
     _ecrScale.setStartValue(1.0);
     _ecrScale.setEndValue(0.01);
 
-    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration = new MinoPropertyBeat(this, true);
     _beatDuration->setObjectName("duration");
     _beatDuration->setLabel("Duration");
-    _beatDuration->addItem("1/4", 6);
-    _beatDuration->addItem("1/2", 12);
-    _beatDuration->addItem("1", 24);
-    _beatDuration->addItem("2", 48);
-    _beatDuration->addItem("4", 96);
-    _beatDuration->addItem("8", 192);
-    _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItemFromString("1");
-    _beatDuration->setLinear();
 
     _text = new MinoPropertyText(this);
 
@@ -109,7 +100,7 @@ void MinaText::animate(const unsigned int uppqn, const unsigned int gppqn, const
             break;
         }
 
-        const unsigned int duration = _beatDuration->currentItem()->real();
+        const unsigned int duration = _beatDuration->loopSizeInPpqn();
         MinoAnimatedItem maItem (uppqn, duration, item);
         _itemGroup.addToGroup(item);
         _animatedItems.append(maItem);
