@@ -38,18 +38,9 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
 
-    _beatDuration = new MinoItemizedProperty(this);
+    _beatDuration = new MinoPropertyBeat(this, true);
     _beatDuration->setObjectName("duration");
     _beatDuration->setLabel("Duration");
-    _beatDuration->addItem("1/4", 6);
-    _beatDuration->addItem("1/2", 12);
-    _beatDuration->addItem("1", 24);
-    _beatDuration->addItem("2", 48);
-    _beatDuration->addItem("4", 96);
-    _beatDuration->addItem("8", 192);
-    _beatDuration->addItem("16", 384);
-    _beatDuration->setCurrentItemFromString("1");
-    _beatDuration->setLinear();
 }
 
 void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned duration)
@@ -72,7 +63,7 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
 
     if (_beatFactor->isBeat(gppqn))
     {
-        createPixels(uppqn, (uint)_beatDuration->currentItem()->real());
+        createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn());
     }
 
     // Animate pixels
