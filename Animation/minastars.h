@@ -25,6 +25,7 @@
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
 #include "minopropertyreal.h"
+#include "minoitemizedproperty.h"
 
 class MinaStars : public MinoAnimation
 {

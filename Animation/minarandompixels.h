@@ -26,6 +26,7 @@
 #include "minopropertyreal.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minoitemizedproperty.h"
 
 class MinaRandomPixels : public MinoAnimation
 {

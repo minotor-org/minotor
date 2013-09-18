@@ -23,6 +23,8 @@
 
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
+
+#include "minoitemizedproperty.h"
 #include "minopropertyeasingcurve.h"
 
 class MinaExpandingObjects : public MinoAnimation

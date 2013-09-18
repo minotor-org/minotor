@@ -26,6 +26,7 @@
 #include "minopropertytext.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minoitemizedproperty.h"
 
 class MinaText : public MinoAnimation
 {

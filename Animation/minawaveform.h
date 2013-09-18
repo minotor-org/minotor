@@ -24,6 +24,7 @@
 #include "minoanimation.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minoitemizedproperty.h"
 
 class MinaWaveform : public MinoAnimation
 {

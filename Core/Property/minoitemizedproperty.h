@@ -27,6 +27,7 @@
 class MinoItemizedProperty : public MinoProperty
 {
     Q_OBJECT
+    Q_PROPERTY (QString value READ currentItemString WRITE setCurrentItemFromString STORED true)
 public:
     explicit MinoItemizedProperty(QObject *parent);
 

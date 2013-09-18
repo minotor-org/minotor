@@ -28,7 +28,6 @@
 #include <QPointF>
 
 #include "minopropertycolor.h"
-#include "minoitemizedproperty.h"
 #include "minopropertybeat.h"
 #include "minopersistentobject.h"
 

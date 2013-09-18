@@ -26,6 +26,7 @@
 #include <QGraphicsRectItem>
 
 #include "minopropertyeasingcurve.h"
+#include "minoitemizedproperty.h"
 
 class MinaGradient : public MinoAnimation
 {

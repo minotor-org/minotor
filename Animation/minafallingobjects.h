@@ -27,6 +27,7 @@
 
 #include "minopropertyreal.h"
 #include "minopropertyeasingcurve.h"
+#include "minoitemizedproperty.h"
 
 class MinaFallingObjects : public MinoAnimation
 {
