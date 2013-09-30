@@ -1,47 +1,8 @@
-Requirements:
-  Mintor uses RtMidi¹ and QExtSerialPort².
+Minotor is a MIDI-controlled LED matrix software.
 
-Install of requirements:
-  You can use requierement for your system or embedded them into libraries.
-
-  If you choose to use your system packages or your own install, please to refer to the according section.
-
-  To embed librairies, proceed as follow, in Minotor source directory:
-
-$ cd libraries/qextserialport
-$ git clone https://code.google.com/p/qextserialport ./
-
-$ cd ../..
-  
-$ cd libraries/rtmidi
-$ wget http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-2.0.1.tar.gz
-$ tar xvzf rtmidi-2.0.1.tar.gz --strip-components=1
-
-  Now, you can open QtCreator and compile Minotor as usual.
-
-Debian and derivatives (Ubuntu,Linux Mint):
-  Minotor could use RtMidi 1.0.15³ as provided some (old) version but may need to be patched.
-
-  Minotor could be used with the RtMidi backend you want but have been tested and developped with ALSA support only.
-  If you want to use ALSA, you need to patch it this way:
-
-$ cd /tmp
-$ apt-get source rtmidi
-$ cd rtmidi-1.0.15~ds0/
-$ nano debian/rules
-Here, change this line:
-  CONFIGURE_FLAGS = --with-jack
-into
-  CONFIGURE_FLAGS = 
-Save the file, then exit editor.
-$ dpkg-buildpackage -b
-$ sudo dpkg -i ../librtmidi*.deb
-
-Note: you need to enable source (deb-src) in your debian repositories list
-(/etc/apt/sources.list.d). If they were disabled, don't forget to update your
-database (sudo apt-get update).
+License:
+Minotor is released under GPL but embedded RtMidi¹ and QExtSerialPort².
 
 [1] http://www.music.mcgill.ca/~gary/rtmidi/
 [2] http://code.google.com/p/qextserialport/
-[3] http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-1.0.15.tar.gz
 
