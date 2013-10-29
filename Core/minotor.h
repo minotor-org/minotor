@@ -85,6 +85,10 @@ public:
     // Debug
     void initWithDebugSetup();
 
+    // Settings
+    QSettings* settings() const { return _settings; }
+    void saveSettings();
+
 signals:
     void beatToggled(bool active);
     void programBankChanged(QObject *bank);
@@ -97,6 +101,11 @@ public slots:
     void handleMidiInterfaceProgramChange(int interface, quint8 channel, quint8 program);
 
 private:
+    // Settings
+    QSettings *_settings;
+    void loadMidiSettings();
+    void loadLedMatrixSettings();
+
     // Scene
     QGraphicsScene _scene;
     QSize _displaySize;
@@ -114,7 +123,7 @@ private:
     MidiMapper *_midiMapper;
 
     // Clock source (internal generator and Midi)
-    MinoClockSource *_clockSource;
+    MinoClockSource *_clockSource;    
 
     void loadObject(QSettings* parser, const QString &className, QObject *parent);
     void loadObjects(QSettings *parser, QObject *parent);

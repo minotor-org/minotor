@@ -53,10 +53,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
         dataDir.mkpath(dataPath);
     }
 
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
-
-    setupLedMatrix(settings);
-    setupMidi(settings);
+    LedMatrix *matrix = Minotor::minotor()->ledMatrix();
+    connect(matrix, SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
+    connect(matrix, SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
 
     _smMidiMappingLearnMapper = new QSignalMapper(this);
     connect(_smMidiMappingLearnMapper, SIGNAL(mapped(QString)),this, SLOT(midiLearnToggled(QString)));
@@ -68,67 +67,6 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     updateSerialTab();
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
     ui->tableMidiMapping->setColumnWidth(0,250);
-}
-
-void ConfigDialog::setupLedMatrix(QSettings &settings)
-{
-    LedMatrix *matrix = Minotor::minotor()->ledMatrix();
-    connect(matrix, SIGNAL(connected(bool)), ui->pbSerialConnect, SLOT(setChecked(bool)));
-    connect(matrix, SIGNAL(connected(bool)), ui->cbSerialPort, SLOT(setDisabled(bool)));
-
-    // TODO: Search in port list
-    matrix->openPortByName(settings.value("serial/interface").toString());
-}
-
-void ConfigDialog::setupMidi(QSettings &settings)
-{
-    // MIDI
-    settings.beginGroup("midi");
-    Midi *midi = Minotor::minotor()->midi();
-
-    settings.beginGroup("interface");
-    foreach(const QString& group, settings.childGroups())
-    {
-        // Use id as group in settings (ie: midi/interface/0)
-        settings.beginGroup(group);
-
-        if(!settings.contains("name"))
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "Error while loading: midi interface name";
-            break;
-        }
-        const QString midiPort = settings.value("name").toString();
-        MidiInterface *midiInterface = midi->interface(midiPort);
-        if(!midiInterface)
-        {
-            // Midi interface is not detected, lets create it!
-            midiInterface = midi->addMidiInterface(midiPort);
-        }
-        if(midiInterface)
-        {
-            midiInterface->setId(group.toInt());
-
-            QObject *object = static_cast<QObject*>(midiInterface);
-            for(int j=0; j<object->metaObject()->propertyCount(); j++)
-            {
-                QMetaProperty omp = object->metaObject()->property(j);
-                // "name" key has already been used
-                if((omp.name() != QString("name")) && (omp.name() != QString("objectName")))
-                {
-                    omp.write(object, settings.value(omp.name()));
-                }
-            }
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO
-                     << "No midi interface found with portName:" << midiPort;
-        }
-        settings.endGroup(); // group id
-    }
-    settings.endGroup(); // "interface" group
-    settings.endGroup(); // "midi" group
 }
 
 ConfigDialog::~ConfigDialog()
@@ -498,38 +436,7 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
-        settings.setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
-
-        settings.beginGroup("midi");
-        settings.beginGroup("interface");
-        // Remove all interfaces
-        settings.remove("");
-        MidiInterfaces midiInterfaces = Minotor::minotor()->midi()->interfaces();
-        int id = 0;
-        for(int i=0; i<midiInterfaces.count(); i++)
-        {
-            MidiInterface *midiInterface = midiInterfaces.at(i);
-            if(midiInterface->isUsed())
-            {
-                settings.beginGroup(QString::number(id));
-                QObject *object = static_cast<QObject*>(midiInterface);
-                for(int j=0; j<object->metaObject()->propertyCount(); j++)
-                {
-                    QMetaProperty omp = object->metaObject()->property(j);
-                    // Do not store "objectName"
-                    if(omp.name() != QString("objectName"))
-                    {
-                        settings.setValue(omp.name(), omp.read(object));
-                    }
-                }
-                settings.endGroup();
-                id++;
-            }
-        }
-        settings.endGroup(); // interface
-        settings.endGroup(); // midi
-        settings.sync();
+        Minotor::minotor()->saveSettings();
     }
 }
 

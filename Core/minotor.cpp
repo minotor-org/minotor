@@ -59,6 +59,7 @@ Minotor::Minotor(QObject *parent) :
     QObject(parent),
     _displaySize(24,16)
 {
+    // Master
     _master = new MinoMaster(this);
 
     // LED Matrix
@@ -100,6 +101,9 @@ Minotor::Minotor(QObject *parent) :
     MinoPersistentObjectFactory::registerClass<MinoProgramBank>();
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
     MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
+
+    // Setup LedMatrix, MIDI, etc. from configuration file
+    _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 }
 
 void Minotor::initWithDebugSetup()
@@ -332,6 +336,8 @@ void Minotor::initWithDebugSetup()
 
 Minotor::~Minotor()
 {
+    delete _settings;
+
     delete _master;
 
     delete _programBank;
@@ -390,6 +396,96 @@ void Minotor::handleMidiInterfaceProgramChange(int interface, quint8 channel, qu
     // HACK to use Korg scene button
     const int size = 9;
     _master->setViewportRange(program*size, ((program+1)*size)-1);
+}
+
+void Minotor::loadMidiSettings()
+{
+    // MIDI
+    _settings->beginGroup("midi");
+
+    _settings->beginGroup("interface");
+    foreach(const QString& group, _settings->childGroups())
+    {
+        // Use id as group in settings (ie: midi/interface/0)
+        _settings->beginGroup(group);
+
+        if(!_settings->contains("name"))
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "Error while loading: midi interface name";
+            break;
+        }
+        const QString midiPort = _settings->value("name").toString();
+        MidiInterface *midiInterface = _midi->interface(midiPort);
+        if(!midiInterface)
+        {
+            // Midi interface is not detected, lets create it!
+            midiInterface = _midi->addMidiInterface(midiPort);
+        }
+        if(midiInterface)
+        {
+            midiInterface->setId(group.toInt());
+
+            QObject *object = static_cast<QObject*>(midiInterface);
+            for(int j=0; j<object->metaObject()->propertyCount(); j++)
+            {
+                QMetaProperty omp = object->metaObject()->property(j);
+                // "name" key has already been used
+                if((omp.name() != QString("name")) && (omp.name() != QString("objectName")))
+                {
+                    omp.write(object, _settings->value(omp.name()));
+                }
+            }
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "No midi interface found with portName:" << midiPort;
+        }
+        _settings->endGroup(); // group id
+    }
+    _settings->endGroup(); // "interface" group
+    _settings->endGroup(); // "midi" group
+}
+
+void Minotor::loadLedMatrixSettings()
+{
+    _ledMatrix->openPortByName(_settings->value("serial/interface").toString());
+}
+
+void Minotor::saveSettings()
+{
+    _settings->setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
+
+    _settings->beginGroup("midi");
+    _settings->beginGroup("interface");
+    // Remove all interfaces
+    _settings->remove("");
+    MidiInterfaces midiInterfaces = Minotor::minotor()->midi()->interfaces();
+    int id = 0;
+    for(int i=0; i<midiInterfaces.count(); i++)
+    {
+        MidiInterface *midiInterface = midiInterfaces.at(i);
+        if(midiInterface->isUsed())
+        {
+            _settings->beginGroup(QString::number(id));
+            QObject *object = static_cast<QObject*>(midiInterface);
+            for(int j=0; j<object->metaObject()->propertyCount(); j++)
+            {
+                QMetaProperty omp = object->metaObject()->property(j);
+                // Do not store "objectName"
+                if(omp.name() != QString("objectName"))
+                {
+                    _settings->setValue(omp.name(), omp.read(object));
+                }
+            }
+            _settings->endGroup();
+            id++;
+        }
+    }
+    _settings->endGroup(); // interface
+    _settings->endGroup(); // midi
+    _settings->sync();
 }
 
 void Minotor::save(MinoPersistentObject* object, QSettings* parser)

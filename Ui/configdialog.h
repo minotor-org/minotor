@@ -23,7 +23,6 @@
 
 #include <QDialog>
 #include <QAbstractButton>
-#include <QSettings>
 #include <QFileInfo>
 #include <QString>
 #include <QComboBox>
@@ -71,9 +70,6 @@ private:
     QStringList _slMidiMappingLearnPorts;
 
     void addMidiControl(const int row, const quint8 channel, const quint8 control, const QString &role, const quint8 value = 255);
-
-    void setupLedMatrix(QSettings &settings);
-    void setupMidi(QSettings &settings);
 
     void updateMidiTab();
     void updateMidiMappingTab();
