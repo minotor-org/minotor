@@ -30,7 +30,10 @@
 
 MidiMapping::MidiMapping(QObject *parent) :
     QObject(parent),
-    _modified(false)
+    _modified(false),
+    _tracks(0),
+    _knobsPerTrack(0),
+    _triggersPerTrack(0)
 {
 }
 
@@ -57,6 +60,33 @@ void MidiMapping::setComment(const QString &comment)
     if(_comment != comment)
     {
         _comment = comment;
+        _modified = true;
+    }
+}
+
+void MidiMapping::setTracks(const int tracks)
+{
+    if(_tracks != tracks)
+    {
+        _tracks = tracks;
+        _modified = true;
+    }
+}
+
+void MidiMapping::setKnobsPerTrack(const int knobsPerTrack)
+{
+    if(_knobsPerTrack != knobsPerTrack)
+    {
+        _knobsPerTrack = knobsPerTrack;
+        _modified = true;
+    }
+}
+
+void MidiMapping::setTriggersPerTrack(const int triggersPerTrack)
+{
+    if(_triggersPerTrack != triggersPerTrack)
+    {
+        _triggersPerTrack = triggersPerTrack;
         _modified = true;
     }
 }

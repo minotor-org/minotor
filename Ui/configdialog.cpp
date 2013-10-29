@@ -322,6 +322,18 @@ void ConfigDialog::saveMidiMappingFile(QString file)
     const QString comment = ui->leComment->text();
     mm->setComment(comment);
 
+    // Tracks
+    const int tracks = ui->sbTracks->value();
+    mm->setTracks(tracks);
+
+    // Knobs per track
+    const int knobsPerTrack = ui->sbKnobsPerTrack->value();
+    mm->setKnobsPerTrack(knobsPerTrack);
+
+    // Triggers per track
+    const int triggersPerTrack = ui->sbTriggersPerTrack->value();
+    mm->setTriggersPerTrack(triggersPerTrack);
+
     // Clock
     const bool clock = ui->pbAcceptSync->isChecked();
     mm->setAcceptClock(clock);
@@ -466,16 +478,16 @@ void ConfigDialog::configDialogFinished(int result)
 void ConfigDialog::on_pbSaveAs_clicked()
 {
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-    QString fileName;
-    if (ui->lwMappings->currentRow() != 0)
+    QString fileName = ui->lwMappings->currentItem()->data(Qt::ToolTipRole).toString();
+    // if empty or is a built-in file, show dialog
+    if (fileName.isEmpty() || fileName.startsWith(QString(":/")) )
     {
-        fileName = ui->lwMappings->currentItem()->data(Qt::ToolTipRole).toString();
-        qDebug() << Q_FUNC_INFO
-                 << "Current file : " << fileName;
+        fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath, tr("MinoMidiMapping (*.ini)"));
     }
     else
     {
-        fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath, tr("MinoMidiMapping (*.ini)"));
+        qDebug() << Q_FUNC_INFO
+                 << "Current file : " << fileName;
     }
     if(!fileName.isEmpty())
     {
@@ -509,6 +521,9 @@ void ConfigDialog::on_lwMappings_currentItemChanged()
         ui->leVendor->setText(mm->vendor());
         ui->leProduct->setText(mm->product());
         ui->leComment->setText(mm->comment());
+        ui->sbTracks->setValue(mm->tracks());
+        ui->sbKnobsPerTrack->setValue(mm->knobsPerTrack());
+        ui->sbTriggersPerTrack->setValue(mm->triggersPerTrack());
         ui->pbAcceptSync->setChecked(mm->acceptClock());
         ui->pbAcceptNotes->setChecked(mm->acceptNoteChange());
         ui->pbAcceptControlChange->setChecked(mm->acceptControlChange());
@@ -581,6 +596,9 @@ void ConfigDialog::on_lwMappings_currentItemChanged()
         ui->leVendor->setText("");
         ui->leProduct->setText("");
         ui->leComment->setText("");
+        ui->sbTracks->setValue(0);
+        ui->sbKnobsPerTrack->setValue(0);
+        ui->sbTriggersPerTrack->setValue(0);
         ui->pbAcceptSync->setChecked(false);
         ui->pbAcceptNotes->setChecked(false);
         ui->pbAcceptControlChange->setChecked(false);

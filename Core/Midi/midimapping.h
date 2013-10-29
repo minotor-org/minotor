@@ -31,6 +31,9 @@ class MidiMapping : public QObject
     Q_PROPERTY(QString vendor READ vendor WRITE setVendor STORED true)
     Q_PROPERTY(QString product READ product WRITE setProduct STORED true)
     Q_PROPERTY(QString comment READ comment WRITE setComment STORED true)
+    Q_PROPERTY(int tracks READ tracks WRITE setTracks STORED true)
+    Q_PROPERTY(int knobsPerTrack READ knobsPerTrack WRITE setKnobsPerTrack STORED true)
+    Q_PROPERTY(int triggersPerTrack READ triggersPerTrack WRITE setTriggersPerTrack STORED true)
     Q_PROPERTY(QMap map READ map WRITE setMap STORED true)
     Q_PROPERTY(bool acceptClock READ acceptClock WRITE setAcceptClock STORED true)
     Q_PROPERTY(bool acceptProgramChange READ acceptProgramChange WRITE setAcceptProgramChange STORED true)
@@ -48,6 +51,15 @@ public:
 
     void setComment(const QString& comment);
     QString comment() const { return _comment; }
+
+    void setTracks(const int tracks);
+    int tracks() const { return _tracks; }
+
+    void setKnobsPerTrack(const int knobsPerTrack);
+    int knobsPerTrack() const { return _knobsPerTrack; }
+
+    void setTriggersPerTrack(const int triggersPerTrack);
+    int triggersPerTrack() const { return _triggersPerTrack; }
 
     void setAcceptClock(const bool& acceptClock) { _acceptClock = acceptClock; }
     bool acceptClock() { return _acceptClock; }
@@ -83,6 +95,10 @@ private:
     bool _acceptNoteChange;
     QMap<QString,QVariant> _map;
     bool _modified;
+
+    int _tracks;
+    int _knobsPerTrack;
+    int _triggersPerTrack;
 };
 
 #endif // MIDIMAPPING_H

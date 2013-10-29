@@ -22,7 +22,7 @@
         <enum>QTabWidget::West</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -185,6 +185,42 @@
                         <bool>true</bool>
                        </property>
                       </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="widget_5" native="true">
+                    <layout class="QGridLayout" name="gridLayout_3">
+                     <item row="0" column="4">
+                      <widget class="QLabel" name="lTriggersPerTrack">
+                       <property name="text">
+                        <string>Triggers per track</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="lTracks">
+                       <property name="text">
+                        <string>Tracks</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QSpinBox" name="sbTracks"/>
+                     </item>
+                     <item row="0" column="2">
+                      <widget class="QLabel" name="lKnobsPerTrack">
+                       <property name="text">
+                        <string>Knobs per track</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="5">
+                      <widget class="QSpinBox" name="sbTriggersPerTrack"/>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="QSpinBox" name="sbKnobsPerTrack"/>
                      </item>
                     </layout>
                    </widget>
@@ -585,7 +621,6 @@
            <zorder>widget_4</zorder>
            <zorder>widget_6</zorder>
            <zorder>wMatrixConfig</zorder>
-           <zorder>frame_2</zorder>
            <zorder>widget</zorder>
            <zorder>verticalSpacer</zorder>
           </widget>
