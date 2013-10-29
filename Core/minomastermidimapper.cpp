@@ -31,7 +31,8 @@ MinoMasterMidiMapper::MinoMasterMidiMapper(MinoMaster *parent) :
     QObject(parent),
     _master(parent),
     _program(NULL),
-    _controlsPerChannel(2)
+    _knobsPerTrack(2),
+    _offset(0)
 {
     Q_ASSERT(_master);
     connect(_master, SIGNAL(programChanged()), this, SLOT(updateProgram()));
@@ -57,7 +58,7 @@ void MinoMasterMidiMapper::registerRoles()
     }
 
     // FIXME
-    QSize sHardMappedArea(virtual_columns,_controlsPerChannel);
+    QSize sHardMappedArea(virtual_columns,_knobsPerTrack);
     for (int x=0; x<sHardMappedArea.width(); ++x)
     {
         for(int y=0; y<sHardMappedArea.height(); ++y)
@@ -221,37 +222,42 @@ void MinoMasterMidiMapper::updateMap()
     if (_program)
     {
         // FIXME qMin(_program->animationGroups(), columns)
-        for(int i=0; i<_program->animationGroups().count(); ++i)
+        const int tracks = _program->animationGroups().count();
+        for(int i=0; i<tracks; ++i)
         {
-            MinoAnimationGroup *group = _program->animationGroups().at(i);
-            QString role = QString("MASTER_ANIMATION_%1").arg(i);
-            MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), true, true);
-            role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-            MidiMapper::connectTrigger(role, group, SLOT(toogle()), false, true);
+            if((i>=_offset) && ((i-_offset)<tracks)) {
+                const int role_index = i - _offset;
+                MinoAnimationGroup *group = _program->animationGroups().at(i);
+                QString role = QString("MASTER_ANIMATION_%1").arg(role_index);
+                MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), true, true);
+                role = QString("MASTER_ANIMATION_SHIFT_%1").arg(role_index);
+                MidiMapper::connectTrigger(role, group, SLOT(toogle()), false, true);
 
-            int id = 0;
-            foreach(MinoAnimation *animation, group->animations())
-            {
-                QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
-                for(int j=0; j<mcp.count(); ++j)
+                int id = 0;
+                foreach(MinoAnimation *animation, group->animations())
                 {
-                    // FIXME qMin(counter, row)
-                    if(mcp.at(j)->isPreferred())
+                    QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
+                    for(int j=0; j<mcp.count(); ++j)
                     {
-                        if (id >= _controlsPerChannel)
+                        // FIXME qMin(counter, row)
+                        if(mcp.at(j)->isPreferred())
                         {
-                            break;
+                            if (id >= _knobsPerTrack)
+                            {
+                                break;
+                            }
+                            const QString role = QString("MASTER_CONTROLS_%1_%2").arg(role_index).arg(id);
+                            MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
+                            id++;
                         }
-                        const QString role = QString("MASTER_CONTROLS_%1_%2").arg(i).arg(id);
-                        MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
-                        id++;
+                    }
+                    if (id >= _knobsPerTrack)
+                    {
+                        break;
                     }
                 }
-                if (id >= _controlsPerChannel)
-                {
-                    break;
-                }
             }
+
         }
     }
     emit updated();

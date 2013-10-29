@@ -53,7 +53,8 @@ protected:
     MinoMaster *_master;
     MinoProgram *_program;
 
-    int _controlsPerChannel;
+    int _knobsPerTrack;
+    int _offset;
 
     void registerProgram(MinoProgram *mp);
     void unregisterProgram(MinoProgram *mp);
