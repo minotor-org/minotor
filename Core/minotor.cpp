@@ -61,6 +61,10 @@ Minotor::Minotor(QObject *parent) :
 {
     // Settings (ini file to keep local user profile: rendering size, MIDI interfaces, LED matrix, etc.)
     _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
+    // Settings: load renderer size
+    _rendererSize = _settings->value("renderer/size").toSize();
+    if(!_rendererSize.isValid())
+        _rendererSize = QSize(42, 42);
 
     // Master
     _master = new MinoMaster(this);
@@ -467,7 +471,9 @@ void Minotor::loadLedMatrixSettings()
 
 void Minotor::saveSettings()
 {
-    _settings->setValue("serial/interface", Minotor::minotor()->ledMatrix()->portName());
+    _settings->setValue("renderer/size", _rendererSize);
+
+    _settings->setValue("serial/interface", _ledMatrix->portName());
 
     _settings->beginGroup("midi");
     _settings->beginGroup("interface");
