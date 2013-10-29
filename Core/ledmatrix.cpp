@@ -24,9 +24,9 @@
 #include <QDebug>
 #include <QPainter>
 
-LedMatrix::LedMatrix(QObject *parent) :
+LedMatrix::LedMatrix(const QSize size, QObject *parent) :
     QObject(parent),
-    _size(24,16),
+    _size(size),
     _port(NULL),
     _connected(false),
     _framebuffer()
@@ -75,17 +75,6 @@ QString LedMatrix::portName() const
         return _port->portName();
     }
     return "";
-}
-
-void LedMatrix::showScene(QGraphicsScene * scene)
-{
-    QImage *image = new QImage(_size, QImage::Format_RGB32);
-    image->fill(Qt::black);
-    QPainter painter(image);
-    //painter.setRenderHint(QPainter::Antialiasing);
-    scene->render(&painter, QRect(0,0,24,16), scene->sceneRect(), Qt::IgnoreAspectRatio);
-    this->show(image);
-    delete image;
 }
 
 void LedMatrix::show(const QImage *image)

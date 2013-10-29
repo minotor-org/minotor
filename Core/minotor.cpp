@@ -56,11 +56,13 @@
 #include "miprosecondlives.h"
 
 Minotor::Minotor(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    _displaySize(24,16)
 {
-    // LED Matrix
-    _ledMatrix = new LedMatrix(this);
     _master = new MinoMaster(this);
+
+    // LED Matrix
+    _ledMatrix = new LedMatrix(_displaySize, this);
     _programBank = new MinoProgramBank(this);
 
     // MIDI interfaces

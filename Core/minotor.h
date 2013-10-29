@@ -99,6 +99,7 @@ public slots:
 private:
     // Scene
     QGraphicsScene _scene;
+    QSize _displaySize;
 
     // Master
     MinoMaster *_master;

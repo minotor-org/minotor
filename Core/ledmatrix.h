@@ -41,7 +41,7 @@ class LedMatrix : public QObject
 {
      Q_OBJECT
 public:
-    explicit LedMatrix(QObject *parent = 0);
+    explicit LedMatrix(const QSize size, QObject *parent = 0);
     ~LedMatrix();
 
     bool openPortByName(const QString &portName);
@@ -51,7 +51,6 @@ public:
     bool isConnected();
 
     void show(const QImage *image);
-    void showScene(QGraphicsScene * scene);
 
     // Accessors
     QSize size() const { return _size; }
