@@ -41,5 +41,6 @@
         <file>images/rainbowoil.png</file>
         <file>pictos/reload.png</file>
         <file>pictos/icone.png</file>
+        <file>mappings/korg_nanoKontrol.mcf</file>
     </qresource>
 </RCC>

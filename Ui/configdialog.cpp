@@ -45,6 +45,14 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->addStretch(1);
     connect(this, SIGNAL(finished(int)), this, SLOT(configDialogFinished(int)));
 
+    // Create userdata's folder
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QDir dataDir(dataPath);
+    if (!dataDir.exists())
+    {
+        dataDir.mkpath(dataPath);
+    }
+
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
     setupLedMatrix(settings);
@@ -268,9 +276,21 @@ void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)
     cb->clear();
     cb->addItem("no mapping");
 
+    QStringList filters;
+    filters << "*.ini" << "*.mcf";
+
+    // Built-in mapping (in Qt ressource file)
+    QString resPath = ":/mappings/";
+    QDir resDir(resPath);
+    foreach(QFileInfo file, resDir.entryInfoList(filters, QDir::Files))
+    {
+        addMidiMappingEntry(file, cb);
+    }
+
+    // User data folder
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
-    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
         addMidiMappingEntry(file, cb);
     }
@@ -282,9 +302,21 @@ void ConfigDialog::loadMidiMappingEditor()
     ui->lwMappings->clear();
     ui->lwMappings->addItem("NEW MAPPING");
 
+    QStringList filters;
+    filters << "*.ini" << "*.mcf";
+
+    // Built-in mapping (in Qt ressource file)
+    QString resPath = ":/mappings/";
+    QDir resDir(resPath);
+    foreach(QFileInfo file, resDir.entryInfoList(filters, QDir::Files))
+    {
+        addMidiMappingEditorEntry(file);
+    }
+
+    // User data folder
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
-    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
         addMidiMappingEditorEntry(file);
     }
