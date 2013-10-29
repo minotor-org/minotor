@@ -65,7 +65,8 @@ public:
     MinoClockSource *clockSource() { return _clockSource; }
 
     // Display rect
-    const QRect displayRect() const { return _ledMatrix->rect(); }
+    const QRect displayRect() const { return QRect(QPoint(0,0), _rendererSize); }
+    const QSize displaySize() const { return _rendererSize; }
 
     // Singleton accessor
     static Minotor *minotor() { static Minotor *minotor = new Minotor(); return minotor; }
@@ -87,6 +88,8 @@ public:
 
     // Settings
     QSettings* settings() const { return _settings; }
+
+    void loadSettings();
     void saveSettings();
 
 signals:
@@ -108,7 +111,7 @@ private:
 
     // Scene
     QGraphicsScene _scene;
-    QSize _displaySize;
+    QSize _rendererSize;
 
     // Master
     MinoMaster *_master;

@@ -57,13 +57,19 @@
 
 Minotor::Minotor(QObject *parent) :
     QObject(parent),
-    _displaySize(24,16)
+    _rendererSize(24,16)
 {
+    // Settings (ini file to keep local user profile: rendering size, MIDI interfaces, LED matrix, etc.)
+    _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
+
     // Master
     _master = new MinoMaster(this);
 
     // LED Matrix
-    _ledMatrix = new LedMatrix(_displaySize, this);
+    // NOTE: ATM LedMatrix size must be equal to rendering size.
+    _ledMatrix = new LedMatrix(_rendererSize, this);
+
+    // Program Bank
     _programBank = new MinoProgramBank(this);
 
     // MIDI interfaces
@@ -102,8 +108,14 @@ Minotor::Minotor(QObject *parent) :
     MinoPersistentObjectFactory::registerClass<MinoProgram>();
     MinoPersistentObjectFactory::registerClass<MinoAnimationGroup>();
 
+}
+
+void Minotor::loadSettings()
+{
     // Setup LedMatrix, MIDI, etc. from configuration file
-    _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
+    // NOTE: Renderer size have already been proceeded
+    loadMidiSettings();
+    loadLedMatrixSettings();
 }
 
 void Minotor::initWithDebugSetup()

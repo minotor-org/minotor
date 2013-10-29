@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // Auto-create minotor instance
-    Minotor::minotor();
+    Minotor *minotor = Minotor::minotor();
+    minotor->loadSettings();
 
     // HACK
     qDebug() << "";
