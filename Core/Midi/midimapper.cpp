@@ -466,8 +466,6 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
              << controlCount << "controls/notes are available";
 
     QMapIterator<QString, QVariant> i(mm->map());
-    bool haveCC = false;
-    bool haveNote = false;
 
     while (i.hasNext()) {
         i.next();
@@ -481,7 +479,6 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             const uint channel = mappedTo.at(1).toUInt();
             const uint control = mappedTo.at(2).toUInt();
             mapControlToRole(mi->id(), channel, control, role);
-            haveCC = true;
         }
             break;
         case 1: // Note
@@ -489,7 +486,6 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
             const uint channel = mappedTo.at(1).toUInt();
             const uint note = mappedTo.at(2).toUInt();
             mapNoteToRole(mi->id(), channel, note, role);
-            haveNote = true;
         }
             break;
         default:
@@ -507,6 +503,6 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
     mi->setAcceptClock(mm->acceptClock());
     mi->setAcceptProgramChange(mm->acceptProgramChange());
 
-    mi->setAcceptControlChange(haveCC);
-    mi->setAcceptNoteChange(haveNote);
+    mi->setAcceptControlChange(mm->acceptControlChange());
+    mi->setAcceptNoteChange(mm->acceptNoteChange());
 }
