@@ -45,6 +45,14 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     dynamic_cast<QVBoxLayout*>(ui->wMidiInterfaces->layout())->addStretch(1);
     connect(this, SIGNAL(finished(int)), this, SLOT(configDialogFinished(int)));
 
+    // Create userdata's folder
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QDir dataDir(dataPath);
+    if (!dataDir.exists())
+    {
+        dataDir.mkpath(dataPath);
+    }
+
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
 
     setupLedMatrix(settings);
