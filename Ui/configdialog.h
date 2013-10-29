@@ -64,7 +64,6 @@ private slots:
 
     void updateMidiInterfaces();
     void midiLearnToggled(const QString& portName);
-    void midiLoadCurrentMapping();
 
 private:
     Ui::ConfigDialog *ui;

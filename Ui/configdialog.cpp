@@ -633,12 +633,6 @@ void ConfigDialog::on_lwMappings_currentItemChanged()
                 }
             }
         }
-        QPushButton *pb = new QPushButton(QString("Load current mapping"), ui->wMidiMappingBottom);
-        pb->setObjectName("load-mapping");
-        QBoxLayout *layout = qobject_cast<QBoxLayout*>(ui->wMidiMappingBottom->layout());
-        Q_ASSERT(layout);
-        layout->insertWidget(0, pb);
-        connect(pb,SIGNAL(clicked()),this,SLOT(midiLoadCurrentMapping()));
     }
     else
     {
@@ -688,45 +682,3 @@ void ConfigDialog::midiLearnToggled(const QString &portName)
         disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
-void ConfigDialog::midiLoadCurrentMapping()
-{
-    MidiMapper *mapper = Minotor::minotor()->midiMapper();
-    QList<MinoRole*> roles = mapper->registeredRoles();
-    foreach(const MinoRole *role, roles)
-    {
-        int row = ui->tableMidiMapping->rowCount();
-        switch(role->type())
-        {
-        case MinoRole::Direct:
-        {
-            QString key = mapper->findMinoControlFromRole(role->name());
-            Q_ASSERT(!key.isEmpty());
-
-            QStringList sl = key.split(':');
-            Q_ASSERT(sl.count() == 3);
-            addMidiControl(row, sl.at(1).toInt(), sl.at(2).toInt(), role->name());
-        }
-            break;
-        case MinoRole::Trigger:
-        case MinoRole::Hold:
-        {
-            QString key = mapper->findMinoTriggerControlFromRole(role->name());
-            if(!key.isEmpty())
-            {
-                QStringList sl = key.split(':');
-                Q_ASSERT(sl.count() == 3);
-                addMidiControl(row, sl.at(1).toInt(), sl.at(2).toInt(), role->name());
-            }
-            else
-            {
-                qDebug() << Q_FUNC_INFO
-                         << "Role not found:" << role->name();
-                // TODO Notes
-            }
-
-        }
-            break;
-
-        }
-    }
-}
