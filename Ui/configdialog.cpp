@@ -276,9 +276,21 @@ void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)
     cb->clear();
     cb->addItem("no mapping");
 
+    QStringList filters;
+    filters << "*.ini" << "*.mcf";
+
+    // Built-in mapping (in Qt ressource file)
+    QString resPath = ":/mappings/";
+    QDir resDir(resPath);
+    foreach(QFileInfo file, resDir.entryInfoList(filters, QDir::Files))
+    {
+        addMidiMappingEntry(file, cb);
+    }
+
+    // User data folder
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
-    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
         addMidiMappingEntry(file, cb);
     }
@@ -290,9 +302,21 @@ void ConfigDialog::loadMidiMappingEditor()
     ui->lwMappings->clear();
     ui->lwMappings->addItem("NEW MAPPING");
 
+    QStringList filters;
+    filters << "*.ini" << "*.mcf";
+
+    // Built-in mapping (in Qt ressource file)
+    QString resPath = ":/mappings/";
+    QDir resDir(resPath);
+    foreach(QFileInfo file, resDir.entryInfoList(filters, QDir::Files))
+    {
+        addMidiMappingEditorEntry(file);
+    }
+
+    // User data folder
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
     QDir dataDir(dataPath);
-    foreach(QFileInfo file, dataDir.entryInfoList(QDir::Files))
+    foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
         addMidiMappingEditorEntry(file);
     }
