@@ -31,7 +31,7 @@ public:
     
     void setStatus(bool on);
 
-    QString role() { return _role; }
+    QString role() const { return _role; }
 signals:
     void toogled(bool on);
     void triggered();
