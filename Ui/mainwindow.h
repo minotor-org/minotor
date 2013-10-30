@@ -50,6 +50,8 @@ private slots:
     // Action from MIDI learn button (toolbar)
     void tbMidiLearnToggled(bool checked);
 
+    void pbClockSourceChecked(bool checked);
+
     // UI: Action file->configuration
     void on_action_Configuration_triggered();
     // UI: Action help->wiki
@@ -121,6 +123,8 @@ private:
     // Timer for MIDI data led
     // FIXME: Wrote a dedicated QWidget (performance)
     QBasicTimer _midiDataLedTimer;
+
+    QPushButton *_pbClockSource;
 
     void timerEvent(QTimerEvent *);
 

@@ -140,6 +140,19 @@ MainWindow::MainWindow(QWidget *parent) :
     lTempoButtons->setSpacing(5);
     lTempoButtons->setMargin(0);
     lTempoButtons->setContentsMargins(0,0,0,0);
+
+    //Clock source
+    _pbClockSource = new QPushButton(wTempoButtons);
+    lTempoButtons->addWidget(_pbClockSource);
+    _pbClockSource->setToolTip("Clock source: Choose internal clock or external midi clock");
+    _pbClockSource->setIcon(QIcon(":/pictos/clock.png"));
+    _pbClockSource->setText("Internal");
+    _pbClockSource->setIconSize(QSize(20,20));
+    _pbClockSource->setMinimumWidth(95);
+    _pbClockSource->setCheckable(true);
+    connect(_pbClockSource,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(setExternalClockSource(bool)));
+    connect(_minotor->clockSource(), SIGNAL(useExternalClockSourceChanged(bool)),this, SLOT(pbClockSourceChecked(bool)));
+    
     //BPM
     QDoubleSpinBox *_sbBPM = new QDoubleSpinBox(wTempoButtons);
     _sbBPM->setToolTip("BPM: current tempo of the animation");
@@ -400,6 +413,19 @@ void MainWindow::tbMidiLearnToggled(bool checked)
     {
         midiProperty->setMidiLearnMode(checked);
     }
+}
+
+void MainWindow::pbClockSourceChecked(bool checked)
+{
+    if (checked)
+    {
+        _pbClockSource->setText("External");
+    }
+    else
+    {
+        _pbClockSource->setText("Internal");
+    }
+	_pbClockSource->setChecked(checked);
 }
 
 void MainWindow::tbViewmodeToggled(bool on)
