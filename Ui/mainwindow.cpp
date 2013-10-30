@@ -96,7 +96,6 @@ MainWindow::MainWindow(QWidget *parent) :
     lBackground->setSpacing(10);
     lBackground->setMargin(0);
     lBackground->setContentsMargins(5,2,5,2);
-    QButtonGroup *_bgTransport = new QButtonGroup(wBackground);
     //Transport
     QWidget *wTransportButtons = new QWidget(wBackground);
     lBackground->addWidget(wTransportButtons);
@@ -106,7 +105,6 @@ MainWindow::MainWindow(QWidget *parent) :
     lTransportButtons->setContentsMargins(0,0,0,0);
     QPushButton *pbStart = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbStart);
-    _bgTransport->addButton(pbStart);
     pbStart->setCheckable(true);
     pbStart->setToolTip("Start");
     pbStart->setIcon(QIcon(":/pictos/play.png"));
@@ -114,17 +112,20 @@ MainWindow::MainWindow(QWidget *parent) :
     pbStart->setMinimumSize(28,28);
     pbStart->setMaximumSize(28,28);
     connect(pbStart,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStart()));
+    connect(_minotor->clockSource(),SIGNAL(enabledChanged(bool)),pbStart, SLOT(setChecked(bool)));
+
     QPushButton *pbStop = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbStop);
-    _bgTransport->addButton(pbStop);
     pbStop->setCheckable(true);
+    pbStop->setChecked(true);
     pbStop->setToolTip("Stop");
     pbStop->setIcon(QIcon(":/pictos/stop.png"));
     pbStop->setIconSize(QSize(16,16));
     pbStop->setMinimumSize(28,28);
     pbStop->setMaximumSize(28,28);
-
     connect(pbStop,SIGNAL(clicked(bool)),_minotor->clockSource(),SLOT(uiStop()));
+    connect(_minotor->clockSource(),SIGNAL(disabledChanged(bool)),pbStop, SLOT(setChecked(bool)));
+
     QPushButton *pbSync = new QPushButton(wTransportButtons);
     lTransportButtons->addWidget(pbSync);
     pbSync->setToolTip("Sync: click to define the first beat of the loop");

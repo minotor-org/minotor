@@ -150,6 +150,7 @@ void MinoClockSource::setEnabled(const bool on)
             _internalTimer.stop();
         }
         emit enabledChanged(on);
+        emit disabledChanged(!on);
     }
 }
 

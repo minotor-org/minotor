@@ -45,9 +45,9 @@ signals:
     // Signal emitting toogling between external and internal clock source
     void useExternalClockSourceChanged(bool);
 
-    // Signal emitting isRunning changes
+    // Signals emitting isEnabled changes
     void enabledChanged(bool enabled);
-
+    void disabledChanged(bool disabled);
 public slots:
     // Internal generator controls
     void uiTapOn();
