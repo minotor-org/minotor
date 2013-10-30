@@ -49,7 +49,7 @@ bool LedMatrix::openPortByName(const QString& portName)
         _connected = true;
         emit(connected());
     } else {
-        qDebug() << "Unable to connect to:" << portName;
+        qDebug() << "Led matrix failed to connect to:" << portName;
     }
     return _connected;
 }
