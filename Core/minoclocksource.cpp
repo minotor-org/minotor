@@ -1,19 +1,19 @@
 /*
  * Copyright 2012, 2013 Gauthier Legrand
  * Copyright 2012, 2013 Romuald Conty
- * 
+ *
  * This file is part of Minotor.
- * 
+ *
  * Minotor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Minotor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Minotor.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,7 +29,8 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     _uppqn(0),
     _bpmValuesCount(0),
     _bpmValuesIndex(0),
-    _isMidiSequencerRunning(false)
+    _isEnabled(false),
+    _useExternalMidiClock(false)
 {
     // BPM Tapping
     _bpmTap.start(); // Note: _bmpTap is always running, tempo values are filtered after
@@ -48,9 +49,11 @@ MinoClockSource::MinoClockSource(QObject *parent) :
 
 void MinoClockSource::internalTimerTimeout()
 {
-    emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
-    _uppqn++;
-    _gppqn = (_gppqn + 1)%384;
+    if(!_useExternalMidiClock) {
+        emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
+        _uppqn++;
+        _gppqn = (_gppqn + 1)%384;
+    }
 }
 
 void MinoClockSource::uiTapOn()
@@ -91,16 +94,12 @@ void MinoClockSource::uiTapOn()
 
 void MinoClockSource::uiStart()
 {
-    // Disable Midi Clock source
-    _isMidiSequencerRunning = false;
-    _internalTimer.start();
-
-    _gppqn = 0;
+    setEnabled(true);
 }
 
 void MinoClockSource::uiStop()
 {
-    _internalTimer.stop();
+    setEnabled(false);
 }
 
 void MinoClockSource::uiSync()
@@ -119,7 +118,7 @@ void MinoClockSource::setMidiClockSource(Midi *midi)
 
 void MinoClockSource::midiClock()
 {
-    if(_isMidiSequencerRunning)
+    if(_useExternalMidiClock)
     {
         emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
         _uppqn++;
@@ -133,26 +132,58 @@ void MinoClockSource::midiClock()
     }
 }
 
+void MinoClockSource::setEnabled(const bool on)
+{
+    if(_isEnabled != on)
+    {
+        _isEnabled = on;
+        if(on)
+        {
+            if (!_useExternalMidiClock)
+            {
+                _internalTimer.start();
+            }
+            _gppqn = 0;
+        }
+        else
+        {
+            _internalTimer.stop();
+        }
+        emit enabledChanged(on);
+    }
+}
+
+void MinoClockSource::setExternalClockSource(bool on)
+{
+    if (_useExternalMidiClock != on)
+    {
+        _useExternalMidiClock = on;
+        if(!on)
+        {
+            _internalTimer.start();
+        }
+        else
+        {
+            _internalTimer.stop();
+        }
+        emit useExternalClockSourceChanged(on);
+    }
+}
+
 void MinoClockSource::midiStop()
 {
-    _isMidiSequencerRunning = false;
+    setEnabled(false);
 }
 
 void MinoClockSource::midiStart()
 {
     _gppqn = 0;
-    _isMidiSequencerRunning = true;
-
-    // Stop internal generator
-    _internalTimer.stop();
+    setEnabled(true);
 }
 
 void MinoClockSource::midiContinue()
 {
-    _isMidiSequencerRunning = true;
-
-    // Stop internal generator
-    _internalTimer.stop();
+    setEnabled(true);
 }
 
 void MinoClockSource::setBPM(double bpm)

@@ -42,6 +42,12 @@ signals:
     // Signal emitting the BPM value changed (useful for UI feedback)
     void bpmChanged(const double bpm);
 
+    // Signal emitting toogling between external and internal clock source
+    void useExternalClockSourceChanged(bool);
+
+    // Signal emitting isRunning changes
+    void enabledChanged(bool enabled);
+
 public slots:
     // Internal generator controls
     void uiTapOn();
@@ -49,6 +55,9 @@ public slots:
     void uiStop();
     void uiSync();
     void setBPM(double bpm);
+
+    void setExternalClockSource(bool on);
+    bool useExternalClockSource() const { return _useExternalMidiClock; }
 
 private:
     // Current Global Pulse-Per-Quarter-Note Id (in range of [0-384[)
@@ -69,8 +78,13 @@ private:
     // Internal timer is used to produce an internal clock
     QTimer _internalTimer;
 
+    // Running status
+    bool _isEnabled; // sets when clock source is active.
+    void setEnabled(const bool on); // Accessor
+
     // MIDI
-    bool _isMidiSequencerRunning; //sets when midi device is in "running mode" (ie. after "start" or "continue" midi message)
+    bool _useExternalMidiClock; // 'true' when clock source comes from external (MIDI clock), 'false' when internal generator is used (Timer)
+
 
 private slots:
     // MIDI
