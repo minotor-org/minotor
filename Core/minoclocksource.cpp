@@ -160,7 +160,7 @@ void MinoClockSource::setExternalClockSource(bool on)
         _useExternalMidiClock = on;
         if(!on)
         {
-            _internalTimer.start();
+            if (_isEnabled) { _internalTimer.start(); }
         }
         else
         {
