@@ -29,13 +29,17 @@
 
 #include "minotor.h"
 
+#include <QRegExp>
+
 MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     QObject(parent),
     _midi(parent),
     _rtMidiIn(NULL),
+    _rtMidiOut(NULL),
     _id(-1),
     _portIndex(0),
     _connected(false),
+    _hasOutput(false),
     _acceptClock(false),
     _acceptProgramChange(false),
     _acceptControlChange(false),
@@ -46,6 +50,7 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     {
         //Midi management
         _rtMidiIn = new RtMidiIn();
+        _rtMidiOut = new RtMidiOut();
     } catch ( RtError &error ) {
         error.printMessage();
     }
@@ -55,6 +60,8 @@ MidiInterface::~MidiInterface()
 {
     if(_rtMidiIn)
         delete _rtMidiIn;
+    if(_rtMidiOut)
+        delete _rtMidiOut;
 }
 
 /*
@@ -146,7 +153,9 @@ bool MidiInterface::open(const QString& portName)
         unsigned int nPorts = _rtMidiIn->getPortCount();
         for (unsigned int i=0;i<nPorts;i++)
         {
-            ports.append(QString(_rtMidiIn->getPortName(i).c_str()));
+            const QString inputName = QString(_rtMidiIn->getPortName(i).c_str());
+            ports.append(inputName);
+            qDebug() << "In port: " << inputName;
         }
         int portIndex = ports.indexOf(portName);
         if(portIndex<0)
@@ -154,13 +163,46 @@ bool MidiInterface::open(const QString& portName)
         else
         {
             setPortName(portName);
-            return open(portIndex);
+            if (!openIn(portIndex)) { return false; }
         }
+        if(_rtMidiOut)
+        {
+            QStringList ports;
+            // Check available ports.
+            unsigned int nPorts = _rtMidiOut->getPortCount();
+            for (unsigned int i=0;i<nPorts;i++)
+            {
+                ports.append(QString(_rtMidiOut->getPortName(i).c_str()));
+                qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
+            }
+            // "nanoKONTROL2 28:0"  -> "nanoKONTROL2:0"
+            QRegExp rx("(\\w+) (.+):(\\d+)");
+            if(rx.indexIn(portName) == -1)
+            {
+                qDebug() << Q_FUNC_INFO
+                         << "no match for:" << portName;
+                Q_ASSERT(false);
+            }
+            else
+            {
+                QStringList sl = rx.capturedTexts();
+                    qDebug() << Q_FUNC_INFO
+                             <<   sl;
+                Q_ASSERT(sl.count()==4);
+                const QString outputName = sl.at(1) + QString(":") + sl.at(3);
+                int portIndex = ports.indexOf(outputName);
+                if(portIndex>=0)
+                {
+                    openOut(portIndex);
+                }
+            }
+        }
+        return true;
     }
     return false;
 }
 
-bool MidiInterface::open(const unsigned int portIndex)
+bool MidiInterface::openIn(const unsigned int portIndex)
 {
     if(_rtMidiIn)
     {
@@ -185,7 +227,7 @@ bool MidiInterface::open(const unsigned int portIndex)
                 if(_id == -1)
                     setId(_midi->grabMidiInterfaceId());
                 _connected = true;
-                qDebug() << "MIDI connected to: " << this->portName();
+                qDebug() << "MIDI In connected to: " << this->portName();
                 emit(connected());
             } catch ( RtError &error ) {
                 error.printMessage();
@@ -194,6 +236,47 @@ bool MidiInterface::open(const unsigned int portIndex)
         }
     }
     return _connected;
+}
+
+bool MidiInterface::openOut(const unsigned int portIndex)
+{
+    if(_rtMidiOut)
+    {
+        if(_hasOutput)
+        {
+            qDebug() << Q_FUNC_INFO
+                     << "Already opened port";
+            return false;
+        }
+        else
+        {
+            _portIndex = portIndex;
+            try {
+                _rtMidiOut->openPort(portIndex);
+                _hasOutput = true;
+                qDebug() << "MIDI Out connected to: " << this->portName();
+            } catch ( RtError &error ) {
+                error.printMessage();
+                _hasOutput = false;
+            }
+        }
+    }
+    return _hasOutput;
+}
+
+bool MidiInterface::sendMessage(int controlChange, int value)
+{
+    if (_rtMidiOut)
+    {
+        std::vector< unsigned char > message;
+        // Control Change: 176, 7, 100 (volume)
+          message.push_back(176);
+          message.push_back(controlChange);
+          message.push_back(value);
+        _rtMidiOut->sendMessage(&message);
+        qDebug() << "Message sent" << message.at(1);
+    }
+    return true;
 }
 
 bool MidiInterface::close()

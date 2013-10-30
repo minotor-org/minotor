@@ -77,10 +77,12 @@ public:
 private:
     Midi *_midi;
     RtMidiIn *_rtMidiIn;
+    RtMidiOut *_rtMidiOut;
     int _id;
     unsigned int _portIndex;
     QString _portName;
     bool _connected;
+    bool _hasOutput;
     QString _mapping;
 
     bool _acceptClock;
@@ -92,8 +94,9 @@ private:
     void setPortName(QString portName);
 
     // Open port by index (index is relative to current port list's index)
-    bool open(const unsigned int index);
-
+    bool openIn(const unsigned int index);
+    bool openOut(const unsigned int portIndex);
+    bool sendMessage(int controlChange, int value);
     // Auto-(dis)connect function: ensure (dis)connection is made denpenging on isUsed()
     void autoconnect();
 
