@@ -59,6 +59,9 @@ private:
 #include "midiinterface.h"
 #include "midimapping.h"
 
+#include "minotrigger.h"
+#include "minocontrol.h"
+
 class MidiMapper : public QObject
 {
     Q_OBJECT
@@ -71,15 +74,15 @@ public:
 
     MidiControlList midiControls() const { return _midiControls; }
 
-    MidiControl* addMidiControl(int interface, quint8 channel, quint8 control);
-    MidiControl* findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate);
+    MidiControl* addMidiControl(const int interface, const quint8 channel, const quint8 control);
+    MidiControl* findMidiControl(const int interface, const quint8 channel, const quint8 control, const bool autocreate);
 
-    MinoTrigger* findMinoTriggerFromNote(int interface, quint8 channel, quint8 note);
-    MinoTrigger* findMinoTriggerFromControl(int interface, quint8 channel, quint8 control);
-    MinoControl* findMinoControl(int interface, quint8 channel, quint8 control);
+    MinoTrigger* findMinoTriggerFromNote(const int interface, const quint8 channel, const quint8 note) const;
+    MinoTrigger* findMinoTriggerFromControl(const int interface, const quint8 channel, const quint8 control) const;
+    MinoControl* findMinoControl(const int interface, const quint8 channel, const quint8 control) const;
 
-    void mapNoteToRole(int interface, quint8 channel, quint8 note, QString role);
-    void mapControlToRole(int interface, quint8 channel, quint8 control, QString role);
+    void mapNoteToRole(const int interface, const quint8 channel, const quint8 note, const QString &role);
+    void mapControlToRole(const int interface, const quint8 channel, const quint8 control, const QString &role);
 
     // Register a new role with trigger attibutes
     static bool registerTrigger(const QString &role, const QString &description, const MinoRole::Type type);
@@ -95,8 +98,9 @@ public:
 
     // Roles
     static QList<MinoRole*> registeredRoles();
-    QString findMinoControlFromRole(const QString &role);
-    QString findMinoTriggerControlFromRole(const QString &role);
+
+    QString findMinoControlFromRole(const QString &role) const;
+    QString findMinoTriggerControlFromRole(const QString &role) const;
 
     void flushMidiMapping(MidiInterface *mi);
     void loadMidiMapping(MidiInterface *mi, MidiMapping *mm);

@@ -62,7 +62,7 @@ void MidiMapper::assignCapturedControlTo(MidiControllableParameter *parameter)
     }
 }
 
-MidiControl* MidiMapper::addMidiControl(int interface, quint8 channel, quint8 control)
+MidiControl* MidiMapper::addMidiControl(const int interface, const quint8 channel, const quint8 control)
 {
     if (findMidiControl(interface, channel, control, false))
     {
@@ -77,7 +77,7 @@ MidiControl* MidiMapper::addMidiControl(int interface, quint8 channel, quint8 co
     return midiControl;
 }
 
-MidiControl* MidiMapper::findMidiControl(int interface, quint8 channel, quint8 control, bool autocreate)
+MidiControl* MidiMapper::findMidiControl(const int interface, const quint8 channel, const quint8 control, const bool autocreate)
 {
     MidiControl *midiControl = NULL;
     foreach (midiControl, _midiControls)
@@ -142,19 +142,19 @@ void MidiMapper::midiControlChanged(int interface, quint8 channel, quint8 contro
     }
 }
 
-MinoTrigger* MidiMapper::findMinoTriggerFromNote(int interface, quint8 channel, quint8 note)
+MinoTrigger* MidiMapper::findMinoTriggerFromNote(const int interface, const quint8 channel, const quint8 note) const
 {
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
     return _hashMinoTriggerNotes.value(key, NULL);
 }
 
-MinoTrigger* MidiMapper::findMinoTriggerFromControl(int interface, quint8 channel, quint8 control)
+MinoTrigger* MidiMapper::findMinoTriggerFromControl(const int interface, const quint8 channel, const quint8 control) const
 {
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(control));
     return _hashMinoTriggerControls.value(key, NULL);
 }
 
-MinoControl* MidiMapper::findMinoControl(int interface, quint8 channel, quint8 control)
+MinoControl* MidiMapper::findMinoControl(const int interface, const quint8 channel, const quint8 control) const
 {
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(control));
     return _hashMinoControls.value(key, NULL);
@@ -180,7 +180,7 @@ void MidiMapper::noteChanged(int interface, quint8 channel, quint8 note, bool on
     }
 }
 
-void MidiMapper::mapNoteToRole(int interface, quint8 channel, quint8 note, QString role)
+void MidiMapper::mapNoteToRole(const int interface, const quint8 channel, const quint8 note, const QString &role)
 {
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
     MinoRole *mr = minoRoles().value(role, NULL);
@@ -191,7 +191,7 @@ void MidiMapper::mapNoteToRole(int interface, quint8 channel, quint8 note, QStri
     _hashMinoTriggerNotes.insert(key, mt);
 }
 
-void MidiMapper::mapControlToRole(int interface, quint8 channel, quint8 control, QString role)
+void MidiMapper::mapControlToRole(const int interface, const quint8 channel, const quint8 control, const QString &role)
 {
     const QString key = QString("%1:%2:%3").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(control));
     MinoRole *mr = minoRoles().value(role, NULL);
@@ -211,7 +211,7 @@ void MidiMapper::mapControlToRole(int interface, quint8 channel, quint8 control,
         MinoTrigger *mt = minoTriggers().value(role, NULL);
         Q_ASSERT(mt);
         qDebug() << Q_FUNC_INFO
-                 << mt;
+                  << mt->role() << mt << " feedback(bool) is connected to triggerFeedback(bool)";
         connect(mt, SIGNAL(feedback(bool)), this, SLOT(triggerFeedback(bool)));
 
         _hashMinoTriggerControls.insert(key, mt);
@@ -243,18 +243,18 @@ bool MidiMapper::registerTrigger(const QString &role, const QString &description
 {
     Q_ASSERT((type == MinoRole::Trigger) || (type == MinoRole::Hold));
     registerRole(role, description, type);
-    return connectTrigger(role, NULL, NULL, (type==MinoRole::Hold));
+    return connectTrigger(role, NULL, NULL, NULL, NULL, (type==MinoRole::Hold));
 }
 
-bool MidiMapper::registerTrigger(const QString &role, const QString &description, const QObject *receiver, const char *method, MinoRole::Type type, bool overwrite, const QObject *sender, const char *signal)
+bool MidiMapper::registerTrigger(const QString &role, const QString &description, const QObject *receiver, const char *method, const QObject *sender, const char *signal, MinoRole::Type type, bool overwrite)
 {
     Q_ASSERT((type == MinoRole::Trigger) || (type == MinoRole::Hold));
     if(!(overwrite && minoRoles().contains(role)))
         registerRole(role, description, type);
-    return connectTrigger(role, receiver, method, (type == MinoRole::Hold), overwrite, sender, signal);
+    return connectTrigger(role, receiver, method, sender, signal, (type == MinoRole::Hold), overwrite);
 }
 
-bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle, bool overwrite, const QObject *sender, const char *signal)
+bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, const QObject *sender, const char *signal, bool toggle, bool overwrite)
 {
     MinoTrigger *trigger = minoTriggers().value(role, NULL);
     if(!overwrite)
@@ -372,7 +372,7 @@ QList<MinoRole *> MidiMapper::registeredRoles()
     return roles;
 }
 
-QString MidiMapper::findMinoControlFromRole(const QString &role)
+QString MidiMapper::findMinoControlFromRole(const QString &role) const
 {
     QHash<QString, MinoControl*>::const_iterator i = _hashMinoControls.constBegin();
     while (i != _hashMinoControls.constEnd()) {
@@ -386,7 +386,7 @@ QString MidiMapper::findMinoControlFromRole(const QString &role)
     return "";
 }
 
-QString MidiMapper::findMinoTriggerControlFromRole(const QString &role)
+QString MidiMapper::findMinoTriggerControlFromRole(const QString &role) const
 {
     QHash<QString, MinoTrigger*>::const_iterator i = _hashMinoTriggerControls.constBegin();
     while (i != _hashMinoTriggerControls.constEnd()) {
