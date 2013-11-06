@@ -84,9 +84,9 @@ public:
     // Register a new role with trigger attibutes
     static bool registerTrigger(const QString &role, const QString &description, const MinoRole::Type type);
     // Register and connect a new role with trigger attibutes
-    static bool registerTrigger(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, MinoRole::Type type = MinoRole::Trigger, bool overwrite = false);
+    static bool registerTrigger(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, MinoRole::Type type = MinoRole::Trigger, bool overwrite = false, const QObject *sender = NULL, const char *signal = NULL);
     // Connect an already-registered trigger to slot
-    static bool connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle = false, bool overwrite = false);
+    static bool connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle = false, bool overwrite = false, const QObject *sender = NULL, const char *signal = NULL);
 
     // Register and connect a new role
     static bool registerControl(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, bool overwrite = false);
@@ -143,6 +143,7 @@ signals:
 private slots:
     void midiControlChanged(int interface, quint8 channel, quint8 control, quint8 value);
     void noteChanged(int interface, quint8 channel, quint8 note, bool on, quint8 value);
+    void triggerFeedback(bool on);
 };
 
 #endif // MIDIMAPPER_H

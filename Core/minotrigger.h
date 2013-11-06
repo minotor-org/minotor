@@ -35,6 +35,7 @@ public:
 signals:
     void toogled(bool on);
     void triggered();
+    void feedback(bool on);
 
 public slots:
     

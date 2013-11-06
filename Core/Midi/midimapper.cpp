@@ -209,9 +209,33 @@ void MidiMapper::mapControlToRole(int interface, quint8 channel, quint8 control,
     case MinoRole::Trigger:
     {
         MinoTrigger *mt = minoTriggers().value(role, NULL);
+        Q_ASSERT(mt);
+        qDebug() << Q_FUNC_INFO
+                 << mt;
+        connect(mt, SIGNAL(feedback(bool)), this, SLOT(triggerFeedback(bool)));
+
         _hashMinoTriggerControls.insert(key, mt);
     }
         break;
+    }
+}
+
+void MidiMapper::triggerFeedback(bool on)
+{
+    MinoTrigger *mt = dynamic_cast<MinoTrigger*>(sender());
+    if(mt)
+    {
+        QStringList keys = _hashMinoTriggerControls.keys(mt);
+        foreach(QString key, keys)
+        {
+            QStringList sl = key.split(':');
+            Q_ASSERT(sl.count() == 3);
+            const int id = sl.at(0).toInt();
+            const int channel = sl.at(1).toInt();
+            const int control = sl.at(2).toInt();
+            MidiInterface *mi = Minotor::minotor()->midi()->findMidiInterface(id);
+            mi->sendMessage(channel, control, on?127:0);
+        }
     }
 }
 
@@ -222,15 +246,15 @@ bool MidiMapper::registerTrigger(const QString &role, const QString &description
     return connectTrigger(role, NULL, NULL, (type==MinoRole::Hold));
 }
 
-bool MidiMapper::registerTrigger(const QString &role, const QString &description, const QObject *receiver, const char *method, MinoRole::Type type, bool overwrite)
+bool MidiMapper::registerTrigger(const QString &role, const QString &description, const QObject *receiver, const char *method, MinoRole::Type type, bool overwrite, const QObject *sender, const char *signal)
 {
     Q_ASSERT((type == MinoRole::Trigger) || (type == MinoRole::Hold));
     if(!(overwrite && minoRoles().contains(role)))
         registerRole(role, description, type);
-    return connectTrigger(role, receiver, method, (type == MinoRole::Hold), overwrite);
+    return connectTrigger(role, receiver, method, (type == MinoRole::Hold), overwrite, sender, signal);
 }
 
-bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle, bool overwrite)
+bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle, bool overwrite, const QObject *sender, const char *signal)
 {
     MinoTrigger *trigger = minoTriggers().value(role, NULL);
     if(!overwrite)
@@ -263,8 +287,24 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
         else
             connect(trigger, SIGNAL(triggered()), receiver, method);
 
-//        qDebug() << Q_FUNC_INFO
-//                 << "role:" << role << "is now connected to: " << receiver << QString("(%1)").arg(QString(method));
+        if(sender && signal)
+        {
+            connect(sender, signal, trigger, SIGNAL(feedback(bool)));
+            qDebug() << Q_FUNC_INFO
+                     << "role:" << role << "is now connected to: "
+                     << "SLOT" << receiver << QString("(%1)").arg(QString(method))
+                     << "SIGNAL" << sender << QString("(%1)").arg(QString(signal));
+
+        }
+        else
+        {
+            connect(trigger, SIGNAL(toogled(bool)), trigger, SIGNAL(feedback(bool)));
+            qDebug() << Q_FUNC_INFO
+                     << "role:" << role << "is now connected to: "
+                     << "SLOT" << receiver << QString("(%1)").arg(QString(method))
+                     << "SIGNAL" << trigger << QString("(%1)").arg(QString(SIGNAL(toogled(bool))));
+        }
+
     }
     return true;
 }
