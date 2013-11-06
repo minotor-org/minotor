@@ -38,7 +38,9 @@ signals:
     void feedback(bool on);
 
 public slots:
-    
+
+    void setFeedback(bool on);
+
 protected:
     bool _on;
     QString _role;

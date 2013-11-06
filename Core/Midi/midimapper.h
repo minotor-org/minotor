@@ -87,9 +87,9 @@ public:
     // Register a new role with trigger attibutes
     static bool registerTrigger(const QString &role, const QString &description, const MinoRole::Type type);
     // Register and connect a new role with trigger attibutes
-    static bool registerTrigger(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, MinoRole::Type type = MinoRole::Trigger, bool overwrite = false, const QObject *sender = NULL, const char *signal = NULL);
+    static bool registerTrigger(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, const QObject *sender = NULL, const char *signal = NULL, MinoRole::Type type = MinoRole::Trigger, bool overwrite = false);
     // Connect an already-registered trigger to slot
-    static bool connectTrigger(const QString &role, const QObject *receiver, const char *method, bool toogle = false, bool overwrite = false, const QObject *sender = NULL, const char *signal = NULL);
+    static bool connectTrigger(const QString &role, const QObject *receiver, const char *method, const QObject *sender = NULL, const char *signal = NULL, bool toggle = false, bool overwrite = false);
 
     // Register and connect a new role
     static bool registerControl(const QString &role, const QString &description, const QObject *receiver = NULL, const char *method = NULL, bool overwrite = false);

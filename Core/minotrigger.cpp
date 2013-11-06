@@ -37,3 +37,8 @@ void MinoTrigger::setStatus(bool on)
             emit triggered();
     }
 }
+
+void MinoTrigger::setFeedback(bool on)
+{
+    emit feedback(on);
+}

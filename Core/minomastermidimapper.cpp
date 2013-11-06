@@ -81,9 +81,9 @@ void MinoMasterMidiMapper::clearRoles()
     for (int i=0; i<virtual_columns; i++)
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
-        MidiMapper::connectTrigger(role, NULL, NULL, false, true);
+        MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
         role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
-        MidiMapper::connectTrigger(role, NULL, NULL, false, true);
+        MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
     }
 
     // FIXME
@@ -229,9 +229,9 @@ void MinoMasterMidiMapper::updateMap()
                 const int role_index = i - _offset;
                 MinoAnimationGroup *group = _program->animationGroups().at(i);
                 QString role = QString("MASTER_ANIMATION_%1").arg(role_index);
-                MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), true, true);
+                MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), NULL, NULL, true, true);
                 role = QString("MASTER_ANIMATION_SHIFT_%1").arg(role_index);
-                MidiMapper::connectTrigger(role, group, SLOT(toogle()), false, true);
+                MidiMapper::connectTrigger(role, group, SLOT(toggle()), group, SIGNAL(enabledChanged(bool)), false, true);
 
                 int id = 0;
                 foreach(MinoAnimation *animation, group->animations())

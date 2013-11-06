@@ -26,9 +26,9 @@ MinoProgramBank::MinoProgramBank(QObject *parent) :
     MinoPersistentObject(parent),
     _programSelectorPos(-1)
 {
-    MidiMapper::registerTrigger("BANK_NEXT", "Move selector to next program", this, SLOT(programSelectorNext()), MinoRole::Trigger, true);
-    MidiMapper::registerTrigger("BANK_PREVIOUS", "Move selector to previous program", this, SLOT(programSelectorPrevious()), MinoRole::Trigger, true);
-    MidiMapper::registerTrigger("BANK_SELECT", "Set selected program as master", this, SLOT(programSelectorSelect()), MinoRole::Trigger, true);
+    MidiMapper::registerTrigger("BANK_NEXT", "Move selector to next program", this, SLOT(programSelectorNext()), NULL, NULL, MinoRole::Trigger, true);
+    MidiMapper::registerTrigger("BANK_PREVIOUS", "Move selector to previous program", this, SLOT(programSelectorPrevious()), NULL, NULL, MinoRole::Trigger, true);
+    MidiMapper::registerTrigger("BANK_SELECT", "Set selected program as master", this, SLOT(programSelectorSelect()), NULL, NULL, MinoRole::Trigger, true);
 }
 
 
