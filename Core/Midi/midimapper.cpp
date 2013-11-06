@@ -268,7 +268,9 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
     {
         if(trigger)
         {
-            trigger->disconnect();
+            // Warning: do not disconnect feedback(bool) signal
+            trigger->disconnect(SIGNAL(triggered()));
+            trigger->disconnect(SIGNAL(toggled(bool)));
         }
     }
     if(!trigger)
