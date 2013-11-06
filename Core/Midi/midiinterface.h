@@ -71,9 +71,13 @@ public:
     // Mapping (Just keep a name (supposed to be unique) of corresponding mapping)
     QString mapping() const { return _mapping; }
 
+    // Experimental: send a MIDI message
+    bool sendMessage(const int channel, const int control, const int value);
+
     // RtMidi callback
     // Warning: Should not be used by user...
     void midiCallback( double deltatime, std::vector< unsigned char > *message);
+
 private:
     Midi *_midi;
     RtMidiIn *_rtMidiIn;
@@ -96,7 +100,6 @@ private:
     // Open port by index (index is relative to current port list's index)
     bool openIn(const unsigned int index);
     bool openOut(const unsigned int portIndex);
-    bool sendMessage(int controlChange, int value);
     // Auto-(dis)connect function: ensure (dis)connection is made denpenging on isUsed()
     void autoconnect();
 
@@ -113,7 +116,6 @@ signals:
     void acceptControlChanged(bool control);
     void acceptProgramChanged(bool program);
     void acceptNoteChanged(bool note);
-
 
 public slots:
     void setAcceptClock(bool on);

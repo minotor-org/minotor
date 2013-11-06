@@ -264,15 +264,14 @@ bool MidiInterface::openOut(const unsigned int portIndex)
     return _hasOutput;
 }
 
-bool MidiInterface::sendMessage(int controlChange, int value)
+bool MidiInterface::sendMessage(const int channel, const int control, const int value)
 {
-    if (_rtMidiOut)
+    if (_hasOutput)
     {
         std::vector< unsigned char > message;
-        // Control Change: 176, 7, 100 (volume)
-          message.push_back(176);
-          message.push_back(controlChange);
-          message.push_back(value);
+        message.push_back(MIDI_CVM_CONTROL_CHANGE | (channel&0x0f));
+        message.push_back(control);
+        message.push_back(value);
         _rtMidiOut->sendMessage(&message);
         qDebug() << "Message sent" << message.at(1);
     }
