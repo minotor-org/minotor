@@ -58,8 +58,10 @@ UiMidiInterface::UiMidiInterface(MidiInterface *interface, QWidget *parent) :
     int index = _cbMapping->findData(QVariant(_interface->mapping()));
     if(index == -1)
     {
-        qDebug() << Q_FUNC_INFO
+        if(!_interface->mapping().isEmpty())
+            qDebug() << Q_FUNC_INFO
                  << "mapping not found:" << _interface->mapping();
+
         // Select "none"
         _cbMapping->setCurrentIndex(0);
     }
