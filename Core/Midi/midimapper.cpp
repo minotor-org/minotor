@@ -222,20 +222,18 @@ void MidiMapper::mapControlToRole(const int interface, const quint8 channel, con
 
 void MidiMapper::triggerFeedback(bool on)
 {
-    MinoTrigger *mt = dynamic_cast<MinoTrigger*>(sender());
-    if(mt)
+    MinoTrigger *mt = qobject_cast<MinoTrigger*>(sender());
+    Q_ASSERT(mt);
+    QStringList keys = _hashMinoTriggerControls.keys(mt);
+    foreach(QString key, keys)
     {
-        QStringList keys = _hashMinoTriggerControls.keys(mt);
-        foreach(QString key, keys)
-        {
-            QStringList sl = key.split(':');
-            Q_ASSERT(sl.count() == 3);
-            const int id = sl.at(0).toInt();
-            const int channel = sl.at(1).toInt();
-            const int control = sl.at(2).toInt();
-            MidiInterface *mi = Minotor::minotor()->midi()->findMidiInterface(id);
-            mi->sendMessage(channel, control, on?127:0);
-        }
+        QStringList sl = key.split(':');
+        Q_ASSERT(sl.count() == 3);
+        const int id = sl.at(0).toInt();
+        const int channel = sl.at(1).toInt();
+        const int control = sl.at(2).toInt();
+        MidiInterface *mi = Minotor::minotor()->midi()->findMidiInterface(id);
+        mi->sendMessage(channel, control, on?127:0);
     }
 }
 
