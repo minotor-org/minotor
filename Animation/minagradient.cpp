@@ -93,13 +93,13 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
     const unsigned int waves = _waves->currentItem()->real();
     const qreal step = 1.0 / ((qreal) waves *2.0);
     const qreal anipos = ec.valueForProgress(_beatFactor->progressForGppqn(gppqn));
-    bool toogle = true;
+    bool toggle = true;
     for (qreal pos = 0.0; pos <= 1.0; pos+=step)
     {
         qreal at = (anipos/waves) + pos;
         if(at > 1.0) at -= 1.0;
 
-        if(toogle)
+        if(toggle)
         {
             grad.setColorAt(at, Qt::transparent);
         }
@@ -107,7 +107,7 @@ void MinaGradient::animate(const unsigned int uppqn, const unsigned int gppqn, c
         {
             grad.setColorAt(at, color) ;
         }
-        toogle = !toogle;
+        toggle = !toggle;
     }
 
     _rectItem->setBrush(QBrush(grad));

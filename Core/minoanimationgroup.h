@@ -67,7 +67,7 @@ public:
 public slots:
     void setDelayedEnabled(const bool enabled);
     void setEnabled(bool on);
-    void toogle() { _setEnabled(!_enabled); }
+    void toggle() { _setEnabled(!_enabled); }
 
 private:
     QPixmap _screenshot;

@@ -123,13 +123,13 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
     const qreal step = 1.0 / ((qreal) waves *2.0);
 
     const qreal anipos = _ecrPosition.valueForProgress(_beatFactor->progressForGppqn(gppqn));
-    bool toogle = true;
+    bool toggle = true;
     for (qreal pos = 0.0; pos <= 1.0; pos+=step)
     {
         qreal at = (anipos/waves) + pos;
         if(at > 1.0) at -= 1.0;
 
-        if(toogle)
+        if(toggle)
         {
             //Calculate an alternative color for background gradient
             QColor altColor;
@@ -153,7 +153,7 @@ void MinaPlasma::animate(const unsigned int uppqn, const unsigned int gppqn, con
             grad4.setColorAt(at, color4) ;
             grad5.setColorAt(at, color5) ;
         }
-        toogle = !toogle;
+        toggle = !toggle;
     }
 
     _rectBackground->setBrush(QBrush(grad1));

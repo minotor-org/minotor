@@ -282,8 +282,8 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
     }
     if(receiver && method)
     {
-        if(toogle)
-            connect(trigger, SIGNAL(toogled(bool)), receiver, method);
+        if(toggle)
+            connect(trigger, SIGNAL(toggled(bool)), receiver, method);
         else
             connect(trigger, SIGNAL(triggered()), receiver, method);
 
@@ -294,7 +294,6 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
                      << "role:" << role << "is now connected to: "
                      << "SLOT" << receiver << QString("(%1)").arg(QString(method))
                      << "SIGNAL" << sender << QString("(%1)").arg(QString(signal));
-
         }
         else
         {
@@ -302,7 +301,7 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
             qDebug() << Q_FUNC_INFO
                      << "role:" << role << "is now connected to: "
                      << "SLOT" << receiver << QString("(%1)").arg(QString(method))
-                     << "SIGNAL" << trigger << QString("(%1)").arg(QString(SIGNAL(toogled(bool))));
+                     << "SIGNAL" << trigger << QString("(%1)").arg(QString(SIGNAL(toggled(bool))));
         }
 
     }

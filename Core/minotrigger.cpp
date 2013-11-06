@@ -32,7 +32,7 @@ void MinoTrigger::setStatus(bool on)
     if(on != _on)
     {
         _on = on;
-        emit toogled(on);
+        emit toggled(on);
         if(on)
             emit triggered();
     }

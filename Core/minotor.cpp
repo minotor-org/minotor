@@ -246,7 +246,7 @@ void Minotor::initWithDebugSetup()
     _midiMapper->mapControlToRole(0,0,115,"MASTER_ANIMATION_SHIFT_26");
     // First lines buttons (scene 4)
     // The default behavior on this device does not allow to use the #4 scene
-    // Default configuration act as toogle switch but does not remains status when changing scene (4 -> 0 -> ... -> 4)
+    // Default configuration act as toggle switch but does not remains status when changing scene (4 -> 0 -> ... -> 4)
 
     // Second lines buttons (scene 1)
     _midiMapper->mapControlToRole(0,0,33,"MASTER_ANIMATION_0");

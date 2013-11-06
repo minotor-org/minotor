@@ -615,7 +615,7 @@ void ConfigDialog::midiLearnToggled(const QString &portName)
     // Toggle MIDI interface learning
     if(_slMidiMappingLearnPorts.contains(portName))
     {
-        // portName is already in list, means it should be toogled to off
+        // portName is already in list, means it should be toggled to off
         _slMidiMappingLearnPorts.removeAt(_slMidiMappingLearnPorts.indexOf(portName));
     }
     else

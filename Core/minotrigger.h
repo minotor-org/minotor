@@ -33,7 +33,7 @@ public:
 
     QString role() const { return _role; }
 signals:
-    void toogled(bool on);
+    void toggled(bool on);
     void triggered();
     void feedback(bool on);
 
