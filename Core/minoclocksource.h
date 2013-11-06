@@ -32,7 +32,7 @@ class MinoClockSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit MinoClockSource(QObject *parent = 0);
+    explicit MinoClockSource(QObject *parent);
     void setMidiClockSource(Midi *midi);
     qreal bpm() const { return (60000.0 / _bpmPeriodMs); }
 signals:

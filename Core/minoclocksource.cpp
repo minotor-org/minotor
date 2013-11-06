@@ -23,6 +23,8 @@
 
 #include <QDebug>
 
+#include "minotor.h"
+
 MinoClockSource::MinoClockSource(QObject *parent) :
     QObject(parent),
     _gppqn(0),
@@ -44,7 +46,7 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     MidiMapper::registerTrigger("TRANSPORT_PLAY", "Start internal clock generator", this, SLOT(uiStart()), this, SIGNAL(enabledChanged(bool)));
     MidiMapper::registerTrigger("TRANSPORT_STOP", "Stop internal clock generator", this, SLOT(uiStop()));
     MidiMapper::registerTrigger("TRANSPORT_SYNC", "Sync clock", this, SLOT(uiSync()));
-    MidiMapper::registerTrigger("TRANSPORT_TAP", "Tap tempo", this, SLOT(uiTapOn()));
+    MidiMapper::registerTrigger("TRANSPORT_TAP", "Tap tempo", this, SLOT(uiTapOn()), qobject_cast<Minotor*>(parent), SIGNAL(beatToggled(bool)));
 }
 
 void MinoClockSource::internalTimerTimeout()
