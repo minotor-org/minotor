@@ -148,23 +148,27 @@ void Midi::addMidiInterface(MidiInterface *interface)
     connect(interface, SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), this, SIGNAL(dataReceived()));
 }
 
+MidiInterface *Midi::findMidiInterface(const int id)
+{
+    foreach(MidiInterface *mi, interfaces())
+    {
+        if(mi->id() == id)
+        {
+            return mi;
+        }
+    }
+    return NULL;
+}
+
 int Midi::grabMidiInterfaceId()
 {
     bool freeIdFound = false;
     int id = 0;
     while(!freeIdFound)
     {
-        bool idAlreadyExist = false;
-        foreach(MidiInterface *mi, interfaces())
-        {
-            if(mi->id() == id)
-            {
-                idAlreadyExist = true;
-                break;
-            }
-        }
+        MidiInterface * mi = findMidiInterface(id);
 
-        if(!idAlreadyExist)
+        if(!mi)
         {
             freeIdFound = true;
             break;

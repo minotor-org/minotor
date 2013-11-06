@@ -45,6 +45,8 @@ public:
     MidiInterfaces interfaces();
     MidiInterface* interface(const QString& portName);
     MidiInterface* addMidiInterface(const QString& portName);
+    MidiInterface* findMidiInterface(const int id);
+
 
 public slots:
         // Scan interfaces
