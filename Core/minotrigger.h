@@ -30,20 +30,22 @@ public:
     explicit MinoTrigger(QString role, QObject *parent = 0);
     
     void setStatus(bool on);
+    void forceFeedbackEmitting();
 
     QString role() const { return _role; }
+
 signals:
     void toggled(bool on);
     void triggered();
     void feedback(bool on);
 
 public slots:
-
     void setFeedback(bool on);
 
 protected:
     bool _on;
     QString _role;
+    bool _feedback;
 };
 
 #endif // MINOTRIGGER_H

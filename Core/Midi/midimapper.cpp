@@ -212,9 +212,13 @@ void MidiMapper::mapControlToRole(const int interface, const quint8 channel, con
         Q_ASSERT(mt);
         qDebug() << Q_FUNC_INFO
                   << mt->role() << mt << " feedback(bool) is connected to triggerFeedback(bool)";
-        connect(mt, SIGNAL(feedback(bool)), this, SLOT(triggerFeedback(bool)));
+        connect(mt, SIGNAL(feedback(bool)), this, SLOT(triggerFeedback(bool)), Qt::UniqueConnection);
 
         _hashMinoTriggerControls.insert(key, mt);
+
+        // This HACK allow MidiMapper to receive last feedback (again) in order to propagate feedback status to newly mapped control
+        mt->forceFeedbackEmitting();
+
     }
         break;
     }

@@ -19,11 +19,13 @@
  */
 
 #include "minotrigger.h"
+#include <QDebug>
 
 MinoTrigger::MinoTrigger(QString role, QObject *parent) :
     QObject(parent),
     _on(false),
-    _role(role)
+    _role(role),
+    _feedback(false)
 {
 }
 
@@ -40,5 +42,13 @@ void MinoTrigger::setStatus(bool on)
 
 void MinoTrigger::setFeedback(bool on)
 {
+    _feedback = on;
     emit feedback(on);
+}
+
+void MinoTrigger::forceFeedbackEmitting()
+{
+    qDebug() << Q_FUNC_INFO << this << role() << _feedback;
+    // Re-send previously saved feedback value
+    emit feedback(_feedback);
 }
