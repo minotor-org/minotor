@@ -197,6 +197,8 @@ bool MidiInterface::open(const QString& portName)
                 }
             }
         }
+        // Auto load mapping
+        loadMapping();
         return true;
     }
     return false;
@@ -291,6 +293,7 @@ bool MidiInterface::close()
         }
         qDebug() << "MIDI disconnected.";
         emit(connected(false));
+        flushMapping();
     }
     return !_connected;
 }
@@ -355,23 +358,45 @@ void MidiInterface::setAcceptNoteChange(bool on)
 
 void MidiInterface::setMapping(const QString& mapping)
 {
+    if(!_mapping.isEmpty())
+    {
+        if(_connected) flushMapping();
+    }
     _mapping = mapping;
-    if(mapping.isEmpty())
+
+    if(_mapping.isEmpty())
     {
         setAcceptClock(false);
         setAcceptProgramChange(false);
         setAcceptControlChange(false);
         setAcceptNoteChange(false);
         close();
-    } else {
-        MidiMapping * mm = MidiMapping::loadFromFile(mapping);
+    }
+    else
+    {
+        if(_connected) loadMapping();
+    }
+}
+
+void MidiInterface::loadMapping()
+{
+    if(!_mapping.isEmpty())
+    {
+        MidiMapping * mm = MidiMapping::loadFromFile(_mapping);
         if(mm)
         {
             Minotor::minotor()->midiMapper()->loadMidiMapping(this, mm);
             delete mm;
         } else {
             qDebug() << Q_FUNC_INFO
-                     << "Invalid file" << mapping;
+                     << "Invalid file" << _mapping;
+            // Do keep invalid mapping filename
+            setMapping("");
         }
     }
+}
+
+void MidiInterface::flushMapping()
+{
+    Minotor::minotor()->midiMapper()->flushMidiMapping(this);
 }

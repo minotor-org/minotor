@@ -67,6 +67,8 @@ public:
 
     // Mapping (Just keep a name (supposed to be unique) of corresponding mapping)
     QString mapping() const { return _mapping; }
+    void loadMapping();
+    void flushMapping();
 
     // Experimental: send a MIDI message
     bool sendMessage(const int channel, const int control, const int value);
