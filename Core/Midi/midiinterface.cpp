@@ -284,6 +284,11 @@ bool MidiInterface::close()
         _rtMidiIn->closePort();
         _rtMidiIn->cancelCallback();
         _connected = false;
+        if(_rtMidiOut && _hasOutput)
+        {
+            _rtMidiOut->closePort();
+            _hasOutput = false;
+        }
         qDebug() << "MIDI disconnected.";
         emit(connected(false));
     }
