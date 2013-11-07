@@ -46,15 +46,38 @@ MinoClockSource::MinoClockSource(QObject *parent) :
     MidiMapper::registerTrigger("TRANSPORT_PLAY", "Start internal clock generator", this, SLOT(uiStart()), this, SIGNAL(enabledChanged(bool)));
     MidiMapper::registerTrigger("TRANSPORT_STOP", "Stop internal clock generator", this, SLOT(uiStop()));
     MidiMapper::registerTrigger("TRANSPORT_SYNC", "Sync clock", this, SLOT(uiSync()));
-    MidiMapper::registerTrigger("TRANSPORT_TAP", "Tap tempo", this, SLOT(uiTapOn()), qobject_cast<Minotor*>(parent), SIGNAL(beatToggled(bool)));
+    MidiMapper::registerTrigger("TRANSPORT_TAP", "Tap tempo", this, SLOT(uiTapOn()), this, SIGNAL(beatToggled(bool)));
 }
 
 void MinoClockSource::internalTimerTimeout()
 {
     if(!_useExternalMidiClock) {
-        emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
-        _uppqn++;
-        _gppqn = (_gppqn + 1)%384;
+        sendClock();
+    }
+}
+
+void MinoClockSource::sendClock()
+{
+    const unsigned int ppqn = _gppqn%24;
+    emit clock(_uppqn, _gppqn, ppqn, _gppqn/24);
+    _uppqn++;
+    _gppqn = (_gppqn + 1)%(24*16);
+
+    // HACK to mesure BPM when using external clock
+    if(_useExternalMidiClock)
+    {
+        if(_gppqn%24 == 0)
+        {
+            uiTapOn();
+        }
+    }
+
+    if (ppqn == 0)
+    {
+        emit(beatToggled(true));
+    } else if (ppqn == 4)
+    {
+        emit(beatToggled(false));
     }
 }
 
@@ -122,15 +145,7 @@ void MinoClockSource::midiClock()
 {
     if(_useExternalMidiClock)
     {
-        emit clock(_uppqn, _gppqn, _gppqn%24, _gppqn/24);
-        _uppqn++;
-        _gppqn = (_gppqn + 1)%(24*16);
-
-        // HACK
-        if(_gppqn%24 == 0)
-        {
-            uiTapOn();
-        }
+        sendClock();
     }
 }
 
@@ -150,6 +165,7 @@ void MinoClockSource::setEnabled(const bool on)
         else
         {
             _internalTimer.stop();
+            emit(beatToggled(false));
         }
         emit enabledChanged(on);
         emit disabledChanged(!on);
@@ -196,3 +212,4 @@ void MinoClockSource::setBPM(double bpm)
     // qDebug() << "bpm error:" << (qreal)((ms - ((int)ms))*24) << "ms per beat";
     _internalTimer.setInterval(ms);
 }
+

@@ -42,6 +42,9 @@ signals:
     // Signal emitting the BPM value changed (useful for UI feedback)
     void bpmChanged(const double bpm);
 
+    // Signal used for user interfaces (GUI and MIDI UI) to toggle a LED
+    void beatToggled(bool active);
+
     // Signal emitting toogling between external and internal clock source
     void useExternalClockSourceChanged(bool);
 
@@ -84,7 +87,7 @@ private:
 
     // MIDI
     bool _useExternalMidiClock; // 'true' when clock source comes from external (MIDI clock), 'false' when internal generator is used (Timer)
-
+    void sendClock();
 
 private slots:
     // MIDI

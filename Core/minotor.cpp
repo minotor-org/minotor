@@ -389,13 +389,6 @@ void Minotor::dispatchClock(const unsigned int uppqn, const unsigned int gppqn, 
                 }
             }
         }
-        if (ppqn == 0)
-        {
-            emit(beatToggled(true));
-        } else if (ppqn == 2)
-        {
-            emit(beatToggled(false));
-        }
     }
 }
 

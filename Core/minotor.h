@@ -93,7 +93,6 @@ public:
     void saveSettings();
 
 signals:
-    void beatToggled(bool active);
     void programBankChanged(QObject *bank);
 
 public slots:

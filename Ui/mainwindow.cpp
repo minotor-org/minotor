@@ -213,7 +213,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lMidiClock->addWidget(_wClockLed);
     _wClockLed->setMinimumSize(10,10);
     _wClockLed->setMaximumSize(10,10);
-    connect(_minotor,SIGNAL(beatToggled(bool)),this,SLOT(beatToggledReceived(bool)));
+    connect(_minotor->clockSource(),SIGNAL(beatToggled(bool)),this,SLOT(beatToggledReceived(bool)));
 
     QLabel *tClockLed = new QLabel(wMidiClock);
     lMidiClock->addWidget(tClockLed);
