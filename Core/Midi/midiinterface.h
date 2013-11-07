@@ -63,7 +63,7 @@ public:
     bool acceptNoteChange() { return _acceptNoteChange; }
 
     // Used (when at least one message type is accepted)
-    bool isUsed() { return (_acceptClock || _acceptProgramChange || _acceptControlChange || _acceptNoteChange); }
+    bool isUsed() { return !_mapping.isEmpty(); }
 
     // Mapping (Just keep a name (supposed to be unique) of corresponding mapping)
     QString mapping() const { return _mapping; }
