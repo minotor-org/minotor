@@ -261,6 +261,7 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
         {
             qDebug() << Q_FUNC_INFO
                      << "role:" << role << "is already registered!";
+            Q_ASSERT(false);
             return false;
         }
     }
@@ -419,7 +420,6 @@ void MidiMapper::flushMidiMapping(MidiInterface *mi)
             if(sl.at(1).toInt() == mi->id())
             {
                 toBeDeleted.append(itc.key());
-                delete itc.value();
                 ++deletedControlCount;
             }
         }
@@ -448,7 +448,6 @@ void MidiMapper::flushMidiMapping(MidiInterface *mi)
             if(sl.at(1).toInt() == mi->id())
             {
                 toBeDeleted.append(itn.key());
-                delete itn.value();
                 ++deletedControlCount;
             }
         }
@@ -477,7 +476,6 @@ void MidiMapper::flushMidiMapping(MidiInterface *mi)
             if(sl.at(1).toInt() == mi->id())
             {
                 toBeDeleted.append(icc.key());
-                delete icc.value();
                 ++deletedControlCount;
             }
         }
