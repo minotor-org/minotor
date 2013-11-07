@@ -277,11 +277,11 @@ QPushButton:checked {
 
 QPushButton#enableButton {
     border-radius:1px;
+    background-color:#000000;
 }
 
 QPushButton#enableButton:checked {
     border: 1px solid #5f5f5f;
-    background-color:#4c4c4c;
 }
 
 QPushButton#enableButton:hover {
