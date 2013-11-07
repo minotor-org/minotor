@@ -506,28 +506,30 @@ void MidiMapper::loadMidiMapping(MidiInterface *mi, MidiMapping * mm)
     while (i.hasNext()) {
         i.next();
         const QString role = i.key();
-        const QStringList mappedTo = i.value().toStringList();
-        Q_ASSERT(mappedTo.count()==3);
-        const uint type = mappedTo.at(0).toUInt();
-        switch (type) {
-        case 0: // CC
-        {
-            const uint channel = mappedTo.at(1).toUInt();
-            const uint control = mappedTo.at(2).toUInt();
-            mapControlToRole(mi->id(), channel, control, role);
-        }
-            break;
-        case 1: // Note
-        {
-            const uint channel = mappedTo.at(1).toUInt();
-            const uint note = mappedTo.at(2).toUInt();
-            mapNoteToRole(mi->id(), channel, note, role);
-        }
-            break;
-        default:
-            qDebug() << Q_FUNC_INFO
-                     << "You should not be there...";
-            Q_ASSERT(false);
+        if(!role.isEmpty() && role != "none") {
+            const QStringList mappedTo = i.value().toStringList();
+            Q_ASSERT(mappedTo.count()==3);
+            const uint type = mappedTo.at(0).toUInt();
+            switch (type) {
+            case 0: // CC
+            {
+                const uint channel = mappedTo.at(1).toUInt();
+                const uint control = mappedTo.at(2).toUInt();
+                mapControlToRole(mi->id(), channel, control, role);
+            }
+                break;
+            case 1: // Note
+            {
+                const uint channel = mappedTo.at(1).toUInt();
+                const uint note = mappedTo.at(2).toUInt();
+                mapNoteToRole(mi->id(), channel, note, role);
+            }
+                break;
+            default:
+                qDebug() << Q_FUNC_INFO
+                         << "You should not be there...";
+                Q_ASSERT(false);
+            }
         }
     }
 
