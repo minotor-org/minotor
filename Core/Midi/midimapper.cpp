@@ -364,6 +364,11 @@ void MidiMapper::registerRole(const QString &name, const QString &description, M
     minoRoles().insert(name, new MinoRole(name, description, type));
 }
 
+bool minoRoleLessThan(MinoRole *r1, MinoRole *r2)
+ {
+    return r1->name() < r2->name();
+}
+
 QList<MinoRole *> MidiMapper::registeredRoles()
 {
     QHash<QString, MinoRole*>::const_iterator i = minoRoles().constBegin();
@@ -372,6 +377,9 @@ QList<MinoRole *> MidiMapper::registeredRoles()
         roles.append(i.value());
         ++i;
     }
+
+    qSort(roles.begin(), roles.end(), minoRoleLessThan);
+
     return roles;
 }
 
