@@ -38,9 +38,6 @@ public:
     explicit MidiInterface(const QString &portName, Midi *parent);
     ~MidiInterface();
 
-    // List ports
-    QStringList getPorts();
-
     // Open port using _portName
     bool open();
     // Open port by name

@@ -155,7 +155,7 @@ bool MidiInterface::open(const QString& portName)
         {
             const QString inputName = QString(_rtMidiIn->getPortName(i).c_str());
             ports.append(inputName);
-            qDebug() << "In port: " << inputName;
+//            qDebug() << "In port: " << inputName;
         }
         int portIndex = ports.indexOf(portName);
         if(portIndex<0)
@@ -173,7 +173,7 @@ bool MidiInterface::open(const QString& portName)
             for (unsigned int i=0;i<nPorts;i++)
             {
                 ports.append(QString(_rtMidiOut->getPortName(i).c_str()));
-                qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
+//                qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
             }
             // "nanoKONTROL2 28:0"  -> "nanoKONTROL2:0"
             QRegExp rx("(\\w+) (.+):(\\d+)");
@@ -186,8 +186,8 @@ bool MidiInterface::open(const QString& portName)
             else
             {
                 QStringList sl = rx.capturedTexts();
-                    qDebug() << Q_FUNC_INFO
-                             <<   sl;
+//                    qDebug() << Q_FUNC_INFO
+//                             <<   sl;
                 Q_ASSERT(sl.count()==4);
                 const QString outputName = sl.at(1) + QString(":") + sl.at(3);
                 int portIndex = ports.indexOf(outputName);
@@ -273,7 +273,6 @@ bool MidiInterface::sendMessage(const int channel, const int control, const int 
         message.push_back(control);
         message.push_back(value);
         _rtMidiOut->sendMessage(&message);
-        qDebug() << "Message sent" << message.at(1);
     }
     return true;
 }
