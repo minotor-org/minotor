@@ -105,6 +105,9 @@ private:
     // Send MIDI message using QByteArray (slower but developer-friendly)
     bool sendMessage(const QByteArray &bytes);
 
+    // Send Identity request (SysEx)
+    void sendIdentityRequest();
+
 signals:
     void connected(bool connected = true);
     void clockReceived();

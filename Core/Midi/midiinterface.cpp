@@ -85,6 +85,23 @@ MidiInterface::~MidiInterface()
 // System Common Messages (SCM)
 #define MIDI_SCM_SYSEX   240  // 11110000
 
+// Some SysEx
+#define SYSEX_HEADER                0xf0 // SysEx header byte (1st byte)
+#define SYSEX_TERMINATOR            0xf7 // SysEx terminator (last byte)
+#define SYSEX_NON_REALTIME_MESSAGE  0x7e // Non-Realtime Message (2nd byte)
+#define SYSEX_GENERAL_INFORMATION   0x06 // General information / Inquiry message (4th byte)
+#define SYSEX_IDENTITY_REQUEST      0x01 // Identity request / Inquiry request (5th byte)
+#define SYSEX_IDENTITY_REPLY        0x02 // Identity reply / Inquiry response (5th byte)
+
+#define KORG_SYSEX_HEADER           0x42 // Specific Korg SysEx command (2nd byte)
+#define KORG_SYSEX__SCENE_CHANGED   0x4f // Scene changed message (9th byte)
+
+// Manufacturers IDs
+// http://www.midi.org/techspecs/manid.php
+#define MIDI_MANUFACTURER_ID__KORG          0x42
+#define MIDI_KORG_FAMILY_ID__NANOKONTROL    0x0104
+#define MIDI_KORG_FAMILY_ID__NANOKONTROL2   0x0113
+
 void MidiInterface::midiCallback(double deltatime, std::vector< unsigned char > *message)
 {
     (void)deltatime;
@@ -257,6 +274,9 @@ bool MidiInterface::openOut(const unsigned int portIndex)
                 _rtMidiOut->openPort(portIndex);
                 _hasOutput = true;
                 qDebug() << "MIDI Out connected to: " << this->portName();
+
+                // Ask device to give its identity
+                sendIdentityRequest();
             } catch ( RtError &error ) {
                 error.printMessage();
                 _hasOutput = false;
@@ -264,6 +284,20 @@ bool MidiInterface::openOut(const unsigned int portIndex)
         }
     }
     return _hasOutput;
+}
+
+void MidiInterface::sendIdentityRequest()
+{
+    // Send a Inquiry Request message
+    QByteArray sysex;
+    sysex.resize(6);
+    sysex[0] = SYSEX_HEADER; // MIDI System exclusive message start
+    sysex[1] = SYSEX_NON_REALTIME_MESSAGE; // Non-Realtime Message
+    sysex[2] = 0x00; // Channel to inquire
+    sysex[3] = SYSEX_GENERAL_INFORMATION; // Inquiry Message
+    sysex[4] = SYSEX_IDENTITY_REQUEST; // Inquiry Request
+    sysex[5] = SYSEX_TERMINATOR; // MIDI System exclusive message terminator
+    sendMessage(sysex);
 }
 
 bool MidiInterface::sendMessage(const int channel, const int control, const int value)
