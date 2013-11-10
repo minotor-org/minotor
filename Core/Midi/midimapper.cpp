@@ -226,6 +226,7 @@ void MidiMapper::mapControlToRole(const int interface, const quint8 channel, con
 
 void MidiMapper::triggerFeedback(bool on)
 {
+    // FIXME this function is not generic and have been written with only nanoKontrol 2 LEDs usage in mind.
     MinoTrigger *mt = qobject_cast<MinoTrigger*>(sender());
     Q_ASSERT(mt);
     QStringList keys = _hashMinoTriggerControls.keys(mt);
@@ -238,6 +239,7 @@ void MidiMapper::triggerFeedback(bool on)
         const int control = sl.at(2).toInt();
         MidiInterface *mi = Minotor::minotor()->midi()->findMidiInterface(id);
         mi->sendMessage(channel, control, on?127:0);
+        // HACK to drive LEDs on nanoKontrol 2 (when LED mode have been setup as external using Korg software)
     }
 }
 

@@ -72,6 +72,7 @@ void Midi::scanMidiInterfaces()
         }
     }
 
+    // In midiInterfaces, only remains not-available-anymore ports (candidate to deletion)
     foreach(MidiInterface *mi, midiInterfaces)
     {
         if(mi->isConnected())
