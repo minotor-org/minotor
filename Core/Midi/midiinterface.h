@@ -109,6 +109,10 @@ private:
     // Send Identity request (SysEx)
     void sendIdentityRequest();
 
+    // Korg Specifics
+    void sendKorgDumpRequest();
+    void sendKorgWriteRequest();
+
 signals:
     void connected(bool connected = true);
     void clockReceived();

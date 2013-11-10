@@ -526,3 +526,52 @@ void MidiInterface::flushMapping()
 {
     Minotor::minotor()->midiMapper()->flushMidiMapping(this);
 }
+
+/*
+ * Some Korg MIDI messages specs available at:
+ *   http://www.korg.com/uploads/Support/nano2_microKEY_MIDI_Implementation_634552377393920000.zip
+ *   file: nanoKONTROL2_MIDIimp.txt
+ * Note: Some off nanoKontrol 2 MIDI SysEx works on nanoKontrol 1
+ */
+
+void MidiInterface::sendKorgDumpRequest()
+{
+    QByteArray sysex;
+    sysex.resize(11);
+    sysex[0] = SYSEX_HEADER; // MIDI System exclusive message start
+    sysex[1] = KORG_SYSEX_HEADER; // Korg Exclusive Message
+    sysex[2] = 0x40; // 0x4g : g : Global MIDI Channel
+    // Software project (nanoKontrol 1)
+    sysex[3] = 0x00;
+    sysex[4] = 0x01;
+    sysex[5] = 0x04;
+    sysex[6] = 0x00;
+
+    sysex[7] = 0x1f; // Data Dump Command  (Host->Controller, 2Bytes Format)
+    sysex[8] = 0x10; // Current Scene Data Dump Request
+    sysex[9] = 0x00;
+
+    sysex[10] = SYSEX_TERMINATOR; // Terminator
+    sendMessage(sysex);
+}
+
+void MidiInterface::sendKorgWriteRequest()
+{
+    QByteArray sysex;
+    sysex.resize(11);
+    sysex[0] = SYSEX_HEADER; // MIDI System exclusive message start
+    sysex[1] = KORG_SYSEX_HEADER; // Korg Exclusive Message
+    sysex[2] = 0x40; // 0x4g : g : Global MIDI Channel
+    // Software project (nanoKontrol 1)
+    sysex[3] = 0x00;
+    sysex[4] = 0x01;
+    sysex[5] = 0x04;
+    sysex[6] = 0x00;
+
+    sysex[7] = 0x1f; // Data Dump Command  (Host->Controller, 2Bytes Format)
+    sysex[8] = 0x11; // Scene Write Request
+    sysex[9] = 0x01;
+
+    sysex[10] = SYSEX_TERMINATOR; // Terminator
+    sendMessage(sysex);
+}
