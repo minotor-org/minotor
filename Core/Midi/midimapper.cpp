@@ -238,8 +238,8 @@ void MidiMapper::triggerFeedback(bool on)
         const int channel = sl.at(1).toInt();
         const int control = sl.at(2).toInt();
         MidiInterface *mi = Minotor::minotor()->midi()->findMidiInterface(id);
-        mi->sendMessage(channel, control, on?127:0);
         // HACK to drive LEDs on nanoKontrol 2 (when LED mode have been setup as external using Korg software)
+        mi->sendControlChange(channel, control, on?127:0);
     }
 }
 

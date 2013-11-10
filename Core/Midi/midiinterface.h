@@ -70,8 +70,8 @@ public:
     void loadMapping();
     void flushMapping();
 
-    // Experimental: send a MIDI message
-    bool sendMessage(const int channel, const int control, const int value);
+    // Send 'Control Change' to device
+    bool sendControlChange(const int channel, const int control, const int value);
 
     // RtMidi callback
     // Warning: Should not be used by user...

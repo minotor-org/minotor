@@ -377,7 +377,7 @@ void MidiInterface::sendIdentityRequest()
     sendMessage(sysex);
 }
 
-bool MidiInterface::sendMessage(const int channel, const int control, const int value)
+bool MidiInterface::sendControlChange(const int channel, const int control, const int value)
 {
     if (_hasOutput)
     {
