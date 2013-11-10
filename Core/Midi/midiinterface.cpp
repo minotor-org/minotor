@@ -279,6 +279,21 @@ bool MidiInterface::sendMessage(const int channel, const int control, const int 
     return true;
 }
 
+bool MidiInterface::sendMessage(const QByteArray &bytes)
+{
+    if (_hasOutput)
+    {
+        std::vector< unsigned char > message;
+        for(int i=0; i<bytes.count(); ++i)
+        {
+            message.push_back(bytes[i]);
+        }
+        _rtMidiOut->sendMessage(&message);
+        qDebug() << Q_FUNC_INFO << "data:" << bytes.toHex();
+    }
+    return true;
+}
+
 bool MidiInterface::close()
 {
     if(_rtMidiIn && _connected)

@@ -102,6 +102,9 @@ private:
     // Auto-(dis)connect function: ensure (dis)connection is made denpenging on isUsed()
     void autoconnect();
 
+    // Send MIDI message using QByteArray (slower but developer-friendly)
+    bool sendMessage(const QByteArray &bytes);
+
 signals:
     void connected(bool connected = true);
     void clockReceived();
