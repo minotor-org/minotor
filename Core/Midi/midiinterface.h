@@ -84,6 +84,7 @@ private:
     int _id;
     unsigned int _portIndex;
     QString _portName;
+    QString _description;
     bool _connected;
     bool _hasOutput;
     QString _mapping;

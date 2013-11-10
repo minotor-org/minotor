@@ -135,10 +135,87 @@ void MidiInterface::midiCallback(double deltatime, std::vector< unsigned char > 
     case MIDI_SRTM_CONTINUE: emit continueReceived(); break;
     case MIDI_SCM_SYSEX:
     {
-        // HACK to use Korg nanoKontrol scene button in order to change master view
-        if(message->size() == 11)
+        bool sysex_reconized = false;
+        if (message->size() > 13)
         {
-            emit programChanged(_id, quint8 (channel), quint8 (message->at(9)));
+            if((message->at(1) == SYSEX_NON_REALTIME_MESSAGE)
+                    && (message->at(3) == SYSEX_GENERAL_INFORMATION)
+                    && (message->at(4) == SYSEX_IDENTITY_REPLY))
+            {
+                sysex_reconized = true;
+                // Grab Manufacturer ID
+                quint32 manufacturer_id;
+                manufacturer_id = message->at(5);
+                if(manufacturer_id == 0) // if use a long manufacturer ID
+                {
+                    manufacturer_id = message->at(6) << 16;
+                    manufacturer_id = message->at(7) << 8;
+                }
+
+                QString description;
+                switch (manufacturer_id)
+                {
+                case MIDI_MANUFACTURER_ID__KORG:
+                {
+                    description += "Manufacturer: Korg\n";
+                    quint16 family_id = message->at(6) | (message->at(7) << 8);
+                    switch(family_id)
+                    {
+                    case MIDI_KORG_FAMILY_ID__NANOKONTROL:
+                        description += "Model: nanoKontrol\n";
+                        break;
+                    case MIDI_KORG_FAMILY_ID__NANOKONTROL2:
+                        description += "Model: nanoKontrol2\n";
+                        break;
+                    default:
+                        break;
+                    }
+                    quint16 minor_version = message->at(10) | (message->at(11) << 8);
+                    quint16 major_version = message->at(12) | (message->at(13) << 8);
+                    description += QString("Version: %1.%2\n").arg(major_version).arg(minor_version);
+                    qDebug() << Q_FUNC_INFO << description.replace('\n', ' ');
+                    _description = description;
+                }
+                    break;
+                default:
+                    qDebug() << Q_FUNC_INFO
+                             << "Unknown MIDI Manufacturer ID:" << manufacturer_id;
+                    break;
+                }
+            }
+        }
+        else if (message->size() == 11)
+        {
+            // HACK to use Korg nanoKontrol scene button in order to change master view
+            if((message->at(1) == KORG_SYSEX_HEADER) && (message->at(8) == KORG_SYSEX__SCENE_CHANGED))
+            {
+                // message->at(2) == 0x40 // 4g where g is Global Channel
+                // Software Project (nanoKontrol 1) (4 bytes)
+                // message->at(3) == 0x00
+                // message->at(4) == 0x01
+                // message->at(5) == 0x04
+                // message->at(6) == 0x00
+
+                // message->at(7) == 0x5f // Data Dump Command  (Host<-Controller, 2Bytes Format)
+                // message->at(8) == 0x4f // Not documented but seems to be "Screen changed"
+                // message->at(9) stores scene ID (0x00 -> Scene 1, ... , 0x03 -> Scene 4
+
+                // This SysEx is emitted by Korg nanoKontrol 1 when scene changed
+                sysex_reconized = true;
+                emit programChanged(_id, quint8 (channel), quint8 (message->at(9)));
+            }
+        }
+
+        if(!sysex_reconized)
+        {
+            QString msg;
+            for(uint i=0; i<message->size(); ++i)
+            {
+                msg += QString("%1 ").arg(message->at(i), 0, 16);
+            }
+            qDebug() << Q_FUNC_INFO
+                     << "Unknown sysex received: size=" << message->size() << "content=[" << msg << "]";
+            //Q_ASSERT(false);
         }
     }
         break;
