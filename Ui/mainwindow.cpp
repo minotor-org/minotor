@@ -184,13 +184,14 @@ MainWindow::MainWindow(QWidget *parent) :
     lMidiButtons->setSpacing(5);
     lMidiButtons->setMargin(0);
     lMidiButtons->setContentsMargins(0,0,0,0);
-    // MIDI toolbar
-    QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
-    connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
-    pbMidiLearn->setToolTip("Active/Deactivate midi learn to map your controler");
-    pbMidiLearn->setText("MIDI learn");
-    pbMidiLearn->setCheckable(true);
-    lMidiButtons->addWidget(pbMidiLearn);
+
+//    // MIDI learn
+//    QPushButton *pbMidiLearn = new QPushButton(_tToolBar);
+//    connect(pbMidiLearn,SIGNAL(toggled(bool)),this,SLOT(tbMidiLearnToggled(bool)));
+//    pbMidiLearn->setToolTip("Active/Deactivate midi learn to map your controler");
+//    pbMidiLearn->setText("MIDI learn");
+//    pbMidiLearn->setCheckable(true);
+//    lMidiButtons->addWidget(pbMidiLearn);
 
     lBackground->addStretch();
     //Midi monitors
