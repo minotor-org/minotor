@@ -49,12 +49,16 @@ protected slots:
 
     void changeMidiControllableParameterAttributes();
 
+    void incrementVirtualPageOffset();
+    void decrementVirtualPageOffset();
+
 protected:
     MinoMaster *_master;
     MinoProgram *_program;
 
     int _knobsPerTrack;
-    int _offset;
+    int _virtualPageWidth;
+    int _virtualPageOffset;
 
     void registerProgram(MinoProgram *mp);
     void unregisterProgram(MinoProgram *mp);
@@ -69,6 +73,8 @@ protected:
     void clearRoles();
 
     void updateMap();
+
+    void setVirtualPageOffset(int offset);
 };
 
 #endif // MINOMASTERMIDIMAPPER_H

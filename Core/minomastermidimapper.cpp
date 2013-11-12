@@ -27,27 +27,34 @@
 #include "minoanimationgroup.h"
 #include "minoanimation.h"
 
+#include <QDebug>
+
 MinoMasterMidiMapper::MinoMasterMidiMapper(MinoMaster *parent) :
     QObject(parent),
     _master(parent),
     _program(NULL),
-    _knobsPerTrack(2),
-    _offset(0)
+    _knobsPerTrack(2), // FIXME: Hardcoded value
+    _virtualPageWidth(8), // FIXME: Hardcoded value
+    _virtualPageOffset(0)
 {
     Q_ASSERT(_master);
     connect(_master, SIGNAL(programChanged()), this, SLOT(updateProgram()));
 
+    MidiMapper::registerTrigger("MASTER_VIRTUAL_PAGE_INC", "Increment virtual page offset", this, SLOT(incrementVirtualPageOffset()));
+    MidiMapper::registerTrigger("MASTER_VIRTUAL_PAGE_DEC", "Decrement virtual page offset", this, SLOT(decrementVirtualPageOffset()));
+
     registerRoles();
 }
 
+// FIXME: Hardcoded value
+#define MINOMASTERMIDIMAPPER_TRACKS_MAX 32
+#define MINOMASTERMIDIMAPPER_KNOBS_MAX 4
+
 void MinoMasterMidiMapper::registerRoles()
 {
-    // FIXME
-    const int columns = 9;
-    const int virtual_pages = 4;
-    const int virtual_columns = columns*virtual_pages;
-
-    for (int i=0; i<virtual_columns; i++)
+    // Note: triggers have to be registered before Midi device can map it.
+    // So, the question is "how many roles should we register for master ?"
+    for (int i=0; i<MINOMASTERMIDIMAPPER_TRACKS_MAX; i++)
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
         QString description = QString("Toggle master's animation #%1").arg(i);
@@ -57,8 +64,7 @@ void MinoMasterMidiMapper::registerRoles()
         MidiMapper::registerTrigger(role, description, MinoRole::Hold);
     }
 
-    // FIXME
-    QSize sHardMappedArea(virtual_columns,_knobsPerTrack);
+    QSize sHardMappedArea(MINOMASTERMIDIMAPPER_TRACKS_MAX, MINOMASTERMIDIMAPPER_KNOBS_MAX);
     for (int x=0; x<sHardMappedArea.width(); ++x)
     {
         for(int y=0; y<sHardMappedArea.height(); ++y)
@@ -72,13 +78,7 @@ void MinoMasterMidiMapper::registerRoles()
 
 void MinoMasterMidiMapper::clearRoles()
 {
-    // FIXME
-    const int columns = 9;
-    const int rows = 2;
-    const int virtual_pages = 4;
-    const int virtual_columns = columns*virtual_pages;
-
-    for (int i=0; i<virtual_columns; i++)
+    for (int i=0; i<MINOMASTERMIDIMAPPER_TRACKS_MAX; i++)
     {
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
         MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
@@ -86,8 +86,7 @@ void MinoMasterMidiMapper::clearRoles()
         MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
     }
 
-    // FIXME
-    QSize sHardMappedArea(virtual_columns,rows);
+    QSize sHardMappedArea(MINOMASTERMIDIMAPPER_TRACKS_MAX, MINOMASTERMIDIMAPPER_KNOBS_MAX);
     for (int x=0; x<sHardMappedArea.width(); ++x)
     {
         for(int y=0; y<sHardMappedArea.height(); ++y)
@@ -105,6 +104,7 @@ void MinoMasterMidiMapper::updateProgram()
         unregisterProgram(_program);
     if(program)
         registerProgram(program);
+    setVirtualPageOffset(0);
     _program = program;
     updateMap();
 }
@@ -151,7 +151,6 @@ void MinoMasterMidiMapper::unregisterGroup(MinoAnimationGroup *mag)
     {
         unregisterAnimation(ma);
     }
-    //FIXME: unregisterTriggers() (eg. MASTER_ANIMATION_)
 }
 
 void MinoMasterMidiMapper::registerAnimation(MinoAnimation *ma)
@@ -169,7 +168,6 @@ void MinoMasterMidiMapper::unregisterAnimation(MinoAnimation *ma)
     foreach (MidiControllableParameter* mcp, mcpl)
     {
         disconnect(mcp, SIGNAL(attributesChanged()), this, SLOT(changeMidiControllableParameterAttributes()));
-        //FIXME: unregisterTriggers() (eg. MASTER_CONTROLS_)
     }
 }
 
@@ -216,49 +214,83 @@ void MinoMasterMidiMapper::changeMidiControllableParameterAttributes()
     updateMap();
 }
 
+void MinoMasterMidiMapper::setVirtualPageOffset(int offset)
+{
+    if (_program)
+    {
+        const int tracks = _program->animationGroups().count();
+        const int offset_max = qMax(0, tracks - _virtualPageWidth);
+        offset = qMin(offset, offset_max);
+        offset = qMax(0, offset);
+        if(offset != _virtualPageOffset)
+        {
+            _virtualPageOffset = offset;
+            updateMap();
+        }
+    }
+}
+
+void MinoMasterMidiMapper::incrementVirtualPageOffset()
+{
+    setVirtualPageOffset(_virtualPageOffset+1);
+}
+
+void MinoMasterMidiMapper::decrementVirtualPageOffset()
+{
+    setVirtualPageOffset(_virtualPageOffset-1);
+}
+
 void MinoMasterMidiMapper::updateMap()
 {
     clearRoles();
+
     if (_program)
     {
         // FIXME qMin(_program->animationGroups(), columns)
         const int tracks = _program->animationGroups().count();
-        for(int i=0; i<tracks; ++i)
-        {
-            if((i>=_offset) && ((i-_offset)<tracks)) {
-                const int role_index = i - _offset;
-                MinoAnimationGroup *group = _program->animationGroups().at(i);
-                QString role = QString("MASTER_ANIMATION_%1").arg(role_index);
-                MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), NULL, NULL, true, true);
-                role = QString("MASTER_ANIMATION_SHIFT_%1").arg(role_index);
-                MidiMapper::connectTrigger(role, group, SLOT(toggle()), group, SIGNAL(enabledChanged(bool)), false, true);
+        _virtualPageOffset = qMax(0, _virtualPageOffset);
+        const int range_max = qMin(tracks, _virtualPageOffset+_virtualPageWidth);
 
-                int id = 0;
-                foreach(MinoAnimation *animation, group->animations())
+        qDebug() << Q_FUNC_INFO
+                 << "offset:" << _virtualPageOffset
+                 << "available tracks:" << tracks
+                 << "virtual page size:" << _virtualPageWidth
+                 << "range:" << _virtualPageOffset << "," << range_max;
+
+        for(int i=_virtualPageOffset; i<range_max; ++i)
+        {
+            const int role_index = i - _virtualPageOffset;
+            MinoAnimationGroup *group = _program->animationGroups().at(i);
+            QString role = QString("MASTER_ANIMATION_%1").arg(role_index);
+            MidiMapper::connectTrigger(role, group, SLOT(setEnabled(bool)), NULL, NULL, true, true);
+            role = QString("MASTER_ANIMATION_SHIFT_%1").arg(role_index);
+            MinoTrigger* mt = MidiMapper::connectTrigger(role, group, SLOT(toggle()), group, SIGNAL(enabledChanged(bool)), false, true);
+            mt->setFeedback(group->enabled());
+
+            int id = 0;
+            foreach(MinoAnimation *animation, group->animations())
+            {
+                QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
+                for(int j=0; j<mcp.count(); ++j)
                 {
-                    QList<MidiControllableParameter*> mcp = animation->findChildren<MidiControllableParameter*>();
-                    for(int j=0; j<mcp.count(); ++j)
+                    if(mcp.at(j)->isPreferred())
                     {
-                        // FIXME qMin(counter, row)
-                        if(mcp.at(j)->isPreferred())
+                        if (id >= _knobsPerTrack)
                         {
-                            if (id >= _knobsPerTrack)
-                            {
-                                break;
-                            }
-                            const QString role = QString("MASTER_CONTROLS_%1_%2").arg(role_index).arg(id);
-                            MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
-                            id++;
+                            break;
                         }
-                    }
-                    if (id >= _knobsPerTrack)
-                    {
-                        break;
+                        const QString role = QString("MASTER_CONTROLS_%1_%2").arg(role_index).arg(id);
+                        MidiMapper::connectControl(role, mcp.at(j), SLOT(setValueFromMidi(quint8)), true);
+                        id++;
                     }
                 }
+                if (id >= _knobsPerTrack)
+                {
+                    break;
+                }
             }
-
         }
+        _master->setViewportRange(_virtualPageOffset, range_max);
     }
     emit updated();
 }
