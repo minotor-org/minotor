@@ -258,7 +258,7 @@ bool MidiMapper::registerTrigger(const QString &role, const QString &description
     return connectTrigger(role, receiver, method, sender, signal, (type == MinoRole::Hold), overwrite);
 }
 
-bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, const QObject *sender, const char *signal, bool toggle, bool overwrite)
+MinoTrigger* MidiMapper::connectTrigger(const QString &role, const QObject *receiver, const char *method, const QObject *sender, const char *signal, bool toggle, bool overwrite)
 {
     MinoTrigger *trigger = minoTriggers().value(role, NULL);
     if(!overwrite)
@@ -297,7 +297,7 @@ bool MidiMapper::connectTrigger(const QString &role, const QObject *receiver, co
 
         trigger->connectFeedback(sender, signal);
     }
-    return true;
+    return trigger;
 }
 
 bool MidiMapper::registerControl(const QString &role, const QString &description, const QObject *receiver, const char *method, bool overwrite)
