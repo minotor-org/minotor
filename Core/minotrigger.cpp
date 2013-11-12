@@ -25,7 +25,9 @@ MinoTrigger::MinoTrigger(QString role, QObject *parent) :
     QObject(parent),
     _on(false),
     _role(role),
-    _feedback(false)
+    _feedback(false),
+    _sender(NULL),
+    _signal(NULL)
 {
 }
 
@@ -51,4 +53,39 @@ void MinoTrigger::forceFeedbackEmitting()
     qDebug() << Q_FUNC_INFO << this << role() << _feedback;
     // Re-send previously saved feedback value
     emit feedback(_feedback);
+}
+
+void MinoTrigger::connectFeedback(const QObject *sender, const char *signal)
+{
+    if(sender && signal)
+    {
+        _sender = sender;
+        _signal = signal;
+
+        connect(sender, signal, this, SLOT(setFeedback(bool)));
+//            qDebug() << Q_FUNC_INFO
+//                     << "role:" << role << "is now connected to: "
+//                     << "SLOT" << receiver << QString("(%1)").arg(QString(method))
+//                     << "SIGNAL" << sender << QString("(%1)").arg(QString(signal));
+    }
+    else
+    {
+        _sender = NULL;
+        _signal = NULL;
+        connect(this, SIGNAL(toggled(bool)), this, SLOT(setFeedback(bool)));
+//            qDebug() << Q_FUNC_INFO
+//                     << "role:" << role << "is now connected to: "
+//                     << "SLOT" << receiver << QString("(%1)").arg(QString(method))
+//                     << "SIGNAL" << trigger << QString("(%1)").arg(QString(SIGNAL(toggled(bool))));
+    }
+}
+
+void MinoTrigger::disconnectFeedback()
+{
+    if(_sender && _signal)
+    {
+        disconnect(_sender, _signal, this, SLOT(setFeedback(bool)));
+        _sender = NULL;
+        _signal = NULL;
+    }
 }

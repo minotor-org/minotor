@@ -34,6 +34,9 @@ public:
 
     QString role() const { return _role; }
 
+    void connectFeedback(const QObject* sender, const char *signal);
+    void disconnectFeedback();
+
 signals:
     void toggled(bool on);
     void triggered();
@@ -46,6 +49,9 @@ protected:
     bool _on;
     QString _role;
     bool _feedback;
+
+    const QObject* _sender;
+    const char * _signal;
 };
 
 #endif // MINOTRIGGER_H
