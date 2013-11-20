@@ -68,6 +68,7 @@ public slots:
     void setDelayedEnabled(const bool enabled);
     void setEnabled(bool on);
     void toggle() { _setEnabled(!_enabled); }
+    void createItem();
 
 private:
     QPixmap _screenshot;

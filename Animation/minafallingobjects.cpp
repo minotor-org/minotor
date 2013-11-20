@@ -57,93 +57,113 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorCurve->setLabel("Curve");
 }
 
+void MinaFallingObjects::createItem()
+{
+    _itemCreationRequested = true;
+    setAlive(true);
+}
+
+void MinaFallingObjects::createItem(const unsigned int uppqn)
+{
+    QColor color = _color->color();
+
+    unsigned int direction = _generatorDirection->currentItem()->real();
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
+    const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
+
+    QGraphicsItem *item = NULL;
+
+    int randomPos;
+    unsigned int density = 0;
+    if(direction == 4)
+    {
+        direction = qrand() % 4;
+    }
+    switch (direction)
+    {
+    case 0: // Left
+    case 1: // Right
+        density = 1 + (_generatorDensity->value() * (_boundingRect.height()-1));
+        break;
+    case 2: // Bottom
+    case 3: // Top
+        density = 1 + (_generatorDensity->value() * (_boundingRect.width()-1));
+        break;
+    }
+
+    for (unsigned int i=0;i<density;i++)
+    {
+        const qreal progress = (qreal)i/(qreal)density;
+        const qreal step = 1.0/(qreal)density;
+        switch(direction)
+        {
+        case 0:
+        {
+            //left to right
+            QLinearGradient grad(0.0, 0.0, length, 0.0);
+            grad.setColorAt(0.0, Qt::transparent);
+            grad.setColorAt(1, color);
+            randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
+            item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
+        }
+            break;
+        case 1:
+        {
+            //right to left
+            QLinearGradient grad(0.0, 0.0, length, 0.0) ;
+            grad.setColorAt(0.0, color) ;
+            grad.setColorAt(1, Qt::transparent) ;
+            randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
+            item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
+        }
+            break;
+        case 2:
+        {
+            //bottom to top
+            QLinearGradient grad(0.0, 0.0, 0.0, length) ;
+            grad.setColorAt(0.0, color) ;
+            grad.setColorAt(1, Qt::transparent) ;
+            randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
+            item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
+        }
+            break;
+        case 3:
+        {
+            //top to bottom
+            QLinearGradient grad(0.0, 0.0, 0.0, length) ;
+            grad.setColorAt(0.0, Qt::transparent) ;
+            grad.setColorAt(1, color) ;
+            randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
+            item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
+        }
+            break;
+        }
+
+        item->setData(MinaFallingObjects::Direction, direction);
+        MinoAnimatedItem maItem (uppqn, duration, item);
+        _itemGroup.addToGroup(item);
+        _animatedItems.append(maItem);
+    }
+}
+
 void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)qn;
     (void)ppqn;
 
-    QColor color = _color->color();
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    unsigned int direction = _generatorDirection->currentItem()->real();
-    const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
-    const unsigned int duration = _beatDuration->loopSizeInPpqn();
-    QGraphicsItem *item = NULL;
+    if (_itemCreationRequested)
+    {
+        createItem(uppqn);
+        _itemCreationRequested = false;
+    }
+
     if (_enabled && _beatFactor->isBeat(gppqn))
     {
-        int randomPos;
-        unsigned int density = 0;
-        if(direction == 4)
-        {
-            direction = qrand() % 4;
-        }
-        switch (direction)
-        {
-        case 0: // Left
-        case 1: // Right
-            density = 1 + (_generatorDensity->value() * (_boundingRect.height()-1));
-            break;
-        case 2: // Bottom
-        case 3: // Top
-            density = 1 + (_generatorDensity->value() * (_boundingRect.width()-1));
-            break;
-        }
-
-        for (unsigned int i=0;i<density;i++)
-        {
-            const qreal progress = (qreal)i/(qreal)density;
-            const qreal step = 1.0/(qreal)density;
-            switch(direction)
-            {
-            case 0:
-            {
-                //left to right
-                QLinearGradient grad(0.0, 0.0, length, 0.0);
-                grad.setColorAt(0.0, Qt::transparent);
-                grad.setColorAt(1, color);
-                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
-                item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
-            }
-                break;
-            case 1:
-            {
-                //right to left
-                QLinearGradient grad(0.0, 0.0, length, 0.0) ;
-                grad.setColorAt(0.0, color) ;
-                grad.setColorAt(1, Qt::transparent) ;
-                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.height());
-                item = _scene->addLine(0, randomPos, length, randomPos, QPen(QBrush(grad),1));
-            }
-                break;
-            case 2:
-            {
-                //bottom to top
-                QLinearGradient grad(0.0, 0.0, 0.0, length) ;
-                grad.setColorAt(0.0, color) ;
-                grad.setColorAt(1, Qt::transparent) ;
-                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
-                item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
-            }
-                break;
-            case 3:
-            {
-                //top to bottom
-                QLinearGradient grad(0.0, 0.0, 0.0, length) ;
-                grad.setColorAt(0.0, Qt::transparent) ;
-                grad.setColorAt(1, color) ;
-                randomPos = (qreal)((progress + (qrandF()*step))*_boundingRect.width());
-                item = _scene->addLine(randomPos, 0, randomPos, length, QPen(QBrush(grad),1));
-            }
-                break;
-            }
-
-            item->setData(MinaFallingObjects::Direction, direction);
-            MinoAnimatedItem maItem (uppqn, duration, item);
-            _itemGroup.addToGroup(item);
-            _animatedItems.append(maItem);
-        }
-
+        createItem(uppqn);
     }
+    const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
         const MinoAnimatedItem item = _animatedItems.at(i);

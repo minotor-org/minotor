@@ -59,9 +59,14 @@ void MinoMasterMidiMapper::registerRoles()
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
         QString description = QString("Toggle master's animation #%1").arg(i);
         MidiMapper::registerTrigger(role, description, MinoRole::Trigger);
+
         role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
         description = QString("Activate master's animation #%1").arg(i);
         MidiMapper::registerTrigger(role, description, MinoRole::Hold);
+
+        role = QString("MASTER_ANIMATION_CREATE_%1").arg(i);
+        description = QString("Create item on master's animation #%1").arg(i);
+        MidiMapper::registerTrigger(role, description, MinoRole::Trigger);
     }
 
     QSize sHardMappedArea(MINOMASTERMIDIMAPPER_TRACKS_MAX, MINOMASTERMIDIMAPPER_KNOBS_MAX);
@@ -83,6 +88,8 @@ void MinoMasterMidiMapper::clearRoles()
         QString role = QString("MASTER_ANIMATION_%1").arg(i);
         MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
         role = QString("MASTER_ANIMATION_SHIFT_%1").arg(i);
+        MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
+        role = QString("MASTER_ANIMATION_CREATE_%1").arg(i);
         MidiMapper::connectTrigger(role, NULL, NULL, NULL, NULL, false, true);
     }
 
@@ -266,6 +273,8 @@ void MinoMasterMidiMapper::updateMap()
             role = QString("MASTER_ANIMATION_SHIFT_%1").arg(role_index);
             MinoTrigger* mt = MidiMapper::connectTrigger(role, group, SLOT(toggle()), group, SIGNAL(enabledChanged(bool)), false, true);
             mt->setFeedback(group->enabled());
+            role = QString("MASTER_ANIMATION_CREATE_%1").arg(role_index);
+            MidiMapper::connectTrigger(role, group, SLOT(createItem()), NULL, NULL, false, true);
 
             int id = 0;
             foreach(MinoAnimation *animation, group->animations())

@@ -42,6 +42,8 @@ public:
     const MinoAnimationDescription description() const { return getDescription(); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
+    void createItem(const unsigned int uppqn);
+    void createItem();
 
     bool isAlive() const { return _alive; }
     
@@ -59,6 +61,7 @@ protected:
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrPosition;
     bool _alive;
+    bool _itemCreationRequested;
 
     void setAlive(const bool on);
 

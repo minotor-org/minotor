@@ -248,3 +248,17 @@ void MinoAnimationGroup::animate(const unsigned int uppqn, const unsigned int gp
     _alive = alive;
 }
 
+void MinoAnimationGroup::createItem()
+{
+    bool alive = _alive;
+    foreach(MinoAnimation *ma, _animations)
+    {
+        ma->createItem();
+        if(ma->isAlive())
+        {
+            alive = true;
+        }
+    }
+    _alive = alive;
+    _itemGroup.setVisible(alive);
+}
