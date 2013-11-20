@@ -35,6 +35,7 @@ public:
     explicit MinoClockSource(QObject *parent);
     void setMidiClockSource(Midi *midi);
     qreal bpm() const { return (60000.0 / _bpmPeriodMs); }
+    unsigned int uppqn() const { return _uppqn; }
 signals:
     // Signal emitting a pre-computed pulse-per-quarter-note and quarter-note id (less code in receiver-classes, ie. MinoAnimations)
     void clock(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
