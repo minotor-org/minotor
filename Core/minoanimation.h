@@ -79,13 +79,6 @@ public:
     MinoAnimationGroup* group() const { return _group; }
     void setGroup(MinoAnimationGroup *group);
 
-    // MinoProperties
-    // FIXME put this in MinoProperty and make MinoProperty inherited from MinoPersistentObject
-    void setColor(const QColor& color) { if(_color) _color->setColor(color); }
-
-    void setLoopSize(const QString& loopSize) { _beatFactor->setLoopSize(loopSize); }
-    QString loopSize() const { return _beatFactor->loopSize(); }
-
 public slots:
     void setEnabled(const bool enabled);
 
