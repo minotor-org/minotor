@@ -51,6 +51,7 @@ SOURCES += \
     Core/minoanimationgroup.cpp \
     Core/minoclocksource.cpp \
     Core/minocontrol.cpp \
+    Core/minoinstrumentedanimation.cpp \
     Core/minomaster.cpp \
     Core/minomastermidimapper.cpp \
     Core/minopersistentobject.cpp \
@@ -123,6 +124,7 @@ HEADERS  += \
     Core/minoanimationgroup.h \
     Core/minoclocksource.h \
     Core/minocontrol.h \
+    Core/minoinstrumentedanimation.h \
     Core/minomaster.h \
     Core/minomastermidimapper.h \
     Core/minopersistentobject.h \

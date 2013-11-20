@@ -23,7 +23,7 @@
 #include <QDebug>
 
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
-    MinoAnimation(object),
+    MinoInstrumentedAnimation(object),
     _alive(false)
 {
     _ecrPosition.setStartValue(0.0);

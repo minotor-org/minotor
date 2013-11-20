@@ -69,7 +69,6 @@ public:
     virtual QGraphicsItem* graphicItem() = 0;
 
     virtual void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn) = 0;
-    virtual void createItem() {}
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
     QPointF qrandPointF();

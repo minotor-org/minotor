@@ -23,6 +23,7 @@
 #include <QDebug>
 
 #include "minoprogram.h"
+#include "minoinstrumentedanimation.h"
 #include "minopersistentobjectfactory.h"
 #include "midicontrollableparameter.h"
 
@@ -253,10 +254,14 @@ void MinoAnimationGroup::createItem()
     bool alive = _alive;
     foreach(MinoAnimation *ma, _animations)
     {
-        ma->createItem();
-        if(ma->isAlive())
+        MinoInstrumentedAnimation *mia = qobject_cast<MinoInstrumentedAnimation*>(ma);
+        if(mia)
         {
-            alive = true;
+            mia->createItem();
+            if(mia->isAlive())
+            {
+                alive = true;
+            }
         }
     }
     _alive = alive;

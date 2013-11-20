@@ -21,7 +21,7 @@
 #ifndef MINAFALLINGOBJECTS_H
 #define MINAFALLINGOBJECTS_H
 
-#include "minoanimation.h"
+#include "minoinstrumentedanimation.h"
 
 #include "easingcurvedreal.h"
 
@@ -29,7 +29,7 @@
 #include "minopropertyeasingcurve.h"
 #include "minoitemizedproperty.h"
 
-class MinaFallingObjects : public MinoAnimation
+class MinaFallingObjects : public MinoInstrumentedAnimation
 {
     Q_OBJECT
 public:
