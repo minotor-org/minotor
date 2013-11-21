@@ -248,8 +248,8 @@ void MinaFallingObjects::handleNoteChange(int interface, quint8 channel, quint8 
     if(on)
     {
         QColor color;
-        const unsigned int subnote = note % 8;
-        const qreal hue = (qreal)subnote / 8;
+        const unsigned int subnote = note % 12;
+        const qreal hue = (qreal)subnote / 12;
         const qreal lightness = (qreal)note / 127;
 
         color.setHslF(hue, 1.0, lightness);
