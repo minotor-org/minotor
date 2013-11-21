@@ -42,7 +42,6 @@ public:
     const MinoAnimationDescription description() const { return getDescription(); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
-    void createItem(const unsigned int uppqn);
     void createItem();
 
     bool isAlive() const { return _alive; }
@@ -50,21 +49,34 @@ public:
 signals:
     
 public slots:
+    void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 protected:
+    // Status
+    bool _alive;
+    void setAlive(const bool on);
+
+    // ECR
+    EasingCurvedReal _ecrPosition;
+
+    // Properties
     MinoPropertyBeat *_beatDuration;
     MinoItemizedProperty *_generatorDirection;
     MinoPropertyReal *_generatorLength;
     MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
+
+    // Graphics
     QGraphicsItemGroup _itemGroup;
+
+    // Items
     MinoAnimatedItems _animatedItems;
-    EasingCurvedReal _ecrPosition;
-    bool _alive;
     bool _itemCreationRequested;
 
-    void setAlive(const bool on);
+    void createItem(const unsigned int uppqn, const QColor &color);
+    void createItem(const QColor& color);
 
     enum ItemData { Direction };
+    QList<QColor> _pendingItemsColor;
 };
 #endif // MINAFALLINGOBJECTS_H

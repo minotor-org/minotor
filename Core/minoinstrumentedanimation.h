@@ -9,11 +9,12 @@ class MinoInstrumentedAnimation : public MinoAnimation
 public:
     explicit MinoInstrumentedAnimation(QObject *parent);
     virtual void createItem() {}
-    
+
 signals:
     
 public slots:
-    
+    virtual void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value) = 0;
+
 };
 
 #endif // MINOINSTRUMENTEDANIMATION_H

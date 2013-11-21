@@ -27,6 +27,8 @@
 #include "minopersistentobjectfactory.h"
 #include "midicontrollableparameter.h"
 
+#include "minotor.h"
+
 MinoAnimationGroup::MinoAnimationGroup(QObject *parent) :
     MinoPersistentObject(parent),
     _enabled(false),
@@ -111,6 +113,12 @@ void MinoAnimationGroup::insertAnimation(MinoAnimation *animation, int index)
 
     // Will remove animation from list when destroyed
     connect(animation, SIGNAL(destroyed(QObject*)), this, SLOT(destroyAnimation(QObject*)));
+
+    MinoInstrumentedAnimation *mia = qobject_cast<MinoInstrumentedAnimation*>(animation);
+    if(mia)
+    {
+        connect(Minotor::minotor()->midi(), SIGNAL(noteChanged(int,quint8,quint8,bool,quint8)), mia, SLOT(handleNoteChange(int,quint8,quint8,bool,quint8)));
+    }
 
     // Add to program QGraphicsItemGroup to ease group manipulation (ie. change position, brightness, etc.)
     _itemGroup.addToGroup(animation->graphicItem());

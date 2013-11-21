@@ -22,6 +22,8 @@
 
 #include <QDebug>
 
+#include "minoanimationgroup.h"
+
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
     MinoInstrumentedAnimation(object),
     _alive(false)
@@ -59,14 +61,18 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
 
 void MinaFallingObjects::createItem()
 {
+    createItem(_color->color());
+}
+
+void MinaFallingObjects::createItem(const QColor& color)
+{
     _itemCreationRequested = true;
+    _pendingItemsColor.append(color);
     setAlive(true);
 }
 
-void MinaFallingObjects::createItem(const unsigned int uppqn)
+void MinaFallingObjects::createItem(const unsigned int uppqn, const QColor& color)
 {
-    QColor color = _color->color();
-
     unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
     const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
@@ -155,13 +161,18 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
     if (_itemCreationRequested)
     {
-        createItem(uppqn);
+        foreach(const QColor& color, _pendingItemsColor)
+        {
+            createItem(uppqn, color);
+        }
+        _pendingItemsColor.clear();
+
         _itemCreationRequested = false;
     }
 
     if (_enabled && _beatFactor->isBeat(gppqn))
     {
-        createItem(uppqn);
+        createItem(uppqn, _color->color());
     }
     const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
     for (int i=_animatedItems.count()-1;i>-1;i--)
@@ -223,5 +234,28 @@ void MinaFallingObjects::setAlive(const bool on)
     else
     {
         // Nothing to do: we let animate() detected that if animation is alive...
+    }
+}
+
+void MinaFallingObjects::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
+{
+    qDebug() << Q_FUNC_INFO
+             << "note:" << note
+             << "on:" << on
+             << "channel:" << channel
+             << "interface:" << interface
+             << "value:" << value;
+    if(on)
+    {
+        QColor color;
+        const unsigned int subnote = note % 8;
+        const qreal hue = (qreal)subnote / 8;
+        const qreal lightness = (qreal)note / 127;
+
+        color.setHslF(hue, 1.0, lightness);
+        createItem(color);
+        MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
+        Q_ASSERT(mag);
+        mag->setAlive();
     }
 }
