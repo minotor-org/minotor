@@ -485,20 +485,6 @@ void MainWindow::on_actionExternal_master_view_toggled(bool on)
     _externalMasterView->setVisible(on);
 }
 
-void MainWindow::on_pbSave_clicked()
-{
-    QString file("program.plop");
-    QSettings parser(file, QSettings::IniFormat);
-    _minotor->save(_minotor->master()->program(), &parser);
-}
-
-void MainWindow::on_pbLoad_clicked()
-{
-    QString file("program.plop");
-    QSettings parser(file, QSettings::IniFormat);
-    _minotor->load(&parser);
-}
-
 void MainWindow::on_actionNew_triggered()
 {
     QMessageBox::StandardButton ret = QMessageBox::question(this,"Create a new program bank","This will erase you current bank.",QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Ok);

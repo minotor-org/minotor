@@ -85,10 +85,6 @@ private slots:
 
     void on_actionExternal_master_view_toggled(bool on);
 
-    void on_pbSave_clicked();
-
-    void on_pbLoad_clicked();
-
     void on_actionNew_triggered();
 
     void createUiProgramBank(QObject *bank);
