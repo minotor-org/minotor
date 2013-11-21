@@ -31,7 +31,10 @@ Midi::Midi(QObject *parent) :
     try
     {
         //Midi management
-        _midiIn = new RtMidiIn();
+        _midiIn = new RtMidiIn(RtMidi::UNSPECIFIED, std::string("Minotor"));
+        MidiInterface *mi = new MidiInterface(_midiIn, this);
+        mi->open();
+        addMidiInterface(mi);
     } catch ( RtError &error ) {
         error.printMessage();
     }
@@ -75,16 +78,20 @@ void Midi::scanMidiInterfaces()
     // In midiInterfaces, only remains not-available-anymore ports (candidate to deletion)
     foreach(MidiInterface *mi, midiInterfaces)
     {
-        if(mi->isConnected())
-            modified |= mi->close();
-        if(mi->isUsed())
-            continue;
-        if(!ports.contains(mi->portName()))
+        if(!mi->isVirtual())
         {
-            delete mi;
-            modified = true;
+            if(mi->isConnected())
+                modified |= mi->close();
+            if(mi->isUsed())
+                continue;
+            if(!ports.contains(mi->portName()))
+            {
+                delete mi;
+                modified = true;
+            }
         }
     }
+
     if (modified)
     {
         emit updated();
