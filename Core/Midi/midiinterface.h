@@ -40,8 +40,6 @@ public:
 
     // Open port using _portName
     bool open();
-    // Open port by name
-    bool open(const QString& portName);
 
     // Close open MIDI connection (if one exists).
     bool close();
@@ -97,6 +95,8 @@ private:
     // Special accessor: we use objectName to store portName
     void setPortName(QString portName);
 
+    // Open port by name
+    bool open(const QString& portName);
     // Open port by index (index is relative to current port list's index)
     bool openIn(const unsigned int index);
     bool openOut(const unsigned int portIndex);
