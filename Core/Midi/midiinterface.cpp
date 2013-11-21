@@ -274,7 +274,7 @@ bool MidiInterface::open(const QString& portName)
         {
             const QString inputName = QString(_rtMidiIn->getPortName(i).c_str());
             ports.append(inputName);
-//            qDebug() << "In port: " << inputName;
+//          qDebug() << "In port: " << inputName << i;
         }
         int portIndex = ports.indexOf(portName);
         if(portIndex<0)
@@ -292,28 +292,33 @@ bool MidiInterface::open(const QString& portName)
             for (unsigned int i=0;i<nPorts;i++)
             {
                 ports.append(QString(_rtMidiOut->getPortName(i).c_str()));
-//                qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
+//              qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
             }
-            // "nanoKONTROL2 28:0"  -> "nanoKONTROL2:0"
-            QRegExp rx("(\\w+) (.+):(\\d+)");
-            if(rx.indexIn(portName) == -1)
+            //Linux : "nanoKONTROL2 28:0"  -> "nanoKONTROL2:0"
+            //Windows : "nanoKONTROL2" -> "nanoKONTROL2"
+            int portIndex = ports.indexOf(portName);
+            if(portIndex<0)
             {
-                qDebug() << Q_FUNC_INFO
-                         << "no match for:" << portName;
-                Q_ASSERT(false);
-            }
-            else
-            {
-                QStringList sl = rx.capturedTexts();
-//                    qDebug() << Q_FUNC_INFO
-//                             <<   sl;
-                Q_ASSERT(sl.count()==4);
-                const QString outputName = sl.at(1) + QString(":") + sl.at(3);
-                int portIndex = ports.indexOf(outputName);
-                if(portIndex>=0)
+                QRegExp rx("(\\w+) (.+):(\\d+)");
+                if(rx.indexIn(portName) == -1)
                 {
-                    openOut(portIndex);
+                    qDebug() << Q_FUNC_INFO
+                             << "no match for:" << portName;
                 }
+                else
+                {
+                    QStringList sl = rx.capturedTexts();
+                    qDebug() << Q_FUNC_INFO
+                             <<   sl;
+                    Q_ASSERT(sl.count()==4);
+                    const QString outputName = sl.at(1) + QString(":") + sl.at(3);
+                    portIndex = ports.indexOf(outputName);
+
+                }
+            }
+            if(portIndex>=0)
+            {
+                openOut(portIndex);
             }
         }
         // Auto load mapping
@@ -343,7 +348,10 @@ bool MidiInterface::openIn(const unsigned int portIndex)
                 }
                 else
                 {
+                    qDebug() << "port:" << portIndex << Q_FUNC_INFO << this;
+
                     _rtMidiIn->openPort(portIndex);
+
                 }
                 // Set our callback function.  This should be done immediately after
                 // opening the port to avoid having incoming messages written to the
