@@ -49,8 +49,8 @@ public:
 
 
 public slots:
-        // Scan interfaces
-        void scanMidiInterfaces();
+    // Scan interfaces
+    void scanMidiInterfaces();
 
 private:
     int grabMidiInterfaceId();
