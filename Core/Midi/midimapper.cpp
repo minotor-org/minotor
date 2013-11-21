@@ -174,9 +174,11 @@ void MidiMapper::noteChanged(int interface, quint8 channel, quint8 note, bool on
     }
     else
     {
+        /*
         qDebug() << Q_FUNC_INFO
                  << "no associated trigger found for note:" << note
                  << QString("(%1,%2,%3)").arg(QString::number(interface)).arg(QString::number(channel)).arg(QString::number(note));
+                 */
     }
 }
 
