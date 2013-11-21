@@ -245,7 +245,7 @@ void MinaFallingObjects::handleNoteChange(int interface, quint8 channel, quint8 
              << "channel:" << channel
              << "interface:" << interface
              << "value:" << value;
-    if(on)
+    if(on && (channel == 0))
     {
         QColor color;
         const unsigned int subnote = note % 12;
