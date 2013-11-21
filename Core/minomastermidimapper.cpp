@@ -47,7 +47,7 @@ MinoMasterMidiMapper::MinoMasterMidiMapper(MinoMaster *parent) :
 }
 
 // FIXME: Hardcoded value
-#define MINOMASTERMIDIMAPPER_TRACKS_MAX 32
+#define MINOMASTERMIDIMAPPER_TRACKS_MAX 40
 #define MINOMASTERMIDIMAPPER_KNOBS_MAX 4
 
 void MinoMasterMidiMapper::registerRoles()
