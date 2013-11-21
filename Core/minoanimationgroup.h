@@ -53,6 +53,8 @@ public:
     QGraphicsItemGroup *itemGroup() { return &_itemGroup; }
 
     bool enabled() const { return _enabled; }
+
+    void setAlive() { setAlive(true); }
     bool isAlive() const { return _alive; }
     void animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn);
 
@@ -81,6 +83,7 @@ private:
     // Will be called by MinoProgram
     void _setEnabled(const bool on);
     void reorderAnimations();
+    void setAlive(const bool on);
 
 private slots:
     void destroyAnimation(QObject *animation);

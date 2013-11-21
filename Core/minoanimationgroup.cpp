@@ -216,8 +216,7 @@ void MinoAnimationGroup::_setEnabled(const bool on)
     //     it will be shuted-down when all animations stopped running..
     if(on)
     {
-        _alive = true;
-        _itemGroup.setVisible(true);
+        setAlive(true);
     }
     emit enabledChanged(on);
 }
@@ -243,10 +242,7 @@ void MinoAnimationGroup::animate(const unsigned int uppqn, const unsigned int gp
         }
     }
 
-	if(!alive)
-        _itemGroup.setVisible(false);
-
-    _alive = alive;
+    setAlive(alive);
 }
 
 void MinoAnimationGroup::createItem()
@@ -264,6 +260,14 @@ void MinoAnimationGroup::createItem()
             }
         }
     }
-    _alive = alive;
-    _itemGroup.setVisible(alive);
+    setAlive(alive);
+}
+
+void MinoAnimationGroup::setAlive(const bool on)
+{
+    if(_alive != on)
+    {
+        _alive = on;
+        _itemGroup.setVisible(on);
+    }
 }
