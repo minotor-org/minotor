@@ -8,7 +8,7 @@ class MinoInstrumentedAnimation : public MinoAnimation
     Q_OBJECT
 public:
     explicit MinoInstrumentedAnimation(QObject *parent);
-    virtual void createItem() {}
+    virtual void createItem() = 0;
 
 signals:
     

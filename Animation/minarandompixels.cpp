@@ -22,8 +22,10 @@
 
 #include <QDebug>
 
+#include "minoanimationgroup.h"
+
 MinaRandomPixels::MinaRandomPixels(QObject *object) :
-    MinoAnimation(object)
+    MinoInstrumentedAnimation(object)
 {
     _ecrAlpha.setStartValue(1.0);
     _ecrAlpha.setEndValue(0.0);
@@ -43,14 +45,14 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _beatDuration->setLabel("Duration");
 }
 
-void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned duration)
+void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned duration, const QColor& color)
 {
     const qreal pixelCount = _density->value()*(_boundingRect.width()*_boundingRect.height());
     for(int i=0; i<pixelCount; i++)
     {
         const QPointF rand = qrandPointF();
         const qreal h = 0.1;
-        QGraphicsLineItem *gli = _scene->addLine(rand.x(), rand.y(), rand.x()+h, rand.y()+h, QPen(_color->color()));
+        QGraphicsLineItem *gli = _scene->addLine(rand.x(), rand.y(), rand.x()+h, rand.y()+h, QPen(color));
         _itemGroup.addToGroup(gli);
         MinoAnimatedItem maItem (uppqn, duration, gli);
         _animatedItems.append(maItem);
@@ -61,9 +63,20 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
 {
     _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
 
+    if (_itemCreationRequested)
+    {
+        foreach(const QColor& color, _pendingItemsColor)
+        {
+            createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), color);
+        }
+        _pendingItemsColor.clear();
+
+        _itemCreationRequested = false;
+    }
+
     if (_beatFactor->isBeat(gppqn))
     {
-        createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn());
+        createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), _color->color());
     }
 
     // Animate pixels
@@ -84,5 +97,53 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
             color.setAlphaF(_ecrAlpha.valueForProgress(progress));
             gli->setPen(color);
         }
+    }
+}
+
+void MinaRandomPixels::createItem(const QColor& color)
+{
+    _itemCreationRequested = true;
+    _pendingItemsColor.append(color);
+    setAlive(true);
+}
+
+void MinaRandomPixels::createItem()
+{
+    createItem(_color->color());
+}
+
+void MinaRandomPixels::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
+{
+    qDebug() << Q_FUNC_INFO
+             << "note:" << note
+             << "on:" << on
+             << "channel:" << channel
+             << "interface:" << interface
+             << "value:" << value;
+    if(on && (channel == 1))
+    {
+        QColor color;
+        const unsigned int subnote = note % 8;
+        const qreal hue = (qreal)subnote / 8;
+        const qreal lightness = (qreal)note / 127;
+
+        color.setHslF(hue, 1.0, lightness);
+        createItem(color);
+        MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
+        Q_ASSERT(mag);
+        mag->setAlive();
+    }
+}
+
+void MinaRandomPixels::setAlive(const bool on)
+{
+    if(on)
+    {
+        MinoAnimation::setAlive(true);
+        _alive = on;
+    }
+    else
+    {
+        // Nothing to do: we let animate() detected that if animation is alive...
     }
 }

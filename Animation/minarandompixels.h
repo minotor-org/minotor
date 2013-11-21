@@ -21,13 +21,13 @@
 #ifndef MINARANDOMPIXELS_H
 #define MINARANDOMPIXELS_H
 
-#include "minoanimation.h"
+#include "minoinstrumentedanimation.h"
 
 #include "minopropertyreal.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
 
-class MinaRandomPixels : public MinoAnimation
+class MinaRandomPixels : public MinoInstrumentedAnimation
 {
     Q_OBJECT
 public:
@@ -42,19 +42,36 @@ public:
     void setDensity(qreal density) { _density->setValue(density); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
+    void createItem();
+    void createItem(const QColor& color);
+
 signals:
     
 public slots:
+    void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 private:
+    // Status
+    bool _alive;
+    void setAlive(const bool on);
+
+    // ECR
+    EasingCurvedReal _ecrAlpha;
+
+    // Properties
     MinoPropertyBeat *_beatDuration;
     MinoPropertyReal *_density;
     MinoPropertyEasingCurve *_generatorCurve;
-    QGraphicsItemGroup _itemGroup;
-    EasingCurvedReal _ecrAlpha;
-    MinoAnimatedItems _animatedItems;
 
-    void createPixels(const unsigned int uppqn, const unsigned duration);
+    // Graphics
+    QGraphicsItemGroup _itemGroup;
+
+    // Items
+    MinoAnimatedItems _animatedItems;
+    void createPixels(const unsigned int uppqn, const unsigned duration, const QColor &color);
+    bool _itemCreationRequested;
+    QList<QColor> _pendingItemsColor;
+
 };
 
 #endif // MINARANDOMPIXELS_H
