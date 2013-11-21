@@ -36,6 +36,7 @@ class MidiInterface : public QObject
     Q_PROPERTY(QString mapping READ mapping WRITE setMapping)
 public:
     explicit MidiInterface(const QString &portName, Midi *parent);
+    explicit MidiInterface(RtMidiIn *rtMidiIn, Midi *parent);
     ~MidiInterface();
 
     // Open port using _portName
@@ -45,7 +46,10 @@ public:
     bool close();
 
     // Test if MIDI is open
-    bool isConnected();
+    bool isConnected() const;
+
+    // Test if MIDI interface is virtual
+    bool isVirtual() const { return _isVirtual; }
 
     // Retrieve current connected port name
     QString portName() const;
@@ -86,6 +90,8 @@ private:
     bool _connected;
     bool _hasOutput;
     QString _mapping;
+
+    bool _isVirtual;
 
     bool _acceptClock;
     bool _acceptProgramChange;

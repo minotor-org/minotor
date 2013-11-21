@@ -40,6 +40,7 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     _portIndex(0),
     _connected(false),
     _hasOutput(false),
+    _isVirtual(false),
     _acceptClock(false),
     _acceptProgramChange(false),
     _acceptControlChange(false),
@@ -54,6 +55,24 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     } catch ( RtError &error ) {
         error.printMessage();
     }
+}
+
+MidiInterface::MidiInterface(RtMidiIn *rtMidiIn, Midi *parent) :
+    QObject(parent),
+    _midi(parent),
+    _rtMidiIn(rtMidiIn),
+    _rtMidiOut(NULL),
+    _id(-1),
+    _portIndex(0),
+    _connected(false),
+    _hasOutput(false),
+    _isVirtual(true),
+    _acceptClock(false),
+    _acceptProgramChange(false),
+    _acceptControlChange(false),
+    _acceptNoteChange(false)
+{
+    setObjectName("Minotor virtual interface");
 }
 
 MidiInterface::~MidiInterface()
@@ -234,6 +253,12 @@ void _midiCallback(double deltatime, std::vector< unsigned char > *message, void
 
 bool MidiInterface::open()
 {
+    if(_isVirtual)
+    {
+        openIn(-1);
+        loadMapping();
+        return true;
+    }
     // object name is used as portname
     return open(portName());
 }
@@ -312,7 +337,14 @@ bool MidiInterface::openIn(const unsigned int portIndex)
         {
             _portIndex = portIndex;
             try {
-                _rtMidiIn->openPort(portIndex);
+                if(_isVirtual)
+                {
+                    _rtMidiIn->openVirtualPort(std::string("Virtual MIDI In"));
+                }
+                else
+                {
+                    _rtMidiIn->openPort(portIndex);
+                }
                 // Set our callback function.  This should be done immediately after
                 // opening the port to avoid having incoming messages written to the
                 // queue.
@@ -424,7 +456,7 @@ bool MidiInterface::close()
     return !_connected;
 }
 
-bool MidiInterface::isConnected()
+bool MidiInterface::isConnected() const
 {
     return _connected;
 }
@@ -516,7 +548,7 @@ void MidiInterface::loadMapping()
         } else {
             qDebug() << Q_FUNC_INFO
                      << "Invalid file" << _mapping;
-            // Do keep invalid mapping filename
+            // Do not keep invalid mapping filename
             setMapping("");
         }
     }
