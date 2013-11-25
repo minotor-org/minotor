@@ -25,14 +25,12 @@
 #include "midiinterface.h"
 
 Midi::Midi(QObject *parent) :
-    QObject(parent),
-    _midiIn(NULL)
+    QObject(parent)
 {
     try
     {
         //Midi management
-        _midiIn = new RtMidiIn(RtMidi::UNSPECIFIED, std::string("Minotor"));
-        MidiInterface *mi = new MidiInterface(_midiIn, this);
+        MidiInterface *mi = new MidiInterface("Virtual MIDI In", this, MidiInterface::Virtual);
         mi->open();
         addMidiInterface(mi);
     } catch ( RtError &error ) {
@@ -45,11 +43,13 @@ void Midi::scanMidiInterfaces()
 {
     bool modified = false;
 
-    QStringList ports = getPorts();
-
     QStringList midiInterfacePortNames;
     MidiInterfaces midiInterfaces = interfaces();
-    foreach(MidiInterface * mi, midiInterfaces)
+
+    Q_ASSERT(midiInterfaces.count());
+    QStringList ports = midiInterfaces.at(0)->getPorts();
+
+    foreach(MidiInterface *mi, midiInterfaces)
     {
         midiInterfacePortNames.append(mi->portName());
     }
@@ -100,20 +100,18 @@ void Midi::scanMidiInterfaces()
 
 Midi::~Midi()
 {
-    if(_midiIn)
-        delete _midiIn;
 }
 
-QStringList Midi::getPorts()
+QStringList Midi::getPorts(RtMidi *rtmidi)
 {
     QStringList ports;
-    if(_midiIn)
+    if(rtmidi)
     {
         // Check available ports.
-        unsigned int nPorts = _midiIn->getPortCount();
+        unsigned int nPorts = rtmidi->getPortCount();
         for (unsigned int i=0;i<nPorts;i++)
         {
-            ports.append(QString(_midiIn->getPortName(i).c_str()));
+            ports.append(QString(rtmidi->getPortName(i).c_str()));
         }
     }
     return ports;

@@ -35,8 +35,8 @@ class MidiInterface : public QObject
     Q_PROPERTY(QString name READ portName)
     Q_PROPERTY(QString mapping READ mapping WRITE setMapping)
 public:
-    explicit MidiInterface(const QString &portName, Midi *parent);
-    explicit MidiInterface(RtMidiIn *rtMidiIn, Midi *parent);
+    enum Type { Normal, Virtual };
+    explicit MidiInterface(const QString &portName, Midi *parent, MidiInterface::Type type = MidiInterface::Normal);
     ~MidiInterface();
 
     // Open port using _portName
@@ -53,6 +53,9 @@ public:
 
     // Retrieve current connected port name
     QString portName() const;
+
+    // Return MIDI In available ports
+    QStringList getPorts();
 
     // ID
     int id() { return _id; }

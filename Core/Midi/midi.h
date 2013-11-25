@@ -38,15 +38,11 @@ public:
     explicit Midi(QObject *parent = 0);
     ~Midi();
 
-    // List ports
-    QStringList getPorts();
-
     // Interfaces
     MidiInterfaces interfaces();
     MidiInterface* interface(const QString& portName);
     MidiInterface* addMidiInterface(const QString& portName);
     MidiInterface* findMidiInterface(const int id);
-
 
 public slots:
     // Scan interfaces
@@ -56,7 +52,6 @@ private:
     int grabMidiInterfaceId();
     void addMidiInterface(MidiInterface *interface);
 
-    RtMidiIn *_midiIn;
     MidiInterfaces _interfaces;
 
 signals:
@@ -80,6 +75,12 @@ signals:
 
     // One or more interface have been plugged/unplugged during scanMidiInterfaces()
     void updated();
+
+public:
+    // List ports
+    static QStringList getPorts(RtMidi *rtmidi);
+
+
 };
 
 #endif // MIDI_H

@@ -31,7 +31,7 @@
 
 #include <QRegExp>
 
-MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
+MidiInterface::MidiInterface(const QString& portName, Midi *parent, MidiInterface::Type type) :
     QObject(parent),
     _midi(parent),
     _rtMidiIn(NULL),
@@ -40,39 +40,27 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent) :
     _portIndex(0),
     _connected(false),
     _hasOutput(false),
-    _isVirtual(false),
     _acceptClock(false),
     _acceptProgramChange(false),
     _acceptControlChange(false),
     _acceptNoteChange(false)
 {
     setObjectName(portName);
+
+    _isVirtual = (type == MidiInterface::Virtual);
+
     try
     {
         //Midi management
-        _rtMidiIn = new RtMidiIn();
-        _rtMidiOut = new RtMidiOut();
+        _rtMidiIn = new RtMidiIn(RtMidi::UNSPECIFIED, std::string("Minotor"));
+        if(!_isVirtual)
+        {
+            // If interface is not virtual, you will try to find an output
+            _rtMidiOut = new RtMidiOut();
+        }
     } catch ( RtError &error ) {
         error.printMessage();
     }
-}
-
-MidiInterface::MidiInterface(RtMidiIn *rtMidiIn, Midi *parent) :
-    QObject(parent),
-    _midi(parent),
-    _rtMidiIn(rtMidiIn),
-    _rtMidiOut(NULL),
-    _id(-1),
-    _portIndex(0),
-    _connected(false),
-    _hasOutput(false),
-    _isVirtual(true),
-    _acceptClock(false),
-    _acceptProgramChange(false),
-    _acceptControlChange(false),
-    _acceptNoteChange(false)
-{
-    setObjectName("Minotor virtual interface");
 }
 
 MidiInterface::~MidiInterface()
@@ -286,16 +274,13 @@ bool MidiInterface::open(const QString& portName)
         }
         if(_rtMidiOut)
         {
-            QStringList ports;
-            // Check available ports.
-            unsigned int nPorts = _rtMidiOut->getPortCount();
-            for (unsigned int i=0;i<nPorts;i++)
-            {
-                ports.append(QString(_rtMidiOut->getPortName(i).c_str()));
-//              qDebug() << "Out port: " << QString(_rtMidiOut->getPortName(i).c_str());
-            }
-            //Linux : "nanoKONTROL2 28:0"  -> "nanoKONTROL2:0"
-            //Windows : "nanoKONTROL2" -> "nanoKONTROL2"
+            // We will try to find an output port corresponding to the current input
+            // If found, this output will be used as feedback (ie. LED driving)
+            QStringList ports = Midi::getPorts(_rtMidiOut);
+
+            // Depending on OS, we have different correspondings
+            // Linux : "nanoKONTROL2 28:0" (in) -> "nanoKONTROL2:0" (out)
+            // Windows : "nanoKONTROL2" (in) -> "nanoKONTROL2" (out)
             int portIndex = ports.indexOf(portName);
             if(portIndex<0)
             {
@@ -344,7 +329,7 @@ bool MidiInterface::openIn(const unsigned int portIndex)
             try {
                 if(_isVirtual)
                 {
-                    _rtMidiIn->openVirtualPort(std::string("Virtual MIDI In"));
+                    _rtMidiIn->openVirtualPort(portName().toStdString());
                 }
                 else
                 {
@@ -477,6 +462,15 @@ void MidiInterface::setPortName(QString portName)
 QString MidiInterface::portName() const
 {
     return objectName();
+}
+
+QStringList MidiInterface::getPorts()
+{
+    if(_rtMidiIn)
+    {
+        return Midi::getPorts(_rtMidiIn);
+    }
+    return QStringList();
 }
 
 void MidiInterface::autoconnect()
