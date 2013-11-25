@@ -71,6 +71,7 @@ private:
 
     void addMidiControl(const int row, const quint8 channel, const quint8 control, const QString &role, const quint8 value = 255);
 
+    void updateGeneralTab();
     void updateMidiTab();
     void updateMidiMappingTab();
     void updateSerialTab();

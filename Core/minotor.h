@@ -64,9 +64,12 @@ public:
     // Clock source
     MinoClockSource *clockSource() { return _clockSource; }
 
-    // Display rect
+    // Display rect (used by MinoAnimations to know drawing area)
     const QRect displayRect() const { return QRect(QPoint(0,0), _rendererSize); }
-    const QSize displaySize() const { return _rendererSize; }
+
+    // Full scene (renderer) size accessors
+    const QSize rendererSize() const { return _rendererSize; }
+    void setRendererSize(const QSize& size);
 
     // Singleton accessor
     static Minotor *minotor() { static Minotor *minotor = new Minotor(); return minotor; }
@@ -94,6 +97,7 @@ public:
 
 signals:
     void programBankChanged(QObject *bank);
+    void rendererSizeChanged();
 
 public slots:
     // Clock handler

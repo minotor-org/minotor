@@ -412,7 +412,7 @@ QTabBar::tab {
     padding-right: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
-    min-height:110px;
+    min-height:80px;
     margin-bottom: 3px;
 }
 

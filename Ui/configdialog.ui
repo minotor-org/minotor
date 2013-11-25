@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1018</width>
-    <height>563</height>
+    <width>952</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,16 +21,107 @@
        <property name="tabPosition">
         <enum>QTabWidget::West</enum>
        </property>
+       <property name="tabShape">
+        <enum>QTabWidget::Rounded</enum>
+       </property>
        <property name="currentIndex">
         <number>0</number>
-       </property>
-       <property name="elideMode">
-        <enum>Qt::ElideMiddle</enum>
        </property>
        <property name="usesScrollButtons">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="tabGeneral">
+        <attribute name="title">
+         <string>General</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QWidget" name="wRenderer" native="true">
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="label_16">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Renderer size</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Width</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="sbSceneWidth">
+              <property name="suffix">
+               <string> px</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>24</number>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Height</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="sbSceneHeight">
+              <property name="suffix">
+               <string> px</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>42</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QLabel" name="label_15">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Please note: Minotor need a restart when scene size is changed.</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabMidiInterfaces">
         <attribute name="title">
          <string>Midi interfaces</string>
         </attribute>
@@ -55,7 +146,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabMidi">
+       <widget class="QWidget" name="tabMidiMapping">
         <attribute name="title">
          <string notr="true">Midi mapping</string>
         </attribute>
@@ -98,7 +189,7 @@
                      <item row="0" column="2">
                       <widget class="QLabel" name="lVendor">
                        <property name="text">
-                        <string>Brand</string>
+                        <string>Manufacturer</string>
                        </property>
                       </widget>
                      </item>

@@ -769,3 +769,15 @@ QPixmap* Minotor::graphicsItemToPixmap(QGraphicsItem *item)
 
     return pixmap;
 }
+
+void Minotor::setRendererSize(const QSize &size)
+{
+     if (size.isValid())
+     {
+         if(_rendererSize != size)
+         {
+             _rendererSize = size;
+             emit rendererSizeChanged();
+         }
+     }
+}

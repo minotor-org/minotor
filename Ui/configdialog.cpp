@@ -62,6 +62,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
 
     // Hack to refresh list at startup
     _midiAutoRefreshTimer = new QTimer(this);
+    updateGeneralTab();
     updateMidiTab();
     updateMidiMappingTab();
     updateSerialTab();
@@ -161,13 +162,16 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
 
     switch(index)
     {
-    case 0: //Midi
+    case 0:
+        updateGeneralTab();
+        break;
+    case 1: //Midi
         updateMidiTab();
         break;
-    case 1: // MIDI mapping
+    case 2: // MIDI mapping
         updateMidiMappingTab();
         break;
-    case 2: // Serial
+    case 3: // Serial
         updateSerialTab();
         break;
     }
@@ -444,10 +448,18 @@ void ConfigDialog::updateSerialTab()
     ui->cbSerialPort->setCurrentIndex(currentItem);
 }
 
+void ConfigDialog::updateGeneralTab()
+{
+    QSize size = Minotor::minotor()->rendererSize();
+    ui->sbSceneHeight->setValue(size.height());
+    ui->sbSceneWidth->setValue(size.width());
+}
+
 void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
+        Minotor::minotor()->setRendererSize(QSize(ui->sbSceneHeight->value(), ui->sbSceneWidth->value()));
         Minotor::minotor()->saveSettings();
     }
 }
