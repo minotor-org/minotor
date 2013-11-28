@@ -10,6 +10,8 @@ public:
     explicit MinoInstrumentedAnimation(QObject *parent);
     virtual void createItem() = 0;
 
+    static QColor noteToColor(const quint8 note);
+
 signals:
     
 public slots:

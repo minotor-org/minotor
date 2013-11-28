@@ -114,21 +114,16 @@ void MinaRandomPixels::createItem()
 
 void MinaRandomPixels::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
-    qDebug() << Q_FUNC_INFO
-             << "note:" << note
-             << "on:" << on
-             << "channel:" << channel
-             << "interface:" << interface
-             << "value:" << value;
     if(on && (channel == 1))
     {
-        QColor color;
-        const unsigned int subnote = note % 8;
-        const qreal hue = (qreal)subnote / 8;
-        const qreal lightness = (qreal)note / 127;
+        qDebug() << Q_FUNC_INFO
+                 << "note:" << note
+                 << "on:" << on
+                 << "channel:" << channel
+                 << "interface:" << interface
+                 << "value:" << value;
 
-        color.setHslF(hue, 1.0, lightness);
-        createItem(color);
+        createItem(noteToColor(note));
         MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
         Q_ASSERT(mag);
         mag->setAlive();

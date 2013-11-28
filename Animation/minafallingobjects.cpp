@@ -239,21 +239,16 @@ void MinaFallingObjects::setAlive(const bool on)
 
 void MinaFallingObjects::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
-    qDebug() << Q_FUNC_INFO
-             << "note:" << note
-             << "on:" << on
-             << "channel:" << channel
-             << "interface:" << interface
-             << "value:" << value;
     if(on && (channel == 0))
     {
-        QColor color;
-        const unsigned int subnote = note % 12;
-        const qreal hue = (qreal)subnote / 12;
-        const qreal lightness = (qreal)note / 127;
+        qDebug() << Q_FUNC_INFO
+                 << "note:" << note
+                 << "on:" << on
+                 << "channel:" << channel
+                 << "interface:" << interface
+                 << "value:" << value;
 
-        color.setHslF(hue, 1.0, lightness);
-        createItem(color);
+        createItem(noteToColor(note));
         MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
         Q_ASSERT(mag);
         mag->setAlive();
