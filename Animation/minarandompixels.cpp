@@ -34,7 +34,7 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
     _density = new MinoPropertyReal(this);
     _density->setObjectName("density");
     _density->setLabel("Density");
-    _density->setValue(0.1);
+    _density->setValue(0);
 
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
@@ -47,7 +47,9 @@ MinaRandomPixels::MinaRandomPixels(QObject *object) :
 
 void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned duration, const QColor& color)
 {
-    const qreal pixelCount = _density->value()*(_boundingRect.width()*_boundingRect.height());
+    QEasingCurve ec(QEasingCurve::InExpo);
+    const qreal pixelCount = (ec.valueForProgress(_density->value())*((_boundingRect.width()*_boundingRect.height())-1))+1;
+
     for(int i=0; i<pixelCount; i++)
     {
         const QPointF rand = qrandPointF();
