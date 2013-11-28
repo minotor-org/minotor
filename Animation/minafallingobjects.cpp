@@ -25,8 +25,7 @@
 #include "minoanimationgroup.h"
 
 MinaFallingObjects::MinaFallingObjects(QObject *object) :
-    MinoInstrumentedAnimation(object),
-    _alive(false)
+    MinoInstrumentedAnimation(object)
 {
     _ecrPosition.setStartValue(0.0);
     _ecrPosition.setEndValue(1.0);
@@ -221,19 +220,6 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     {
         MinoAnimation::setAlive(false);
         _alive = false;
-    }
-}
-
-void MinaFallingObjects::setAlive(const bool on)
-{
-    if(on)
-    {
-        MinoAnimation::setAlive(true);
-        _alive = on;
-    }
-    else
-    {
-        // Nothing to do: we let animate() detected that if animation is alive...
     }
 }
 

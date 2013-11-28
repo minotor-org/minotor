@@ -43,8 +43,6 @@ public:
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
     void createItem();
-
-    bool isAlive() const { return _alive; }
     
 signals:
     
@@ -52,10 +50,6 @@ public slots:
     void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 protected:
-    // Status
-    bool _alive;
-    void setAlive(const bool on);
-
     // ECR
     EasingCurvedReal _ecrPosition;
 

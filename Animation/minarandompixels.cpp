@@ -74,7 +74,7 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
         _itemCreationRequested = false;
     }
 
-    if (_beatFactor->isBeat(gppqn))
+    if (_enabled && _beatFactor->isBeat(gppqn))
     {
         createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), _color->color());
     }
@@ -97,6 +97,12 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
             color.setAlphaF(_ecrAlpha.valueForProgress(progress));
             gli->setPen(color);
         }
+    }
+
+    if(!_enabled && !_animatedItems.count())
+    {
+        MinoAnimation::setAlive(false);
+        _alive = false;
     }
 }
 
@@ -127,18 +133,5 @@ void MinaRandomPixels::handleNoteChange(int interface, quint8 channel, quint8 no
         MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
         Q_ASSERT(mag);
         mag->setAlive();
-    }
-}
-
-void MinaRandomPixels::setAlive(const bool on)
-{
-    if(on)
-    {
-        MinoAnimation::setAlive(true);
-        _alive = on;
-    }
-    else
-    {
-        // Nothing to do: we let animate() detected that if animation is alive...
     }
 }

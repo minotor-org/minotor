@@ -12,10 +12,17 @@ public:
 
     static QColor noteToColor(const quint8 note);
 
+    bool isAlive() const { return _alive; }
+
 signals:
     
 public slots:
     virtual void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value) = 0;
+
+protected:
+    // Status
+    bool _alive;
+    virtual void setAlive(const bool on);
 
 };
 

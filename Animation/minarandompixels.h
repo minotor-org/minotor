@@ -51,10 +51,6 @@ public slots:
     void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
 
 private:
-    // Status
-    bool _alive;
-    void setAlive(const bool on);
-
     // ECR
     EasingCurvedReal _ecrAlpha;
 
