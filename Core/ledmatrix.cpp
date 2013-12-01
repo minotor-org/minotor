@@ -28,10 +28,12 @@ LedMatrix::LedMatrix(const QSize size, QObject *parent) :
     QObject(parent),
     _size(size),
     _port(NULL),
-    _connected(false),
-    _framebuffer()
+    _connected(false)
 {
     _port = new QextSerialPort();
+
+    prepareFramebuffer();
+    computeLookUpTable();
 }
 
 LedMatrix::~LedMatrix()
@@ -77,43 +79,77 @@ QString LedMatrix::portName() const
     return "";
 }
 
+bool LedMatrix::isConfigured() const
+{
+    return _size.isValid();
+}
+
+void LedMatrix::prepareFramebuffer()
+{
+    if(isConfigured())
+    {
+        _framebuffer.resize(_size.width()*_size.height()*3);
+    }
+}
+
+void LedMatrix::computeLookUpTable()
+{
+    if(isConfigured())
+    {
+        const int width = _size.width();
+        const int height = _size.height();
+
+        _pixelsLUT.clear();
+        _pixelsLUT.resize(height*width);
+
+        for (int y=0;y<height;y++)
+        {
+            for (int x=0;x<width;x++) {
+                const unsigned int x_panel_id = (y%2)
+                        ?((MATRIX_PANEL_LEDS_X-1)-(x%MATRIX_PANEL_LEDS_X))
+                       :(x%MATRIX_PANEL_LEDS_X);
+                const unsigned int y_panel_id = (y%MATRIX_PANEL_LEDS_Y);
+                const unsigned int panel_id = ((y/MATRIX_PANEL_LEDS_Y)%2)
+                        ?((MATRIX_PANEL_X-1)-(x/MATRIX_PANEL_LEDS_X)) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X)
+                       :(x/MATRIX_PANEL_LEDS_X) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X);
+
+                const unsigned int id = x_panel_id + (y_panel_id*MATRIX_PANEL_LEDS_X) + (panel_id*MATRIX_PANEL_LEDS);
+                const unsigned int i = x+(y*width);
+                Q_ASSERT(i<(unsigned int)_pixelsLUT.size());
+                _pixelsLUT.data()[i] = id;
+            }
+        }
+    }
+}
+
 void LedMatrix::show(const QImage *image)
 {
+    const unsigned int matrix_width = _size.width();
+    const unsigned int matrix_height = _size.height();
     const QRgb *pixels = reinterpret_cast<const QRgb*>(image->bits());
-    for (unsigned int y=0;y<MATRIX_LEDS_Y;y++)
-      {
-        for (unsigned int x=0;x<MATRIX_LEDS_X;x++) {
-          unsigned int id;
 
-          unsigned int x_panel_id = (y%2)
-                           ?((MATRIX_PANEL_LEDS_X-1)-(x%MATRIX_PANEL_LEDS_X))
-                           :(x%MATRIX_PANEL_LEDS_X);
-          unsigned int y_panel_id = (y%MATRIX_PANEL_LEDS_Y);
-          unsigned int panel_id = ((y/MATRIX_PANEL_LEDS_Y)%2)
-                         ?((MATRIX_PANEL_X-1)-(x/MATRIX_PANEL_LEDS_X)) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X)
-                         :(x/MATRIX_PANEL_LEDS_X) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X);
+    for (unsigned int y=0;y<matrix_height;y++)
+    {
+        for (unsigned int x=0;x<matrix_width;x++) {
+            const unsigned int id = _pixelsLUT.data()[x+(y*_size.width())];
 
-          id = x_panel_id + (y_panel_id*MATRIX_PANEL_LEDS_X) + (panel_id*MATRIX_PANEL_LEDS);
+            const unsigned int r_id = (id * 3) + 1;
+            const unsigned int g_id = (id * 3) + 2;
+            const unsigned int b_id = (id * 3) + 0;
 
-          const unsigned int r_id = (id * 3) + 1;
-          const unsigned int g_id = (id * 3) + 2;
-          const unsigned int b_id = (id * 3) + 0;
-
-            //QRgb rgb(this->_frame->pixel(x, y));
             QRgb rgb = pixels[x+(y*MATRIX_LEDS_X)];
-            //qDebug() << "x:" << x << "y:" << y << "color RGB" << qRed(rgb) << qGreen(rgb) << qBlue(rgb);
 
-            _framebuffer[r_id] = (qRed(rgb)==0x01)?0:qRed(rgb);
-            _framebuffer[g_id] = (qGreen(rgb)==0x01)?0:qGreen(rgb);
-            _framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
+            char *framebuffer = _framebuffer.data();
+            framebuffer[r_id] = (qRed(rgb)==0x01)?0:qRed(rgb);
+            framebuffer[g_id] = (qGreen(rgb)==0x01)?0:qGreen(rgb);
+            framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
         }
     }
     if(_connected)
     {
-        _port->write((const char*)_framebuffer,(MATRIX_LEDS*3));
+        _port->write(_framebuffer.constData(),_framebuffer.size());
         char endFrame = 0x01;
         _port->write(&endFrame,1);
-        // qDebug("frame sent");
     }
     emit(updated());
 }

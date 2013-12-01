@@ -26,6 +26,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
+#include <QVarLengthArray>
+
 #include "qextserialport.h"
 
 #define MATRIX_PANEL_X         3
@@ -61,10 +63,18 @@ private:
     QextSerialPort *_port;
     bool _connected;
 
-    unsigned char _framebuffer[MATRIX_LEDS*3];
+    bool isConfigured() const;
+    void prepareFramebuffer();
+    QByteArray _framebuffer;
+
+    void computeLookUpTable();
+    QVarLengthArray<unsigned int> _pixelsLUT;
+
+
 signals:
     void updated();
     void connected(bool connected = true);
+
 public slots:
     
 };
