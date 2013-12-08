@@ -459,7 +459,7 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
-        Minotor::minotor()->setRendererSize(QSize(ui->sbSceneHeight->value(), ui->sbSceneWidth->value()));
+        Minotor::minotor()->setRendererSize(QSize(ui->sbSceneWidth->value(), ui->sbSceneHeight->value()));
         Minotor::minotor()->saveSettings();
     }
 }
