@@ -253,7 +253,6 @@ void MinoMasterMidiMapper::updateMap()
 
     if (_program)
     {
-        // FIXME qMin(_program->animationGroups(), columns)
         const int tracks = _program->animationGroups().count();
         _virtualPageOffset = qMax(0, _virtualPageOffset);
         const int range_max = qMin(tracks, _virtualPageOffset+_virtualPageWidth);

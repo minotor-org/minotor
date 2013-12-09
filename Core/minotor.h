@@ -51,7 +51,6 @@ public:
 
     // Channel accessors
     MinoMaster *master() { return _master; }
-//    MinoCue *cue() { return _cue; }
 
     // LedMatrix
     LedMatrix *ledMatrix() { return _ledMatrix; }
