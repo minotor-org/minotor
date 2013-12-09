@@ -56,8 +56,7 @@
 #include "miprosecondlives.h"
 
 Minotor::Minotor(QObject *parent) :
-    QObject(parent),
-    _rendererSize(24,16)
+    QObject(parent)
 {
     // Settings (ini file to keep local user profile: rendering size, MIDI interfaces, LED matrix, etc.)
     _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));

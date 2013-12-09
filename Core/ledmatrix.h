@@ -30,15 +30,6 @@
 
 #include "qextserialport.h"
 
-#define MATRIX_PANEL_X         3
-#define MATRIX_PANEL_Y         2
-#define MATRIX_PANEL_LEDS_X    8
-#define MATRIX_PANEL_LEDS_Y    8
-#define MATRIX_PANEL_LEDS      (MATRIX_PANEL_LEDS_X*MATRIX_PANEL_LEDS_Y)
-#define MATRIX_LEDS_X          (MATRIX_PANEL_X*MATRIX_PANEL_LEDS_X)
-#define MATRIX_LEDS_Y          (MATRIX_PANEL_Y*MATRIX_PANEL_LEDS_Y)
-#define MATRIX_LEDS            (MATRIX_LEDS_X*MATRIX_LEDS_Y)
-
 class LedMatrix : public QObject
 {
      Q_OBJECT
@@ -55,14 +46,24 @@ public:
     void show(const QImage *image);
 
     // Accessors
-    QSize size() const { return _size; }
-    QRect rect() const { return QRect(QPoint(0,0), _size); }
+    // Returns matrix's size in pixels
+    QSize size() const;
+    QRect rect() const { return QRect(QPoint(0,0), size()); }
+
+    // Returns panel's size in pixels
+    QSize panelSize() const { return _panelSize; }
+    // Returns matrix's size in panels
+    QSize matrixSize() const { return _matrixSize; }
 
 private:
-    QSize _size;
+    QSize _panelSize;
+    QSize _matrixSize;
+
+    // Connection
     QextSerialPort *_port;
     bool _connected;
 
+    // Returns true if LedMatrix is fully configured (ie. does have all requiered sizes sets)
     bool isConfigured() const;
     void prepareFramebuffer();
     QByteArray _framebuffer;

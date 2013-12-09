@@ -26,7 +26,8 @@
 
 LedMatrix::LedMatrix(const QSize size, QObject *parent) :
     QObject(parent),
-    _size(size),
+    _panelSize(8,8),
+    _matrixSize(3,2),
     _port(NULL),
     _connected(false)
 {
@@ -79,16 +80,25 @@ QString LedMatrix::portName() const
     return "";
 }
 
+QSize LedMatrix::size() const
+{
+    if(_panelSize.isValid() && _matrixSize.isValid())
+    {
+        return QSize(_panelSize.width() * _matrixSize.width(), _panelSize.height() * _matrixSize.height());
+    }
+    return QSize();
+}
+
 bool LedMatrix::isConfigured() const
 {
-    return _size.isValid();
+    return size().isValid();
 }
 
 void LedMatrix::prepareFramebuffer()
 {
     if(isConfigured())
     {
-        _framebuffer.resize(_size.width()*_size.height()*3);
+        _framebuffer.resize(size().width()*size().height()*3);
     }
 }
 
@@ -96,25 +106,31 @@ void LedMatrix::computeLookUpTable()
 {
     if(isConfigured())
     {
-        const int width = _size.width();
-        const int height = _size.height();
+        const unsigned int matrix_panel_width_in_pixels = _panelSize.width();
+        const unsigned int matrix_panel_height_in_pixels = _panelSize.height();
+
+        const unsigned int matrix_width_in_panel = _matrixSize.width();
+        //const unsigned int matrix_height_in_panel = _matrixSize.height();
+
+        const unsigned int matrix_width_in_pixels = size().width();
+        const unsigned int matrix_height_in_pixels = size().height();
 
         _pixelsLUT.clear();
-        _pixelsLUT.resize(height*width);
+        _pixelsLUT.resize(matrix_height_in_pixels*matrix_width_in_pixels);
 
-        for (int y=0;y<height;y++)
+        for (unsigned int y=0;y<matrix_height_in_pixels;y++)
         {
-            for (int x=0;x<width;x++) {
+            for (unsigned int x=0;x<matrix_width_in_pixels;x++) {
                 const unsigned int x_panel_id = (y%2)
-                        ?((MATRIX_PANEL_LEDS_X-1)-(x%MATRIX_PANEL_LEDS_X))
-                       :(x%MATRIX_PANEL_LEDS_X);
-                const unsigned int y_panel_id = (y%MATRIX_PANEL_LEDS_Y);
-                const unsigned int panel_id = ((y/MATRIX_PANEL_LEDS_Y)%2)
-                        ?((MATRIX_PANEL_X-1)-(x/MATRIX_PANEL_LEDS_X)) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X)
-                       :(x/MATRIX_PANEL_LEDS_X) + ((y/MATRIX_PANEL_LEDS_Y) * MATRIX_PANEL_X);
+                        ?((matrix_panel_width_in_pixels-1)-(x%matrix_panel_width_in_pixels))
+                       :(x%matrix_panel_width_in_pixels);
+                const unsigned int y_panel_id = (y%matrix_panel_height_in_pixels);
+                const unsigned int panel_id = ((y/matrix_panel_height_in_pixels)%2)
+                        ?((matrix_width_in_panel-1)-(x/matrix_panel_width_in_pixels)) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel)
+                       :(x/matrix_panel_width_in_pixels) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel);
 
-                const unsigned int id = x_panel_id + (y_panel_id*MATRIX_PANEL_LEDS_X) + (panel_id*MATRIX_PANEL_LEDS);
-                const unsigned int i = x+(y*width);
+                const unsigned int id = x_panel_id + (y_panel_id*matrix_panel_width_in_pixels) + (panel_id*matrix_panel_width_in_pixels*matrix_panel_height_in_pixels);
+                const unsigned int i = x+(y*matrix_width_in_pixels);
                 Q_ASSERT(i<(unsigned int)_pixelsLUT.size());
                 _pixelsLUT.data()[i] = id;
             }
@@ -124,33 +140,36 @@ void LedMatrix::computeLookUpTable()
 
 void LedMatrix::show(const QImage *image)
 {
-    const unsigned int matrix_width = _size.width();
-    const unsigned int matrix_height = _size.height();
-    const QRgb *pixels = reinterpret_cast<const QRgb*>(image->bits());
-
-    for (unsigned int y=0;y<matrix_height;y++)
+    const QSize size(this->size());
+    if(size.isValid())
     {
-        for (unsigned int x=0;x<matrix_width;x++) {
-            const unsigned int id = _pixelsLUT.data()[x+(y*_size.width())];
+        const unsigned int matrix_width_in_pixels = size.width();
+        const unsigned int matrix_height_in_pixels = size.height();
+        const QRgb *pixels = reinterpret_cast<const QRgb*>(image->bits());
 
-            const unsigned int r_id = (id * 3) + 1;
-            const unsigned int g_id = (id * 3) + 2;
-            const unsigned int b_id = (id * 3) + 0;
+        for (unsigned int y=0;y<matrix_height_in_pixels;y++)
+        {
+            for (unsigned int x=0;x<matrix_width_in_pixels;x++) {
+                const unsigned int id = _pixelsLUT.data()[x+(y*size.width())];
 
-            QRgb rgb = pixels[x+(y*MATRIX_LEDS_X)];
+                const unsigned int r_id = (id * 3) + 1;
+                const unsigned int g_id = (id * 3) + 2;
+                const unsigned int b_id = (id * 3) + 0;
 
-            char *framebuffer = _framebuffer.data();
-            framebuffer[r_id] = (qRed(rgb)==0x01)?0:qRed(rgb);
-            framebuffer[g_id] = (qGreen(rgb)==0x01)?0:qGreen(rgb);
-            framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
+                QRgb rgb = pixels[x+(y*matrix_width_in_pixels)];
+
+                char *framebuffer = _framebuffer.data();
+                framebuffer[r_id] = (qRed(rgb)==0x01)?0:qRed(rgb);
+                framebuffer[g_id] = (qGreen(rgb)==0x01)?0:qGreen(rgb);
+                framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
+            }
         }
+        if(_connected)
+        {
+            _port->write(_framebuffer.constData(),_framebuffer.size());
+            char endFrame = 0x01;
+            _port->write(&endFrame,1);
+        }
+        emit(updated());
     }
-    if(_connected)
-    {
-        _port->write(_framebuffer.constData(),_framebuffer.size());
-        char endFrame = 0x01;
-        _port->write(&endFrame,1);
-    }
-    emit(updated());
 }
-
