@@ -270,7 +270,7 @@ MinoTrigger* MidiMapper::connectTrigger(const QString &role, const QObject *rece
             qDebug() << Q_FUNC_INFO
                      << "role:" << role << "is already registered!";
             Q_ASSERT(false);
-            return false;
+            return NULL;
         }
     }
     else
