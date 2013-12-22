@@ -465,6 +465,11 @@ QToolBar {
     border:1px solid #242424;
 }
 
+QToolBar::handle {
+     background: #242424;
+     width:1px;
+ }
+
 QToolBar::separator {
     background-color:transparent;
     width:25px;
