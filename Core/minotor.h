@@ -70,6 +70,14 @@ public:
     const QSize rendererSize() const { return _rendererSize; }
     void setRendererSize(const QSize& size);
 
+    // Matrix size accessors
+    const QSize matrixSize() const { return _matrixSize; }
+    void setMatrixSize(const QSize& size);
+
+    // Panel size accessors
+    const QSize panelSize() const { return _panelSize; }
+    void setPanelSize(const QSize& size);
+
     // Singleton accessor
     static Minotor *minotor() { static Minotor *minotor = new Minotor(); return minotor; }
 
@@ -114,6 +122,8 @@ private:
     // Scene
     QGraphicsScene _scene;
     QSize _rendererSize;
+    QSize _matrixSize;
+    QSize _panelSize;
 
     // Master
     MinoMaster *_master;

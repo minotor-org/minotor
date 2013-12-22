@@ -457,8 +457,14 @@ void ConfigDialog::updateSerialTab()
 void ConfigDialog::updateGeneralTab()
 {
     QSize size = Minotor::minotor()->rendererSize();
+    QSize matrixSize = Minotor::minotor()->matrixSize();
+    QSize panelSize = Minotor::minotor()->panelSize();
     ui->sbSceneHeight->setValue(size.height());
     ui->sbSceneWidth->setValue(size.width());
+    ui->sbPanelsInX->setValue(matrixSize.width());
+    ui->sbPanelsInY->setValue(matrixSize.height());
+    ui->sbPanelPixelsInX->setValue(panelSize.width());
+    ui->sbPanelPixelsInY->setValue(panelSize.height());
 }
 
 void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
@@ -466,6 +472,8 @@ void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button)
     if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
         Minotor::minotor()->setRendererSize(QSize(ui->sbSceneWidth->value(), ui->sbSceneHeight->value()));
+        Minotor::minotor()->setMatrixSize(QSize(ui->sbPanelsInX->value(), ui->sbPanelsInY->value()));
+        Minotor::minotor()->setPanelSize(QSize(ui->sbPanelPixelsInX->value(), ui->sbPanelPixelsInY->value()));
         Minotor::minotor()->saveSettings();
     }
 }

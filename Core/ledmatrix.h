@@ -34,7 +34,7 @@ class LedMatrix : public QObject
 {
      Q_OBJECT
 public:
-    explicit LedMatrix(const QSize size, QObject *parent = 0);
+    explicit LedMatrix(const QSize size, const QSize panelSize, const QSize matrixSize, QObject *parent = 0);
     ~LedMatrix();
 
     bool openPortByName(const QString &portName);

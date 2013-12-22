@@ -61,17 +61,22 @@ Minotor::Minotor(QObject *parent) :
     // Settings (ini file to keep local user profile: rendering size, MIDI interfaces, LED matrix, etc.)
     _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QString("Minotor"));
     // Settings: load renderer size
+    _panelSize = _settings->value("renderer/panelSize").toSize();
+    if(!_panelSize.isValid())
+        _panelSize = QSize(8, 8);
+    _matrixSize = _settings->value("renderer/matrixSize").toSize();
+    if(!_matrixSize.isValid())
+        _matrixSize = QSize(3, 2);
     _rendererSize = _settings->value("renderer/size").toSize();
     if(!_rendererSize.isValid())
-        _rendererSize = QSize(42, 42);
+        _rendererSize = QSize(24, 16);
 
     // Master
     _master = new MinoMaster(this);
 
     // LED Matrix
     // NOTE: ATM LedMatrix size must be equal to rendering size.
-    _ledMatrix = new LedMatrix(_rendererSize, this);
-
+    _ledMatrix = new LedMatrix(_rendererSize,_panelSize, _matrixSize, this);
     // Program Bank
     _programBank = new MinoProgramBank(this);
 
@@ -464,6 +469,8 @@ void Minotor::loadLedMatrixSettings()
 void Minotor::saveSettings()
 {
     _settings->setValue("renderer/size", _rendererSize);
+    _settings->setValue("renderer/matrixSize", _matrixSize);
+    _settings->setValue("renderer/panelSize", _panelSize);
 
     _settings->setValue("serial/interface", _ledMatrix->portName());
 
@@ -780,3 +787,26 @@ void Minotor::setRendererSize(const QSize &size)
          }
      }
 }
+
+void Minotor::setMatrixSize(const QSize &size)
+{
+     if (size.isValid())
+     {
+         if(_matrixSize != size)
+         {
+             _matrixSize = size;
+         }
+     }
+}
+
+void Minotor::setPanelSize(const QSize &size)
+{
+     if (size.isValid())
+     {
+         if(_panelSize != size)
+         {
+             _panelSize = size;
+         }
+     }
+}
+

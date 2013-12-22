@@ -24,10 +24,10 @@
 #include <QDebug>
 #include <QPainter>
 
-LedMatrix::LedMatrix(const QSize size, QObject *parent) :
+LedMatrix::LedMatrix(const QSize size, const QSize panelSize, const QSize matrixSize, QObject *parent) :
     QObject(parent),
-    _panelSize(8,8),
-    _matrixSize(3,2),
+    _panelSize(panelSize),
+    _matrixSize(matrixSize),
     _port(NULL),
     _connected(false)
 {
