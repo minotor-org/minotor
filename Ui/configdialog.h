@@ -64,6 +64,8 @@ private slots:
     void updateMidiInterfaces();
     void midiLearnToggled(const QString& portName);
 
+    void refreshMatrixConfig();
+
 private:
     Ui::ConfigDialog *ui;
     QSignalMapper *_smMidiMappingLearnMapper;

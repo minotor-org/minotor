@@ -60,6 +60,12 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     _smMidiMappingLearnMapper = new QSignalMapper(this);
     connect(_smMidiMappingLearnMapper, SIGNAL(mapped(QString)),this, SLOT(midiLearnToggled(QString)));
 
+    //Matrix config
+    connect(ui->sbPanelsInX, SIGNAL(valueChanged(int)), this, SLOT(refreshMatrixConfig()));
+    connect(ui->sbPanelsInY, SIGNAL(valueChanged(int)), this, SLOT(refreshMatrixConfig()));
+    connect(ui->sbPanelPixelsInX, SIGNAL(valueChanged(int)), this, SLOT(refreshMatrixConfig()));
+    connect(ui->sbPanelPixelsInY, SIGNAL(valueChanged(int)), this, SLOT(refreshMatrixConfig()));
+
     // Hack to refresh list at startup
     _midiAutoRefreshTimer = new QTimer(this);
     updateGeneralTab();
@@ -651,3 +657,11 @@ void ConfigDialog::midiLearnToggled(const QString &portName)
         disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
 }
 
+void ConfigDialog::refreshMatrixConfig()
+{
+    QSize panels = QSize(ui->sbPanelsInX->value(),ui->sbPanelsInY->value());
+    QSize panelPixels = QSize(ui->sbPanelPixelsInX->value(),ui->sbPanelPixelsInY->value());
+
+    ui->sbSceneWidth->setValue(panels.width()*panelPixels.width());
+    ui->sbSceneHeight->setValue(panels.height()*panelPixels.height());
+}
