@@ -306,8 +306,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lContent->addWidget(sa);
 
     // Set default viewmode to live
-    pbViewmode->setChecked(true);
-    tbViewmodeToggled(true);
+    pbViewmode->setChecked(false);
+    tbViewmodeToggled(false);
 }
 
 void MainWindow::midiDataReceived()
