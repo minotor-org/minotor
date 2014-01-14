@@ -22,8 +22,6 @@
 
 #include <QDebug>
 
-#include "minoanimationgroup.h"
-
 MinaRandomPixels::MinaRandomPixels(QObject *object) :
     MinoInstrumentedAnimation(object)
 {
@@ -61,20 +59,22 @@ void MinaRandomPixels::createPixels(const unsigned int uppqn, const unsigned dur
     }
 }
 
+void MinaRandomPixels::_createItem(const uint uppqn)
+{
+    createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), _color->color());
+}
+
+void MinaRandomPixels::_startNote(const uint uppqn, const quint8 note, const quint8 value)
+{
+    createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), noteToColor(note));
+}
+
 void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int, const unsigned int )
 {
     _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
 
-    if (_itemCreationRequested)
-    {
-        foreach(const QColor& color, _pendingItemsColor)
-        {
-            createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), color);
-        }
-        _pendingItemsColor.clear();
-
-        _itemCreationRequested = false;
-    }
+    processNotesEvents(uppqn);
+    processItemCreation(uppqn);
 
     if (_enabled && _beatFactor->isBeat(gppqn))
     {
@@ -105,33 +105,5 @@ void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppq
     {
         MinoAnimation::setAlive(false);
         _alive = false;
-    }
-}
-
-void MinaRandomPixels::createItem(const QColor& color)
-{
-    _itemCreationRequested = true;
-    _pendingItemsColor.append(color);
-    setAlive(true);
-}
-
-void MinaRandomPixels::createItem()
-{
-    createItem(_color->color());
-}
-
-void MinaRandomPixels::_handleNoteChange(quint8 note, bool on, quint8 value)
-{
-    if(on)
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "note:" << note
-                 << "on:" << on
-                 << "value:" << value;
-
-        createItem(noteToColor(note));
-        MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
-        Q_ASSERT(mag);
-        mag->setAlive();
     }
 }

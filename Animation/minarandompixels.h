@@ -42,8 +42,9 @@ public:
     void setDensity(qreal density) { _density->setValue(density); }
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
-    void createItem();
-    void createItem(const QColor& color);
+protected:
+    void _createItem(const uint uppqn);
+    void _startNote(const uint uppqn, const quint8 note, const quint8 value);
 
 signals:
     
@@ -62,7 +63,6 @@ private:
     // Items
     MinoAnimatedItems _animatedItems;
     void createPixels(const unsigned int uppqn, const unsigned duration, const QColor &color);
-    bool _itemCreationRequested;
     QList<QColor> _pendingItemsColor;
 
     void _handleNoteChange(quint8 note, bool on, quint8 value);
