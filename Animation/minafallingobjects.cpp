@@ -223,15 +223,13 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     }
 }
 
-void MinaFallingObjects::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
+void MinaFallingObjects::_handleNoteChange(quint8 note, bool on, quint8 value)
 {
-    if(on && (channel == 0))
+    if(on)
     {
         qDebug() << Q_FUNC_INFO
                  << "note:" << note
                  << "on:" << on
-                 << "channel:" << channel
-                 << "interface:" << interface
                  << "value:" << value;
 
         createItem(noteToColor(note));

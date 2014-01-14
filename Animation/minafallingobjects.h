@@ -46,9 +46,6 @@ public:
     
 signals:
     
-public slots:
-    void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
-
 protected:
     // ECR
     EasingCurvedReal _ecrPosition;
@@ -72,5 +69,7 @@ protected:
 
     enum ItemData { Direction };
     QList<QColor> _pendingItemsColor;
+
+    void _handleNoteChange(quint8 note, bool on, quint8 value);
 };
 #endif // MINAFALLINGOBJECTS_H
