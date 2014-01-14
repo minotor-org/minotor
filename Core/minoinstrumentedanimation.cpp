@@ -4,6 +4,7 @@ MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
     MinoAnimation(parent),
     _alive(false)
 {
+    _midiChannel = new MinoPropertyMidiChannel(this);
 }
 
 QColor MinoInstrumentedAnimation::noteToColor(const quint8 note)
@@ -30,3 +31,11 @@ void MinoInstrumentedAnimation::setAlive(const bool on)
     }
 }
 
+void MinoInstrumentedAnimation::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
+{
+    (void)interface;
+    if((_midiChannel->channel()) && (channel==_midiChannel->channel()-1))
+    {
+        _handleNoteChange(note, on, value);
+    }
+}
