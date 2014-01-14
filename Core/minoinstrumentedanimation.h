@@ -5,14 +5,35 @@
 
 #include "minopropertymidichannel.h"
 
+#include <QList>
+
+class MinoInstrumentNoteEvent
+{
+public:
+    explicit MinoInstrumentNoteEvent(quint8 note, bool on, quint8 value):
+            _note(note),
+            _on(on),
+            _value(value) {}
+
+    quint8 note() const { return _note; }
+    bool on() const { return _on; }
+    quint8 value() const { return _value; }
+
+private:
+    quint8 _note;
+    bool _on;
+    quint8 _value;
+
+};
+
 class MinoInstrumentedAnimation : public MinoAnimation
 {
     Q_OBJECT
 public:
     explicit MinoInstrumentedAnimation(QObject *parent);
-    virtual void createItem() = 0;
 
     static QColor noteToColor(const quint8 note);
+    void createItem();
 
     bool isAlive() const { return _alive; }
 
@@ -29,8 +50,19 @@ protected:
     // MIDI Channel property
     MinoPropertyMidiChannel *_midiChannel;
 
-    // handle not change after filtering channel
-    virtual void _handleNoteChange(quint8 note, bool on, quint8 value) = 0;
+    // Note events: item creations
+    virtual void _startNote(const uint uppqn, const quint8 note, const quint8 value) = 0;
+    virtual void _stopNote(const uint uppqn, const quint8 note) { (void)note; (void)uppqn; }
+    virtual void _processPendingNote(const uint uppqn, const quint8 note) { (void)note; (void)uppqn; }
+    void processNotesEvents(const uint uppqn);
+
+    // Item creation (ie. by user interface)
+    int _itemCreationRequested;
+    void processItemCreation(const uint uppqn);
+    virtual void _createItem(const uint uppqn) = 0;
+
+    QList<MinoInstrumentNoteEvent> _noteEvents;
+    QList<int> _pendingNotes;
 };
 
 #endif // MINOINSTRUMENTEDANIMATION_H

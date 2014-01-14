@@ -1,8 +1,11 @@
 #include "minoinstrumentedanimation.h"
 
+#include "minoanimationgroup.h"
+
 MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
     MinoAnimation(parent),
-    _alive(false)
+    _alive(false),
+    _itemCreationRequested(0)
 {
     _midiChannel = new MinoPropertyMidiChannel(this);
 }
@@ -31,11 +34,55 @@ void MinoInstrumentedAnimation::setAlive(const bool on)
     }
 }
 
+void MinoInstrumentedAnimation::createItem()
+{
+    _itemCreationRequested++;
+
+    setAlive(true);
+    MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
+    Q_ASSERT(mag);
+    mag->setAlive();
+}
+
+void MinoInstrumentedAnimation::processItemCreation(const uint uppqn)
+{
+    for (int i = 0; i<_itemCreationRequested; i++)
+    {
+        _createItem(uppqn);
+    }
+    _itemCreationRequested = 0;
+}
+
 void MinoInstrumentedAnimation::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
 {
     (void)interface;
     if((_midiChannel->channel()) && (channel==_midiChannel->channel()-1))
     {
-        _handleNoteChange(note, on, value);
+        _noteEvents.append(MinoInstrumentNoteEvent(note, on, value));
+
+        setAlive(true);
+        MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
+        Q_ASSERT(mag);
+        mag->setAlive();
+    }
+}
+
+void MinoInstrumentedAnimation::processNotesEvents(const uint uppqn)
+{
+    foreach(MinoInstrumentNoteEvent ne, _noteEvents)
+    {
+        if(ne.on())
+        {
+            _startNote(uppqn, ne.note(), ne.value());
+
+            _pendingNotes.append(ne.note());
+        } else {
+            _stopNote(uppqn, ne.note());
+            _pendingNotes.removeAt(_pendingNotes.indexOf(ne.note()));
+        }
+    }
+    foreach(int note, _pendingNotes)
+    {
+        _processPendingNote(uppqn, note);
     }
 }
