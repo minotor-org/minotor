@@ -47,9 +47,6 @@ public:
 
 signals:
     
-public slots:
-    void handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value);
-
 private:
     // ECR
     EasingCurvedReal _ecrAlpha;
@@ -68,6 +65,7 @@ private:
     bool _itemCreationRequested;
     QList<QColor> _pendingItemsColor;
 
+    void _handleNoteChange(quint8 note, bool on, quint8 value);
 };
 
 #endif // MINARANDOMPIXELS_H

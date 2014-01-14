@@ -120,15 +120,13 @@ void MinaRandomPixels::createItem()
     createItem(_color->color());
 }
 
-void MinaRandomPixels::handleNoteChange(int interface, quint8 channel, quint8 note, bool on, quint8 value)
+void MinaRandomPixels::_handleNoteChange(quint8 note, bool on, quint8 value)
 {
-    if(on && (channel == 1))
+    if(on)
     {
         qDebug() << Q_FUNC_INFO
                  << "note:" << note
                  << "on:" << on
-                 << "channel:" << channel
-                 << "interface:" << interface
                  << "value:" << value;
 
         createItem(noteToColor(note));
