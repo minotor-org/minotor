@@ -58,19 +58,12 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorCurve->setLabel("Curve");
 }
 
-void MinaFallingObjects::createItem()
+void MinaFallingObjects::_createItem(const uint uppqn)
 {
-    createItem(_color->color());
+    createItem(uppqn, _color->color());
 }
 
-void MinaFallingObjects::createItem(const QColor& color)
-{
-    _itemCreationRequested = true;
-    _pendingItemsColor.append(color);
-    setAlive(true);
-}
-
-void MinaFallingObjects::createItem(const unsigned int uppqn, const QColor& color)
+void MinaFallingObjects::createItem(const uint uppqn, const QColor& color)
 {
     unsigned int direction = _generatorDirection->currentItem()->real();
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
@@ -158,16 +151,8 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
 
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    if (_itemCreationRequested)
-    {
-        foreach(const QColor& color, _pendingItemsColor)
-        {
-            createItem(uppqn, color);
-        }
-        _pendingItemsColor.clear();
-
-        _itemCreationRequested = false;
-    }
+    processNotesEvents(uppqn);
+    processItemCreation(uppqn);
 
     if (_enabled && _beatFactor->isBeat(gppqn))
     {
@@ -223,18 +208,8 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
     }
 }
 
-void MinaFallingObjects::_handleNoteChange(quint8 note, bool on, quint8 value)
+void MinaFallingObjects::_startNote(const uint uppqn, const quint8 note, const quint8 value)
 {
-    if(on)
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "note:" << note
-                 << "on:" << on
-                 << "value:" << value;
-
-        createItem(noteToColor(note));
-        MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent());
-        Q_ASSERT(mag);
-        mag->setAlive();
-    }
+    (void)value;
+    createItem(uppqn, noteToColor(note));
 }

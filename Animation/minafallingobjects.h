@@ -42,7 +42,6 @@ public:
     const MinoAnimationDescription description() const { return getDescription(); }
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
-    void createItem();
     
 signals:
     
@@ -62,14 +61,12 @@ protected:
 
     // Items
     MinoAnimatedItems _animatedItems;
-    bool _itemCreationRequested;
 
-    void createItem(const unsigned int uppqn, const QColor &color);
-    void createItem(const QColor& color);
+    void createItem(const uint uppqn, const QColor &color);
 
     enum ItemData { Direction };
-    QList<QColor> _pendingItemsColor;
 
-    void _handleNoteChange(quint8 note, bool on, quint8 value);
+    void _startNote(const uint uppqn, const quint8 note, const quint8 value);
+    void _createItem(const uint uppqn);
 };
 #endif // MINAFALLINGOBJECTS_H
