@@ -26,12 +26,14 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QLabel>
+#include <QSpinBox>
 
 #include "minotor.h"
 
 #include "minopropertytext.h"
 #include "minopropertyfilename.h"
 #include "minopropertyeasingcurve.h"
+#include "minopropertymidichannel.h"
 
 #include "uimidicontrollableparameter.h"
 #include "uieasingcurve.h"
@@ -63,7 +65,28 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
         _columnCount++;
     }
 
-    if (MinoPropertyText* textProperty = qobject_cast<MinoPropertyText*>(property))
+    if (MinoPropertyMidiChannel* channelProperty = qobject_cast<MinoPropertyMidiChannel*>(property))
+    {
+        QWidget *wChannel = new QWidget(this);
+        QVBoxLayout *lChannel = new QVBoxLayout(wChannel);
+
+        QLabel *label = new QLabel(wChannel);
+        label->setText("channel");
+        label->setAlignment(Qt::AlignCenter);
+        lChannel->addWidget(label);
+
+        QSpinBox *sbChannel = new QSpinBox(this);
+        sbChannel->setMinimum(0);
+        sbChannel->setMaximum(15);
+        sbChannel->setValue(channelProperty->channel());
+
+        connect(sbChannel, SIGNAL(valueChanged(int)), channelProperty, SLOT(setChannel(int)));
+        lChannel->addWidget(sbChannel);
+
+        lProperty->addWidget(wChannel);
+        _columnCount+=1;
+    }
+    else if (MinoPropertyText* textProperty = qobject_cast<MinoPropertyText*>(property))
     {
         QWidget *wText = new QWidget(this);
         QVBoxLayout *lText = new QVBoxLayout(wText);
