@@ -58,6 +58,7 @@ SOURCES += \
     Core/minopersistentobjectfactory.cpp \
     Core/minoprogram.cpp \
     Core/minoprogrambank.cpp \
+    Core/minopropertymidichannel.cpp \
     Core/minotor.cpp \
     Core/minotrigger.cpp \
     Ui/Widget/uianimation.cpp \
@@ -131,6 +132,7 @@ HEADERS  += \
     Core/minopersistentobjectfactory.h \
     Core/minoprogram.h \
     Core/minoprogrambank.h \
+    Core/minopropertymidichannel.h \
     Core/minotor.h \
     Core/minotrigger.h \
     Ui/Widget/uianimation.h \
