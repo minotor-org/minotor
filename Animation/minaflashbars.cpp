@@ -23,7 +23,7 @@
 #include <QDebug>
 
 MinaFlashBars::MinaFlashBars(QObject *object) :
-    MinoAnimation(object)
+    MinoInstrumentedAnimation(object)
 {
     _ecrAlpha.setStartValue(1.0);
     _ecrAlpha.setEndValue(0.0);
@@ -34,13 +34,32 @@ MinaFlashBars::MinaFlashBars(QObject *object) :
     _width->setLabel("Width");
     _width->setValue(0.2);
 
+    _beatDuration = new MinoPropertyBeat(this, true);
+    _beatDuration->setObjectName("duration");
+    _beatDuration->setLabel("Duration");
+
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
+}
 
+void MinaFlashBars::_createItem(const uint uppqn)
+{
+    createItem(uppqn, _color->color());
+}
+
+void MinaFlashBars::createItem(const uint uppqn, const QColor& color)
+{
+    QGraphicsItem *item = NULL;
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
     int posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
-    _oldPosY = posY;
-    _itemGroup.addToGroup(_scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(_color->color())));
+    //while (_oldPosY == posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height())
+
+    item = _scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(color));
+    item->setData(MinaFlashBars::Color, color);
+    MinoAnimatedItem maItem (uppqn, duration, item);
+    _itemGroup.addToGroup(item);
+    _animatedItems.append(maItem);
 }
 
 void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
@@ -49,37 +68,43 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
     (void)ppqn;
     (void)qn;
 
-    QColor color = _color->color();
+    processNotesEvents(uppqn);
+    processItemCreation(uppqn);
 
-    _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
-
-    color.setAlphaF(_ecrAlpha.valueForProgress(_beatFactor->progressForGppqn(gppqn)));
-
-    QColor transparency;
-    transparency.setAlpha(0);
-
-    foreach(QGraphicsItem* item, _itemGroup.childItems ())
+    if (_enabled && _beatFactor->isBeat(gppqn))
     {
-        static_cast<QGraphicsRectItem*>(item)->setBrush(color);
+        createItem(uppqn, _color->color());
     }
 
-    if (_beatFactor->isBeat(gppqn))
+    for (int i=_animatedItems.count()-1;i>-1;i--)
     {
-        foreach(QGraphicsItem* item, _itemGroup.childItems ())
+        const MinoAnimatedItem item = _animatedItems.at(i);
+        if (item.isCompleted(uppqn))
         {
-           delete item;
+            delete item._graphicsItem;
+            _animatedItems.removeAt(i);
         }
-        int posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
+        else
+        {
+            const qreal progress = item.progressForUppqn(uppqn);
+            QColor color = item.graphicsItem()->data(MinaFlashBars::Color).value<QColor>();
+            _ecrAlpha.setEasingCurve(_generatorCurve->easingCurveType());
+            color.setAlphaF(_ecrAlpha.valueForProgress(progress));
 
-        //TODO : find a better way to avoid identical consecutive position
-        if (_width->value()*_boundingRect.height()<_boundingRect.height()-1)
-        {
-            while (posY == _oldPosY)
-            {
-                posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
-            }
+            static_cast<QGraphicsRectItem*>(item.graphicsItem())->setBrush(color);
+
         }
-        _oldPosY = posY;
-        _itemGroup.addToGroup(_scene->addRect(0, posY, _boundingRect.width(), _width->value()*(_boundingRect.height()-1.0)+1.0, QPen(Qt::NoPen),QBrush(color)));
     }
+
+    if(!_enabled && !_animatedItems.count())
+    {
+        MinoAnimation::setAlive(false);
+        _alive = false;
+    }
+}
+
+void MinaFlashBars::_startNote(const uint uppqn, const quint8 note, const quint8 value)
+{
+    (void)value;
+    createItem(uppqn, noteToColor(note));
 }

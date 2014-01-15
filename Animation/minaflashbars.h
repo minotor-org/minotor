@@ -21,13 +21,13 @@
 #ifndef MINAFLASHBARS_H
 #define MINAFLASHBARS_H
 
-#include "minoanimation.h"
+#include "minoinstrumentedanimation.h"
 
 #include "minopropertyreal.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
 
-class MinaFlashBars : public MinoAnimation
+class MinaFlashBars : public MinoInstrumentedAnimation
 {
     Q_OBJECT
 public:
@@ -47,11 +47,24 @@ signals:
 public slots:
 
 private:
-    QGraphicsItemGroup _itemGroup;
     MinoPropertyReal *_width;
+    MinoPropertyBeat *_beatDuration;
     MinoPropertyEasingCurve *_generatorCurve;
     EasingCurvedReal _ecrAlpha;
     int _oldPosY;
+
+    // Graphics
+    QGraphicsItemGroup _itemGroup;
+
+    // Items
+    MinoAnimatedItems _animatedItems;
+
+    void createItem(const uint uppqn, const QColor &color);
+
+    enum ItemData { Color };
+
+    void _startNote(const uint uppqn, const quint8 note, const quint8 value);
+    void _createItem(const uint uppqn);
 };
 
 #endif // MINAFLASHBARS_H
