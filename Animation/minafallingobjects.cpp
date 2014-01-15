@@ -187,6 +187,7 @@ void MinaFallingObjects::animate(const unsigned int uppqn, const unsigned int gp
         {
             const qreal progress = item.progressForUppqn(uppqn);
             const int itemDirection = item.graphicsItem()->data(MinaFallingObjects::Direction).toInt();
+
             switch(itemDirection)
             {
             case 0:
@@ -250,5 +251,5 @@ void MinaFallingObjects::_startNote(const uint uppqn, const quint8 note, const q
         }
         break;
     }
-    createItem(uppqn, noteToColor(note), pos, direction);
+    createItem(uppqn, noteToColor(note, _color->color().hueF(), _color->color().saturationF()), pos, direction);
 }
