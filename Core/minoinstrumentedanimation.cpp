@@ -74,13 +74,13 @@ void MinoInstrumentedAnimation::processNotesEvents(const uint uppqn)
         if(ne.on())
         {
             _startNote(uppqn, ne.note(), ne.value());
-
             _pendingNotes.append(ne.note());
         } else {
             _stopNote(uppqn, ne.note());
             _pendingNotes.removeAt(_pendingNotes.indexOf(ne.note()));
         }
     }
+    _noteEvents.clear();
     foreach(int note, _pendingNotes)
     {
         _processPendingNote(uppqn, note);
