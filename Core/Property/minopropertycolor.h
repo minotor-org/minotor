@@ -40,12 +40,14 @@ public:
 private:
     MidiControllableReal *_mcrHue;
     MidiControllableReal *_mcrLightness;
+    MidiControllableReal *_mcrSaturation;
     QColor _color;
 signals:
     
 public slots:
-    void setHue(qreal value);
-    void setLightness(qreal value);
+    void setHue(const qreal value);
+    void setLightness(const qreal value);
+    void setSaturation(const qreal value);
 
 };
 

@@ -36,6 +36,11 @@ MinoPropertyColor::MinoPropertyColor(QObject *parent) :
     _mcrLightness->setObjectName("light");
     _mcrLightness->setLabel("Light");
 
+    _mcrSaturation = new MidiControllableReal(this);
+    connect(_mcrSaturation, SIGNAL(valueChanged(qreal)), this, SLOT(setSaturation(qreal)));
+    _mcrSaturation->setObjectName("saturation");
+    _mcrSaturation->setLabel("Saturation");
+
     // Set default objectName and label
     setObjectName("color");
     setLabel("Color");
@@ -45,6 +50,7 @@ void MinoPropertyColor::setColor(const QColor& color)
 {
     _mcrHue->setValue(color.hueF());
     _mcrLightness->setValue(color.lightnessF());
+    _mcrSaturation->setValue(color.saturationF());
     _color = color;
 }
 
@@ -53,12 +59,17 @@ QColor MinoPropertyColor::color() const
     return _color;
 }
 
-void MinoPropertyColor::setHue(qreal value)
+void MinoPropertyColor::setHue(const qreal value)
 {
-    _color.setHslF(value,1.0,_mcrLightness->value());
+    _color.setHslF(value,_mcrSaturation->value(),_mcrLightness->value());
 }
 
-void MinoPropertyColor::setLightness(qreal value)
+void MinoPropertyColor::setLightness(const qreal value)
 {
-    _color.setHslF(_mcrHue->value(),1.0,value);
+    _color.setHslF(_mcrHue->value(),_mcrSaturation->value(),value);
+}
+
+void MinoPropertyColor::setSaturation(const qreal value)
+{
+    _color.setHslF(_mcrHue->value(),value,_mcrLightness->value());
 }
