@@ -10,13 +10,15 @@ MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
     _midiChannel = new MinoPropertyMidiChannel(this);
 }
 
-QColor MinoInstrumentedAnimation::noteToColor(const quint8 note)
+QColor MinoInstrumentedAnimation::noteToColor(const quint8 note, const qreal hueOffset, const qreal saturation)
 {
     QColor color;
     const unsigned int subnote = note % 12;
-    const qreal hue = (qreal)subnote / 12;
+    qreal hue = (qreal)subnote / 12;
+    hue += hueOffset;
+    if(hue>1.0) hue -= 1.0;
     const qreal lightness = (qreal)note / 127;
-    color.setHslF(hue, 1.0, lightness);
+    color.setHslF(hue, saturation, lightness);
     return color;
 }
 
