@@ -91,5 +91,9 @@ unsigned int MinoAnimation::qrandY(unsigned int size)
         unsigned int rand = qreal(qrandF() * maxRand);
         _currentRandY = (_currentRandY+rand+1)%((Minotor::minotor()->rendererSize().height()-size));
     }
+    else
+    {
+        _currentRandY = 0;
+    }
     return _currentRandY;
 }
