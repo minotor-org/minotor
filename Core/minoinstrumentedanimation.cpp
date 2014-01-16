@@ -20,20 +20,20 @@ QColor MinoInstrumentedAnimation::noteToColor(const quint8 note)
     return color;
 }
 
-unsigned int MinoInstrumentedAnimation::noteToPosX(const quint8 note)
+unsigned int MinoInstrumentedAnimation::noteToPosX(const quint8 note, const unsigned int reservedSize)
 {
     unsigned int posX = 0;
     const unsigned int subnote = note % 12;
-    const qreal step = (qreal)_boundingRect.width() / 12;
+    const qreal step = ((qreal)_boundingRect.width()-(qreal)reservedSize) / 12;
     posX = step * qreal(subnote);
     return posX;
 }
 
-unsigned int MinoInstrumentedAnimation::noteToPosY(const quint8 note)
+unsigned int MinoInstrumentedAnimation::noteToPosY(const quint8 note, const unsigned int reservedSize)
 {
     unsigned int posY = 0;
     const unsigned int subnote = note % 12;
-    const qreal step = (qreal)_boundingRect.height() / 12;
+    const qreal step = ((qreal)_boundingRect.height()-(qreal)reservedSize) / 12;
     posY = step * qreal(subnote);
     return posY;
 }
