@@ -33,6 +33,8 @@ public:
     explicit MinoInstrumentedAnimation(QObject *parent);
 
     static QColor noteToColor(const quint8 note);
+    unsigned int noteToPosX(const quint8 note);
+    unsigned int noteToPosY(const quint8 note);
     void createItem();
 
     bool isAlive() const { return _alive; }

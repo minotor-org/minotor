@@ -1,5 +1,5 @@
 #include "minoinstrumentedanimation.h"
-
+#include "minotor.h"
 #include "minoanimationgroup.h"
 
 MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
@@ -18,6 +18,24 @@ QColor MinoInstrumentedAnimation::noteToColor(const quint8 note)
     const qreal lightness = (qreal)note / 127;
     color.setHslF(hue, 1.0, lightness);
     return color;
+}
+
+unsigned int MinoInstrumentedAnimation::noteToPosX(const quint8 note)
+{
+    unsigned int posX = 0;
+    const unsigned int subnote = note % 12;
+    const qreal step = (qreal)_boundingRect.width() / 12;
+    posX = step * qreal(subnote);
+    return posX;
+}
+
+unsigned int MinoInstrumentedAnimation::noteToPosY(const quint8 note)
+{
+    unsigned int posY = 0;
+    const unsigned int subnote = note % 12;
+    const qreal step = (qreal)_boundingRect.height() / 12;
+    posY = step * qreal(subnote);
+    return posY;
 }
 
 void MinoInstrumentedAnimation::setAlive(const bool on)
