@@ -53,6 +53,11 @@ MinaFallingObjects::MinaFallingObjects(QObject *object) :
     _generatorLength->setLabel("Length");
     _generatorLength->setValue(0.4);
 
+    _generatorWidth = new MinoPropertyReal(this);
+    _generatorWidth->setObjectName("width");
+    _generatorWidth->setLabel("Width");
+    _generatorWidth->setValue(0.0);
+
     _generatorCurve = new MinoPropertyEasingCurve(this, true);
     _generatorCurve->setObjectName("curve");
     _generatorCurve->setLabel("Curve");
@@ -110,7 +115,8 @@ void MinaFallingObjects::_createItem(const uint uppqn)
 void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const unsigned int& pos, const unsigned int& direction)
 {
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
-    const unsigned int length = qMax(1.0,(_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
+    const unsigned int length = qMax(1.0, (_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
+    const unsigned int width  = qMax(2.0, (_generatorWidth->value())*qMax(_boundingRect.width(),_boundingRect.height())*2.0);
 
     QGraphicsItem *item = NULL;
 
@@ -122,25 +128,28 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         QLinearGradient grad(0.0, 0.0, length, 0.0);
         grad.setColorAt(0.0, Qt::transparent);
         grad.setColorAt(1, color);
-        item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad),1));
+        //item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad), width));
+        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, QPen(), QBrush(grad));
     }
         break;
     case 1:
     {
         //right to left
-        QLinearGradient grad(0.0, 0.0, length, 0.0) ;
-        grad.setColorAt(0.0, color) ;
-        grad.setColorAt(1, Qt::transparent) ;
-        item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad),1));
+        QLinearGradient grad(0.0, 0.0, length, 0.0);
+        grad.setColorAt(0.0, color);
+        grad.setColorAt(1, Qt::transparent);
+//        item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad), width));
+        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, QPen(), QBrush(grad));
     }
         break;
     case 2:
     {
         //bottom to top
-        QLinearGradient grad(0.0, 0.0, 0.0, length) ;
-        grad.setColorAt(0.0, color) ;
+        QLinearGradient grad(0.0, 0.0, 0.0, length);
+        grad.setColorAt(0.0, color);
         grad.setColorAt(1, Qt::transparent) ;
-        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad),1));
+//        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad), width));
+        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, QPen(), QBrush(grad));
     }
         break;
     case 3:
@@ -148,8 +157,9 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         //top to bottom
         QLinearGradient grad(0.0, 0.0, 0.0, length) ;
         grad.setColorAt(0.0, Qt::transparent) ;
-        grad.setColorAt(1, color) ;
-        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad),1));
+        grad.setColorAt(1, color);
+//        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad), width));
+        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, QPen(), QBrush(grad));
     }
         break;
     }

@@ -53,6 +53,7 @@ protected:
     MinoPropertyBeat *_beatDuration;
     MinoItemizedProperty *_generatorDirection;
     MinoPropertyReal *_generatorLength;
+    MinoPropertyReal *_generatorWidth;
     MinoPropertyReal *_generatorDensity;
     MinoPropertyEasingCurve *_generatorCurve;
 
