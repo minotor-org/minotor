@@ -69,19 +69,28 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     {
         QWidget *wChannel = new QWidget(this);
         QVBoxLayout *lChannel = new QVBoxLayout(wChannel);
+        lChannel->setSpacing(2);
+        lChannel->setMargin(0);
+        lChannel->setContentsMargins(0,0,0,0);
 
-        QLabel *label = new QLabel(wChannel);
-        label->setText("channel");
-        label->setAlignment(Qt::AlignCenter);
-        lChannel->addWidget(label);
+        QWidget *wTop = new QWidget(this);
+        lChannel->addWidget(wTop);
+        wTop->setFixedHeight(12);
 
         QSpinBox *sbChannel = new QSpinBox(this);
         sbChannel->setMinimum(0);
         sbChannel->setMaximum(15);
         sbChannel->setValue(channelProperty->channel());
+        sbChannel->setObjectName("animationproperty");
 
         connect(sbChannel, SIGNAL(valueChanged(int)), channelProperty, SLOT(setChannel(int)));
         lChannel->addWidget(sbChannel);
+
+        QLabel *label = new QLabel(wChannel);
+        label->setText("Midi ch.");
+        label->setObjectName("dialinfo");
+        label->setAlignment(Qt::AlignCenter);
+        lChannel->addWidget(label);
 
         lProperty->addWidget(wChannel);
         _columnCount+=1;
@@ -90,19 +99,28 @@ UiAnimationProperty::UiAnimationProperty(MinoProperty *property, QWidget *parent
     {
         QWidget *wText = new QWidget(this);
         QVBoxLayout *lText = new QVBoxLayout(wText);
+        lText->setSpacing(2);
+        lText->setMargin(0);
+        lText->setContentsMargins(0,0,0,0);
 
-        QLabel *label = new QLabel(wText);
-        label->setObjectName("textname");
-        label->setText("text");
-        label->setAlignment(Qt::AlignCenter);
-        lText->addWidget(label);
+        QWidget *wTop = new QWidget(this);
+        lText->addWidget(wTop);
+        wTop->setFixedHeight(12);
 
         QLineEdit *leText = new QLineEdit(this);
         leText->setObjectName("textedit");
         leText->setAlignment(Qt::AlignCenter);
         leText->setText(textProperty->text());
+        leText->setObjectName("animationproperty");
         connect(leText, SIGNAL(textChanged(QString)), textProperty, SLOT(setText(QString)));
         lText->addWidget(leText);
+
+        QLabel *label = new QLabel(wText);
+        label->setObjectName("textname");
+        label->setText("Text");
+        label->setObjectName("dialinfo");
+        label->setAlignment(Qt::AlignCenter);
+        lText->addWidget(label);
 
         lProperty->addWidget(wText);
         _columnCount+=2;
