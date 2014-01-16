@@ -235,14 +235,14 @@ void MinaFallingObjects::_startNote(const uint uppqn, const quint8 note, const q
         case 1:
         {
             //Horizontal
-            pos = noteToPosX(note);
+            pos = noteToPosY(note);
         }
         break;
         case 2:
         case 3:
         {
             //Vertical
-            pos = noteToPosY(note);
+            pos = noteToPosX(note);
         }
         break;
     }
