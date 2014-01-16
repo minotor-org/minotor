@@ -32,9 +32,11 @@ class MinoInstrumentedAnimation : public MinoAnimation
 public:
     explicit MinoInstrumentedAnimation(QObject *parent);
 
+    static QColor noteToColor(const quint8 note, const qreal hueOffset, const qreal saturation = 1.0);
     static QColor noteToColor(const quint8 note, const qreal hueOffset = 0.0, const qreal saturation = 1.0);
     unsigned int noteToPosX(const quint8 note, const unsigned int reservedSize=0);
     unsigned int noteToPosY(const quint8 note, const unsigned int reservedSize=0);
+
     void createItem();
 
     bool isAlive() const { return _alive; }
