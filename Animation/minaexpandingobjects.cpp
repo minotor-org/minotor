@@ -178,5 +178,5 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
 void MinaExpandingObjects::_startNote(const uint uppqn, const quint8 note, const quint8 value)
 {
     (void)value;
-    createItem(uppqn, noteToColor(note, _color->color().hueF(), _color->color().saturationF()));
+    createItem(uppqn, noteToColor(note, _color->color()));
 }

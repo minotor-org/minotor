@@ -2,6 +2,8 @@
 #include "minotor.h"
 #include "minoanimationgroup.h"
 
+#include <QDebug>
+
 MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
     MinoAnimation(parent),
     _alive(false),
@@ -10,15 +12,33 @@ MinoInstrumentedAnimation::MinoInstrumentedAnimation(QObject *parent) :
     _midiChannel = new MinoPropertyMidiChannel(this);
 }
 
-QColor MinoInstrumentedAnimation::noteToColor(const quint8 note, const qreal hueOffset, const qreal saturation)
+QColor MinoInstrumentedAnimation::noteToColor(const quint8 note, const QColor& colorBase)
 {
     QColor color;
+
+    Q_ASSERT(colorBase.isValid());
+
     const unsigned int subnote = note % 12;
-    qreal hue = (qreal)subnote / 12;
-    hue += hueOffset;
-    if(hue>1.0) hue -= 1.0;
-    const qreal lightness = (qreal)note / 127;
-    color.setHslF(hue, saturation, lightness);
+
+    qreal hue = (qreal)subnote / 12.0;
+    hue += colorBase.hueF();
+    if(hue>1.0) hue = hue - 1.0;
+
+    // HACK to support lightness == 1.0
+    hue = qMax(0.0, hue);
+
+    const qreal lightnessBase = colorBase.lightnessF();
+
+    qreal lightness = (qreal)note / 127.0;
+    lightness = lightness - 0.5;
+
+    qreal lightnessRange = 0.5 - lightnessBase;
+    lightnessRange = (0.5 - qAbs(lightnessRange)) * 2.0;
+
+    lightness = (lightness*lightnessRange) + lightnessBase;
+
+    color.setHslF(hue, colorBase.saturationF(), lightness);
+    Q_ASSERT(color.isValid());
     return color;
 }
 

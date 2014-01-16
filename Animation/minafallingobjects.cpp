@@ -261,5 +261,5 @@ void MinaFallingObjects::_startNote(const uint uppqn, const quint8 note, const q
         }
         break;
     }
-    createItem(uppqn, noteToColor(note, _color->color().hueF(), _color->color().saturationF()), pos, direction);
+    createItem(uppqn, noteToColor(note, _color->color()), pos, direction);
 }
