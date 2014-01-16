@@ -66,7 +66,8 @@ void MinaRandomPixels::_createItem(const uint uppqn)
 
 void MinaRandomPixels::_startNote(const uint uppqn, const quint8 note, const quint8 value)
 {
-    createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), noteToColor(note));
+    (void)value;
+    createPixels(uppqn, (uint)_beatDuration->loopSizeInPpqn(), noteToColor(note,_color->color().hueF(),_color->color().saturationF()));
 }
 
 void MinaRandomPixels::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int, const unsigned int )
