@@ -52,9 +52,8 @@ void MinaFlashBars::createItem(const uint uppqn, const QColor& color)
 {
     QGraphicsItem *item = NULL;
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
-    int posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height();
-    //while (_oldPosY == posY = qMin(qrandF(),(1.0-(_width->value())))*_boundingRect.height())
-
+    int posY = qrandY(_width->value()*_boundingRect.height());
+    
     item = _scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(color));
     item->setData(MinaFlashBars::Color, color);
     MinoAnimatedItem maItem (uppqn, duration, item);
