@@ -88,7 +88,7 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
 
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    if (_beatFactor->isBeat(gppqn))
+    if (_enabled && _beatFactor->isBeat(gppqn))
     {
         createItem(uppqn, _color->color());
     }
@@ -107,6 +107,12 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
             item._graphicsItem->setScale(_ecrPosition.valueForProgress(progress));
             item._graphicsItem->setOpacity((_ecrPosition.valueForProgress(progress)/2));
         }
+    }
+
+    if(!_enabled && !_animatedItems.count())
+    {
+        MinoAnimation::setAlive(false);
+        _alive = false;
     }
 }
 
