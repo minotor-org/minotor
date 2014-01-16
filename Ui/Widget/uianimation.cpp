@@ -45,8 +45,8 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
             .arg(animation->metaObject()->className())
             .arg(QString::number((ulong)((void*)animation), 16));
     setObjectName(objectName);
-    this->setMinimumWidth(175);
-    this->setMaximumWidth(175);
+    this->setMinimumWidth(235);
+    this->setMaximumWidth(235);
 
     QVBoxLayout *lGroupBox = new QVBoxLayout(this);
     lGroupBox->setSpacing(0);
@@ -100,7 +100,7 @@ UiAnimation::UiAnimation(MinoAnimation *animation, QWidget *parent) :
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
     MinoProperties mpl = animation->findChildren<MinoProperty*>();
-    const int maxColumnCount = 3;
+    const int maxColumnCount = 4;
     int columnCount = 0;
 
     QWidget *wPropGroup = new QWidget(_wProperties);

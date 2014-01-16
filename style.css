@@ -226,6 +226,7 @@ QLineEdit {
 
 QLineEdit#animationproperty {
     min-height:22px;
+    max-width:100px;
 }
 
 QListWidget {
