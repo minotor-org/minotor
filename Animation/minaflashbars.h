@@ -59,7 +59,7 @@ private:
     // Items
     MinoAnimatedItems _animatedItems;
 
-    void createItem(const uint uppqn, const QColor &color);
+    void createItem(const uint uppqn, const QColor &color, const unsigned int &pos);
 
     enum ItemData { Color };
 

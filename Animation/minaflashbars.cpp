@@ -45,16 +45,15 @@ MinaFlashBars::MinaFlashBars(QObject *object) :
 
 void MinaFlashBars::_createItem(const uint uppqn)
 {
-    createItem(uppqn, _color->color());
+    int pos = qrandY(_width->value()*_boundingRect.height());
+    createItem(uppqn, _color->color(), pos);
 }
 
-void MinaFlashBars::createItem(const uint uppqn, const QColor& color)
+void MinaFlashBars::createItem(const uint uppqn, const QColor& color, const unsigned int& pos)
 {
     QGraphicsItem *item = NULL;
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
-    int posY = qrandY(_width->value()*_boundingRect.height());
-    
-    item = _scene->addRect(0, posY, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(color));
+    item = _scene->addRect(0, pos, _boundingRect.width(), _width->value()*_boundingRect.height(), QPen(Qt::NoPen),QBrush(color));
     item->setData(MinaFlashBars::Color, color);
     MinoAnimatedItem maItem (uppqn, duration, item);
     _itemGroup.addToGroup(item);
@@ -72,7 +71,7 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
 
     if (_enabled && _beatFactor->isBeat(gppqn))
     {
-        createItem(uppqn, _color->color());
+        _createItem(uppqn);
     }
 
     for (int i=_animatedItems.count()-1;i>-1;i--)
@@ -105,5 +104,6 @@ void MinaFlashBars::animate(const unsigned int uppqn, const unsigned int gppqn, 
 void MinaFlashBars::_startNote(const uint uppqn, const quint8 note, const quint8 value)
 {
     (void)value;
-    createItem(uppqn, noteToColor(note));
+    createItem(uppqn, noteToColor(note), noteToPosY(note,_width->value()*_boundingRect.height()));
+
 }
