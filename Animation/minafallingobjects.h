@@ -62,7 +62,7 @@ protected:
     // Items
     MinoAnimatedItems _animatedItems;
 
-    void createItem(const uint uppqn, const QColor &color);
+    void createItem(const uint uppqn, const QColor &color, const unsigned int &pos, const unsigned int &direction);
 
     enum ItemData { Direction };
 
