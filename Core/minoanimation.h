@@ -72,7 +72,7 @@ public:
 
     static qreal qrandF() { return (qreal)qrand()/RAND_MAX; }
     QPointF qrandPointF();
-
+    unsigned int qrandY(unsigned int size);
     bool enabled() const { return _enabled; }
     virtual bool isAlive() const { return _enabled; }
 
@@ -96,6 +96,8 @@ protected:
     bool _enabled;
 
     virtual void setAlive(const bool on) { graphicItem()->setVisible(on); }
+private:
+    int _currentRandY;
 
 signals:
     void enabledChanged(bool on);

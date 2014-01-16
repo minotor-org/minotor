@@ -27,7 +27,8 @@
 MinoAnimation::MinoAnimation(QObject *parent) :
     MinoPersistentObject(parent),
     _group(NULL),
-    _enabled(false)
+    _enabled(false),
+    _currentRandY(0)
 {
     Q_ASSERT(parent);
     if(MinoAnimationGroup* mag = qobject_cast<MinoAnimationGroup*>(parent))
@@ -80,4 +81,15 @@ void MinoAnimation::setEnabled(const bool on)
         setAlive(on);
         emit enabledChanged(on);
     }
+}
+
+unsigned int MinoAnimation::qrandY(unsigned int size)
+{
+    qreal maxRand = qreal(Minotor::minotor()->rendererSize().height())-qreal(size)-1.0;
+    if (maxRand>0.0)
+    {
+        unsigned int rand = qreal(qrandF() * maxRand);
+        _currentRandY = (_currentRandY+rand+1)%((Minotor::minotor()->rendererSize().height()-size));
+    }
+    return _currentRandY;
 }
