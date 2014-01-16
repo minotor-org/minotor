@@ -25,7 +25,7 @@
 #include <QDebug>
 
 MinaExpandingObjects::MinaExpandingObjects(QObject *object):
-    MinoAnimation(object)
+    MinoInstrumentedAnimation(object)
 {
     _ecrScale.setStartValue(0.01);
     _ecrScale.setEndValue(2.0);
@@ -59,86 +59,98 @@ MinaExpandingObjects::MinaExpandingObjects(QObject *object):
     _generatorCurve->setLabel("Curve");
 }
 
+void MinaExpandingObjects::_createItem(const uint uppqn)
+{
+    createItem(uppqn, _color->color());
+}
+
+void MinaExpandingObjects::createItem(const unsigned int uppqn, const QColor &color)
+{
+    QGraphicsItem* item = NULL;
+    const unsigned int shape = _generatorShape->currentItem()->real();
+    switch(shape)
+    {
+    case 0:
+        // HACK ellipse draw is 1 pixel larger than needed
+        item = _scene->addEllipse(_boundingRect.adjusted(0,0,-1,-1), QPen(color), QBrush(Qt::NoBrush));
+        break;
+    case 1:
+    {
+        // HACK rect draw is 1 pixel larger than needed
+        item = _scene->addRect(_boundingRect.adjusted(0,0,-1,-1), QPen(color), QBrush(Qt::NoBrush));
+    }
+        break;
+    case 2:
+    {
+        const qreal height = qMin(_boundingRect.adjusted(0,0,-1,-1).height(), _boundingRect.adjusted(0,0,-1,-1).width());
+        QRectF square(0, 0, height, height);
+        square.moveCenter(_boundingRect.center());
+        // HACK circle draw is 1 pixel larger than needed
+        item = _scene->addEllipse(square, QPen(color), QBrush(Qt::NoBrush));
+    }
+        break;
+    case 3:
+    {
+        const qreal height = qMin(_boundingRect.adjusted(0,0,-1,-1).height(), _boundingRect.adjusted(0,0,-1,-1).width());
+        QRectF square(0, 0, height, height);
+        square.moveCenter(_boundingRect.center());
+        // HACK square draw is 1 pixel larger than needed
+        item = _scene->addRect(square, QPen(color), QBrush(Qt::NoBrush));
+    }
+        break;
+    }
+
+    const unsigned int style = _generatorStyle->currentItem()->real();
+    switch(style)
+    {
+    case 0:
+        item->setTransformOriginPoint(_boundingRect.center());
+        break;
+    case 1:
+    {
+        item->setTransformOriginPoint(_boundingRect.center());
+        item->setPos(qrandPointF()-_boundingRect.center());
+    }
+        break;
+    case 2:
+    {
+        item->setTransformOriginPoint(qrandPointF());
+    }
+        break;
+    case 3:
+    {
+        const QPointF randPoint = qrandPointF();
+        item->setPos(randPoint-_boundingRect.center());
+        item->setTransformOriginPoint(randPoint);
+    }
+        break;
+    case 4:
+    {
+        item->setPos(qrandPointF()-_boundingRect.center());
+        item->setTransformOriginPoint(qrandPointF());
+    }
+        break;
+    }
+
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
+    MinoAnimatedItem maItem (uppqn, duration, item);
+    _itemGroup.addToGroup(item);
+    _animatedItems.append(maItem);
+}
+
 void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
-    static QGraphicsItem* item = NULL;
     (void)qn;
     (void)ppqn;
 
-    QColor color = _color->color();
+    processNotesEvents(uppqn);
+    processItemCreation(uppqn);
+
     _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
     if (_beatFactor->isBeat(gppqn))
     {
-        const unsigned int shape = _generatorShape->currentItem()->real();
-        switch(shape)
-        {
-        case 0:
-            // HACK ellipse draw is 1 pixel larger than needed
-            item = _scene->addEllipse(_boundingRect.adjusted(0,0,-1,-1), QPen(color), QBrush(Qt::NoBrush));
-            break;
-        case 1:
-        {
-            // HACK rect draw is 1 pixel larger than needed
-            item = _scene->addRect(_boundingRect.adjusted(0,0,-1,-1), QPen(color), QBrush(Qt::NoBrush));
-        }
-            break;
-        case 2:
-        {
-            const qreal height = qMin(_boundingRect.adjusted(0,0,-1,-1).height(), _boundingRect.adjusted(0,0,-1,-1).width());
-            QRectF square(0, 0, height, height);
-            square.moveCenter(_boundingRect.center());
-            // HACK circle draw is 1 pixel larger than needed
-            item = _scene->addEllipse(square, QPen(color), QBrush(Qt::NoBrush));
-        }
-            break;
-        case 3:
-        {
-            const qreal height = qMin(_boundingRect.adjusted(0,0,-1,-1).height(), _boundingRect.adjusted(0,0,-1,-1).width());
-            QRectF square(0, 0, height, height);
-            square.moveCenter(_boundingRect.center());
-            // HACK square draw is 1 pixel larger than needed
-            item = _scene->addRect(square, QPen(color), QBrush(Qt::NoBrush));
-        }
-            break;
-        }
-
-        const unsigned int style = _generatorStyle->currentItem()->real();
-        switch(style)
-        {
-        case 0:
-            item->setTransformOriginPoint(_boundingRect.center());
-            break;
-        case 1:
-        {
-            item->setTransformOriginPoint(_boundingRect.center());
-            item->setPos(qrandPointF()-_boundingRect.center());
-        }
-            break;
-        case 2:
-        {
-            item->setTransformOriginPoint(qrandPointF());
-        }
-            break;
-        case 3:
-        {
-            const QPointF randPoint = qrandPointF();
-            item->setPos(randPoint-_boundingRect.center());
-            item->setTransformOriginPoint(randPoint);
-        }
-            break;
-        case 4:
-        {
-            item->setPos(qrandPointF()-_boundingRect.center());
-            item->setTransformOriginPoint(qrandPointF());
-        }
-            break;
-        }
-
-        const unsigned int duration = _beatDuration->loopSizeInPpqn();
-        MinoAnimatedItem maItem (uppqn, duration, item);
-        _itemGroup.addToGroup(item);
-        _animatedItems.append(maItem);
+        createItem(uppqn, _color->color());
     }
     for (int i=_animatedItems.count()-1;i>-1;i--)
     {
@@ -155,4 +167,10 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
             _animatedItems.at(i)._graphicsItem->setScale(_ecrScale.valueForProgress(progress));
         }
     }
+}
+
+void MinaExpandingObjects::_startNote(const uint uppqn, const quint8 note, const quint8 value)
+{
+    (void)value;
+    createItem(uppqn, noteToColor(note, _color->color().hueF(), _color->color().saturationF()));
 }

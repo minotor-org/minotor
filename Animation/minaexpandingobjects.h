@@ -21,13 +21,13 @@
 #ifndef MINAEXPANDINGOBJECTS_H
 #define MINAEXPANDINGOBJECTS_H
 
-#include "minoanimation.h"
+#include "minoinstrumentedanimation.h"
 #include "easingcurvedreal.h"
 
 #include "minoitemizedproperty.h"
 #include "minopropertyeasingcurve.h"
 
-class MinaExpandingObjects : public MinoAnimation
+class MinaExpandingObjects : public MinoInstrumentedAnimation
 {
     Q_OBJECT
 public:
@@ -53,6 +53,12 @@ private:
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrScale;
+
+    void createItem(const unsigned int uppqn, const QColor& color);
+
+    void _createItem(const uint uppqn);
+    void _startNote(const uint uppqn, const quint8 note, const quint8 value);
+
 };
 
 #endif // MINAEXPANDINGOBJECTS_H
