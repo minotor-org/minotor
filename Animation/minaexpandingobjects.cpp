@@ -148,7 +148,7 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
 
     _ecrScale.setEasingCurve(_generatorCurve->easingCurveType());
 
-    if (_beatFactor->isBeat(gppqn))
+    if (_enabled && _beatFactor->isBeat(gppqn))
     {
         createItem(uppqn, _color->color());
     }
@@ -166,6 +166,12 @@ void MinaExpandingObjects::animate(const unsigned int uppqn, const unsigned int 
         {
             _animatedItems.at(i)._graphicsItem->setScale(_ecrScale.valueForProgress(progress));
         }
+    }
+
+    if(!_enabled && !_animatedItems.count())
+    {
+        MinoAnimation::setAlive(false);
+        _alive = false;
     }
 }
 
