@@ -228,6 +228,10 @@ void MinaFallingObjects::_startNote(const uint uppqn, const quint8 note, const q
 {
     (void)value;
     unsigned int direction = _generatorDirection->currentItem()->real();
+    if(direction == 4)
+    {
+        direction = qrand() % 4;
+    }
     unsigned int pos = 0;
     switch (direction)
     {
