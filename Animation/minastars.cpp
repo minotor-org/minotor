@@ -21,7 +21,7 @@
 #include "minastars.h"
 
 MinaStars::MinaStars(QObject *object) :
-    MinoAnimation(object)
+    MinoInstrumentedAnimation(object)
 {
     _ecrPosition.setStartValue(0.0);
     _ecrPosition.setEndValue(2.0);
@@ -42,49 +42,55 @@ MinaStars::MinaStars(QObject *object) :
 
 }
 
+void MinaStars::createItem(const unsigned int uppqn, const QColor& color)
+{
+    const QPointF offset(0.1, 0.1);
+    QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
+    QGraphicsItem *item = NULL;
+    const unsigned int density = qMax(1.0,(_generatorDensity->value()*qMax(_boundingRect.width(),_boundingRect.height())));
+    const unsigned int duration = _beatDuration->loopSizeInPpqn();
+
+    for (unsigned int i=0;i<density;i++)
+    {
+        QPointF randPoint = qrandPointF();
+
+        const QLineF line1(randPoint-offset, randPoint+offset);
+        item = _scene->addLine(line1, QPen(color));
+        group->addToGroup(item);
+        // Mirror on X
+        randPoint.setX(_boundingRect.width()-randPoint.x());
+        const QLineF line2(randPoint-offset, randPoint+offset);
+        item = _scene->addLine(line2, QPen(color));
+        group->addToGroup(item);
+        // Mirror on Y
+        randPoint.setY(_boundingRect.height()-randPoint.y());
+        const QLineF line3(randPoint-offset, randPoint+offset);
+        item = _scene->addLine(line3, QPen(color));
+        group->addToGroup(item);
+        // Mirror on X
+        randPoint.setX(_boundingRect.width()-randPoint.x());
+        const QLineF line4(randPoint-offset, randPoint+offset);
+        item = _scene->addLine(line4, QPen(color));
+        group->addToGroup(item);
+    }
+    group->setTransformOriginPoint(_boundingRect.center());
+    MinoAnimatedItem maItem (uppqn, duration, group);
+    _animatedItems.append(maItem);
+}
+
 void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, const unsigned int ppqn, const unsigned int qn)
 {
     (void)qn;
     (void)ppqn;
 
-    QColor color = _color->color();
+    processNotesEvents(uppqn);
+    processItemCreation(uppqn);
+
     _ecrPosition.setEasingCurve(_generatorCurve->easingCurveType());
 
-    const unsigned int density = qMax(1.0,(_generatorDensity->value()*qMax(_boundingRect.width(),_boundingRect.height())));
-    const unsigned int duration = _beatDuration->loopSizeInPpqn();
-
-    QGraphicsItem *item = NULL;
     if (_beatFactor->isBeat(gppqn))
     {
-        const QPointF offset(0.1, 0.1);
-        QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
-
-        for (unsigned int i=0;i<density;i++)
-        {
-            QPointF randPoint = qrandPointF();
-
-            const QLineF line1(randPoint-offset, randPoint+offset);
-            item = _scene->addLine(line1, QPen(color));
-            group->addToGroup(item);
-            // Mirror on X
-            randPoint.setX(_boundingRect.width()-randPoint.x());
-            const QLineF line2(randPoint-offset, randPoint+offset);
-            item = _scene->addLine(line2, QPen(color));
-            group->addToGroup(item);
-            // Mirror on Y
-            randPoint.setY(_boundingRect.height()-randPoint.y());
-            const QLineF line3(randPoint-offset, randPoint+offset);
-            item = _scene->addLine(line3, QPen(color));
-            group->addToGroup(item);
-            // Mirror on X
-            randPoint.setX(_boundingRect.width()-randPoint.x());
-            const QLineF line4(randPoint-offset, randPoint+offset);
-            item = _scene->addLine(line4, QPen(color));
-            group->addToGroup(item);
-        }
-        group->setTransformOriginPoint(_boundingRect.center());
-        MinoAnimatedItem maItem (uppqn, duration, group);
-        _animatedItems.append(maItem);
+        createItem(uppqn, _color->color());
     }
 
     for (int i=_animatedItems.count()-1;i>-1;i--)
@@ -104,3 +110,13 @@ void MinaStars::animate(const unsigned int uppqn, const unsigned int gppqn, cons
     }
 }
 
+void MinaStars::_createItem(const uint uppqn)
+{
+    createItem(uppqn, _color->color());
+}
+
+void MinaStars::_startNote(const uint uppqn, const quint8 note, const quint8 value)
+{
+    (void)value;
+    createItem(uppqn, noteToColor(note, _color->color().hueF(), _color->color().saturationF()));
+}

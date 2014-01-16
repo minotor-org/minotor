@@ -21,12 +21,12 @@
 #ifndef MINASTARS_H
 #define MINASTARS_H
 
-#include "minoanimation.h"
+#include "minoinstrumentedanimation.h"
 #include "easingcurvedreal.h"
 #include "minopropertyeasingcurve.h"
 #include "minopropertyreal.h"
 
-class MinaStars : public MinoAnimation
+class MinaStars : public MinoInstrumentedAnimation
 {
 public:
     explicit MinaStars(QObject *object);
@@ -39,6 +39,8 @@ public:
 
     QGraphicsItem* graphicItem() { return &_itemGroup; }
 
+    void createItem(const unsigned int uppqn, const QColor &color);
+
 signals:
 
 public slots:
@@ -50,6 +52,9 @@ private:
     QGraphicsItemGroup _itemGroup;
     MinoAnimatedItems _animatedItems;
     EasingCurvedReal _ecrPosition;
+
+    void _createItem(const uint uppqn);
+    void _startNote(const uint uppqn, const quint8 note, const quint8 value);
 };
 
 #endif // MINASTARS_H
