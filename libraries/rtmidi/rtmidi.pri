@@ -12,8 +12,11 @@ exists("$$PWD/RtMidi.cpp") {
   win32:DEFINES          +=  __WINDOWS_MM__
   win32:LIBS             += -lwinmm
 
-  unix:DEFINES           += __LINUX_ALSA__
-  unix:LIBS              += -lasound
+  unix:!macx:DEFINES     += __LINUX_ALSA__
+  unix:!macx:LIBS        += -lasound
+
+  unix:macx:DEFINES      += __MACOSX_CORE__
+  unix:macx:LIBS         += -framework CoreMIDI -framework CoreFoundation -framework CoreAudio
 }
 
 !exists("$$PWD/RtMidi.cpp") {
