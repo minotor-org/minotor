@@ -43,5 +43,6 @@
         <file>pictos/icone.png</file>
         <file>mappings/korg_nanoKontrol.mcf</file>
         <file>pictos/clock.png</file>
+        <file>mappings/korg_nanoKontrol2.mcf</file>
     </qresource>
 </RCC>
