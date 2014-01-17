@@ -185,6 +185,13 @@ RESOURCES += \
 # Windows icon
 RC_FILE = minotor.rc
 
+# MacOS icon
+# Note: to rebuild icns, on MacOS
+# $ iconutil -c icns -o minotor.icns minotor.iconset
+ICON = minotor.icns
+
+dmg.commands = macdeployqt minotor.app/ -dmg
+
 OTHER_FILES += \
     style.css
 
@@ -199,7 +206,7 @@ cppcheck.commands = \
 	-I libraries/qextserialport/src \
 	./
 
-QMAKE_EXTRA_TARGETS += clang qmake_clang cppcheck
+QMAKE_EXTRA_TARGETS += clang qmake_clang cppcheck dmg
 
 unix {
   #VARIABLES
