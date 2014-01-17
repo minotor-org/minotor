@@ -78,10 +78,10 @@ MidiInterface::~MidiInterface()
 
 // Channel voice messages (CVM) [nnnn = 0-15 (MIDI Channel Number 1-16)]
 // These messages are channel-dependent: we may implement channel filter if needed...
-#define MIDI_CVM_NOTE_OFF           0b10000000      // 1000nnnn
-#define MIDI_CVM_NOTE_ON            0b10010000      // 1001nnnn
-#define MIDI_CVM_CONTROL_CHANGE     0b10110000      // 1011nnnn
-#define MIDI_CVM_PROGRAM_CHANGE     0b11000000      // 1100nnnn
+#define MIDI_CVM_NOTE_OFF           0x80      // 1000nnnn
+#define MIDI_CVM_NOTE_ON            0x90      // 1001nnnn
+#define MIDI_CVM_CONTROL_CHANGE     0xB0      // 1011nnnn
+#define MIDI_CVM_PROGRAM_CHANGE     0xC0      // 1100nnnn
 
 // System Real-Time Messages (SRTM)
 #define MIDI_SRTM_CLOCK      248  // 11111000
