@@ -50,6 +50,7 @@ public:
 
     // Test if MIDI interface is virtual
     bool isVirtual() const { return _isVirtual; }
+    bool hasVirtualSupport() const { return _hasVirtualSupport; }
 
     // Retrieve current connected port name
     QString portName() const;
@@ -92,6 +93,7 @@ private:
     QString _description;
     bool _connected;
     bool _hasOutput;
+    bool _hasVirtualSupport;
     QString _mapping;
 
     bool _isVirtual;

@@ -31,8 +31,11 @@ Midi::Midi(QObject *parent) :
     {
         //Midi management
         MidiInterface *mi = new MidiInterface("Virtual MIDI In", this, MidiInterface::Virtual);
-        mi->open();
-        addMidiInterface(mi);
+        if(mi->hasVirtualSupport())
+        {
+            mi->open();
+            addMidiInterface(mi);
+        }
     } catch ( RtError &error ) {
         error.printMessage();
     }

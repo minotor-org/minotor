@@ -40,6 +40,7 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent, MidiInterfac
     _portIndex(0),
     _connected(false),
     _hasOutput(false),
+    _hasVirtualSupport(false),
     _acceptClock(false),
     _acceptProgramChange(false),
     _acceptControlChange(false),
@@ -53,6 +54,7 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent, MidiInterfac
     {
         //Midi management
         _rtMidiIn = new RtMidiIn(RtMidi::UNSPECIFIED, std::string("Minotor"));
+        _hasVirtualSupport = (_rtMidiIn->getCurrentApi() != RtMidi::WINDOWS_MM);
         if(!_isVirtual)
         {
             // If interface is not virtual, you will try to find an output
@@ -243,9 +245,12 @@ bool MidiInterface::open()
 {
     if(_isVirtual)
     {
-        openIn(-1);
-        loadMapping();
-        return true;
+        if(_hasVirtualSupport)
+        {
+            openIn(-1);
+            loadMapping();
+        }
+        return _hasVirtualSupport;
     }
     // object name is used as portname
     return open(portName());
