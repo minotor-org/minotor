@@ -1,0 +1,12 @@
+[properties]
+vendor=Generic
+product=Piano
+comment=
+tracks=0
+knobsPerTrack=0
+triggersPerTrack=0
+map=@Variant(\0\0\0\b\0\0\0\0)
+acceptClock=false
+acceptProgramChange=false
+acceptControlChange=false
+acceptNoteChange=true
