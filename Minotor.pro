@@ -81,7 +81,8 @@ SOURCES += \
     Ui/externalmasterview.cpp \
     Ui/mainwindow.cpp \
     main.cpp\
-    miprodebug.cpp
+    miprodebug.cpp \
+    Animation/minagrid.cpp
 
 
 HEADERS  += \
@@ -158,7 +159,8 @@ HEADERS  += \
     miprodebug.h \
     mipromatrix.h \
     miprosecondlives.h \
-    miprowaves.h
+    miprowaves.h \
+    Animation/minagrid.h
 
 INCLUDEPATH += \
     Animation \
