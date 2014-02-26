@@ -119,7 +119,9 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
     const unsigned int width  = qMax(2.0, (_generatorWidth->value())*qMax(_boundingRect.width(),_boundingRect.height())*2.0);
 
     QGraphicsItem *item = NULL;
-
+    QPen pen;
+    pen.setWidth(0);
+    pen.setColor(Qt::transparent);
     switch(direction)
     {
     case 0:
@@ -129,7 +131,7 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         grad.setColorAt(0.0, Qt::transparent);
         grad.setColorAt(1, color);
         //item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad), width));
-        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, QPen(), QBrush(grad));
+        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, pen, QBrush(grad));
     }
         break;
     case 1:
@@ -139,7 +141,7 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         grad.setColorAt(0.0, color);
         grad.setColorAt(1, Qt::transparent);
 //        item = _scene->addLine(0, pos, length, pos, QPen(QBrush(grad), width));
-        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, QPen(), QBrush(grad));
+        item = _scene->addRect(0, pos-((qreal)width/2.0), length, width, pen, QBrush(grad));
     }
         break;
     case 2:
@@ -149,7 +151,7 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         grad.setColorAt(0.0, color);
         grad.setColorAt(1, Qt::transparent) ;
 //        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad), width));
-        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, QPen(), QBrush(grad));
+        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, pen, QBrush(grad));
     }
         break;
     case 3:
@@ -159,7 +161,7 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
         grad.setColorAt(0.0, Qt::transparent) ;
         grad.setColorAt(1, color);
 //        item = _scene->addLine(pos, 0, pos, length, QPen(QBrush(grad), width));
-        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, QPen(), QBrush(grad));
+        item = _scene->addRect(pos-((qreal)width/2.0), 0, width, length, pen, QBrush(grad));
     }
         break;
     }
