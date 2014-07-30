@@ -116,7 +116,7 @@ void MinaFallingObjects::createItem(const uint uppqn, const QColor& color, const
 {
     const unsigned int duration = _beatDuration->loopSizeInPpqn();
     const unsigned int length = qMax(1.0, (_generatorLength->value())*qMax(_boundingRect.width(),_boundingRect.height()));
-    const unsigned int width  = qMax(2.0, (_generatorWidth->value())*qMax(_boundingRect.width(),_boundingRect.height())*2.0);
+    const unsigned int width  = qMax(1.0, (_generatorWidth->value())*qMax(_boundingRect.width(),_boundingRect.height())*2.0);
 
     QGraphicsItem *item = NULL;
     QPen pen;
