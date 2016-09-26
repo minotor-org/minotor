@@ -26,6 +26,7 @@
 #include <QScrollArea>
 #include <QLayout>
 #include <QStyle>
+#include <QMimeData>
 
 #include <QDebug>
 

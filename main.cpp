@@ -18,7 +18,7 @@
  * along with Minotor.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "mainwindow.h"
 
 #include <QDebug>

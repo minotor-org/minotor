@@ -23,6 +23,7 @@
 #include <QStyle>
 #include <QDebug>
 #include <QPushButton>
+#include <QMimeData>
 #include <QDrag>
 
 #include "minoprogram.h"
@@ -158,7 +159,7 @@ void UiAnimationGroup::mousePressEvent(QMouseEvent *event)
 
     dataStream << objectName() << QPoint(event->pos() - this->pos());
 
-    QMimeData *mimeData = new QMimeData;
+    QMimeData *mimeData = new QMimeData();
     mimeData->setData("application/x-dnd_minoanimationgroup", itemData);
 
     QDrag *drag = new QDrag(this);

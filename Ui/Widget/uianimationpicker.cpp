@@ -23,6 +23,8 @@
 #include <QLayout>
 #include <QPainter>
 #include <QDebug>
+#include <QMimeData>
+#include <QDrag>
 
 #include "minopersistentobjectfactory.h"
 

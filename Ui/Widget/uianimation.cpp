@@ -28,6 +28,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPushButton>
+#include <QMimeData>
+#include <QDrag>
 
 #include <QDebug>
 
