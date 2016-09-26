@@ -225,7 +225,7 @@ void UiProgram::updateOnAirStatus(bool onAir)
 
 void UiProgram::exportProgram()
 {
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.mpr)"));
     if(QFile::exists(fileName))
     {

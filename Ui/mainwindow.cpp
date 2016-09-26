@@ -354,7 +354,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionLoad_triggered()
 {
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     _programBankFileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr("Program (*.mpb)"));
     QSettings parser(_programBankFileName, QSettings::IniFormat);
     _minotor->load(&parser);
@@ -376,7 +376,7 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionSaveAs_triggered()
 {
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     _programBankFileName = QFileDialog::getSaveFileName(this, tr("Save File"), dataPath,tr(" (*.mpb)"));
     if(QFile::exists(_programBankFileName))
     {
@@ -393,7 +393,7 @@ void MainWindow::on_actionNewProgram_triggered()
 
 void MainWindow::on_actionImport_triggered()
 {
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load File"), dataPath,tr(" (*.mpr)"));
     QSettings parser(fileName, QSettings::IniFormat);
     _minotor->load(&parser);

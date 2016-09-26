@@ -56,6 +56,12 @@
 #include "mipromatrix.h"
 #include "miprosecondlives.h"
 
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
+
 Minotor::Minotor(QObject *parent) :
     QObject(parent)
 {
@@ -635,7 +641,7 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
         // no objectName, that means we create the object
         qDebug() << Q_FUNC_INFO
                  << "instantiate object from class:" << className;
-        object = MinoPersistentObjectFactory::createObject(className.toAscii(), parent);
+        object = MinoPersistentObjectFactory::createObject(className.toLatin1(), parent);
     }
     else
     {
@@ -656,7 +662,7 @@ void Minotor::loadObject(QSettings *parser, const QString& className, QObject *p
             {
                 qDebug() << Q_FUNC_INFO
                          << QString("#%1 key:").arg(i) << key;
-                int index = object->metaObject()->indexOfProperty(key.toAscii());
+                int index = object->metaObject()->indexOfProperty(key.toLatin1());
                 if(index != -1)
                 {
                     QMetaProperty omp = object->metaObject()->property(index) ;
@@ -812,3 +818,11 @@ void Minotor::setPanelSize(const QSize &size)
      }
 }
 
+QString Minotor::dataPath()
+{
+#if QT_VERSION >= 0x050000
+    return QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).first();
+#else
+    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#endif
+}

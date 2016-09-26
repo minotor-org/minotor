@@ -46,7 +46,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     connect(this, SIGNAL(finished(int)), this, SLOT(configDialogFinished(int)));
 
     // Create userdata's folder
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QDir dataDir(dataPath);
     if (!dataDir.exists())
     {
@@ -236,7 +236,7 @@ void ConfigDialog::loadMidiMappingFiles(QComboBox *cb)
     }
 
     // User data folder
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QDir dataDir(dataPath);
     foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
@@ -262,7 +262,7 @@ void ConfigDialog::loadMidiMappingEditor()
     }
 
     // User data folder
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QDir dataDir(dataPath);
     foreach(QFileInfo file, dataDir.entryInfoList(filters, QDir::Files))
     {
@@ -503,7 +503,7 @@ void ConfigDialog::configDialogFinished(int result)
 
 void ConfigDialog::on_pbSaveAs_clicked()
 {
-    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    QString dataPath = Minotor::dataPath();
     QString fileName = ui->lwMappings->currentItem()->data(Qt::ToolTipRole).toString();
     // if empty or is a built-in file, show dialog
     if (fileName.isEmpty() || fileName.startsWith(QString(":/")) )

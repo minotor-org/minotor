@@ -45,7 +45,7 @@ MinaStars::MinaStars(QObject *object) :
 void MinaStars::createItem(const unsigned int uppqn, const QColor& color)
 {
     const QPointF offset(0.1, 0.1);
-    QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup, _scene);
+    QGraphicsItemGroup *group = new QGraphicsItemGroup(&_itemGroup);
     QGraphicsItem *item = NULL;
     const unsigned int density = qMax(1.0,(_generatorDensity->value()*qMax(_boundingRect.width(),_boundingRect.height())));
     const unsigned int duration = _beatDuration->loopSizeInPpqn();

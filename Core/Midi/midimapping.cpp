@@ -115,7 +115,7 @@ MidiMapping *MidiMapping::loadFromFile(const QString& filename)
         QStringList properties = mapping.childKeys();
         foreach(const QString& key, properties)
         {
-            int index = mm->metaObject()->indexOfProperty(key.toAscii());
+            int index = mm->metaObject()->indexOfProperty(key.toLatin1());
             if(index != -1)
             {
                 QMetaProperty omp = mm->metaObject()->property(index) ;
@@ -143,7 +143,6 @@ void MidiMapping::saveToFile(MidiMapping *mm, const QString &filename)
 
     // Remove all entries in this group
     mapping.remove("");
-//    qDebug() << QString(" ").repeated(2) << mm;
 
     // Start an array of properties
     mapping.beginGroup("properties");

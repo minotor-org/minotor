@@ -82,8 +82,7 @@ MinoAnimationGroup::~MinoAnimationGroup()
 
 MinoAnimation* MinoAnimationGroup::addAnimation(const QString &animationClassName, int index)
 {
-
-    MinoAnimation *animation = qobject_cast<MinoAnimation*>(MinoPersistentObjectFactory::createObject(animationClassName.toAscii(), this));
+    MinoAnimation *animation = qobject_cast<MinoAnimation*>(MinoPersistentObjectFactory::createObject(animationClassName.toLatin1(), this));
     if(animation)
     {
         MidiControllableParameter *mcpHue = animation->findChild<MidiControllableParameter*>("hue");

@@ -102,6 +102,8 @@ public:
     void loadSettings();
     void saveSettings();
 
+    static QString dataPath();
+
 signals:
     void programBankChanged(QObject *bank);
     void rendererSizeChanged();
