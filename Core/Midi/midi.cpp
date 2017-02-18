@@ -36,7 +36,7 @@ Midi::Midi(QObject *parent) :
             mi->open();
             addMidiInterface(mi);
         }
-    } catch ( RtError &error ) {
+    } catch ( RtMidiError &error ) {
         error.printMessage();
     }
     scanMidiInterfaces();

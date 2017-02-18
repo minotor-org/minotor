@@ -60,7 +60,7 @@ MidiInterface::MidiInterface(const QString& portName, Midi *parent, MidiInterfac
             // If interface is not virtual, you will try to find an output
             _rtMidiOut = new RtMidiOut();
         }
-    } catch ( RtError &error ) {
+    } catch ( RtMidiError &error ) {
         error.printMessage();
     }
 }
@@ -355,7 +355,7 @@ bool MidiInterface::openIn(const unsigned int portIndex)
                 _connected = true;
                 qDebug() << "MIDI In connected to: " << this->portName();
                 emit(connected());
-            } catch ( RtError &error ) {
+            } catch ( RtMidiError &error ) {
                 error.printMessage();
                 _connected = false;
             }
@@ -384,7 +384,7 @@ bool MidiInterface::openOut(const unsigned int portIndex)
 
                 // Ask device to give its identity
                 sendIdentityRequest();
-            } catch ( RtError &error ) {
+            } catch ( RtMidiError &error ) {
                 error.printMessage();
                 _hasOutput = false;
             }
