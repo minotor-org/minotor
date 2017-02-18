@@ -176,8 +176,12 @@ FORMS    += \
     Ui/configdialog.ui \
     Ui/externalmasterview.ui
 
-include(libraries/qextserialport/src/qextserialport.pri)
-include(libraries/rtmidi/rtmidi.pri)
+unix {
+  PKGCONFIG += rtmidi
+} else {
+  include(libraries/qextserialport/src/qextserialport.pri)
+  include(libraries/rtmidi/rtmidi.pri)
+}
 
 unix: CONFIG += link_pkgconfig
 unix: CONFIG += extserialport
