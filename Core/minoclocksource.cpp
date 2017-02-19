@@ -87,7 +87,7 @@ void MinoClockSource::uiTapOn()
     //qDebug() << "Tap: ms=" << ms << "average ms=" << _bpmAverageMs;
 
     if ( (ms < 3000) // filter tapping where BPM is less than 20 beat per minute.
-         && ((qreal)abs(ms-_bpmAverageMs) < (_bpmAverageMs/2)) // filter tapping where new tap is distant from average at least 50%
+         && ((qreal)qAbs(ms-_bpmAverageMs) < (_bpmAverageMs/2)) // filter tapping where new tap is distant from average at least 50%
          )
     {
         _bpmValues[_bpmValuesIndex] = ms;
