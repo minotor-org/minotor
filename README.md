@@ -4,7 +4,8 @@ License:
 Minotor is released under GPL but embedded RtMidi¹ and QExtSerialPort².
 
 [1] http://www.music.mcgill.ca/~gary/rtmidi/
-[2] http://code.google.com/p/qextserialport/
+
+[2] https://github.com/qextserialport/qextserialport
 
 # Build and install
 
