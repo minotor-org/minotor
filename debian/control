@@ -1,5 +1,5 @@
 Source: minotor
-Section: unknown
+Section: graphics
 Priority: extra
 Maintainer: Romuald Conty <neomilium@gmail.com>
 Build-Depends: debhelper (>= 8.0.0), qt5-qmake | qt4-qmake, qtbase5-dev | libqt4-dev
