@@ -176,15 +176,19 @@ FORMS    += \
     Ui/configdialog.ui \
     Ui/externalmasterview.ui
 
-unix {
+packagesExist(rtmidi) {
   PKGCONFIG += rtmidi
 } else {
-  include(libraries/qextserialport/src/qextserialport.pri)
   include(libraries/rtmidi/rtmidi.pri)
 }
 
-unix: CONFIG += link_pkgconfig
-unix: CONFIG += extserialport
+unix {
+  CONFIG += link_pkgconfig
+  CONFIG += extserialport
+} else {
+  include(libraries/qextserialport/src/qextserialport.pri)
+}
+
 
 RESOURCES += \
     minotor.qrc
