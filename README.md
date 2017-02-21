@@ -7,6 +7,16 @@ Minotor is released under GPL but embedded RtMidi¹ and QExtSerialPort².
 
 [2] https://github.com/qextserialport/qextserialport
 
+## Install under Ubuntu (>=16.04)
+
+Under Ubuntu, you can use PPA to install through Ubuntu package manager
+
+~~~
+sudo apt-add-repository ppa:neomilium/minotor
+sudo apt update
+sudo apt install minotor
+~~~
+
 # Build and install
 
 ## Requirements
