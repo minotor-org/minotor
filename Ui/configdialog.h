@@ -1,6 +1,7 @@
 /*
  * Copyright 2012, 2013 Gauthier Legrand
  * Copyright 2012, 2013 Romuald Conty
+ * Copyright 2015, 2017 Michiel Brink
  * 
  * This file is part of Minotor.
  * 
@@ -55,6 +56,8 @@ private slots:
 
     void on_pbSerialConnect_clicked(bool checked);
 
+    void on_pbArtnet_clicked(bool checked);
+    
     void configDialogFinished(int result);
 
     void on_pbSaveAs_clicked();
@@ -77,6 +80,7 @@ private:
     void updateMidiTab();
     void updateMidiMappingTab();
     void updateSerialTab();
+    void updateArtnetTab();
 
     QTimer *_midiAutoRefreshTimer;
     void addMidiMappingEntry(QFileInfo file, QComboBox *cb);

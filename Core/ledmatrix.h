@@ -1,6 +1,7 @@
 /*
  * Copyright 2012, 2013 Gauthier Legrand
  * Copyright 2012, 2013 Romuald Conty
+ * Copyright 2015, 2017 Michiel Brink
  * 
  * This file is part of Minotor.
  * 
@@ -28,6 +29,8 @@
 
 #include <QVarLengthArray>
 
+#include "artdmx.h"
+
 #include "qextserialport.h"
 
 class LedMatrix : public QObject
@@ -38,6 +41,7 @@ public:
     ~LedMatrix();
 
     bool openPortByName(const QString &portName);
+    bool openArtByIp(const QString &artIp);
     void closePort();
     QString portName() const;
 
@@ -61,7 +65,13 @@ private:
 
     // Connection
     QextSerialPort *_port;
-    bool _connected;
+    bool _connected_tty;
+    bool _connected_art;
+
+    //artnet
+    char* dmx_universe;
+    std::vector<int> dmx_universe_temp;
+    char* _ipAdress;
 
     // Returns true if LedMatrix is fully configured (ie. does have all requiered sizes sets)
     bool isConfigured() const;

@@ -30,6 +30,7 @@ SOURCES += \
     Animation/minatext.cpp \
     Animation/minavibration.cpp \
     Animation/minawaveform.cpp \
+    Core/artdmx.cpp \
     Core/Midi/midi.cpp \
     Core/Midi/midicontrol.cpp \
     Core/Midi/midicontrollablelist.cpp \
@@ -105,6 +106,7 @@ HEADERS  += \
     Animation/minatext.h \
     Animation/minavibration.h \
     Animation/minawaveform.h \
+    Core/artdmx.h \
     Core/Midi/midi.h \
     Core/Midi/midicontrol.h \
     Core/Midi/midicontrollablelist.h \
@@ -211,11 +213,11 @@ clang.commands = scan-build make clean all
 clang.depends = qmake_clang
 
 cppcheck.commands = \
-	cppcheck --quiet --enable=all \
-	--force --inconclusive \
-	-i libraries \
-	-I libraries/qextserialport/src \
-	./
+    cppcheck --quiet --enable=all \
+    --force --inconclusive \
+    -i libraries \
+    -I libraries/qextserialport/src \
+    ./
 
 QMAKE_EXTRA_TARGETS += clang qmake_clang cppcheck dmg
 
