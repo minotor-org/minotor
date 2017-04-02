@@ -1,6 +1,8 @@
 /*
  * Copyright 2012, 2013 Gauthier Legrand
  * Copyright 2012, 2013 Romuald Conty
+ * Copyright 2015, 2017 Michiel Brink
+
  * 
  * This file is part of Minotor.
  * 
@@ -72,6 +74,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     updateMidiTab();
     updateMidiMappingTab();
     updateSerialTab();
+    updateArtnetTab();
     disconnect(Minotor::minotor()->midi(), SIGNAL(controlChanged(int,quint8,quint8,quint8)), this, SLOT(midiControlChanged(int,quint8,quint8,quint8)));
     ui->tableMidiMapping->setColumnWidth(0,250);
 }
@@ -179,6 +182,9 @@ void ConfigDialog::on_tabWidget_currentChanged(int index)
         break;
     case 3: // Serial
         updateSerialTab();
+        break;
+    case 4: // Artnet
+        updateArtnetTab();
         break;
     }
 }
@@ -454,6 +460,13 @@ void ConfigDialog::updateSerialTab()
     ui->cbSerialPort->setCurrentIndex(currentItem);
 }
 
+void ConfigDialog::updateArtnetTab()
+{
+    LedMatrix *matrix = Minotor::minotor()->ledMatrix();
+    // Clear combobox
+    ui->leArtnet->clear();
+}
+
 void ConfigDialog::updateGeneralTab()
 {
     QSize size = Minotor::minotor()->rendererSize();
@@ -491,6 +504,22 @@ void ConfigDialog::on_pbSerialConnect_clicked(bool checked)
         }
     } else {
         Minotor::minotor()->ledMatrix()->closePort();
+    }
+}
+
+void ConfigDialog::on_pbArtnet_clicked(bool checked)
+{
+    if (checked)
+    {
+        Minotor::minotor()->ledMatrix()->openArtByIp(ui->leArtnet->text());
+        if(!Minotor::minotor()->ledMatrix()->isConnected())
+        {
+            //qDebug() << Q_FUNC_INFO
+            //         << "Unable to connect";
+            ui->pbArtnet->setChecked(false);
+        }
+    } else {
+        //Minotor::minotor()->ledMatrix()->closePort();
     }
 }
 
