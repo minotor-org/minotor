@@ -1,6 +1,7 @@
 /*
  * Copyright 2012, 2013 Gauthier Legrand
  * Copyright 2012, 2013 Romuald Conty
+ * Copyright 2015, 2017 Michiel Brink
  * 
  * This file is part of Minotor.
  * 
@@ -29,7 +30,8 @@ LedMatrix::LedMatrix(const QSize size, const QSize panelSize, const QSize matrix
     _panelSize(panelSize),
     _matrixSize(matrixSize),
     _port(NULL),
-    _connected(false)
+    _connected_tty(false),
+    _connected_art(false)
 {
     _port = new QextSerialPort();
 
@@ -39,7 +41,7 @@ LedMatrix::LedMatrix(const QSize size, const QSize panelSize, const QSize matrix
 
 LedMatrix::~LedMatrix()
 {
-    if (_connected) _port->close();
+    if (_connected_tty) _port->close();
     delete _port;
 }
 
@@ -49,12 +51,21 @@ bool LedMatrix::openPortByName(const QString& portName)
     _port->setBaudRate(BAUD1000000);
     if (_port->open(QIODevice::WriteOnly)){
         qDebug() << "Led matrix connected to:" << this->portName();
-        _connected = true;
+        _connected_tty = true;
         emit(connected());
     } else {
         qDebug() << "Led matrix failed to connect to:" << portName;
     }
-    return _connected;
+    return _connected_tty;
+}
+
+bool LedMatrix::openArtByIp(const QString& artIp)
+{
+    qDebug() << "ip address:" << artIp;
+   setup_socket((char*)artIp.toStdString().c_str());
+    delay_setup();
+    _connected_art = true;
+    return _connected_art;
 }
 
 void LedMatrix::closePort()
@@ -62,14 +73,14 @@ void LedMatrix::closePort()
     if (_port) {
         _port->close();
         qDebug() << "Led matrix disconnected.";
-        _connected = false;
+        _connected_tty = false;
         emit(connected(false));
     }
 }
 
 bool LedMatrix::isConnected()
 {
-    return _connected;
+    return _connected_tty;
 }
 
 QString LedMatrix::portName() const
@@ -120,20 +131,21 @@ void LedMatrix::computeLookUpTable()
 
         for (unsigned int y=0;y<matrix_height_in_pixels;y++)
         {
-            for (unsigned int x=0;x<matrix_width_in_pixels;x++) {
-                const unsigned int x_panel_id = (y%2)
-                        ?((matrix_panel_width_in_pixels-1)-(x%matrix_panel_width_in_pixels))
-                       :(x%matrix_panel_width_in_pixels);
-                const unsigned int y_panel_id = (y%matrix_panel_height_in_pixels);
-                const unsigned int panel_id = ((y/matrix_panel_height_in_pixels)%2)
-                        ?((matrix_width_in_panel-1)-(x/matrix_panel_width_in_pixels)) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel)
-                       :(x/matrix_panel_width_in_pixels) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel);
+           for (unsigned int x=0;x<matrix_width_in_pixels;x++)
+           {
+               const unsigned int x_panel_id = (y%2)
+                       ?((matrix_panel_width_in_pixels-1)-(x%matrix_panel_width_in_pixels))
+                      :(x%matrix_panel_width_in_pixels);
+               const unsigned int y_panel_id = (y%matrix_panel_height_in_pixels);
+               const unsigned int panel_id = ((y/matrix_panel_height_in_pixels)%2)
+                       ?((matrix_width_in_panel-1)-(x/matrix_panel_width_in_pixels)) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel)
+                      :(x/matrix_panel_width_in_pixels) + ((y/matrix_panel_height_in_pixels) * matrix_width_in_panel);
 
-                const unsigned int id = x_panel_id + (y_panel_id*matrix_panel_width_in_pixels) + (panel_id*matrix_panel_width_in_pixels*matrix_panel_height_in_pixels);
-                const unsigned int i = x+(y*matrix_width_in_pixels);
-                Q_ASSERT(i<(unsigned int)_pixelsLUT.size());
-                _pixelsLUT.data()[i] = id;
-            }
+               const unsigned int id = x_panel_id + (y_panel_id*matrix_panel_width_in_pixels) + (panel_id*matrix_panel_width_in_pixels*matrix_panel_height_in_pixels);
+               const unsigned int i = x+(y*matrix_width_in_pixels);
+               Q_ASSERT(i<(unsigned int)_pixelsLUT.size());
+               _pixelsLUT.data()[i] = id;
+           }
         }
     }
 }
@@ -164,11 +176,18 @@ void LedMatrix::show(const QImage *image)
                 framebuffer[b_id] = (qBlue(rgb)==0x01)?0:qBlue(rgb);
             }
         }
-        if(_connected)
+        if(_connected_tty)
         {
             _port->write(_framebuffer.constData(),_framebuffer.size());
             char endFrame = 0x01;
             _port->write(&endFrame,1);
+        }
+
+        if(_connected_art)
+        {
+            dmx_universe = (char*)_framebuffer.constData();
+            send_dmx(dmx_dest, dmx_universe, 512);
+            frame_delay(20000);
         }
         emit(updated());
     }
