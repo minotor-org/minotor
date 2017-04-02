@@ -40,7 +40,7 @@ ExternalMasterView::ExternalMasterView(QWidget *parent) :
 
     ui->setupUi(this);
     this->layout()->addWidget(_uiMasterMonitor);
-    this->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
+    this->setWindowFlags(this->windowFlags() | Qt::Window | Qt::CustomizeWindowHint | Qt::FramelessWindowHint ); //Qt::FramelessWindowHint for disable border
 }
 
 void ExternalMasterView::updateProgram()
